@@ -582,7 +582,7 @@ function Auxiliary.ResetEffects(g,eff)
 end
 
 function loadutility(file)
-	local f = loadfile("expansions/live2017mr4/script/"..file)
+	local f = loadfile("expansions/Live2017Links/script/"..file)
 	if(f == nil) then
 		dofile("script/"..file)
 	else
