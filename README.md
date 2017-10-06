@@ -17,6 +17,3 @@ Instant update files for Ygopro Percy. Files in this repository will override ex
 - setcode changes in fitsetcode.cdb
 - other fixes in fixmisc.cdb -> Please describe what you have changed.
 - official.cdb -> Change cards from beta to official
-
-# Card images
-Use https://github.com/Ygoproco/Live-images for card images
