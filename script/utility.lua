@@ -2,6 +2,7 @@ Auxiliary={}
 aux=Auxiliary
 POS_FACEUP_DEFENCE=POS_FACEUP_DEFENSE
 POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
+RACE_CYBERS=RACE_CYBERSE
 
 function Auxiliary.ExtraLinked(c,emc,card,eg)
 	eg:AddCard(c)
@@ -30,7 +31,59 @@ function Card.IsExtraLinked(c)
 	end
 	return false
 end
-
+--for additional registers
+local regeff=Card.RegisterEffect
+function Card.RegisterEffect(c,e,forced,...)
+	--1 == 511002571 - access to effects that activate that detach an Xyz Material as cost
+	--2 == 511001692 - access to Cardian Summoning conditions/effects
+	regeff(c,e,forced)
+	local reg={...}
+	local resetflag,resetcount=e:GetReset()
+	for _,val in ipairs(reg) do
+		local prop=EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SET_AVAILABLE
+		if e:IsHasProperty(EFFECT_FLAG_UNCOPYABLE) then prop=prop+EFFECT_FLAG_UNCOPYABLE end
+		local e2=Effect.CreateEffect(c)
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetProperty(prop)
+		if val==1 then
+			e2:SetCode(511002571)
+		elseif val==2 then
+			e2:SetCode(511001692)
+		end
+		e2:SetLabelObject(e)
+		e2:SetLabel(c:GetOriginalCode())
+		if resetflag and resetcount then
+			e2:SetReset(resetflag,resetcount)
+		elseif resetflag then
+			e2:SetReset(resetflag)
+		end
+		c:RegisterEffect(e2)
+	end
+end
+function Card.IsColumn(c,seq,tp,loc)
+	if not c:IsOnField() then return false end
+	local cseq=c:GetSequence()
+	local seq=seq
+	local loc=loc and loc or c:GetLocation()
+	local tp=tp and tp or c:GetControler()
+	if c:IsLocation(LOCATION_MZONE) then
+		if cseq==5 then cseq=1 end
+		if cseq==6 then cseq=3 end
+	else
+		if cseq==6 then cseq=5 end
+	end
+	if loc==LOCATION_MZONE then
+		if seq==5 then seq=1 end
+		if seq==6 then seq=3 end
+	else
+		if cseq==6 then cseq=5 end
+	end
+	if c:IsControler(tp) then
+		return cseq==seq
+	else
+		return cseq==4-seq
+	end
+end
 
 function Auxiliary.Stringid(code,id)
 	return code*16+id
@@ -182,34 +235,49 @@ function Auxiliary.FilterEqualFunction(f,value,a,b,c)
 				return f(target,a,b,c)==value
 			end
 end
+--used for Material Types Filter Bool (works for IsRace, IsAttribute, IsType)
+function Auxiliary.FilterBoolFunctionEx(f,value)
+	return	function(target,scard,sumtype,tp)
+				return f(target,value,scard,sumtype,tp)
+			end
+end
 function Auxiliary.FilterBoolFunction(f,a,b,c)
 	return	function(target)
 				return f(target,a,b,c)
 			end
 end
 Auxiliary.ProcCancellable=false
-function Auxiliary.IsMaterialListCode(c,code)
+function Auxiliary.IsMaterialListCode(c,...)
 	if not c.material then return false end
-	for i,mcode in ipairs(c.material) do
-		if code==mcode then return true end
+	local codes={...}
+	for _,code in ipairs(codes) do
+		for _,mcode in ipairs(c.material) do
+			if code==mcode then return true end
+		end
 	end
 	return false
 end
-function Auxiliary.IsMaterialListSetCard(c,setcode)
+function Auxiliary.IsMaterialListSetCard(c,...)
 	if not c.material_setcode then return false end
-	if type(c.material_setcode)=='table' then
-		for _,v in ipairs(c.material_setcode) do
-			if v==setcode then return true end
+	local setcodes={...}
+	for _,setcode in ipairs(setcodes) do
+		if type(c.material_setcode)=='table' then
+			for _,v in ipairs(c.material_setcode) do
+				if v==setcode then return true end
+			end
+		else
+			if c.material_setcode==setcode then return true end
 		end
-		return false
-	else
-		return c.material_setcode==setcode
 	end
+	return false
 end
-function Auxiliary.IsCodeListed(c,code)
+function Auxiliary.IsCodeListed(c,...)
 	if not c.card_code_list then return false end
-	for i,ccode in ipairs(c.card_code_list) do
-		if code==ccode then return true end
+	local codes={...}
+	for _,code in ipairs(codes) do
+		for _,ccode in ipairs(c.card_code_list) do
+			if code==ccode then return true end
+		end
 	end
 	return false
 end
@@ -356,6 +424,86 @@ end
 function Auxiliary.evospcon(e,tp,eg,ep,ev,re,r,rp)
 	local st=e:GetHandler():GetSummonType()
 	return st>=(SUMMON_TYPE_SPECIAL+150) and st<(SUMMON_TYPE_SPECIAL+180)
+end
+
+--check for Spirit Elimination
+function Auxiliary.SpElimFilter(c,mustbefaceup,includemzone)
+	--includemzone - contains MZONE in original requirement
+	--NOTE: Should only check LOCATION_MZONE+LOCATION_GRAVE
+	if c:IsType(TYPE_MONSTER) then
+		if mustbefaceup and c:IsLocation(LOCATION_MZONE) and c:IsFacedown() then return false end
+		if includemzone then return c:IsLocation(LOCATION_MZONE) or not Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) end
+		if Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) then
+			return c:IsLocation(LOCATION_MZONE)
+		else
+			return c:IsLocation(LOCATION_GRAVE)
+		end
+	else
+		return includemzone or c:IsLocation(LOCATION_GRAVE)
+	end
+end
+
+--check for Eyes Restrict equip limit
+function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetflag,resetcount)
+	local finalprop=EFFECT_FLAG_CANNOT_DISABLE
+	if prop~=nil then
+		finalprop=finalprop+prop
+	end
+	local e1=Effect.CreateEffect(c)
+	if con then
+		e1:SetCondition(con)
+	end
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(finalprop)
+	e1:SetCode(100407001) --to be changed when official code is released
+	e1:SetLabelObject(linkedeff)
+	if resetflag and resetcount then
+		e1:SetReset(resetflag,resetcount)
+	elseif resetflag then
+		e1:SetReset(resetflag)
+	end
+	e1:SetValue(function(ec,c,tp) return equipval(ec,c,tp) end)
+	e1:SetOperation(function(c,e,tp,tc) equipop(c,e,tp,tc) end)
+	c:RegisterEffect(e1)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetProperty(finalprop-EFFECT_FLAG_CANNOT_DISABLE)
+	e2:SetCode(100407001+EFFECT_EQUIP_LIMIT) --to be changed when official code is released
+	if resetflag and resetcount then
+		e2:SetReset(resetflag,resetcount)
+	elseif resetflag then
+		e2:SetReset(resetflag)
+	end
+	c:RegisterEffect(e2)
+	linkedeff:SetLabelObject(e2)
+end
+
+function Auxiliary.EquipByEffectLimit(e,c)
+	if e:GetOwner()~=c then return false end
+	local eff={c:GetCardEffect(100407001+EFFECT_EQUIP_LIMIT)}
+	for _,te in ipairs(eff) do
+		if te==e:GetLabelObject() then return true end
+	end
+	return false
+end
+--register for "Equip to this card by its effect"
+function Auxiliary.EquipByEffectAndLimitRegister(c,e,tp,tc,code,mustbefaceup)
+	local up=false or mustbefaceup
+	if not Duel.Equip(tp,tc,c,up) then return false end
+	--Add Equip limit
+	if code then
+		tc:RegisterFlagEffect(code,RESET_EVENT+0x1fe0000,0,0)
+	end
+	local te=e:GetLabelObject()
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_OWNER_RELATE)
+	e1:SetCode(EFFECT_EQUIP_LIMIT)
+	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetValue(Auxiliary.EquipByEffectLimit)
+	e1:SetLabelObject(te)
+	tc:RegisterEffect(e1)
+	return true
 end
 
 --add procedure to equip spells equipping by rule
@@ -580,13 +728,78 @@ function Auxiliary.ResetEffects(g,eff)
 		end
 	end
 end
+Auxiliary.CalledTokens={}
+function Auxiliary.CallToken(code)
+	if not Auxiliary.CalledTokens[code] then
+		Auxiliary.CalledTokens[code]=true
+		local ge=Effect.GlobalEffect()
+		ge:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge:SetCode(EVENT_ADJUST)
+		ge:SetCountLimit(1)
+		ge:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
+		ge:SetOperation(function()
+			Duel.CreateToken(0,code)
+			Duel.CreateToken(1,code)
+		end)
+		Duel.RegisterEffect(ge,0)
+	end
+end
+--utility entry for SelectUnselect loops
+--returns bool if chk==0, returns Group if chk==1
+function Auxiliary.SelectUnselectLoop(c,sg,mg,e,tp,minc,maxc,rescon)
+	local res
+	if sg:GetCount()>=maxc then return false end
+	sg:AddCard(c)
+	if sg:GetCount()<minc then
+		res=mg:IsExists(Auxiliary.SelectUnselectLoop,1,sg,sg,mg,e,tp,minc,maxc,rescon)
+	elseif sg:GetCount()<maxc then
+		res=(not rescon or rescon(sg,e,tp,mg)) or mg:IsExists(Auxiliary.SelectUnselectLoop,1,sg,sg,mg,e,tp,minc,maxc,rescon)
+	else
+		res=(not rescon or rescon(sg,e,tp,mg))
+	end
+	sg:RemoveCard(c)
+	return res
+end
+function Auxiliary.SelectUnselectGroup(g,e,tp,minc,maxc,rescon,chk,seltp,hintmsg,cancelcon,breakcon)
+	local minc=minc and minc or 1
+	local maxc=maxc and maxc or 99
+	if chk==0 then return g:IsExists(Auxiliary.SelectUnselectLoop,1,nil,Group.CreateGroup(),g,e,tp,minc,maxc,rescon) end
+	local hintmsg=hintmsg and hintmsg or 0
+	local sg=Group.CreateGroup()
+	while true do
+		local cancel=sg:GetCount()>=minc and (not cancelcon or cancelcon(sg,e,tp,g))
+		local mg=g:Filter(Auxiliary.SelectUnselectLoop,sg,sg,g,e,tp,minc,maxc,rescon)
+		if (breakcon and breakcon(sg,e,tp,mg)) or mg:GetCount()<=0 then break end
+		Duel.Hint(HINT_SELECTMSG,seltp,hintmsg)
+		local tc=mg:SelectUnselect(sg,seltp,cancel,cancel)
+		if sg:IsContains(tc) then
+			sg:RemoveCard(tc)
+		else
+			sg:AddCard(tc)
+		end
+	end
+	return sg
+end
+--check for free Zone for monsters to be Special Summoned except from Extra Deck
+function Auxiliary.MZFilter(c,tp)
+	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 and c:IsControler(tp)
+end
+--check for Free Monster Zones
+function Auxiliary.ChkfMMZ(sumcount)
+	return	function(sg,e,tp,mg)
+				return sg:FilterCount(Auxiliary.MZFilter,nil,tp)+Duel.GetLocationCount(tp,LOCATION_MZONE)>=sumcount
+			end
+end
 
 function loadutility(file)
-	local f = loadfile("expansions/Live2017Links/script/"..file)
-	if(f == nil) then
+	local f1 = loadfile("expansions/live2017links/script/"..file)
+	local f2 = loadfile("expansions/script/"..file)
+	if(f1 == nil and f2== nil) then
 		dofile("script/"..file)
+	elseif(f1 == nil) then
+		f2()
 	else
-		f()
+		f1()
 	end
 end
 loadutility("proc_fusion.lua")
