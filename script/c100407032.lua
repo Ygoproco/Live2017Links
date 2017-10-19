@@ -11,6 +11,7 @@ function c100407032.initial_effect(c)
 	e1:SetOperation(c100407032.activate)
 	c:RegisterEffect(e1)
 end
+c100407032.listed_names={83104731}
 function c100407032.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end
