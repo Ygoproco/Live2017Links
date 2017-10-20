@@ -14,7 +14,7 @@ function c50696588.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFlagEffect(tp,50696588)==0
 		and Duel.GetLocationCount(1-tp,LOCATION_MZONE,nil,LOCATION_REASON_COUNT)>0 end
 	local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
-	Duel.SelectDisableField(1-tp,1,LOCATION_MZONE,0,~zone)
+	Duel.SelectDisableField(1-tp,1,LOCATION_MZONE,0,~(zone>>16))
 	e:SetLabel(zone)
 end
 function c50696588.activate(e,tp,eg,ep,ev,re,r,rp)
@@ -35,7 +35,7 @@ function c50696588.activate(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetOperation(c50696588.adjop)
 	e2:SetLabel(nseq)
 	e2:SetLabelObject(e1)
-	Duel.RegisterEffect(e2)
+	Duel.RegisterEffect(e2,tp)
 end
 function c50696588.adjop(e,tp,eg,ep,ev,re,r,rp)
 	local nseq=e:GetLabel()
