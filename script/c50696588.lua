@@ -19,7 +19,8 @@ function c50696588.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c50696588.activate(e,tp,eg,ep,ev,re,r,rp)
 	local zone=e:GetLabel()
-	local nseq=math.log(zone,2)
+	local nseq=math.log(zone>>16,2)
+	if tp==1 then zone=zone>>16 end
 	if not Duel.CheckLocation(1-tp,LOCATION_MZONE,nseq) then return end
 	Duel.RegisterFlagEffect(tp,50696588,0,0,0)
 	local e1=Effect.CreateEffect(e:GetHandler())
