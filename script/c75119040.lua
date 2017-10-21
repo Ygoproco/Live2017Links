@@ -24,7 +24,7 @@ function c75119040.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(75119040,0))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_PHASE+PHASE_BATTLE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1)
@@ -47,8 +47,7 @@ function c75119040.atkval(e,c)
 	return c:GetLinkedGroup():FilterCount(c75119040.atkfilter,nil)*500
 end
 function c75119040.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return aux.gbspcon(e,tp,eg,ep,ev,re,r,rp)
-		and e:GetHandler():GetBattledGroupCount()>0
+	return Duel.GetTurnPlayer()==tp and e:GetHandler():GetBattledGroupCount()>0
 end
 function c75119040.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanSpecialSummonMonster(tp,75119041,0x10b,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK)
