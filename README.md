@@ -1,7 +1,7 @@
 # Live2017Links
 Instant update files for Ygopro Percy. Files in this repository will override existing files in Ygopro.
 
-# Supported files in 1.033.D
+# Supported files in 1.034.0
 - card databases
 - card lua scripts in /script/
 - /script/utility.lua
@@ -9,7 +9,7 @@ Instant update files for Ygopro Percy. Files in this repository will override ex
 - lflist.conf
 - strings.conf
 
-# Instructions for database cdb files
+# Guidelines for database cdb files
 - put new cards in prerelease.cdb
 - setcode fixes in fixsetcode.cdb
 - string fixes in fixstr.cdb
