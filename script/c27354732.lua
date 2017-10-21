@@ -43,7 +43,7 @@ function c27354732.initial_effect(c)
 	e4:SetCost(c27354732.cost)
 	e4:SetTarget(c27354732.target)
 	e4:SetOperation(c27354732.operation)
-	c:RegisterEffect(e1)
+	c:RegisterEffect(e4)
 end
 function c27354732.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1)
@@ -54,7 +54,7 @@ function c27354732.spfilter(c,e,tp)
 end
 function c27354732.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsDestructable()	and Duel.GetLocationCountFromEx(tp)>0
-		and Duel.IsExistingTarget(c91182675.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
+		and Duel.IsExistingTarget(c27354732.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
@@ -71,7 +71,7 @@ function c27354732.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c27354732.acop(e,tp,eg,ep,ev,re,r,rp)
 	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_SPELL) and e:GetHandler():GetFlagEffect(1)>0 then
-		e:GetHandler():AddCounter(0x1,1)
+		e:GetHandler():AddCounter(0x1,2)
 	end
 end
 function c27354732.condition(e,tp,eg,ep,ev,re,r,rp)
@@ -96,4 +96,3 @@ function c27354732.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(eg,REASON_EFFECT)
 	end
 end
-
