@@ -810,7 +810,7 @@ function Auxiliary.ChkfMMZ(sumcount)
 end
 
 function loadutility(file)
-	local f1 = loadfile("expansions/live2017mr4/script/"..file)
+	local f1 = loadfile("expansions/live2017links/script/"..file)
 	local f2 = loadfile("expansions/script/"..file)
 	if(f1 == nil and f2== nil) then
 		dofile("script/"..file)
