@@ -1,9 +1,13 @@
 
 --add procedure to Pendulum monster, also allows registeration of activation effect
-function Auxiliary.EnablePendulumAttribute(c,reg)
+function Auxiliary.EnablePendulumAttribute(c,reg,desc)
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(1163)
 	e1:SetType(EFFECT_TYPE_FIELD)
+	if desc then
+		e1:SetDescription(desc)
+	else
+		e1:SetDescription(1074)
+	end
 	e1:SetCode(EFFECT_SPSUMMON_PROC_G)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetRange(LOCATION_PZONE)
