@@ -57,9 +57,9 @@ function c49655592.initial_effect(c)
     e5:SetValue(1)
     c:RegisterEffect(e5)
     local e6=e5:Clone()
-    e6:SetCode(EFFECT_CANNOT_TO_GRAVE)
+    e6:SetCode(EFFECT_CANNOT_TO_GRAVE_AS_COST)
     e6:SetTargetRange(0,LOCATION_HAND)
-    --c:RegisterEffect(e6)
+    c:RegisterEffect(e6)
 end
 function c49655592.atkval(e,c)
     return c:GetLevel()*300
