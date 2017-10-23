@@ -613,18 +613,13 @@ function Auxiliary.XyzCondition2(alterf,op)
 				if c:IsType(TYPE_PENDULUM) and c:IsFaceup() then return false end
 				local tp=c:GetControler()
 				local mg=nil
-				local mustg=aux.GetMustbematGroup(SUMMON_TYPE_XYZ,c,tp)
-				if (og and not og:Includes(mustg)) or mustg:GetCount()>1
-					or (mustg:GetCount()==1 and not mustg:IsExists(Auxiliary.XyzAlterFilter,1,nil,alterf,c,e,tp,op)) then
-					return false
-				end
 				if og then
 					mg=og
 				else
 					mg=Duel.GetFieldGroup(tp,LOCATION_MZONE,LOCATION_MZONE)
 				end
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,og,tp,c,mg,REASON_XYZ)
-				if mustg:GetCount()>1 or (min and min>1) or mg:Includes(mustg) then return false end
+				if mustg:GetCount()>1 or (min and min>1) or not mg:Includes(mustg) then return false end
 				local mustc=mustg:GetFirst()
 				if mustc then
 					return Auxiliary.XyzAlterFilter(mustc,alterf,c,e,tp,op)
@@ -637,11 +632,6 @@ function Auxiliary.XyzTarget2(alterf,op)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk,c,og,min,max)
 				local cancel=not og and Duel.GetCurrentChain()<=0
 				Auxiliary.ProcCancellable=cancel
-				local mustg=aux.GetMustbematGroup(SUMMON_TYPE_XYZ,c,tp)
-				if (og and not og:Includes(mustg)) or mustg:GetCount()>1
-					or (mustg:GetCount()==1 and not mustg:IsExists(Auxiliary.XyzAlterFilter,1,nil,alterf,c,e,tp,op)) then
-					return false
-				end
 				if og and not min then
 					og:KeepAlive()
 					e:SetLabelObject(og)
