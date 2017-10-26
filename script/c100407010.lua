@@ -111,7 +111,7 @@ function c100407010.regop(e,tp,eg,ep,ev,re,r,rp)
 	e:GetHandler():RegisterFlagEffect(100407010,RESET_EVENT+0x1fc0000+RESET_CHAIN,0,1)
 end
 function c100407010.ctcon2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetEquipTarget() and ep~=tp and c:GetFlagEffect(100407010)~=0
+	return e:GetHandler():GetEquipTarget() and ep~=tp and e:GetHandler():GetFlagEffect(100407010)~=0
 end
 function c100407010.atkcon2(e)
 	return e:GetHandler():GetEquipTarget()
