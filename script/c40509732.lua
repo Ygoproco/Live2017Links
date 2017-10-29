@@ -18,7 +18,7 @@ function c40509732.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCondition(c40509732.discon)
+	e2:SetCondition(c40509732.con)
 	e2:SetOperation(c40509732.disop)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
@@ -27,7 +27,7 @@ function c40509732.initial_effect(c)
 	--special summon
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(40509732,0))
-	e4:SetCategory(CATEGORY_DAMAGE)
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_LEAVE_FIELD)
 	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
@@ -41,7 +41,7 @@ function c40509732.aclimit(e,re,tp)
 end
 function c40509732.con(e)
 	local c=e:GetHandler()
-	return (Duel.GetAttacker()==c and c:GetBattleTarget()) or c==Duel.GetAttackTarget()
+	return (Duel.GetAttacker()==c and c:GetBattleTarget()) or Duel.GetAttackTarget()==c
 end
 function c40509732.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -67,8 +67,7 @@ function c40509732.discon2(e)
 end
 function c40509732.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetReasonPlayer()~=tp and c:IsReason(REASON_EFFECT) and c:IsPreviousPosition(POS_FACEUP)
-		and c:GetPreviousControler()==c:GetOwner()
+	return rp~=tp and c:IsReason(REASON_EFFECT) and c:GetPreviousControler()==tp
 end
 function c40509732.filter(c,e,tp)
 	return c:IsRace(RACE_MACHINE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
