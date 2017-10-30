@@ -21,7 +21,7 @@ function c75059201.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-	e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SET_AVAILABLE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	e3:SetTarget(c75059201.tglimit)
@@ -44,7 +44,7 @@ function c75059201.initial_effect(c)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCondition(c75059201.lvcon)
 	e4:SetOperation(c75059201.lvop)
-	c:RegisterEffect(e4) 
+	c:RegisterEffect(e4)
 	--actlimit
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_FIELD)
@@ -70,15 +70,18 @@ end
 function c75059201.atlimit(e,c)
 	return c~=e:GetHandler()
 end
+function c75059201.tglimit(e,c)
+	return c~=e:GetHandler()
+end
 function c75059201.tgval(e,re,rp)
-	if not aux.tgoval(e,re,rp) then return end
+	if not aux.tgoval(e,re,rp) then return false end
 	local c=re:GetHandler()
 	local lv=e:GetHandler():GetLevel()
 	if c:GetRank()>0 then
 		return c:GetOriginalRank()<lv
 	elseif c:GetLevel()>0 then
 		return c:GetOriginalLevel()<lv
-	else return false end 
+	else return false end
 end
 function c75059201.lvcon(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and re:GetHandler():IsSetCard(0x107) and e:GetHandler():GetFlagEffect(1)>0
@@ -90,8 +93,6 @@ function c75059201.lvop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_LEVEL)
 		e1:SetValue(1)
-		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-		e1:SetRange(LOCATION_MZONE)
 		e1:SetReset(RESET_EVENT+0x1ff0000)
 		c:RegisterEffect(e1)
 	end
@@ -102,11 +103,8 @@ end
 function c75059201.actcon(e)
 	if not e:GetHandler():IsLevelAbove(7) then return false end
 	local a=Duel.GetAttacker()
+	if not a then return false end
 	local d=a:GetBattleTarget()
-	if a:IsControler(1-tp) then a,d=d,a end
+	if a:IsControler(1-e:GetHandler():GetControler()) then a,d=d,a end
 	return a and a:IsSetCard(0x107)
 end
-function c75059201.excon(e)
-	return e:GetHandler():IsLevelAbove(7)
-end
-
