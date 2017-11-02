@@ -2,8 +2,9 @@
 --Skulldeat, the Chained Dracoserpent
 --Script by nekrozar
 function c74997493.initial_effect(c)
+	--link summon
+	aux.AddLinkProcedure(c,nil,2,nil,c74997493.lcheck)
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,nil,2,nil,c74997493.lkcheck)
 	--effect gain
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
@@ -23,7 +24,7 @@ function c74997493.initial_effect(c)
 	e3:SetOperation(c74997493.drop)
 	c:RegisterEffect(e3)
 end
-function c74997493.lkcheck(g,lc,tp)
+function c74997493.lcheck(g,lc)
 	return g:GetClassCount(Card.GetCode)==g:GetCount()
 end
 function c74997493.regcon(e,tp,eg,ep,ev,re,r,rp)
@@ -34,7 +35,7 @@ function c74997493.regop(e,tp,eg,ep,ev,re,r,rp)
 	if c:GetMaterialCount()>=2 then
 		local e1=Effect.CreateEffect(c)
 		e1:SetDescription(aux.Stringid(74997493,0))
-		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 		e1:SetProperty(EFFECT_FLAG_DELAY)
 		e1:SetCode(EVENT_SUMMON_SUCCESS)
 		e1:SetRange(LOCATION_MZONE)
@@ -61,18 +62,18 @@ function c74997493.regop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(74997493,4))
 	end
 end
-function c74997493.cfilter(c,e,g)
-	return c:IsFaceup() and g:IsContains(c) and (not e or c:IsRelateToEffect(e))
+function c74997493.cfilter(c,g)
+	return c:IsFaceup() and g:IsContains(c)
 end
 function c74997493.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local lg=e:GetHandler():GetLinkedGroup()
-	return lg and eg:IsExists(c74997493.cfilter,1,nil,nil,lg)
+	return lg and eg:IsExists(c74997493.cfilter,1,nil,lg)
 end
 function c74997493.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	if not lg then return end
-	local g=eg:Filter(c74997493.cfilter,nil,e,lg)
+	local g=eg:Filter(c74997493.cfilter,nil,lg)
 	local tc=g:GetFirst()
 	while tc do
 		local e1=Effect.CreateEffect(c)
@@ -130,4 +131,3 @@ function c74997493.drop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
