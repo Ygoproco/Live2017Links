@@ -20,31 +20,30 @@ function c100407039.plfilter(c,code)
 	return c:IsSetCard(0x1034) and c:IsType(TYPE_MONSTER) and not c:IsCode(code) and not c:IsForbidden()
 end
 function c100407039.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local ft=0
-	if e:GetHandler():IsLocation(LOCATION_HAND) then ft=1 end
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>ft
-		and Duel.IsExistingMatchingCard(c100407039.thfilter,tp,LOCATION_DECK,0,1,nil,tp) end
+	local ct=Duel.GetLocationCount(tp,LOCATION_SZONE)
+	if e:IsHasType(EFFECT_TYPE_ACTIVATE) and not e:GetHandler():IsLocation(LOCATION_SZONE) then ct=ct-1 end
+	if chk==0 then return ct>0 and Duel.IsExistingMatchingCard(c100407039.thfilter,tp,LOCATION_DECK,0,1,nil,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c100407039.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g1=Duel.SelectMatchingCard(tp,c100407039.thfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
-	if g1:GetCount()>0 Duel.SendtoHand(g1,nil,REASON_EFFECT)~=0 and g1:GetFirst():IsLocation(LOCATION_HAND) then
+	if g1:GetCount()>0 then 
+		Duel.SendtoHand(g1,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g1)
-		if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-		local g2=Duel.SelectMatchingCard(tp,c100407039.plfilter,tp,LOCATION_DECK,0,1,1,nil,g1:GetFirst():GetCode())
-		local tc=g2:GetFirst()
-		if tc then
-			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
-			local e1=Effect.CreateEffect(e:GetHandler())
-			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetCode(EFFECT_CHANGE_TYPE)
-			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e1:SetValue(TYPE_SPELL+TYPE_CONTINUOUS)
-			e1:SetReset(RESET_EVENT+0x1fc0000)
-			tc:RegisterEffect(e1)
-			Duel.RaiseEvent(tc,EVENT_CUSTOM+47408488,e,0,tp,0,0)
-		end
+	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
+	local g2=Duel.SelectMatchingCard(tp,c100407039.plfilter,tp,LOCATION_DECK,0,1,1,nil,g1:GetFirst():GetCode())
+	local tc=g2:GetFirst()
+	if tc then
+		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_CHANGE_TYPE)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e1:SetValue(TYPE_SPELL+TYPE_CONTINUOUS)
+		e1:SetReset(RESET_EVENT+0x1fc0000)
+		tc:RegisterEffect(e1)
+		Duel.RaiseEvent(tc,EVENT_CUSTOM+47408488,e,0,tp,0,0)
 	end
 end

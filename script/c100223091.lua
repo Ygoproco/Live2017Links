@@ -70,7 +70,7 @@ function c100223091.spfilter(c,e,tp)
 	return c:IsType(TYPE_SYNCHRO) and c:IsType(TYPE_TUNER) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_SYNCHRO,tp,false,false)
 end
 function c100223091.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCountFromEx(tp,tp,c)>0
+	if chk==0 then return Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
 		and Duel.IsExistingMatchingCard(c100223091.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
@@ -78,7 +78,8 @@ function c100223091.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCountFromEx(tp)
 	if ft<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c100223091.spfilter,tp,LOCATION_EXTRA,0,1,ft,nil,e,tp):GetFirst()
+	local g=Duel.SelectMatchingCard(tp,c100223091.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
+	local tc=g:GetFirst()
 	if tc then
 		Duel.SpecialSummon(tc,SUMMON_TYPE_SYNCHRO,tp,tp,false,false,POS_FACEUP)
 		tc:CompleteProcedure()
