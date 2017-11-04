@@ -58,25 +58,26 @@ function Auxiliary.SynCondition(f1,min1,max1,f2,min2,max2,sub1,sub2,req1,reqct1,
 				local lv=c:GetLevel()
 				local g
 				local mgchk
-				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if mg then
 					dg=mg
 					g=mg:Filter(Card.IsCanBeSynchroMaterial,c,c)
-					if not g:Includes(pg) then return false end
 					mgchk=true
 				else
 					dg=Duel.GetMatchingGroup(function(mc) return mc:IsFaceup() and (mc:IsControler(tp) or mc:IsCanBeSynchroMaterial(c)) end,tp,LOCATION_MZONE,LOCATION_MZONE,c)
 					g=dg:Filter(Card.IsCanBeSynchroMaterial,nil,c)
 					mgchk=false
 				end
+				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if not g:Includes(pg) or pg:IsExists(aux.NOT(Card.IsCanBeSynchroMaterial),1,nil,c) then return false end
 				if smat then
 					if smat.KeepAlive then
 						if smat:IsExists(aux.NOT(Card.IsCanBeSynchroMaterial),1,nil,c) then return false end
 						pg:Merge(smat)
+						g:Merge(smat)
 					else
 						if not smat:IsCanBeSynchroMaterial(c) then return false end
 						pg:AddCard(smat)
+						g:AddCard(smat)
 					end
 				end
 				if g:IsExists(Auxiliary.SynchroCheckFilterChk,1,nil,f1,f2,sub1,sub2,c,tp) then
@@ -480,22 +481,23 @@ function Auxiliary.SynTarget(f1,min1,max1,f2,min2,max2,sub1,sub2,req1,reqct1,req
 				local mgchk
 				local g
 				local dg
-				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if mg then
 					mgchk=true
 					dg=mg
 					g=mg:Filter(Card.IsCanBeSynchroMaterial,c,c)
-					if not g:Includes(pg) then return false end
 				else
 					mgchk=false
 					dg=Duel.GetMatchingGroup(function(mc) return mc:IsFaceup() and (mc:IsControler(tp) or mc:IsCanBeSynchroMaterial(c)) end,tp,LOCATION_MZONE,LOCATION_MZONE,c)
 					g=dg:Filter(Card.IsCanBeSynchroMaterial,nil,c)
 				end
+				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if smat then
 					if smat.KeepAlive then
 						pg:Merge(smat)
+						g:Merge(smat)
 					else
 						pg:AddCard(smat)
+						g:AddCard(smat)
 					end
 				end
 				local tg
@@ -815,8 +817,7 @@ function Auxiliary.MajesticSynchroCheck1(c,g,sg,card1,card2,card3,lv,sc,tp,pg,f1
 	if sg:GetCount()<3 then
 		res=g:IsExists(Auxiliary.MajesticSynchroCheck1,1,sg,g,sg,card1,card2,card3,lv,sc,tp,pg,f1,cbt1,f2,cbt2,f3,cbt3,...)
 	else
-		res=sg:Includes(pg) 
-			and Auxiliary.MajesticSynchroCheck2(sg,card1,card2,card3,lv,sc,tp,f1,cbt1,f2,cbt2,f3,cbt3,...)
+		res=sg:Includes(pg) and Auxiliary.MajesticSynchroCheck2(sg,card1,card2,card3,lv,sc,tp,f1,cbt1,f2,cbt2,f3,cbt3,...)
 	end
 	g:Merge(rg)
 	sg:RemoveCard(c)
@@ -915,9 +916,11 @@ function Auxiliary.MajesticSynCondition(f1,cbt1,f2,cbt2,f3,cbt3,...)
 					if smat.KeepAlive then
 						if smat:IsExists(aux.NOT(Card.IsCanBeSynchroMaterial),1,nil,c) then return false end
 						pg:Merge(smat)
+						g:Merge(smat)
 					else
 						if not smat:IsCanBeSynchroMaterial(c) then return false end
 						pg:AddCard(smat)
+						g:AddCard(smat)
 					end
 				end
 				if not mgchk then
@@ -941,26 +944,27 @@ function Auxiliary.MajesticSynTarget(f1,cbt1,f2,cbt2,f3,cbt3,...)
 	local t={...}
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk,c,smat,mg)
 				local sg=Group.CreateGroup()
-        local lv=c:GetLevel()
-        local mgchk
+				local lv=c:GetLevel()
+				local mgchk
 				local dg
 				local g
-				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if mg then
 					mgchk=true
 					dg=mg
 					g=mg:Filter(Card.IsCanBeSynchroMaterial,c,c)
-					if not g:Includes(pg) then return false end
 				else
 					mgchk=false
 					dg=Duel.GetMatchingGroup(function(mc) return mc:IsFaceup() and (mc:IsControler(tp) or mc:IsCanBeSynchroMaterial(c)) end,tp,LOCATION_MZONE,LOCATION_MZONE,c)
 					g=dg:Filter(Card.IsCanBeSynchroMaterial,nil,c)
 				end
+				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if smat then
 					if smat.KeepAlive then
 						pg:Merge(smat)
+						g:Merge(smat)
 					else
 						pg:AddCard(smat)
+						g:AddCard(smat)
 					end
 				end
 				if not mgchk then
@@ -1179,11 +1183,11 @@ function Auxiliary.DarkSynchroCheck2(sg,card1,card2,plv,nlv,sc,tp,f1,f2,...)
 	end
 	if lvchk then return true end
 	local ntlv=card1:GetSynchroLevel(sc)
-	local ntlv1=bit.band(ntlv,0xffff)
-	local ntlv2=bit.rshift(ntlv,16)
+	local ntlv1=ntlv&0xffff
+	local ntlv2=ntlv>>16
 	local tlv=card2:GetSynchroLevel(sc)
-	local tlv1=bit.band(tlv,0xffff)
-	local tlv2=bit.rshift(tlv,16)
+	local tlv1=tlv&0xffff
+	local tlv2=tlv>>16
 	if card1:GetFlagEffect(100000147)>0 then
 		if tlv1==nlv-lv1 then return true end
 		if (tlv2>0 or card2:IsStatus(STATUS_NO_LEVEL)) and (ntlv2>0 or card1:IsStatus(STATUS_NO_LEVEL)) then
@@ -1237,9 +1241,11 @@ function Auxiliary.DarkSynCondition(f1,f2,plv,nlv,...)
 					if smat.KeepAlive then
 						if smat:IsExists(aux.NOT(Card.IsCanBeSynchroMaterial),1,nil,c) then return false end
 						pg:Merge(smat)
+						g:Merge(smat)
 					else
 						if not smat:IsCanBeSynchroMaterial(c) then return false end
 						pg:AddCard(smat)
+						g:AddCard(smat)
 					end
 				end
 				if not mgchk then
@@ -1274,22 +1280,23 @@ function Auxiliary.DarkSynTarget(f1,f2,plv,nlv,...)
 				local mgchk
 				local g
 				local dg
-				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if mg then
 					mgchk=true
 					dg=mg
 					g=mg:Filter(Card.IsCanBeSynchroMaterial,c,c)
-					if not g:Includes(pg) then return false end
 				else
 					mgchk=false
 					dg=Duel.GetMatchingGroup(function(mc) return mc:IsFaceup() and (mc:IsControler(tp) or mc:IsCanBeSynchroMaterial(c)) end,tp,LOCATION_MZONE,LOCATION_MZONE,c)
 					g=dg:Filter(Card.IsCanBeSynchroMaterial,nil,c)
 				end
+				local pg=Auxiliary.GetMustBeMaterialGroup(tp,dg,tp,c,g,REASON_SYNCHRO)
 				if smat then
 					if smat.KeepAlive then
 						pg:Merge(smat)
+						g:Merge(smat)
 					else
 						pg:AddCard(smat)
+						g:AddCard(smat)
 					end
 				end
 				if not mgchk then
