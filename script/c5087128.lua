@@ -1,6 +1,6 @@
 --シェルヴァレット・ドラゴン
 --Shellrokket Dragon
---Scripted by Eerie Code
+--Scripted by Eerie Code; fixed by senpaizuri
 function c5087128.initial_effect(c)
 	--destroy
 	local e1=Effect.CreateEffect(c)
@@ -33,9 +33,9 @@ end
 function c5087128.desfilter(c,g)
 	return g:IsContains(c)
 end
-function c5087128.desfilter2(c,s)
+function c5087128.desfilter2(c,s,p)
 	local seq=c:GetSequence()
-	return seq<5 and math.abs(seq-s)==1
+	return seq<5 and c:IsControler(p) and math.abs(seq-s)==1
 end
 function c5087128.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -60,7 +60,7 @@ function c5087128.desop(e,tp,eg,ep,ev,re,r,rp)
 		end
 		local seq=tc:GetSequence()
 		local dg=Group.CreateGroup()
-		if seq<5 then dg=Duel.GetMatchingGroup(c5087128.desfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,seq) end
+		if seq<5 then dg=Duel.GetMatchingGroup(c5087128.desfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,seq,tc:GetControler()) end
 		if Duel.Destroy(tc,REASON_EFFECT)~=0 and dg:GetCount()>0 then
 			Duel.Destroy(dg,REASON_EFFECT)
 		end
@@ -98,4 +98,3 @@ function c5087128.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-
