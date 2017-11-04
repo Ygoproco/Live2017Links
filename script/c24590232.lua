@@ -19,7 +19,7 @@ end
 function c24590232.filter2(c,e,tp,sc)
 	local rg=Duel.GetMatchingGroup(c24590232.filter3,tp,LOCATION_MZONE+LOCATION_GRAVE,0,c)
 	return c:IsType(TYPE_TUNER) and c:IsAbleToRemove() and aux.SpElimFilter(c,true) 
-		and aux.SelectUnselectGroup(g,e,tp,nil,nil,c24590232.rescon(c,sc),0)
+		and aux.SelectUnselectGroup(rg,e,tp,nil,nil,c24590232.rescon(c,sc),0)
 end
 function c24590232.rescon(tuner,scard)
 	return	function(sg,e,tp,mg)
