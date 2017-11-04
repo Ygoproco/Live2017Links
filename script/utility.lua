@@ -790,9 +790,9 @@ function Auxiliary.SelectUnselectGroup(g,e,tp,minc,maxc,rescon,chk,seltp,hintmsg
 		if (breakcon and breakcon(sg,e,tp,mg)) or mg:GetCount()<=0 then break end
 		Duel.Hint(HINT_SELECTMSG,seltp,hintmsg)
 		local tc=mg:SelectUnselect(sg,seltp,cancel,cancel)
-		if sg:IsContains(tc) then
+		if tc and sg:IsContains(tc) then
 			sg:RemoveCard(tc)
-		else
+		elseif tc then
 			sg:AddCard(tc)
 		end
 	end
