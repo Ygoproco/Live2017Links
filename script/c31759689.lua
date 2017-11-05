@@ -53,8 +53,13 @@ function c31759689.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
 	end
 end
+function c31759689.valfilter(c,rc)
+	return c:GetLinkedGroup():IsContains(rc)
+end
 function c31759689.val(e,c)
-	return c:GetLinkedGroupCount()*-1000
+	local lg=Duel.GetMatchingGroup(c31759689.valfilter,0,LOCATION_MZONE,LOCATION_MZONE,c,c)
+	lg:Merge(c:GetLinkedGroup())
+	return lg:GetCount()*-1000
 end
 function c31759689.poscon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
