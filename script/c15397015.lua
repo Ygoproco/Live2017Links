@@ -51,7 +51,7 @@ function c15397015.cfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_PENDULUM+TYPE_LINK)
 end
 function c15397015.typecount(c)
-	return c:GetType()&TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_PENDULUM+TYPE_LINK
+	return c:GetType()&(TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_PENDULUM+TYPE_LINK)
 end
 function c15397015.aclimit1(e,tp,eg,ep,ev,re,r,rp)
 	if ep~=tp or not re:IsActiveType(TYPE_MONSTER) then return end
