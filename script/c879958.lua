@@ -9,7 +9,7 @@ function c879958.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetTarget(c879958.target)
-	e1:SetOperation(c879958.activate)
+	e1:SetOperation(c879958.operation)
 	c:RegisterEffect(e1)
 	--extra attack
 	local e2=Effect.CreateEffect(c)
