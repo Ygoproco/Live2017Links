@@ -1,6 +1,5 @@
 --ストライピング・パートナー
 --Striping Panther
---Script by nekrozar
 function c74715061.initial_effect(c)
 	c:EnableReviveLimit()
 	--connot special summon
@@ -42,15 +41,14 @@ function c74715061.sptg1(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c74715061.spop1(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
-	if Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)~=0 then
+	if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)~=0 then
 		c:CompleteProcedure()
 	end
 end
 function c74715061.spfilter(c,e,tp)
 	return c:IsLevelBelow(4) and c:IsRace(RACE_CYBERSE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c74715061.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function c74715061.sptg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c74715061.spfilter(chkc,e,tp) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingTarget(c74715061.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
@@ -58,10 +56,9 @@ function c74715061.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g=Duel.SelectTarget(tp,c74715061.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
-function c74715061.spop(e,tp,eg,ep,ev,re,r,rp)
+function c74715061.spop2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-
