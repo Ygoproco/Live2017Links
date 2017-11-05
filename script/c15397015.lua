@@ -1,6 +1,5 @@
 --インスペクト・ボーダー
 --Inspect Boarder
---Script by nekrozar
 function c15397015.initial_effect(c)
 	--summon limit
 	local e1=Effect.CreateEffect(c)
@@ -46,13 +45,13 @@ function c15397015.initial_effect(c)
 	c:RegisterEffect(e7)
 end
 function c15397015.sumcon(e)
-	return Duel.GetFieldGroupCount(e:GetHandler():GetControler(),LOCATION_MZONE,0)>0
+	return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),LOCATION_MZONE,0)>0
 end
 function c15397015.cfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_PENDULUM+TYPE_LINK)
 end
 function c15397015.typecount(c)
-	return bit.band(c:GetType(),TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_PENDULUM+TYPE_LINK)
+	return c:GetType()&TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_PENDULUM+TYPE_LINK
 end
 function c15397015.aclimit1(e,tp,eg,ep,ev,re,r,rp)
 	if ep~=tp or not re:IsActiveType(TYPE_MONSTER) then return end
@@ -65,7 +64,7 @@ end
 function c15397015.econ1(e)
 	local g=Duel.GetMatchingGroup(c15397015.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,nil)
 	local ct=g:GetClassCount(c15397015.typecount)
-	return e:GetHandler():GetFlagEffect(15397015)<ct
+	return e:GetHandler():GetFlagEffect(15397015)>=ct
 end
 function c15397015.aclimit3(e,tp,eg,ep,ev,re,r,rp)
 	if ep==tp or not re:IsActiveType(TYPE_MONSTER) then return end
@@ -78,9 +77,8 @@ end
 function c15397015.econ2(e)
 	local g=Duel.GetMatchingGroup(c15397015.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,nil)
 	local ct=g:GetClassCount(c15397015.typecount)
-	return e:GetHandler():GetFlagEffect(15397016)<ct
+	return e:GetHandler():GetFlagEffect(15397016)>=ct
 end
 function c15397015.elimit(e,re,tp)
 	return re:IsActiveType(TYPE_MONSTER) and not re:GetHandler():IsImmuneToEffect(e)
 end
-
