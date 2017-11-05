@@ -1,5 +1,4 @@
 --F.A. Off-Road Grand Prix
---Scripted by Eerie Code
 function c2144946.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -25,7 +24,7 @@ function c2144946.initial_effect(c)
 	e3:SetRange(LOCATION_FZONE)
 	e3:SetCountLimit(1,2144946)
 	e3:SetCondition(c2144946.descon)
-	e3:SetTarget(c2144946.destarg)
+	e3:SetTarget(c2144946.destg)
 	e3:SetOperation(c2144946.desop)
 	c:RegisterEffect(e3)
 	--to hand
@@ -46,7 +45,6 @@ function c2144946.lvcon(e)
 	return ph==PHASE_MAIN1 or ph==PHASE_MAIN2
 end
 function c2144946.cfilter(c,tp)
-	local rc=c:GetReasonCard()
 	return c:IsReason(REASON_BATTLE) and c:GetPreviousControler()==tp and c:IsPreviousSetCard(0x107)
 end
 function c2144946.descon(e,tp,eg,ep,ev,re,r,rp)
@@ -64,8 +62,7 @@ function c2144946.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c2144946.thcon2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsReason(REASON_EFFECT)
-		and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP)
+	return c:IsReason(REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP)
 end
 function c2144946.thfilter2(c)
 	return c:IsSetCard(0x107) and not c:IsCode(2144946) and c:IsAbleToHand()
@@ -82,4 +79,3 @@ function c2144946.thop2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
