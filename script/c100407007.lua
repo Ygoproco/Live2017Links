@@ -78,7 +78,7 @@ function c100407007.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
 function c100407007.atlimit(e,c)
-	return c:IsRace(RACE_INSECT)
+	return c:IsRace(RACE_INSECT) and c:IsFaceup()
 end
 function c100407007.disfilter(c)
 	return c:IsFaceup() and c:IsLocation(LOCATION_MZONE) and c:IsRace(RACE_INSECT)
