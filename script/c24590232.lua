@@ -24,7 +24,7 @@ end
 function c24590232.rescon(tuner,scard)
 	return	function(sg,e,tp,mg)
 				sg:AddCard(tuner)
-				local res=Duel.GetLocationCountFromEx(tp,tp,sg,scard)>0 and sg:CheckWithSumEqual(Card.GetLevel,sc:GetLevel(),sg:GetCount(),sg:GetCount())
+				local res=Duel.GetLocationCountFromEx(tp,tp,sg,scard)>0 and sg:CheckWithSumEqual(Card.GetLevel,scard:GetLevel(),sg:GetCount(),sg:GetCount())
 				sg:RemoveCard(tuner)
 				return res
 			end
