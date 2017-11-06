@@ -42,7 +42,7 @@ end
 function c57348141.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local cg=Duel.GetMatchingGroup(c57348141.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,nil)
 	if chk==0 then return aux.SelectUnselectGroup(cg,e,tp,2,2,c57348141.rescon,0) end
-	local rg=aux.SelectUnselectGroup(mg,e,tp,2,2,c57348141.rescon,1,tp,HINTMSG_REMOVE)
+	local rg=aux.SelectUnselectGroup(cg,e,tp,2,2,c57348141.rescon,1,tp,HINTMSG_REMOVE)
 	Duel.Remove(rg,POS_FACEUP,REASON_COST)
 end
 function c57348141.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
