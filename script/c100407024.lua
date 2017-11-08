@@ -64,7 +64,7 @@ function c100407024.thfilter(c)
 end
 function c100407024.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFlagEffect(tp,100407024)==0
-		and Duel.IsExistingMatchingCard(tp,c100407024.thfilter,tp,LOCATION_DECK,0,1,nil) end
+		and Duel.IsExistingMatchingCard(c100407024.thfilter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c100407024.thop(e,tp,eg,ep,ev,re,r,rp)
