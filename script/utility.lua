@@ -121,19 +121,27 @@ end
 function Auxiliary.FALSE()
 	return false
 end
-function Auxiliary.AND(f1,f2)
-	return	function(a,b,c)
-				return f1(a,b,c) and f2(a,b,c)
+function Auxiliary.AND(...)
+	local funs={...}
+	return	function(...)
+				for _,f in ipairs(funs) do
+					if not f(...) then return false end
+				end
+				return true
 			end
 end
-function Auxiliary.OR(f1,f2)
-	return	function(a,b,c)
-				return f1(a,b,c) or f2(a,b,c)
+function Auxiliary.OR(...)
+	local funs={...}
+	return	function(...)
+				for _,f in ipairs(funs) do
+					if f(...) then return true end
+				end
+				return false
 			end
 end
 function Auxiliary.NOT(f)
-	return	function(a,b,c)
-				return not f(a,b,c)
+	return	function(...)
+				return not f(...)
 			end
 end
 function Auxiliary.BeginPuzzle(effect)
@@ -238,19 +246,22 @@ function Auxiliary.SpiritReturnOperation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(c,nil,REASON_EFFECT)
 	end
 end
-function Auxiliary.TargetEqualFunction(f,value,a,b,c)
+function Auxiliary.TargetEqualFunction(f,value,...)
+	local params={...}
 	return	function(effect,target)
-				return f(target,a,b,c)==value
+				return f(target,table.unpack(params))==value
 			end
 end
-function Auxiliary.TargetBoolFunction(f,a,b,c)
+function Auxiliary.TargetBoolFunction(f,...)
+	local params={...}
 	return	function(effect,target)
-				return f(target,a,b,c)
+				return f(target,table.unpack(params))
 			end
 end
-function Auxiliary.FilterEqualFunction(f,value,a,b,c)
+function Auxiliary.FilterEqualFunction(f,value,...)
+	local params={...}
 	return	function(target)
-				return f(target,a,b,c)==value
+				return f(target,table.unpack(params))==value
 			end
 end
 --used for Material Types Filter Bool (works for IsRace, IsAttribute, IsType)
@@ -259,9 +270,10 @@ function Auxiliary.FilterBoolFunctionEx(f,value)
 				return f(target,value,scard,sumtype,tp)
 			end
 end
-function Auxiliary.FilterBoolFunction(f,a,b,c)
+function Auxiliary.FilterBoolFunction(f,...)
+	local params={...}
 	return	function(target)
-				return f(target,a,b,c)
+				return f(target,table.unpack(params))
 			end
 end
 Auxiliary.ProcCancellable=false
