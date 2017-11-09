@@ -64,7 +64,8 @@ function Auxiliary.FConditionMix(insf,sub,...)
 				if contact then mustg:Clear() end
 				if not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
 				if gc then
-					if gc:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
+					if gc:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) 
+						or gc:IsExists(aux.NOT(Auxiliary.FConditionFilterMix),1,nil,c,sub,sub,contact,tp,table.unpack(funs)) then return false end
 					mustg:Merge(gc)
 				end
 				local sg=Group.CreateGroup()
