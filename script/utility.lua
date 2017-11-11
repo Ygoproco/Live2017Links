@@ -485,7 +485,7 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 	end
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(finalprop)
-	e1:SetCode(100407001) --to be changed when official code is released
+	e1:SetCode(89785779) --to be changed when official code is released
 	e1:SetLabelObject(linkedeff)
 	if resetflag and resetcount then
 		e1:SetReset(resetflag,resetcount)
@@ -498,7 +498,7 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(finalprop-EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetCode(100407001+EFFECT_EQUIP_LIMIT) --to be changed when official code is released
+	e2:SetCode(89785779+EFFECT_EQUIP_LIMIT) --to be changed when official code is released
 	if resetflag and resetcount then
 		e2:SetReset(resetflag,resetcount)
 	elseif resetflag then
@@ -510,7 +510,7 @@ end
 
 function Auxiliary.EquipByEffectLimit(e,c)
 	if e:GetOwner()~=c then return false end
-	local eff={c:GetCardEffect(100407001+EFFECT_EQUIP_LIMIT)}
+	local eff={c:GetCardEffect(89785779+EFFECT_EQUIP_LIMIT)}
 	for _,te in ipairs(eff) do
 		if te==e:GetLabelObject() then return true end
 	end
