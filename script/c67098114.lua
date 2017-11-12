@@ -1,7 +1,8 @@
 --極神皇ロキ
+--Loki, Lord of the Aesir
 function c67098114.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,c67098114.tfilter,aux.NonTuner(nil),2)
+	aux.AddSynchroProcedure(c,c67098114.tfilter,1,1,aux.NonTuner(nil),2,99)
 	c:EnableReviveLimit()
 	--negate
 	local e1=Effect.CreateEffect(c)
