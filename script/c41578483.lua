@@ -47,6 +47,12 @@ function c41578483.initial_effect(c)
 	e5:SetTargetRange(0x7f,0x7f)
 	e5:SetTarget(c41578483.distg)
 	c:RegisterEffect(e5)
+	local e6=Effect.CreateEffect(c)
+	e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e6:SetCode(EVENT_CHAIN_SOLVING)
+	e6:SetOperation(c41578483.disop)
+	e6:SetRange(LOCATION_MZONE)
+	c:RegisterEffect(e6)
 end
 function c41578483.eqval(ec,c,tp)
 	return ec:IsControler(1-tp) and ec:IsType(TYPE_EFFECT)
@@ -108,4 +114,9 @@ function c41578483.distg(e,c)
 	local g=e:GetHandler():GetEquipGroup():Filter(c41578483.disfilter,nil)
 	return c:IsFaceup() and g:IsExists(Card.IsCode,1,nil,c:GetCode())
 end
-
+function c41578483.disop(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetHandler():GetEquipGroup()
+	if g and re and g:IsContains(re:GetOwner()) then
+		Duel.NegateEffect(ev)
+	end
+end
