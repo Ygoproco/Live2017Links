@@ -7,6 +7,7 @@ function c35146019.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e1:SetCost(aux.RemainFieldCost)
 	e1:SetTarget(c35146019.target)
 	e1:SetOperation(c35146019.operation)
 	c:RegisterEffect(e1)
@@ -34,7 +35,7 @@ function c35146019.spfilter(c,e,tp)
 end
 function c35146019.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c35146019.spfilter(chkc,e,tp) end
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return e:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingTarget(c35146019.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,c35146019.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
