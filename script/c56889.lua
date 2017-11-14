@@ -22,7 +22,7 @@ function c56889.initial_effect(c)
 	e2:SetOperation(c56889.repop)
 	c:RegisterEffect(e2)
 end
-c56889.card_code_list={83104731,95735217}
+c56889.listed_names={83104731,95735217}
 function c56889.rmfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x7) and c:IsAbleToRemove()
 end
