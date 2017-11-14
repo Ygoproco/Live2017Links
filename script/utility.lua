@@ -5,6 +5,13 @@ POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
 TYPE_EXTRA=TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK
 
+function userdatatype(o)
+	if type(o)~="userdata" then return "not userdata"
+	elseif o.GetOriginalCode then return "Card"
+	elseif o.KeepAlive then return "Group"
+	elseif o.SetLabelObject then return "Effect"
+	end
+end
 function Auxiliary.GetMustBeMaterialGroup(tp,eg,sump,sc,g,r)
 	--- eg all default materials, g - valid materials
 	local eff={Duel.GetPlayerEffect(tp,EFFECT_MUST_BE_MATERIAL)}
