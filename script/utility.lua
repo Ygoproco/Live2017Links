@@ -521,7 +521,7 @@ function Auxiliary.EquipByEffectLimit(e,c)
 	for _,te in ipairs(eff) do
 		if te==e:GetLabelObject() then return true end
 	end
-	return false
+	return e:GetOwner()==c
 end
 --register for "Equip to this card by its effect"
 function Auxiliary.EquipByEffectAndLimitRegister(c,e,tp,tc,code,mustbefaceup)
