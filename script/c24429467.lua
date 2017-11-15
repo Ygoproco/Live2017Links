@@ -1,8 +1,13 @@
 --魔導変換
 --Magical Burst
---Scripted by Eerie Code
 function c24429467.initial_effect(c)
-	c:EnableCounterPermit(0x1)
+	--counter permit
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_COUNTER_PERMIT+0x1)
+	e1:SetValue(LOCATION_SZONE)
+	e1:SetCondition(c24429467.ctcon)
+	c:RegisterEffect(e1)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -35,6 +40,9 @@ function c24429467.initial_effect(c)
 	e4:SetOperation(c24429467.thop)
 	c:RegisterEffect(e4)
 end
+function c24429467.ctcon(e)
+	return e:GetHandler():IsStatus(STATUS_EFFECT_ENABLED)
+end
 function c24429467.acop(e,tp,eg,ep,ev,re,r,rp)
 	local p=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_PLAYER)
 	local c=e:GetHandler()
@@ -64,4 +72,3 @@ function c24429467.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
