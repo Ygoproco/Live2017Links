@@ -37,7 +37,7 @@ function c100333022.initial_effect(c)
 	e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e5:SetRange(LOCATION_FZONE)
 	e5:SetCondition(c100333022.spcon)
-	e5:SetTarget(c100333022.sptg)
+	e5:SetTarget(c100333022.sptp)
 	e5:SetOperation(c100333022.spop)
 	c:RegisterEffect(e5)
 end
