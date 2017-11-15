@@ -6,6 +6,7 @@ function c100224002.initial_effect(c)
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x8),2,2)
 	--set
 	local e1=Effect.CreateEffect(c)
+	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetDescription(aux.Stringid(100224002,0))
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
@@ -48,7 +49,7 @@ function c100224002.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c100224002.setop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:IsSSetable() then
+	if tc and tc:IsRelateToEffect(e) and tc:IsSSetable() then
 		Duel.SSet(tp,tc)
 		Duel.ConfirmCards(1-tp,tc)
 	end
