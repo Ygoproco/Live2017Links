@@ -59,7 +59,6 @@ function c100223036.thop(e,tp,eg,ep,ev,re,r,rp)
 		local cg=sg1:Select(1-tp,1,1,nil)
 		local tc=cg:GetFirst()
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
-		Duel.ShuffleDeck(tp)
 	end
 end
 function c100223036.ntcon(e,c,minc)
