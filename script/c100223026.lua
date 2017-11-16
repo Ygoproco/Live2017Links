@@ -79,6 +79,7 @@ function c100223026.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c100223026.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
+	local c=e:GetHandler()
 	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local ec=Duel.SelectMatchingCard(tp,c100223026.eqfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
