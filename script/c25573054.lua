@@ -18,9 +18,9 @@ function c25573054.spfilter(c,e,tp)
 	return c:IsCode(98585345) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function c25573054.rescon(sg,e,tp,mg)
-	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:IsExists(c25573054.chk,1,nil,sg,tp)
+	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:IsExists(c25573054.chk,1,nil,sg,e,tp)
 end
-function c25573054.chk(c,sg,tp)
+function c25573054.chk(c,sg,e,tp)
 	return c:IsCode(57116033) and c:IsLocation(LOCATION_ONFIELD) and sg:IsExists(Card.IsLocation,2,c,LOCATION_HAND) 
 		and Duel.IsExistingMatchingCard(c25573054.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,sg,e,tp)
 end
