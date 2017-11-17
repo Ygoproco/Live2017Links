@@ -47,7 +47,7 @@ function c75119040.atkval(e,c)
 	return c:GetLinkedGroup():FilterCount(c75119040.atkfilter,nil)*500
 end
 function c75119040.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==tp and e:GetHandler():GetBattledGroupCount()>0
+	return Duel.GetTurnPlayer()==tp and e:GetHandler():GetAttackAnnouncedCount()>0
 end
 function c75119040.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanSpecialSummonMonster(tp,75119041,0x10b,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK)

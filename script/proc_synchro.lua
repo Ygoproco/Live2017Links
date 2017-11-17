@@ -16,6 +16,9 @@ function Auxiliary.AddSynchroProcedure(c,...)
 		local mt=_G["c" .. code]
 		mt.synchro_type=1
 		mt.synchro_parameters={...}
+		if type(mt.synchro_parameters[2])=='function' then
+			Debug.Message("Old Synchro Procedure detected in c"..code..".lua")
+		end
 	end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -1055,7 +1058,7 @@ function Auxiliary.AddDarkSynchroProcedure(c,f1,f2,plv,nlv,...)
 	e1:SetValue(SUMMON_TYPE_SYNCHRO)
 	c:RegisterEffect(e1)
 end
-function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,smat,pg,f1,f2,...)
+function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,pg,f1,f2,...)
 	local res
 	local rg=Group.CreateGroup()
 	if c:IsHasEffect(EFFECT_SYNCHRO_CHECK) then
@@ -1100,7 +1103,7 @@ function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,smat,pg,f1
 		if not hanchk then return false end
 	end
 	g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_HAND_SYNCHRO+EFFECT_SYNCHRO_CHECK)
-	for tc in aux.Next(g) do
+	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_HAND_SYNCHRO+EFFECT_SYNCHRO_CHECK)}
 		local hanchk=false
 		for _,te in ipairs(eff) do
@@ -1121,7 +1124,7 @@ function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,smat,pg,f1
 	if sg:GetCount()<2 then
 		res=g:IsExists(Auxiliary.DarkSynchroCheck1,1,sg,g,sg,card1,card2,plv,nlv,sc,tp,pg,f1,f2,...)
 	else
-		res=sg:IsContains(pg) and Auxiliary.DarkSynchroCheck2(sg,card1,card2,plv,nlv,sc,tp,f1,f2,...)
+		res=sg:Includes(pg) and Auxiliary.DarkSynchroCheck2(sg,card1,card2,plv,nlv,sc,tp,f1,f2,...)
 	end
 	g:Merge(rg)
 	sg:RemoveCard(c)
