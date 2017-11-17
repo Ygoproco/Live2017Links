@@ -39,7 +39,7 @@ function c100224010.activate(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetTargetRange(0,LOCATION_SZONE)
 		e2:SetTarget(c100224010.distg)
 		e2:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e2)
+		Duel.RegisterEffect(e2,tp)
 		--disable effect
 		local e3=Effect.CreateEffect(c)
 		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -47,7 +47,7 @@ function c100224010.activate(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetRange(LOCATION_MZONE)
 		e3:SetOperation(c100224010.disop)
 		e3:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e3)
+		Duel.RegisterEffect(e3,tp)
 	end
 end
 function c100224010.distg(e,c)
