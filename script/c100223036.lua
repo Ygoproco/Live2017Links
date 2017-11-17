@@ -54,11 +54,11 @@ function c100223036.thop(e,tp,eg,ep,ev,re,r,rp)
 		sg1:Merge(sg2)
 		sg1:Merge(sg3)
 		Duel.ConfirmCards(1-tp,sg1)
+		Duel.ShuffleDeck(tp)
 		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_ATOHAND)
-		local cg=sg1:RandomSelect(1-tp,1)
+		local cg=sg1:Select(1-tp,1,1,nil)
 		local tc=cg:GetFirst()
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
-		Duel.ShuffleDeck(tp)
 	end
 end
 function c100223036.ntcon(e,c,minc)
