@@ -23,7 +23,7 @@ function c68246154.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
-	e3:SetProperty(EFFECT_FLAG_DELAY)
+	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_SET_AVAILABLE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetOperation(c68246154.regop)
 	c:RegisterEffect(e3)
@@ -40,6 +40,7 @@ function c68246154.initial_effect(c)
 	e3:SetLabelObject(e4)
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e5:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
 	e5:SetCode(EVENT_ADJUST)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetOperation(c68246154.regop2)
@@ -90,7 +91,8 @@ function c68246154.regop2(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if c:GetFlagEffect(68246155)==0 and e:GetLabel()==1 then
 		e:SetLabel(0)
-		if Duel.IsExistingMatchingCard(c68246154.thfilter,tp,LOCATION_GRAVE,0,1,nil,SameColumnChain[te]) and Duel.SelectEffectYesNo(tp,c) then
+		if Duel.IsExistingMatchingCard(c68246154.thfilter,tp,LOCATION_GRAVE,0,1,nil,SameColumnChain[te]) and c:IsFaceup() 
+			and Duel.SelectEffectYesNo(tp,c) then
 			Duel.RaiseEvent(SameColumnChain[te],EVENT_CUSTOM+68246154,e,REASON_EFFECT,rp,ep,ev)
 		end
 		SameColumnChain[te]=nil
