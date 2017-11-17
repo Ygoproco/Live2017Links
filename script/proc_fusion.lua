@@ -923,7 +923,7 @@ function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 		end
 		res=mg:IsExists(Auxiliary.ShaddollRecursion,1,sg,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 	else
-		res=sg:Includes(mustg) and Auxiliary.FCheckMixGoal(tp,sg,fc,true,true,chkf,f1,f2)
+		res=sg:Includes(mustg) and Auxiliary.FCheckMixGoal(tp,sg,fc,true,true,false,chkf,f1,f2)
 	end
 	sg:RemoveCard(c)
 	mg:Merge(rg)
