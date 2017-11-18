@@ -21,10 +21,10 @@ end
 function c101004056.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and Duel.IsExistingTarget(c101004056.desfilter,tp,LOCATION_MZONE,0,1,nil,ft)
+	if chk==0 then return ft>-1 and Duel.IsExistingTarget(c101004056.desfilter,tp,LOCATION_ONFIELD,0,1,nil,ft)
 		and Duel.IsExistingTarget(c101004056.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectTarget(tp,c101004056.desfilter,tp,LOCATION_MZONE,0,1,1,nil,ft)
+	local g1=Duel.SelectTarget(tp,c101004056.desfilter,tp,LOCATION_ONFIELD,0,1,1,nil,ft)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g2=Duel.SelectTarget(tp,c101004056.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,1,0,0)
