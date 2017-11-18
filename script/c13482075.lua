@@ -20,12 +20,10 @@ function c13482075.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(13482075,1))
 	e2:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e2:SetCode(EVENT_RELEASE)
-	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCountLimit(1,13482076)
 	e2:SetCondition(c13482075.atkcon)
-	e2:SetTarget(c13482075.atktg)
 	e2:SetOperation(c13482075.atkop)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
@@ -62,9 +60,6 @@ function c13482075.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function c13482075.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_RITUAL)
-end
-function c13482075.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMatchingGroupCount(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)>0 end
 end
 function c13482075.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
