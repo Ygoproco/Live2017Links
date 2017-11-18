@@ -42,7 +42,7 @@ function c41456841.initial_effect(c)
 	c:RegisterEffect(e4)
 	--spsummon
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(91512835,0))
+	e5:SetDescription(aux.Stringid(91512835,1))
 	e5:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e5:SetRange(LOCATION_MZONE)
@@ -58,8 +58,8 @@ end
 function c41456841.indfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_INSECT)
 end
-function c41456841.indcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c41456841.indfilter,tp,LOCATION_MZONE,0,1,e:GetHandler())
+function c41456841.indcon(e)
+	return Duel.IsExistingMatchingCard(c41456841.indfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler())
 end
 function c41456841.indval(e,re,rp)
 	return rp~=e:GetHandlerPlayer()
