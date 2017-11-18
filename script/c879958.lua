@@ -1,6 +1,5 @@
 --パラレルポート・アーマー
 --Parallel Port Armor
---Scripted by Larry126
 function c879958.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -8,6 +7,7 @@ function c879958.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e1:SetCost(aux.RemainFieldCost)
 	e1:SetTarget(c879958.target)
 	e1:SetOperation(c879958.operation)
 	c:RegisterEffect(e1)
@@ -39,11 +39,10 @@ function c879958.eqlimit(e,c)
 end
 function c879958.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsLocation(LOCATION_SZONE) then return end
+	if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Equip(tp,c,tc)
-		c:CancelToGrave()
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
@@ -63,6 +62,8 @@ function c879958.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetValue(c879958.eqlimit)
 		e3:SetReset(RESET_EVENT+0x1fe0000)
 		c:RegisterEffect(e3)
+	else
+		c:CancelToGrave(false)
 	end
 end
 function c879958.atcon(e,tp,eg,ep,ev,re,r,rp)
@@ -90,7 +91,7 @@ function c879958.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c879958.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_EXTRA_ATTACK)
@@ -100,4 +101,3 @@ function c879958.atkop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 end
-
