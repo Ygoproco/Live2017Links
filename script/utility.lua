@@ -744,8 +744,8 @@ function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,no
 					end
 				end
 				Duel.SpecialSummonComplete()
+				return true,sg
 			end
-			return true,sg
 end
 function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
 	local zones=0
