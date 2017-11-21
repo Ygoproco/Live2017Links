@@ -1,38 +1,39 @@
---RUM－リミテッド・バリアンズ・フォース
-function c92365601.initial_effect(c)
+--光虫信号
+function c47185546.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c92365601.target)
-	e1:SetOperation(c92365601.activate)
+	e1:SetCountLimit(1,47185546+EFFECT_COUNT_CODE_OATH)
+	e1:SetTarget(c47185546.target)
+	e1:SetOperation(c47185546.activate)
 	c:RegisterEffect(e1)
 end
-function c92365601.filter1(c,e,tp)
+function c47185546.filter1(c,e,tp)
+	local rk=c:GetRank()
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-	return pg:GetCount()<=1 and c:IsFaceup() and c:IsRank(4) and Duel.GetLocationCountFromEx(tp,tp,c)>0
-		and Duel.IsExistingMatchingCard(c92365601.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,c:GetRank()+1,pg)
+	return pg:GetCount()<=1 and c:IsFaceup() and Duel.IsExistingMatchingCard(c47185546.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk,pg)
+		and Duel.GetLocationCountFromEx(tp,tp,c)>0
 end
-function c92365601.filter2(c,e,tp,mc,rk,pg)
-	if c.rum_limit and not c.rum_limit(mc,e) then return false end
-	return mc:IsType(TYPE_XYZ,c,SUMMON_TYPE_XYZ,tp) and c:IsRank(rk) and c:IsSetCard(0x1048) and mc:IsCanBeXyzMaterial(c,tp)
+function c47185546.filter2(c,e,tp,mc,rk,pg)
+	return mc:IsRace(RACE_INSECT,c,SUMMON_TYPE_XYZ,tp) and mc:IsType(TYPE_XYZ,c,SUMMON_TYPE_XYZ,tp) and (c:GetRank()==rk+2 or c:GetRank()==rk-2) and c:IsRace(RACE_INSECT) and mc:IsCanBeXyzMaterial(c,tp)
 		and (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
-function c92365601.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c92365601.filter1(chkc,e,tp) end
-	if chk==0 then return Duel.IsExistingTarget(c92365601.filter1,tp,LOCATION_MZONE,0,1,nil,e,tp) end
+function c47185546.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c47185546.filter1(chkc,e,tp) end
+	if chk==0 then return Duel.IsExistingTarget(c47185546.filter1,tp,LOCATION_MZONE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	Duel.SelectTarget(tp,c92365601.filter1,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
+	Duel.SelectTarget(tp,c47185546.filter1,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function c92365601.activate(e,tp,eg,ep,ev,re,r,rp)
+function c47185546.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if Duel.GetLocationCountFromEx(tp,tp,tc)<=0 or not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsControler(1-tp) or tc:IsImmuneToEffect(e) then return end
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(tc),tp,nil,nil,REASON_XYZ)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c92365601.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,tc,tc:GetRank()+1,pg)
+	local g=Duel.SelectMatchingCard(tp,c47185546.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,tc,tc:GetRank(),pg)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=tc:GetOverlayGroup()

@@ -1,6 +1,5 @@
 --究極宝玉陣
 --Ultimate Crystal Formation
---Scripted by Eerie Code
 function c36328300.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
@@ -31,38 +30,30 @@ function c36328300.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c36328300.confilter,1,nil,tp)
 end
 function c36328300.cfilter(c)
-	return c:IsSetCard(0x1034) and (c:IsFaceup() or not c:IsLocation(LOCATION_ONFIELD)) and c:IsAbleToGraveAsCost()
+	return c:IsSetCard(0x1034) and (c:IsFaceup() or not c:IsOnField()) and c:IsAbleToGraveAsCost()
 end
 function c36328300.exfilter(c,tp)
 	return Duel.GetLocationCountFromEx(tp,tp,Group.FromCards(c))>0
 end
+function c26194151.rescon(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)>=7 and Duel.GetLocationCountFromEx(tp,tp,sg)>0
+end
 function c36328300.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	e:SetLabel(1)
 	local g=Duel.GetMatchingGroup(c36328300.cfilter,tp,LOCATION_ONFIELD+LOCATION_HAND+LOCATION_DECK,0,nil)
 	if chk==0 then return g:GetClassCount(Card.GetCode)>=7
 		and (Duel.GetLocationCountFromEx(tp)>0 or g:IsExists(c36328300.exfilter,1,nil,tp)) end
-	local rg=Group.CreateGroup()
-	local ft=Duel.GetLocationCountFromEx(tp)
-	for i=1,7 do
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		local tc=nil
-		if ft<1 then
-			tc=g:FilterSelect(tp,c36328300.exfilter,1,1,nil,tp):GetFirst()
-			ft=1
-		else
-			tc=g:Select(tp,1,1,nil):GetFirst()
-		end
-		if tc then
-			rg:AddCard(tc)
-			g:Remove(Card.IsCode,nil,tc:GetCode())
-		end
-	end
+	local rg=aux.SelectUnselectGroup(g,e,tp,7,7,c26194151.rescon,1,tp,HINTMSG_TOGRAVE)
 	Duel.SendtoGrave(rg,REASON_COST)
 end
 function c36328300.filter(c,e,tp)
-	return c:IsType(TYPE_FUSION) and c:IsSetCard(0x2034) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false)
+	return c:IsType(TYPE_FUSION) and c:IsSetCard(0x2034) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial()
 end
 function c36328300.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c36328300.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
+	if chk==0 then
+		if e:GetLabel()==0 and Duel.GetLocationCountFromEx(tp)<=0 then return false end
+		e:SetLabel(0)
+		return Duel.IsExistingMatchingCard(c36328300.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function c36328300.activate(e,tp,eg,ep,ev,re,r,rp)
@@ -75,9 +66,8 @@ function c36328300.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c36328300.plcfilter(c,tp)
-	return c:IsPreviousSetCard(0x2034) and c:GetPreviousControler()==tp
-		and c:IsPreviousPosition(POS_FACEUP) and c:GetReasonPlayer()~=tp
-		and c:IsReason(REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE)
+	return c:IsPreviousSetCard(0x2034) and c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP) and c:GetReasonPlayer()~=tp
+		and c:IsReason(REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp)
 end
 function c36328300.plcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c36328300.plcfilter,1,nil,tp)
