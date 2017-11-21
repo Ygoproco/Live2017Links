@@ -14,13 +14,13 @@ function c88086137.condition(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local seq,p,loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_SEQUENCE,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION)
 	if p==1-tp then seq=seq+16 end
-	return loc&LOCATION_ONFIELD and (bit.extract(c:GetColumnZone(LOCATION_MZONE),seq)~=0 or bit.extract(c:GetColumnZone(LOCATION_SZONE),seq)~=0)
+	return ((loc&LOCATION_MZONE>0 and bit.extract(c:GetColumnZone(LOCATION_MZONE),seq)~=0) or (loc&LOCATION_SZONE>0 and bit.extract(c:GetColumnZone(LOCATION_SZONE),seq)~=0))
 		and (re:IsActiveType(TYPE_MONSTER) or re:IsHasType(EFFECT_TYPE_ACTIVATE)) and Duel.IsChainNegatable(ev)
 end
 function c88086137.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_DISABLE,eg,1,0,0)
-	if re:GetHandler():IsRelateToEffect(re) then
+	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
+	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
 	end
 end
