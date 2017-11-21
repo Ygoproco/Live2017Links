@@ -5,6 +5,13 @@ POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
 TYPE_EXTRA=TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK
 
+function userdatatype(o)
+	if type(o)~="userdata" then return "not userdata"
+	elseif o.GetOriginalCode then return "Card"
+	elseif o.KeepAlive then return "Group"
+	elseif o.SetLabelObject then return "Effect"
+	end
+end
 function Auxiliary.GetMustBeMaterialGroup(tp,eg,sump,sc,g,r)
 	--- eg all default materials, g - valid materials
 	local eff={Duel.GetPlayerEffect(tp,EFFECT_MUST_BE_MATERIAL)}
@@ -121,19 +128,27 @@ end
 function Auxiliary.FALSE()
 	return false
 end
-function Auxiliary.AND(f1,f2)
-	return	function(a,b,c)
-				return f1(a,b,c) and f2(a,b,c)
+function Auxiliary.AND(...)
+	local funs={...}
+	return	function(...)
+				for _,f in ipairs(funs) do
+					if not f(...) then return false end
+				end
+				return true
 			end
 end
-function Auxiliary.OR(f1,f2)
-	return	function(a,b,c)
-				return f1(a,b,c) or f2(a,b,c)
+function Auxiliary.OR(...)
+	local funs={...}
+	return	function(...)
+				for _,f in ipairs(funs) do
+					if f(...) then return true end
+				end
+				return false
 			end
 end
 function Auxiliary.NOT(f)
-	return	function(a,b,c)
-				return not f(a,b,c)
+	return	function(...)
+				return not f(...)
 			end
 end
 function Auxiliary.BeginPuzzle(effect)
@@ -238,19 +253,22 @@ function Auxiliary.SpiritReturnOperation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(c,nil,REASON_EFFECT)
 	end
 end
-function Auxiliary.TargetEqualFunction(f,value,a,b,c)
+function Auxiliary.TargetEqualFunction(f,value,...)
+	local params={...}
 	return	function(effect,target)
-				return f(target,a,b,c)==value
+				return f(target,table.unpack(params))==value
 			end
 end
-function Auxiliary.TargetBoolFunction(f,a,b,c)
+function Auxiliary.TargetBoolFunction(f,...)
+	local params={...}
 	return	function(effect,target)
-				return f(target,a,b,c)
+				return f(target,table.unpack(params))
 			end
 end
-function Auxiliary.FilterEqualFunction(f,value,a,b,c)
+function Auxiliary.FilterEqualFunction(f,value,...)
+	local params={...}
 	return	function(target)
-				return f(target,a,b,c)==value
+				return f(target,table.unpack(params))==value
 			end
 end
 --used for Material Types Filter Bool (works for IsRace, IsAttribute, IsType)
@@ -259,9 +277,10 @@ function Auxiliary.FilterBoolFunctionEx(f,value)
 				return f(target,value,scard,sumtype,tp)
 			end
 end
-function Auxiliary.FilterBoolFunction(f,a,b,c)
+function Auxiliary.FilterBoolFunction(f,...)
+	local params={...}
 	return	function(target)
-				return f(target,a,b,c)
+				return f(target,table.unpack(params))
 			end
 end
 Auxiliary.ProcCancellable=false
@@ -473,7 +492,7 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 	end
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(finalprop)
-	e1:SetCode(100407001) --to be changed when official code is released
+	e1:SetCode(89785779) --to be changed when official code is released
 	e1:SetLabelObject(linkedeff)
 	if resetflag and resetcount then
 		e1:SetReset(resetflag,resetcount)
@@ -486,7 +505,7 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(finalprop-EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetCode(100407001+EFFECT_EQUIP_LIMIT) --to be changed when official code is released
+	e2:SetCode(89785779+EFFECT_EQUIP_LIMIT) --to be changed when official code is released
 	if resetflag and resetcount then
 		e2:SetReset(resetflag,resetcount)
 	elseif resetflag then
@@ -498,7 +517,7 @@ end
 
 function Auxiliary.EquipByEffectLimit(e,c)
 	if e:GetOwner()~=c then return false end
-	local eff={c:GetCardEffect(100407001+EFFECT_EQUIP_LIMIT)}
+	local eff={c:GetCardEffect(89785779+EFFECT_EQUIP_LIMIT)}
 	for _,te in ipairs(eff) do
 		if te==e:GetLabelObject() then return true end
 	end
@@ -524,163 +543,6 @@ function Auxiliary.EquipByEffectAndLimitRegister(c,e,tp,tc,code,mustbefaceup)
 	return true
 end
 
---add procedure to equip spells equipping by rule
-function Auxiliary.AddEquipProcedure(c,p,f,eqlimit,cost,tg,op,con)
-	--Note: p==0 is check equip spell controler, p==1 for opponent's, PLAYER_ALL for both player's monsters
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(1068)
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	if con then
-		e1:SetCondition(con)
-	end
-	if cost~=nil then
-		e1:SetCost(cost)
-	end
-	e1:SetTarget(Auxiliary.EquipTarget(tg,p,f))
-	e1:SetOperation(op)
-	c:RegisterEffect(e1)
-	--Equip limit
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetCode(EFFECT_EQUIP_LIMIT)
-	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	if eqlimit~=nil then
-		e2:SetValue(eqlimit)
-	else
-		e2:SetValue(Auxiliary.EquipLimit(f))
-	end
-	c:RegisterEffect(e2)
-end
-function Auxiliary.EquipLimit(f)
-	return function(e,c)
-				return not f or f(c,e,e:GetHandlerPlayer())
-			end
-end
-function Auxiliary.EquipFilter(c,p,f,e,tp)
-	return (p==PLAYER_ALL or c:IsControler(p)) and c:IsFaceup() and (not f or f(c,e,tp))
-end
-function Auxiliary.EquipTarget(tg,p,f)
-	return	function(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-				local player=nil
-				if p==0 then
-					player=tp
-				elseif p==1 then
-					player=1-tp
-				elseif p==PLAYER_ALL or p==nil then
-					player=PLAYER_ALL
-				end
-				if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() and Auxiliary.EquipFilter(chkc,player,f,e,tp) end
-				if chk==0 then return player~=nil and Duel.IsExistingTarget(Auxiliary.EquipFilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,player,f,e,tp) end
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-				local g=Duel.SelectTarget(tp,Auxiliary.EquipFilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,player,f,e,tp)
-				if tg then tg(e,tp,eg,ep,ev,re,r,rp,g:GetFirst()) end
-				local e1=Effect.CreateEffect(e:GetHandler())
-				e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-				e1:SetCode(EVENT_CHAIN_SOLVING)
-				e1:SetReset(RESET_CHAIN)
-				e1:SetLabel(Duel.GetCurrentChain())
-				e1:SetLabelObject(e)
-				e1:SetOperation(Auxiliary.EquipEquip)
-				Duel.RegisterEffect(e1,tp)
-				Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
-			end
-end
-function Auxiliary.EquipEquip(e,tp,eg,ep,ev,re,r,rp)
-	if re~=e:GetLabelObject() then return end
-	local c=e:GetHandler()
-	local tc=Duel.GetChainInfo(Duel.GetCurrentChain(),CHAININFO_TARGET_CARDS):GetFirst()
-	if tc and c:IsRelateToEffect(re) and tc:IsRelateToEffect(re) and tc:IsFaceup() then
-		Duel.Equip(tp,c,tc)
-	end
-end
-
---add procedure to persistent traps
-function Auxiliary.AddPersistentProcedure(c,p,f,category,property,hint1,hint2,con,cost,tg,op,anypos)
-	--Note: p==0 is check persistent trap controler, p==1 for opponent's, PLAYER_ALL for both player's monsters
-	--anypos is check for face-up/any
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(1068)
-	if category then
-		e1:SetCategory(category)
-	end
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	if hint1 or hint2 then
-		if hint1==hint2 then
-			e1:SetHintTiming(hint1)
-		elseif hint1 and not hint2 then
-			e1:SetHintTiming(hint1,0)
-		elseif hint2 and not hint1 then
-			e1:SetHintTiming(0,hint2)
-		else
-			e1:SetHintTiming(hint1,hint2)
-		end
-	end
-	if property then
-		e1:SetProperty(EFFECT_FLAG_CARD_TARGET+property)
-	else
-		e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	end
-	if con then
-		e1:SetCondition(con)
-	end
-	if cost then
-		e1:SetCost(cost)
-	end
-	e1:SetTarget(Auxiliary.PersistentTarget(tg,p,f))
-	e1:SetOperation(op)
-	c:RegisterEffect(e1)
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetRange(LOCATION_SZONE)
-	e2:SetCode(EVENT_CHAIN_SOLVED)
-	e2:SetLabelObject(e1)
-	e2:SetCondition(Auxiliary.PersistentTgCon)
-	e2:SetOperation(Auxiliary.PersistentTgOp(anypos))
-	c:RegisterEffect(e2)
-end
-function Auxiliary.PersistentFilter(c,p,f,e,tp,tg,eg,ep,ev,re,r,rp)
-	return (p==PLAYER_ALL or c:IsControler(p)) and (not f or f(c,e,tp)) and (not tg or tg(e,tp,eg,ep,ev,re,r,rp,c,0))
-end
-function Auxiliary.PersistentTarget(tg,p,f)
-	return	function(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-				local player=nil
-				if p==0 then
-					player=tp
-				elseif p==1 then
-					player=1-tp
-				elseif p==PLAYER_ALL or p==nil then
-					player=PLAYER_ALL
-				end
-				if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() and Auxiliary.PersistentFilter(chkc,player,f,e,tp) end
-				if chk==0 then return Duel.IsExistingTarget(Auxiliary.PersistentFilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,player,f,e,tp,tg,eg,ep,ev,re,r,rp)
-					and player~=nil end
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-				local g=Duel.SelectTarget(tp,Auxiliary.PersistentFilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,player,f,e,tp)
-				if tg then tg(e,tp,eg,ep,ev,re,r,rp,g:GetFirst(),1) end
-			end
-end
-function Auxiliary.PersistentTgCon(e,tp,eg,ep,ev,re,r,rp)
-	return re==e:GetLabelObject()
-end
-function Auxiliary.PersistentTgOp(anypos)
-	return function(e,tp,eg,ep,ev,re,r,rp)
-			local c=e:GetHandler()
-			local tc=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS):GetFirst()
-			if c:IsRelateToEffect(re) and tc and (anypos or tc:IsFaceup()) and tc:IsRelateToEffect(re) then
-				c:SetCardTarget(tc)
-			end
-		end
-end
-function Auxiliary.PersistentTargetFilter(e,c)
-	return e:GetHandler():IsHasCardTarget(c)
-end
 --add a anounce digit by digit
 function Auxiliary.ComposeNumberDigitByDigit(tp,min,max)
 	if min>max then min,max=max,min end
@@ -809,6 +671,128 @@ function Auxiliary.ChkfMMZ(sumcount)
 				return sg:FilterCount(Auxiliary.MZFilter,nil,tp)+Duel.GetLocationCount(tp,LOCATION_MZONE)>=sumcount
 			end
 end
+--check for cards that can stay on the field, but not always
+function Auxiliary.RemainFieldCost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	local c=e:GetHandler()
+	local cid=Duel.GetChainInfo(0,CHAININFO_CHAIN_ID)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_REMAIN_FIELD)
+	e1:SetProperty(EFFECT_FLAG_OATH)
+	e1:SetReset(RESET_CHAIN)
+	c:RegisterEffect(e1)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_CHAIN_DISABLED)
+	e2:SetOperation(Auxiliary.RemainFieldDisabled)
+	e2:SetLabel(cid)
+	e2:SetReset(RESET_CHAIN)
+	Duel.RegisterEffect(e2,tp)
+end
+function Auxiliary.RemainFieldDisabled(e,tp,eg,ep,ev,re,r,rp)
+	local cid=Duel.GetChainInfo(ev,CHAININFO_CHAIN_ID)
+	if cid~=e:GetLabel() then return end
+	e:GetOwner():CancelToGrave(false)
+end
+--autocheck for Summoning a Group containing Extra Deck/non-Extra Deck monsters to avoid zone issues
+function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,nolimit,pos,mmz,emz)
+	return	function(e,tp,eg,ep,ev,re,r,rp,sg)
+				local pos=pos or POS_FACEUP
+				local cardtable={}
+				local cc=sg:GetFirst()
+				while cc do
+					table.insert(cardtable,cc)
+					cc=sg:GetNext()
+				end
+				local cardtableclone={table.unpack(cardtable)}
+				local targettp=math.abs(targetp-tp)
+				local mmz=mmz
+				if not mmz then
+					mmz=0
+					for i=0,4 do
+						if Duel.GetLocationCount(targettp,LOCATION_MZONE,targettp,LOCATION_REASON_TOFIELD,0x1<<i)>0 then
+							mmz=mmz|(0x1<<i)
+						end
+					end
+				end
+				if mmz<=0 then return false end
+				local emz=emz
+				if not emz then
+					emz=Duel.GetLinkedZone(tp)
+					if Duel.GetMasterRule()>=4 then
+						if Duel.CheckLocation(targettp,LOCATION_MZONE,5) then
+							emz=emz|0x20
+						end
+						if Duel.CheckLocation(targettp,LOCATION_MZONE,6) then
+							emz=emz|0x40
+						end
+					else
+						emz=emz&~0x20&~0x40
+					end
+				end
+				local summonp=math.abs(sump-tp)
+				for _,tc in ipairs(cardtableclone) do
+					table.remove(cardtable,1)
+					local zone=Auxiliary.MainAndExtraGetSummonZones(tc,mmz,emz,e,sumtype,summonp,targettp,nocheck,nolimit,pos,table.unpack(cardtable))
+					if zone==0 then return false end
+					local loc=tc:GetLocation()
+					if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
+					if loc==LOCATION_EXTRA then
+						emz=emz&~(0x1<<tc:GetSequence())
+					else
+						mmz=mmz&~(0x1<<tc:GetSequence())
+					end
+					if func then
+						func(e,tp,eg,ep,ev,re,r,rp,tc)
+					end
+				end
+				Duel.SpecialSummonComplete()
+			end
+			return true,sg
+end
+function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
+	local zones=0
+	if c:IsLocation(LOCATION_EXTRA) then
+		for i=0,6 do
+			local zone=0x1<<i
+			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				zones=zones|zone
+			end
+		end
+	else
+		for i=0,4 do
+			local zone=0x1<<i
+			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				zones=zones|zone
+			end
+		end
+	end
+	return zones
+end
+function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
+	if not c then return true end
+	if c:IsLocation(LOCATION_EXTRA) then
+		for i=0,6 do
+			local zone=0x1<<i
+			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				return true
+			end
+		end
+	else
+		for i=0,4 do
+			local zone=0x1<<i
+			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				return true
+			end
+		end
+	end
+	return false
+end
 
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
@@ -828,4 +812,6 @@ loadutility("proc_union.lua")
 loadutility("proc_xyz.lua")
 loadutility("proc_pendulum.lua")
 loadutility("proc_link.lua")
+loadutility("proc_equip.lua")
+loadutility("proc_persistent.lua")
 pcall(dofile,"init.lua")
