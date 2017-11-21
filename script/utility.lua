@@ -738,11 +738,8 @@ function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,no
 					if zone==0 then return false end
 					local loc=tc:GetLocation()
 					if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
-					if loc==LOCATION_EXTRA then
-						emz=emz&~(0x1<<tc:GetSequence())
-					else
-						mmz=mmz&~(0x1<<tc:GetSequence())
-					end
+					emz=emz&~(0x1<<tc:GetSequence())
+					mmz=mmz&~(0x1<<tc:GetSequence())
 					if func then
 						func(e,tp,eg,ep,ev,re,r,rp,tc)
 					end
@@ -757,7 +754,7 @@ function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,n
 		for i=0,6 do
 			local zone=0x1<<i
 			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
-				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
 				zones=zones|zone
 			end
 		end
@@ -765,7 +762,7 @@ function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,n
 		for i=0,4 do
 			local zone=0x1<<i
 			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
-				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
 				zones=zones|zone
 			end
 		end
@@ -778,7 +775,7 @@ function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,no
 		for i=0,6 do
 			local zone=0x1<<i
 			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
-				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
 				return true
 			end
 		end
@@ -786,7 +783,7 @@ function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,no
 		for i=0,4 do
 			local zone=0x1<<i
 			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
-				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
 				return true
 			end
 		end
