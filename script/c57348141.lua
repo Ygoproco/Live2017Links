@@ -37,9 +37,13 @@ function c57348141.cfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x38) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
 function c57348141.rescon(sg,e,tp,mg)
-	return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,sg)
+	sg:AddCard(e:GetHandler())
+	local res=Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,sg)
+	sg:RemoveCard(e:GetHandler())
+	return res
 end
 function c57348141.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	e:SetLabel(1)
 	local cg=Duel.GetMatchingGroup(c57348141.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,nil)
 	if chk==0 then return aux.SelectUnselectGroup(cg,e,tp,2,2,c57348141.rescon,0) end
 	local rg=aux.SelectUnselectGroup(cg,e,tp,2,2,c57348141.rescon,1,tp,HINTMSG_REMOVE)
@@ -47,7 +51,10 @@ function c57348141.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c57348141.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc~=e:GetHandler() and chkc:IsAbleToRemove() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,e:GetHandler()) end
+	if chk==0 then
+		local label=e:GetLabel()
+		e:SetLabel(0)
+		return label==1 or Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,2,e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,g:GetCount(),0,0)
