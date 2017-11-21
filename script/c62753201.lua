@@ -1,6 +1,5 @@
 --ヴァレル・レフリジェレーション
 --Borrel Refrigeration
---Scripted by Eerie Code
 function c62753201.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -20,6 +19,7 @@ function c62753201.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroup(tp,c62753201.cfilter,1,nil) end
 	local rg=Duel.SelectReleaseGroup(tp,c62753201.cfilter,1,1,nil)
 	Duel.Release(rg,REASON_COST)
+	aux.RemainFieldCost(e,tp,eg,ep,ev,re,r,rp,1)
 end
 function c62753201.filter(c)
 	return c:IsFaceup() and c:IsType(TYPE_LINK) and (c:IsCode(31833038) or c:IsSetCard(0x10f))
@@ -36,11 +36,10 @@ function c62753201.eqlimit(e,c)
 end
 function c62753201.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsLocation(LOCATION_SZONE) then return end
+	if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Equip(tp,c,tc)
-		c:CancelToGrave()
 		--
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -67,6 +66,8 @@ function c62753201.activate(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetTarget(c62753201.eftg)
 		e3:SetLabelObject(e2)
 		c:RegisterEffect(e3)
+	else
+		c:CancelToGrave(false)
 	end
 end
 function c62753201.eftg(e,c)
@@ -80,7 +81,7 @@ function c62753201.indtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c62753201.indop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
@@ -92,4 +93,3 @@ function c62753201.indop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e2)
 	end
 end
-
