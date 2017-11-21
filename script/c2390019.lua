@@ -1,6 +1,5 @@
 --おジャマ改造
 --Ojamadification
---Scripted by Eerie Code
 function c2390019.initial_effect(c)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
@@ -22,78 +21,64 @@ function c2390019.initial_effect(c)
 	e2:SetOperation(c2390019.drop)
 	c:RegisterEffect(e2)
 end
-function c2390019.ffilter(c,e,tp)
-	return c:IsType(TYPE_FUSION) and c:IsRace(RACE_MACHINE) and c:IsAttribute(ATTRIBUTE_LIGHT) 
-		and c.material and Duel.IsExistingMatchingCard(c2390019.cfilter,tp,LOCATION_HAND+LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,c,e,tp)
+function c2390019.ffilter(c,e,tp,rg,ft)
+	if not c.material then return false end
+	local g=Duel.GetMatchingGroup(c2390019.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp,table.unpack(c.material))
+	return g:GetCount()>0 and c:IsType(TYPE_FUSION) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_MACHINE) 
+		and aux.SelectUnselectGroup(rg,e,tp,nil,1,c2390019.rescon1(g,ft),0)
 end
-function c2390019.cfilter(c,fc,e,tp)
-	if c:IsSetCard(0xf) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() then
-		if e and tp then
-			return Duel.IsExistingMatchingCard(c2390019.filter,tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,1,c,fc,e,tp)
-		else return true end
-	else return false end
+function c2390019.cfilter(c)
+	return c:IsSetCard(0xf) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c,true,true))
 end
-function c2390019.filter(c,fc,e,tp)
-	return c:IsCode(table.unpack(fc.material)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+function c2390019.spfilter(c,e,tp,...)
+	return c:IsCode(...) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c2390019.cfilter2(c,g,mg,ft,rm)
-	if not rm and ft==0 and not c:IsLocation(LOCATION_MZONE) then return false end
-	local g2=g:Clone()
-	g2:AddCard(c)
-	local mg2=mg:Clone()
-	mg2:Sub(g2)
-	return mg2:GetClassCount(Card.GetCode)>=g2:GetCount()
+function c2390019.rescon1(g,ft)
+	return	function(sg,e,tp,mg)
+				local ct=sg:GetCount()
+				local tg=g:Filter(aux.TRUE,sg)
+				return ft+sg:FilterCount(aux.MZFilter,nil,tp)>=ct and aux.SelectUnselectGroup(tg,e,tp,ct,ct,c2390019.rescon2,0)
+			end
+end
+function c2390019.rescon2(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
 end
 function c2390019.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c2390019.ffilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-	local rc=Duel.SelectMatchingCard(tp,c2390019.ffilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp):GetFirst()
-	Duel.ConfirmCards(1-tp,rc)
-	e:SetLabelObject(rc)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
-	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c2390019.filter),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,nil,rc,e,tp)
-	local rg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c2390019.cfilter),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_MZONE,0,nil)
-	local g=Group.CreateGroup()
-	local rm=(ft>0)
-	repeat
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-		local sc=rg:FilterSelect(tp,c2390019.cfilter2,1,1,nil,g,mg,ft,rm):GetFirst()
-		g:AddCard(sc)
-		rg:RemoveCard(sc)
-		mg:RemoveCard(sc)
-		if not sc:IsLocation(LOCATION_MZONE) then ft=ft-1 end
-	until g:GetCount()==5 or rg:GetCount()==0 or mg:GetClassCount(Card.GetCode)==g:GetCount() 
-		or (ft==0 and not rg:IsExists(Card.IsLocation,1,nil,LOCATION_MZONE)) 
-		or not Duel.SelectYesNo(tp,aux.Stringid(2390019,0))
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
-	e:SetLabel(Duel.GetOperatedGroup():GetCount())
+	e:SetLabel(1)
+	return true
 end
 function c2390019.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,e:GetLabel(),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	local rg=Duel.GetMatchingGroup(c2390019.cfilter,tp,LOCATION_HAND+LOCATION_MZONE+LOCATION_GRAVE,0,nil)
+	if chk==0 then
+		if e:GetLabel()~=1 then return false end
+		e:SetLabel(0)
+		return ft>-1 and rg:GetCount()>0 and Duel.IsExistingMatchingCard(c2390019.ffilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,rg,ft)
+	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
+	local rc=Duel.SelectMatchingCard(tp,c2390019.ffilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,rg,ft):GetFirst()
+	Duel.ConfirmCards(1-tp,rc)
+	local sg=Duel.GetMatchingGroup(c2390019.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp,table.unpack(rc.material))
+	local maxc=math.min((Duel.IsPlayerAffectedByEffect(tp,59822133) and 1 or 5),c.material_count)
+	local g=aux.SelectUnselectGroup(rg,e,tp,nil,maxc,c2390019.rescon1(sg,ft),1,tp,HINTMSG_REMOVE,c2390019.rescon1(sg,ft))
+	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	local ct=g:GetCount()
+	Duel.SetTargetCard(rc)
+	Duel.SetTargetParam(ct)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ct,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
 function c2390019.activate(e,tp,eg,ep,ev,re,r,rp)
+	local ct=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
-	local ct=e:GetLabel()
-	if ft<ct then return end
-	local rc=e:GetLabelObject()
-	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c2390019.filter),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,nil,rc,e,tp)
-	if mg:GetClassCount(Card.GetCode)<ct then return end
-	local g=Group.CreateGroup()
-	while ct>0 do
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local sg=mg:Select(tp,1,1,nil)
-		g:AddCard(sg:GetFirst())
-		mg:Remove(Card.IsCode,nil,sg:GetFirst():GetCode())
-		ct=ct-1
-	end
+	local rc=Duel.GetFirstTarget()
+	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=math.min(ft,1) end
+	if not rc or ct>ft then return end
+	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c2390019.spfilter),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,nil,e,tp,table.unpack(rc.material))
+	local g=aux.SelectUnselectGroup(mg,e,tp,ct,ct,c2390019.rescon2,1,tp,HINTMSG_SPSUMMON)
 	Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 end
 function c2390019.tdfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_MONSTER) 
-		and c:IsSetCard(0xf) and c:IsAbleToDeck()
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(0xf) and c:IsAbleToDeck()
 end
 function c2390019.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and c2390019.tdfilter(chkc) end
@@ -117,4 +102,3 @@ function c2390019.drop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Draw(tp,1,REASON_EFFECT)
 	end
 end
-
