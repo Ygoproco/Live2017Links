@@ -695,6 +695,100 @@ function Auxiliary.RemainFieldDisabled(e,tp,eg,ep,ev,re,r,rp)
 	if cid~=e:GetLabel() then return end
 	e:GetOwner():CancelToGrave(false)
 end
+--autocheck for Summoning a Group containing Extra Deck/non-Extra Deck monsters to avoid zone issues
+function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,nolimit,pos,mmz,emz)
+	return	function(e,tp,eg,ep,ev,re,r,rp,sg)
+				local pos=pos or POS_FACEUP
+				local cardtable={}
+				local cc=sg:GetFirst()
+				while cc do
+					table.insert(cardtable,cc)
+					cc=sg:GetNext()
+				end
+				local cardtableclone={table.unpack(cardtable)}
+				local targettp=math.abs(targetp-tp)
+				local mmz=mmz
+				if not mmz then
+					mmz=0
+					for i=0,4 do
+						if Duel.GetLocationCount(targettp,LOCATION_MZONE,targettp,LOCATION_REASON_TOFIELD,0x1<<i)>0 then
+							mmz=mmz|(0x1<<i)
+						end
+					end
+				end
+				if mmz<=0 then return false end
+				local emz=emz
+				if not emz then
+					emz=Duel.GetLinkedZone(tp)
+					if Duel.GetMasterRule()>=4 then
+						if Duel.CheckLocation(targettp,LOCATION_MZONE,5) then
+							emz=emz|0x20
+						end
+						if Duel.CheckLocation(targettp,LOCATION_MZONE,6) then
+							emz=emz|0x40
+						end
+					else
+						emz=emz&~0x20&~0x40
+					end
+				end
+				local summonp=math.abs(sump-tp)
+				for _,tc in ipairs(cardtableclone) do
+					table.remove(cardtable,1)
+					local zone=Auxiliary.MainAndExtraGetSummonZones(tc,mmz,emz,e,sumtype,summonp,targettp,nocheck,nolimit,pos,table.unpack(cardtable))
+					if zone==0 then return false end
+					if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
+					emz=emz&~(0x1<<tc:GetSequence())
+					mmz=mmz&~(0x1<<tc:GetSequence())
+					if func then
+						func(e,tp,eg,ep,ev,re,r,rp,tc)
+					end
+				end
+				Duel.SpecialSummonComplete()
+			end
+			return true,sg
+end
+function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
+	local zones=0
+	if c:IsLocation(LOCATION_EXTRA) then
+		for i=0,6 do
+			local zone=0x1<<i
+			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				zones=zones|zone
+			end
+		end
+	else
+		for i=0,4 do
+			local zone=0x1<<i
+			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				zones=zones|zone
+			end
+		end
+	end
+	return zones
+end
+function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
+	if not c then return true end
+	if c:IsLocation(LOCATION_EXTRA) then
+		for i=0,6 do
+			local zone=0x1<<i
+			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				return true
+			end
+		end
+	else
+		for i=0,4 do
+			local zone=0x1<<i
+			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+				return true
+			end
+		end
+	end
+	return false
+end
 
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
