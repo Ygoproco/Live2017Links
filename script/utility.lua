@@ -736,7 +736,6 @@ function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,no
 					table.remove(cardtable,1)
 					local zone=Auxiliary.MainAndExtraGetSummonZones(tc,mmz,emz,e,sumtype,summonp,targettp,nocheck,nolimit,pos,table.unpack(cardtable))
 					if zone==0 then return false end
-					local loc=tc:GetLocation()
 					if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
 					emz=emz&~(0x1<<tc:GetSequence())
 					mmz=mmz&~(0x1<<tc:GetSequence())
