@@ -1,6 +1,5 @@
 --セキュア・ガードナー
 --Security Gardna
---Script by nekrozar
 function c2220237.initial_effect(c)
 	c:SetUniqueOnField(1,0,2220237)
 	--link summon
@@ -46,17 +45,19 @@ function c2220237.regop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
 	e2:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e2,tp)
+	Duel.RegisterFlagEffect(tp,2220237,RESET_PHASE+PHASE_END,0,1)
 end
 function c2220237.matfilter(c,lc,sumtype,tp)
 	return c:IsRace(RACE_CYBERSE,lc,sumtype,tp) and c:IsType(TYPE_LINK,lc,sumtype,tp)
 end
 function c2220237.damval1(e,re,val,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 then return 0
+	if r&REASON_EFFECT~=0 then return 0
 	else return val end
 end
 function c2220237.damval2(e,re,val,r,rp,rc)
 	local c=e:GetHandler()
-	if bit.band(r,REASON_BATTLE+REASON_EFFECT)~=0 and c:GetFlagEffect(2220237)==0 then
+	if r&REASON_EFFECT>0 and Duel.GetFlagEffect(tp,2220237)~=0 then return val end
+	if r&REASON_BATTLE+REASON_EFFECT~=0 and c:GetFlagEffect(2220237)==0 then
 		c:RegisterFlagEffect(2220237,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 		return 0
 	end
@@ -65,4 +66,3 @@ end
 function c2220237.damcon(e)
 	return e:GetHandler():GetFlagEffect(2220237)==0
 end
-
