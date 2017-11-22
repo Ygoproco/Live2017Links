@@ -21,7 +21,6 @@ function c55787576.initial_effect(c)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
 	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-	e3:SetValue(c55787576.tgvalue)
 	c:RegisterEffect(e3)
 	--spsummon
 	local e4=Effect.CreateEffect(c)
@@ -42,7 +41,7 @@ function c55787576.immval(e,te)
 		and te:IsActivated() and tc:GetSummonLocation()==LOCATION_EXTRA
 end
 function c55787576.tgtg(e,c)
-	return c:IsFaceup() and c:IsSetCard(0xfe) and e:GetHandler():GetColumnGroup():IsContains(c)
+	return c:IsFaceup() and c:IsSetCard(0xfe) and (e:GetHandler():GetColumnGroup():IsContains(c) or e:GetHandler()==c)
 end
 function c55787576.tgvalue(e,re,rp)
 	return rp~=e:GetHandlerPlayer()
