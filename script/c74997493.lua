@@ -46,7 +46,9 @@ function c74997493.regop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=e1:Clone()
 		e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 		c:RegisterEffect(e2)
+		if c:GetMaterialCount()==2 then
 		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(74997493,3))
+		end
 	end
 	if c:GetMaterialCount()>=3 then
 		local e3=Effect.CreateEffect(c)
@@ -59,7 +61,11 @@ function c74997493.regop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetOperation(c74997493.spop)
 		e3:SetReset(RESET_EVENT+0x1fe0000)
 		c:RegisterEffect(e3)
+		if c:GetMaterialCount()==3 then
 		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(74997493,4))
+		else
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(74997493,5))
+		end
 	end
 end
 function c74997493.cfilter(c,g)
@@ -122,7 +128,6 @@ function c74997493.drop(e,tp,eg,ep,ev,re,r,rp)
 		if g:GetCount()==0 then return end
 		Duel.Hint(HINT_SELECTMSG,p,HINTMSG_TODECK)
 		local sg=g:Select(p,3,3,nil)
-		Duel.ConfirmCards(1-p,sg)
 		Duel.SendtoDeck(sg,nil,0,REASON_EFFECT)
 		Duel.SortDecktop(p,p,3)
 		for i=1,3 do

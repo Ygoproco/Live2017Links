@@ -12,7 +12,7 @@ function c94585852.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetCode(EFFECT_LPCOST_REPLACE)
 	e2:SetCondition(c94585852.lrcon)
-	c:RegisterEffect(e3)
+	c:RegisterEffect(e2)
 	--search
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
