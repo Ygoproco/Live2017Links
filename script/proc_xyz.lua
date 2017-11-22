@@ -114,7 +114,7 @@ function Auxiliary.CheckValidMultiXyzMaterial(c,xyz)
 	end
 	return false
 end
-function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,matct,mustbemat,exchk,f,mustg)
+function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,matct,mustbemat,exchk,f,mustg,lv)
 	local xct=ct
 	local rg=Group.CreateGroup()
 	if not c:IsHasEffect(511002116) then
@@ -156,6 +156,9 @@ function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,mat
 		if matg:IsExists(Card.IsHasEffect,1,nil,91110378) then
 			ok=Auxiliary.MatNumChkF(matg)
 		end
+		if lv and ok and matg:IsExists(Card.IsHasEffect,1,nil,86466163) then
+			ok=Auxiliary.MatNumChkF2(matg,lv,xyz)
+		end
 		if ok and exchk then
 			if matg:GetCount()>0 and not exchk(matg,tp,xyz) then ok=false end
 		end
@@ -169,7 +172,7 @@ function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,mat
 		end
 	end
 	local retchknum={0}
-	local retchk={mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,xyz,tp,min,max,minc,maxc,sg,matg,xct,xmatct,mustbemat,exchk,f,mustg)}
+	local retchk={mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,xyz,tp,min,max,minc,maxc,sg,matg,xct,xmatct,mustbemat,exchk,f,mustg,lv)}
 	if not res and c:IsHasEffect(511001225) and not mustbemat then
 		local eff={c:GetCardEffect(511001225)}
 		for i,te in ipairs(eff) do
@@ -185,6 +188,9 @@ function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,mat
 					if matg:IsExists(Card.IsHasEffect,1,nil,91110378) then
 						ok=Auxiliary.MatNumChkF(matg)
 					end
+					if lv and ok and matg:IsExists(Card.IsHasEffect,1,nil,86466163) then
+						ok=Auxiliary.MatNumChkF2(matg,lv,xyz)
+					end
 					if ok and exchk then
 						if matg:GetCount()>0 and not exchk(matg,tp,xyz) then ok=false end
 					end
@@ -199,7 +205,7 @@ function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,mat
 				end
 				if xmatct+val<=maxc then
 					table.insert(retchknum,val)
-					table.insert(retchk,mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,xyz,tp,min,max,minc,maxc,sg,matg,xct,xmatct+val,mustbemat,exchk,f,mustg))
+					table.insert(retchk,mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,xyz,tp,min,max,minc,maxc,sg,matg,xct,xmatct+val,mustbemat,exchk,f,mustg,lv))
 				end
 			end
 		end
@@ -212,7 +218,7 @@ function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,mat
 	mg:Merge(rg)
 	return res
 end
-function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,exchk,f,mustg)
+function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,exchk,f,mustg,lv)
 	local rg=Group.CreateGroup()
 	if c:IsHasEffect(511001175) and not sg:IsContains(c:GetEquipTarget()) then return false end
 	local xct=ct+1
@@ -251,6 +257,9 @@ function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,e
 		if matg:IsExists(Card.IsHasEffect,1,nil,91110378) then
 			ok=Auxiliary.MatNumChkF(matg)
 		end
+		if lv and ok and matg:IsExists(Card.IsHasEffect,1,nil,86466163) then
+			ok=Auxiliary.MatNumChkF2(matg,lv,xyz)
+		end
 		if ok and exchk then
 			if matg:GetCount()>0 and not exchk(matg,tp,xyz) then ok=false end
 		end
@@ -269,7 +278,7 @@ function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,e
 		mg:Merge(eqg)
 	end
 	local retchknum={0}
-	local retchk={mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,xyz,tp,minc,maxc,sg,matg,xct,mustbemat,exchk,f,mustg)}
+	local retchk={mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,xyz,tp,minc,maxc,sg,matg,xct,mustbemat,exchk,f,mustg,lv)}
 	if not res and c:IsHasEffect(511001225) and not mustbemat then
 		local eff={c:GetCardEffect(511001225)}
 		for i,te in ipairs(eff) do
@@ -285,6 +294,9 @@ function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,e
 					if matg:IsExists(Card.IsHasEffect,1,nil,91110378) then
 						ok=Auxiliary.MatNumChkF(matg)
 					end
+					if lv and ok and matg:IsExists(Card.IsHasEffect,1,nil,86466163) then
+						ok=Auxiliary.MatNumChkF2(matg,lv,xyz)
+					end
 					if ok and exchk then
 						if matg:GetCount()>0 and not exchk(matg,tp,xyz) then ok=false end
 					end
@@ -299,7 +311,7 @@ function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,e
 				end
 				if xct+val<=maxc then
 					retchknum[#retchknum+1]=val
-					retchk[#retchk+1]=mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,xyz,tp,minc,maxc,sg,matg,xct+val,mustbemat,exchk,f,mustg)
+					retchk[#retchk+1]=mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,xyz,tp,minc,maxc,sg,matg,xct+val,mustbemat,exchk,f,mustg,lv)
 				end
 			end
 		end
@@ -316,10 +328,9 @@ end
 function Auxiliary.MatNumChkF(tg)
 	local chkg=tg:Filter(Card.IsHasEffect,nil,91110378)
 	for chkc in aux.Next(chkg) do
-		local eff={chkc:GetCardEffect(91110378)}
-		for j=1,#eff do
-			local rct=eff[j]:GetValue()
-			local comp=eff[j]:GetLabel()
+		for _,te in ipairs({chkc:GetCardEffect(91110378)}) do
+			local rct=te:GetValue()&0xffff
+			local comp=te:GetValue()>>16
 			if not Auxiliary.MatNumChk(tg:FilterCount(Card.IsType,nil,TYPE_MONSTER),rct,comp) then return false end
 		end
 	end
@@ -327,10 +338,38 @@ function Auxiliary.MatNumChkF(tg)
 end
 function Auxiliary.MatNumChk(matct,ct,comp)
 	local ok=false
-	if not ok and bit.band(comp,0x1)==0x1 and matct>ct then ok=true end
-	if not ok and bit.band(comp,0x2)==0x2 and matct==ct then ok=true end
-	if not ok and bit.band(comp,0x4)==0x4 and matct<ct then ok=true end
+	if not ok and comp&0x1==0x1 and matct>ct then ok=true end
+	if not ok and comp&0x2==0x2 and matct==ct then ok=true end
+	if not ok and comp&0x4==0x4 and matct<ct then ok=true end
 	return ok
+end
+function Auxiliary.MatNumChkF2(tg,lv,xyz)
+	local chkg=tg:Filter(Card.IsHasEffect,nil,86466163)
+	for chkc in aux.Next(chkg) do
+		local rev={}
+		for _,te in ipairs({chkc:GetCardEffect(86466163)}) do
+			local rct=te:GetValue()&0xffff
+			local comp=te:GetValue()>>16
+			if not Auxiliary.MatNumChk(tg:FilterCount(Card.IsType,nil,TYPE_MONSTER),rct,comp) then
+				local con=te:GetLabelObject():GetCondition()
+				if not con then con=aux.TRUE end
+				if not rev[te] then
+					table.insert(rev,te)
+					rev[te]=con
+					te:GetLabelObject():SetCondition(aux.FALSE)
+				end
+			end
+		end
+		if #rev>0 then
+			local islv=chkc:IsXyzLevel(xyz,lv)
+			for _,te in ipairs(rev) do
+				local con=rev[te]
+				te:GetLabelObject():SetCondition(con)
+			end
+			if not islv then return false end
+		end
+	end
+	return true
 end
 function Auxiliary.TuneMagFilter(c,e,f)
 	return f and not f(e,c)
@@ -376,9 +415,9 @@ function Auxiliary.XyzCondition(f,lv,minc,maxc,mustbemat,exchk)
 					mg:Merge(Duel.GetMatchingGroup(Card.IsHasEffect,tp,LOCATION_ONFIELD+LOCATION_GRAVE+LOCATION_REMOVED,0,nil,511002116))
 				end
 				if min and min~=99 then
-					return mg:IsExists(Auxiliary.XyzRecursionChk1,1,nil,mg,c,tp,min,max,minc,maxc,Group.CreateGroup(),Group.CreateGroup(),0,0,mustbemat,exchk,f,mustg)
+					return mg:IsExists(Auxiliary.XyzRecursionChk1,1,nil,mg,c,tp,min,max,minc,maxc,Group.CreateGroup(),Group.CreateGroup(),0,0,mustbemat,exchk,f,mustg,lv)
 				else
-					return mg:IsExists(Auxiliary.XyzRecursionChk2,1,nil,mg,c,tp,minc,maxc,Group.CreateGroup(),Group.CreateGroup(),0,mustbemat,exchk,f,mustg)
+					return mg:IsExists(Auxiliary.XyzRecursionChk2,1,nil,mg,c,tp,minc,maxc,Group.CreateGroup(),Group.CreateGroup(),0,mustbemat,exchk,f,mustg,lv)
 				end
 				return false
 			end
@@ -402,7 +441,7 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 						mg:Merge(Duel.GetMatchingGroup(Card.IsHasEffect,tp,LOCATION_ONFIELD+LOCATION_GRAVE+LOCATION_REMOVED,0,nil,511002116))
 						local cancel=false
 						while ct<max and matct<maxc do
-							local selg=mg:Filter(Auxiliary.XyzRecursionChk1,sg,mg,c,tp,min,max,minc,maxc,sg,matg,ct,matct,mustbemat,exchk,f,mustg)
+							local selg=mg:Filter(Auxiliary.XyzRecursionChk1,sg,mg,c,tp,min,max,minc,maxc,sg,matg,ct,matct,mustbemat,exchk,f,mustg,lv)
 							if selg:GetCount()<=0 then break end
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 							local sc=Group.SelectUnselect(selg,sg,tp,cancel,cancel)
@@ -419,7 +458,7 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 										matct=matct+1
 									else
 										local multi={}
-										if mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,c,tp,min,max,minc,maxc,sg,matg,ct,matct+1,mustbemat,exchk,f,mustg) then
+										if mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,c,tp,min,max,minc,maxc,sg,matg,ct,matct+1,mustbemat,exchk,f,mustg,lv) then
 											table.insert(multi,1)
 										end
 										local eff={sc:GetCardEffect(511001225)}
@@ -429,7 +468,7 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 											local val=te:GetValue()
 											if val>0 and (not tgf or tgf(te,c)) then
 												if (min>=ct and minc>=matct+1+val) 
-													or mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,c,tp,min,max,minc,maxc,sg,matg,ct,matct+1+val,mustbemat,exchk,f,mustg) then
+													or mg:IsExists(Auxiliary.XyzRecursionChk1,1,sg,mg,c,tp,min,max,minc,maxc,sg,matg,ct,matct+1+val,mustbemat,exchk,f,mustg,lv) then
 													table.insert(multi,1+val)
 												end
 											end
@@ -507,13 +546,13 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 						local sg=Group.CreateGroup()
 						local tab={}
 						while ct<maxc do
-							local tg=mg:Filter(Auxiliary.XyzRecursionChk2,sg,mg,c,tp,minc,maxc,sg,matg,ct,mustbemat,exchk,f,mustg)
+							local tg=mg:Filter(Auxiliary.XyzRecursionChk2,sg,mg,c,tp,minc,maxc,sg,matg,ct,mustbemat,exchk,f,mustg,lv)
 							if tg:GetCount()==0 then break end
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 							local sc=Group.SelectUnselect(tg,sg,tp,cancel,cancel)
 							if not sc then
-								if matg:GetCount()<minc 
-									or (matg:IsExists(Card.IsHasEffect,1,nil,91110378) and not Auxiliary.MatNumChkF(matg)) then return false end
+								if matg:GetCount()<minc or (matg:IsExists(Card.IsHasEffect,1,nil,91110378) and not Auxiliary.MatNumChkF(matg)) 
+									or (lv and matg:IsExists(Card.IsHasEffect,1,nil,86466163) and not Auxiliary.MatNumChkF2(matg,lv,c)) then return false end
 								if not matg:Includes(mustg) then return false end
 								if c:IsLocation(LOCATION_EXTRA) then
 									if Duel.GetLocationCountFromEx(tp,tp,matg,c)<=0 then return false end
@@ -531,7 +570,7 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 								ct=ct+1
 								if Auxiliary.CheckValidMultiXyzMaterial(sc,c) and ct<minc then
 									local multi={}
-									if mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,c,tp,minc,maxc,sg,matg,ct,mustbemat,exchk,f,mustg) then
+									if mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,c,tp,minc,maxc,sg,matg,ct,mustbemat,exchk,f,mustg,lv) then
 										table.insert(multi,1)
 									end
 									local eff={sc:GetCardEffect(511001225)}
@@ -541,7 +580,7 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 										local val=te:GetValue()
 										if val>0 and (not tgf or tgf(te,c)) then
 											if minc>=ct+val 
-												or mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,c,tp,minc,maxc,sg,matg,ct+val,mustbemat,exchk,f,mustg) then
+												or mg:IsExists(Auxiliary.XyzRecursionChk2,1,sg,mg,c,tp,minc,maxc,sg,matg,ct+val,mustbemat,exchk,f,mustg,lv) then
 												table.insert(multi,1+val)
 											end
 										end
@@ -572,7 +611,8 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 									tab[sc]=nil
 								end
 							end
-							if ct>=minc and (not matg:IsExists(Card.IsHasEffect,1,nil,91110378) or Auxiliary.MatNumChkF(matg)) and matg:Includes(mustg) then
+							if ct>=minc and (not matg:IsExists(Card.IsHasEffect,1,nil,91110378) or Auxiliary.MatNumChkF(matg)) 
+								and (not lv or not matg:IsExists(Card.IsHasEffect,1,nil,86466163) or Auxiliary.MatNumChkF2(matg,lv,c)) and matg:Includes(mustg) then
 								cancel=true
 							else
 								cancel=not og and Duel.GetCurrentChain()<=0 and sg:GetCount()==0
