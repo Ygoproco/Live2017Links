@@ -1,6 +1,5 @@
 --星遺物－『星盾』
 --World Legacy - "World Shield"
---Scripted by Eerie Code
 function c55787576.initial_effect(c)
 	--immune
 	local e1=Effect.CreateEffect(c)
@@ -40,7 +39,7 @@ end
 function c55787576.immval(e,te)
 	local tc=te:GetHandler()
 	return te:GetOwner()~=e:GetHandler() and te:IsActiveType(TYPE_MONSTER) 
-		and te:IsActivated() and te:GetSummonLocation()==LOCATION_EXTRA
+		and te:IsActivated() and tc:GetSummonLocation()==LOCATION_EXTRA
 end
 function c55787576.tgtg(e,c)
 	return c:IsFaceup() and c:IsSetCard(0xfe) and e:GetHandler():GetColumnGroup():IsContains(c)
@@ -59,7 +58,7 @@ function c55787576.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 end
 function c55787576.spfilter(c,e,tp)
-	return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCanBeSpecialSummoned(e,0,1-tp,false,false)
 end
 function c55787576.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -74,4 +73,3 @@ function c55787576.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
