@@ -43,9 +43,6 @@ end
 function c55787576.tgtg(e,c)
 	return c:IsFaceup() and c:IsSetCard(0xfe) and (e:GetHandler():GetColumnGroup():IsContains(c) or e:GetHandler()==c)
 end
-function c55787576.tgvalue(e,re,rp)
-	return rp~=e:GetHandlerPlayer()
-end
 function c55787576.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,1000) end
 	Duel.PayLPCost(tp,1000)
