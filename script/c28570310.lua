@@ -39,7 +39,6 @@ function c28570310.initial_effect(c)
 	e4:SetCode(EVENT_SUMMON_SUCCESS)
 	e4:SetRange(LOCATION_HAND)
 	e4:SetCountLimit(1,28570311)
-	e4:SetCondition(c28570310.spcon)
 	e4:SetCost(c28570310.spcost)
 	e4:SetTarget(c28570310.sptg)
 	e4:SetOperation(c28570310.spop)
@@ -73,8 +72,8 @@ function c28570310.acop(e,tp,eg,ep,ev,re,r,rp)
 		e:GetHandler():AddCounter(0x1,1)
 	end
 end
-function c28570310.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(Card.IsControler,1,nil,1-tp)
+function c28570310.cfilter(c,e,tp)
+	return c:IsControler(1-tp) and c:IsAbleToHand() and (not e or c:IsRelateToEffect(e))
 end
 function c28570310.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x1,3,REASON_COST) end
@@ -82,16 +81,17 @@ function c28570310.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c28570310.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	local g=eg:Filter(Card.IsControler,nil,1-tp):Filter(Card.IsAbleToHand,nil)
+	local g=eg:Filter(c28570310.cfilter,nil,nil,tp)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and g:GetCount()>0 end
+	Duel.SetTargetCard(eg)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,g:GetCount(),0,0)
 end
 function c28570310.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
-		local g=eg:Filter(Card.IsControler,nil,1-tp):Filter(Card.IsAbleToHand,nil)
+		local g=eg:Filter(c28570310.cfilter,nil,e,tp)
 		if g:GetCount()>0 then
 			Duel.BreakEffect()
 			Duel.SendtoHand(g,nil,REASON_EFFECT)

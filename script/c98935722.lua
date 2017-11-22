@@ -1,6 +1,5 @@
 --星遺物に眠る深層
 --Deep Depths of the World Legacy's Slumber
---Script by nekrozar
 function c98935722.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -73,13 +72,15 @@ function c98935722.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
-function c98935722.cfilter(c,tp)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsSetCard(0x10c)
+function c98935722.cfilter(c,seq,p)
+	return c:IsFaceup() and c:IsSetCard(0x10c) and c:IsColumn(seq,p,LOCATION_MZONE)
 end
 function c98935722.discon(e,tp,eg,ep,ev,re,r,rp)
-	return rp~=tp and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetColumnGroup():FilterCount(c98935722.cfilter,nil,tp)>0
+	if rp==tp or not re:IsActiveType(TYPE_MONSTER) then return false end
+	local rc=re:GetHandler()
+	local p,loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
+	return loc==LOCATION_MZONE and Duel.IsExistingMatchingCard(c98935722.cfilter,tp,LOCATION_MZONE,0,1,nil,seq,p)
 end
 function c98935722.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
 end
-

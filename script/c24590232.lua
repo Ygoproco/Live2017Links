@@ -33,7 +33,8 @@ function c24590232.filter3(c)
 	return c:GetLevel()>0 and not c:IsType(TYPE_TUNER) and c:IsAbleToRemove() and aux.SpElimFilter(c,true)
 end
 function c24590232.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.NegateAttack() and Duel.GetLocationCountFromEx(tp)>0
+	local pg=aux.GetMustBeMaterialGroup(tp,Group.CreateGroup(),tp,nil,nil,REASON_SYNCHRO)
+	if Duel.NegateAttack() and Duel.GetLocationCountFromEx(tp)>0 and pg:GetCount()<=0
 		and Duel.IsExistingMatchingCard(c24590232.filter1,tp,LOCATION_EXTRA,0,1,nil,e,tp)
 		and Duel.SelectYesNo(tp,aux.Stringid(24590232,0)) then
 		Duel.BreakEffect()
