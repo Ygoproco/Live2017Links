@@ -72,14 +72,14 @@ function c98935722.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
-function c98935722.cfilter(c,seq,tp)
-	return c:IsFaceup() and c:IsSetCard(0x10c) and c:IsColumn(seq,1-tp,LOCATION_MZONE)
+function c98935722.cfilter(c,seq,p)
+	return c:IsFaceup() and c:IsSetCard(0x10c) and c:IsColumn(seq,p,LOCATION_MZONE)
 end
 function c98935722.discon(e,tp,eg,ep,ev,re,r,rp)
 	if rp==tp or not re:IsActiveType(TYPE_MONSTER) then return false end
 	local rc=re:GetHandler()
-	local loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
-	return loc==LOCATION_MZONE and Duel.IsExistingMatchingCard(c98935722.cfilter,tp,LOCATION_MZONE,0,1,nil,seq,tp)
+	local p,loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
+	return loc==LOCATION_MZONE and Duel.IsExistingMatchingCard(c98935722.cfilter,tp,LOCATION_MZONE,0,1,nil,seq,p)
 end
 function c98935722.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
