@@ -39,7 +39,7 @@ function c100223066.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c) and c:IsSetCard(0xb5) 
 end
 function c100223066.cfilter(c)
-	return c:IsSetCard(0xb5) and c:IsAbleToRemoveAsCost()
+	return c:IsSetCard(0xb5) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
 function c100223066.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c100223066.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,e:GetHandler()) end
