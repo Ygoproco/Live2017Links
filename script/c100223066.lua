@@ -75,12 +75,12 @@ function c100223066.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return false end
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsExistingTarget(c100223066.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,0x10b5)
-		and Duel.IsExistingTarget(c100223066.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,0x20b5) end
+		and Duel.IsExistingTarget(c100223066.spfilter,tp,LOCATION_REMOVED,0,1,nil,e,tp,0x10b5)
+		and Duel.IsExistingTarget(c100223066.spfilter,tp,LOCATION_REMOVED,0,1,nil,e,tp,0x20b5) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g1=Duel.SelectTarget(tp,c100223066.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp,0x10b5)
+	local g1=Duel.SelectTarget(tp,c100223066.spfilter,tp,LOCATION_REMOVED,0,1,1,nil,e,tp,0x10b5)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g2=Duel.SelectTarget(tp,c100223066.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp,0x20b5)
+	local g2=Duel.SelectTarget(tp,c100223066.spfilter,tp,LOCATION_REMOVED,0,1,1,nil,e,tp,0x20b5)
 	g1:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g1,2,0,0)
 end
