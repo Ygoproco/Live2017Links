@@ -53,7 +53,7 @@ function c68246154.thfilter(c,g)
 	return c:IsSetCard(0x108) and c:IsAbleToHand() and not g:IsExists(Card.IsCode,1,nil,c:GetCode())
 end
 function c68246154.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return re==e:GetLabelObject() end
+	if chk==0 then return not re or re==e:GetLabelObject() end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
 end
 function c68246154.thop(e,tp,eg,ep,ev,re,r,rp)
