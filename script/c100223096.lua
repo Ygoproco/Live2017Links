@@ -9,7 +9,7 @@ function c100223096.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetCode(EFFECT_CHANGE_CODE)
 	e1:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
-	e1:SetValue(89631139)
+	e1:SetValue(86120751)
 	c:RegisterEffect(e1)	
 	--search
 	local e2=Effect.CreateEffect(c)
