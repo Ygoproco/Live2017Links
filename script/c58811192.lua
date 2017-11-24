@@ -34,6 +34,10 @@ function c58811192.initial_effect(c)
 	e3:SetTarget(c58811192.sptg)
 	e3:SetOperation(c58811192.spop)
 	c:RegisterEffect(e3)
+	--def up
+	local e4=e1:Clone()
+	e4:SetCode(EFFECT_UPDATE_DEFENSE)
+	c:RegisterEffect(e4)
 end
 function c58811192.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c) and c:IsSetCard(0xb5) 
