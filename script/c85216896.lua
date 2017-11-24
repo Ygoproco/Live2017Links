@@ -84,6 +84,7 @@ function c85216896.rmop(e,tp,eg,ep,ev,re,r,rp)
 			tc:RegisterFlagEffect(85216896,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 		end
 	end
+	g:KeepAlive()
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_PHASE+PHASE_END)
@@ -98,10 +99,19 @@ function c85216896.retfilter(c)
 	return c:GetFlagEffect(85216896)~=0
 end
 function c85216896.retcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetLabelObject():IsExists(c85216896.retfilter,1,nil)
+	local g=e:GetLabelObject()
+	if not g:IsExists(c85216896.retfilter,1,nil) then
+		g:DeleteGroup()
+		e:Reset()
+		return false
+	else return true end
 end
 function c85216896.retop(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetLabelObject():Filter(c85216896.retfilter,nil)
-	Duel.ReturnToField(g)
+	g:DeleteGroup()
+	local tc=g:GetFirst()
+	while tc do
+		Duel.ReturnToField(tc)
+		tc=g:GetNext()
+	end
 end
-
