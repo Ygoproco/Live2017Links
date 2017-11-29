@@ -20,7 +20,6 @@ function c97973962.initial_effect(c)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCondition(c97973962.thcon)
-	e2:SetCost(c97973962.thcost)
 	e2:SetTarget(c97973962.thtg)
 	e2:SetOperation(c97973962.thop)
 	c:RegisterEffect(e2)	
@@ -45,23 +44,23 @@ end
 function c97973962.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg and eg:IsExists(c97973962.thcfilter,1,nil,tp)
 end
-function c97973962.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
-	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT+REASON_DISCARD)
-end
 function c97973962.thfilter(c)
 	return (c:IsCode(74063034) or c:IsCode(458748)) and c:IsAbleToHand()
 end
 function c97973962.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c97973962.thfilter,tp,LOCATION_DECK,0,1,nil) end
+	if chk==0 then
+ 		return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil,REASON_EFFECT)
+		and Duel.IsExistingMatchingCard(c97973962.thfilter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c97973962.thop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c97973962.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+	if Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT+REASON_DISCARD)~=0 then
+        	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+        	local g=Duel.SelectMatchingCard(tp,c97973962.thfilter,tp,LOCATION_DECK,0,1,1,nil)
+		if g:GetCount()>0 then
+			Duel.SendtoHand(g,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-tp,g)
+		end
 	end
 end
 function c97973962.thcon2(e,tp,eg,ep,ev,re,r,rp)
@@ -83,4 +82,3 @@ function c97973962.thop2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
