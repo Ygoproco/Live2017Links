@@ -40,14 +40,14 @@ function c97973962.spcheck(g,lc,tp)
 	return g:GetClassCount(Card.GetRace,lc,SUMMON_TYPE_LINK,tp)>1 and g:GetClassCount(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)>1
 end
 function c97973962.thcfilter(c,tp)
-	return c:IsSummonType(SUMMON_TYPE_FUSION) and c:IsControler(tp)
+	return c:IsSummonType(SUMMON_TYPE_FUSION)
 end
 function c97973962.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg and eg:IsExists(c97973962.thcfilter,1,nil,tp)
 end
 function c97973962.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
-	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
+	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT+REASON_DISCARD)
 end
 function c97973962.thfilter(c)
 	return (c:IsCode(74063034) or c:IsCode(458748)) and c:IsAbleToHand()
