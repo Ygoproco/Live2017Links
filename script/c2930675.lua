@@ -1,6 +1,5 @@
 --星遺物へと至る鍵
 --Key to World Legacy
---Script by nekrozar
 function c2930675.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -16,6 +15,13 @@ function c2930675.initial_effect(c)
 	e2:SetCondition(c2930675.discon)
 	e2:SetOperation(c2930675.disop)
 	c:RegisterEffect(e2)
+	--Double Snare
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetRange(LOCATION_SZONE)
+	e3:SetCode(3682106)
+	c:RegisterEffect(e3)
 end
 function c2930675.thfilter(c)
 	return ((c:IsSetCard(0x10c) and c:IsType(TYPE_MONSTER)) or c:IsSetCard(0xfe)) and c:IsFaceup() and c:IsAbleToHand()
@@ -40,7 +46,7 @@ end
 function c2930675.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
