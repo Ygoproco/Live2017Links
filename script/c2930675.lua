@@ -50,11 +50,21 @@ function c2930675.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
-function c2930675.cfilter(c,tp)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsSetCard(0x10c)
+function c2930675.cfilter(c,seq,p)
+	return c:IsFaceup() and c:IsSetCard(0x10c) and c:IsColumn(seq,p,LOCATION_SZONE)
 end
 function c2930675.discon(e,tp,eg,ep,ev,re,r,rp)
-	return rp~=tp and re:IsActiveType(TYPE_TRAP) and re:GetHandler():GetColumnGroup():FilterCount(c2930675.cfilter,nil,tp)>0
+	if rp==tp or not re:IsActiveType(TYPE_TRAP) then return false end
+	local rc=re:GetHandler()
+	local p,loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
+	if loc&LOCATION_SZONE==0 or rc:IsControler(1-p) then
+		if rc:IsLocation(LOCATION_SZONE) and rc:IsControler(p) then
+			seq=rc:GetSequence()
+		else
+			seq=rc:GetPreviousSequence()
+		end
+	end
+	return Duel.IsExistingMatchingCard(c2930675.cfilter,tp,LOCATION_MZONE,0,1,nil,seq,p)
 end
 function c2930675.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
