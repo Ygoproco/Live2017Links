@@ -10,13 +10,14 @@ function c50584941.initial_effect(c)
 	e1:SetOperation(c50584941.activate)
 	c:RegisterEffect(e1)
 end
+c50584941.check=false
 function c50584941.cfilter(c,tp)
 	local code=c:GetOriginalCode()
 	return c:IsSetCard(0x1045) and c:IsType(TYPE_SYNCHRO) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true) 
 		and Duel.IsExistingTarget(c50584941.filter,tp,LOCATION_MZONE,0,1,c,code)
 end
 function c50584941.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	c50584941.check=false
+	c50584941.check=true
 	return true
 end
 function c50584941.filter(c,code)
