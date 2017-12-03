@@ -1,6 +1,5 @@
 --アームド・ドラゴン・カタパルトキャノン
 --Armed Dragon Catapult Cannon
---Scripted by Eerie Code
 function c75906310.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -39,14 +38,15 @@ function c75906310.initial_effect(c)
 		Duel.RegisterEffect(ge1,tp)
 	end
 end
-function c75906310.regop(e,tp,eg,ep,ev,re,r,rp)
-	for tc in aux.Next(eg) do
-		if tc:IsCode(84243274) then
-			Duel.RegisterFlagEffect(tc:GetControler(),75906310,0,0,0)
-		elseif tc:IsCode(73879377) then
-			Duel.RegisterFlagEffect(tc:GetControler(),75906311,0,0,0)
-		end
+function c75906310.reg(c)
+	if c:IsCode(84243274) then
+		Duel.RegisterFlagEffect(c:GetControler(),75906310,0,0,0)
+	elseif c:IsCode(73879377) then
+		Duel.RegisterFlagEffect(c:GetControler(),75906311,0,0,0)
 	end
+end
+function c75906310.regop(e,tp,eg,ep,ev,re,r,rp)
+	eg:ForEach(c75906310.reg)
 end
 function c75906310.splimit(e,se,sp,st)
 	return e:GetHandler():GetLocation()~=LOCATION_EXTRA
@@ -64,7 +64,7 @@ function c75906310.acfilter(c,cd)
 	return c:IsFaceup() and c:IsCode(cd)
 end
 function c75906310.aclimit(e,re,tp)
-	return Duel.IsExistingMatchingCard(c75906310.acfilter,e:GetHandlerPlayer(),LOCATION_REMOVED,0,1,nil,re:GetHandler():GetCode())
+	return Duel.IsExistingMatchingCard(c75906310.acfilter,e:GetHandlerPlayer(),LOCATION_REMOVED,LOCATION_REMOVED,1,nil,re:GetHandler():GetCode())
 end
 function c75906310.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
@@ -75,13 +75,16 @@ function c75906310.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemoveAsCost,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
+function c75906310.rmfilter(c)
+	return c:IsAbleToRemove() and (c:IsLocation(LOCATION_SZONE) or aux.SpElimFilter(c,false,true))
+end
 function c75906310.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD+LOCATION_GRAVE,nil)
+	local g=Duel.GetMatchingGroup(c75906310.rmfilter,tp,0,LOCATION_ONFIELD+LOCATION_GRAVE,nil)
 	if chk==0 then return g:GetCount()>0 end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,g:GetCount(),0,0)
 end
 function c75906310.rmop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD+LOCATION_GRAVE,nil)
+	local g=Duel.GetMatchingGroup(c75906310.rmfilter,tp,0,LOCATION_ONFIELD+LOCATION_GRAVE,nil)
 	if g:GetCount()>0 then
 		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 	end
