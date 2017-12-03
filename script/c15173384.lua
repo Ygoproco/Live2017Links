@@ -1,6 +1,5 @@
 --幻想魔術師・ノー・フェイス
 --Magical Illusionist Faceless Mage
---Scripted by Eerie Code
 function c15173384.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -28,12 +27,12 @@ function c15173384.initial_effect(c)
 end
 function c15173384.cfilter(c,tp)
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT)
-		and ((c:IsPreviousSetCard(0x110) and bit.band(c:GetPreviousTypeOnField(),TYPE_FUSION)~=0)
+		and ((c:IsPreviousSetCard(0x110) and c:GetPreviousTypeOnField()&TYPE_FUSION~=0)
 			or c:GetPreviousCodeOnField()==64631466)
 		and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP)
 end
 function c15173384.spcon1(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c15173384.cfilter,1,nil,tp)
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c15173384.cfilter,1,nil,tp)
 end
 function c15173384.sptg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -67,4 +66,3 @@ function c15173384.spop2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-

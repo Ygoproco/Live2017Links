@@ -46,7 +46,7 @@ end
 function c62530723.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
@@ -65,16 +65,17 @@ function c62530723.discon(e,tp,eg,ep,ev,re,r,rp)
 	if rp==tp or not re:IsActiveType(TYPE_SPELL) then return false end
 	local rc=re:GetHandler()
 	local p,loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
-	if loc&LOCATION_SZONE==0 or rc:IsControler(1-p) then
+	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and (loc&LOCATION_SZONE==0 or rc:IsControler(1-p)) then
 		if rc:IsLocation(LOCATION_SZONE) and rc:IsControler(p) then
 			seq=rc:GetSequence()
+			loc=LOCATION_SZONE
 		else
 			seq=rc:GetPreviousSequence()
+			loc=rc:GetPreviousLocation()
 		end
 	end
-	return Duel.IsExistingMatchingCard(c62530723.cfilter,tp,LOCATION_MZONE,0,1,nil,seq,p)
+	return loc&LOCATION_SZONE==LOCATION_SZONE and Duel.IsExistingMatchingCard(c62530723.cfilter,tp,LOCATION_MZONE,0,1,nil,seq,p)
 end
 function c62530723.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
 end
-
