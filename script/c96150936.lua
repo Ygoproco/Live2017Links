@@ -1,6 +1,5 @@
 --フレッシュマドルチェ・シスタルト
 --Fresh Madolche Sistart
---Scripted by Eerie Code
 function c96150936.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x71),2,2)
@@ -29,7 +28,7 @@ function c96150936.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c96150936.desrepfilter(c)
-	return c:IsSetCard(0x71) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
+	return c:IsSetCard(0x71) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck() and aux.nvfilter(c)
 end
 function c96150936.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not e:GetHandler():IsReason(REASON_RULE)
@@ -50,4 +49,3 @@ end
 function c96150936.indestg(e,c)
 	return c:IsFaceup() and c:IsSetCard(0x71) and c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
-
