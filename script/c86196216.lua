@@ -31,7 +31,7 @@ end
 function c86196216.filter1(c,e,tp)
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
 	return pg:GetCount()<=1 and c:IsSetCard(0xba) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:GetFlagEffect(86196216)~=0 
-		and c:IsType(TYPE_XYZ) and (rk>0 or c:IsStatus(STATUS_NO_LEVEL)) 
+		and c:IsType(TYPE_XYZ) and (c:GetRank()>0 or c:IsStatus(STATUS_NO_LEVEL)) 
 		and Duel.IsExistingMatchingCard(c86196216.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,c:GetRank()*2,pg)
 end
 function c86196216.filter2(c,e,tp,mc,rk,pg)

@@ -50,7 +50,8 @@ function c37390589.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 			aux.RemainFieldCost(e,tp,eg,ep,ev,re,r,rp,1)
 		end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-		Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_MZONE,0,1,1,nil)
+		local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_MZONE,0,1,1,nil)
+		e:SetLabelObject(g:GetFirst())
 		Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 	end
 	e:SetLabel(0)
@@ -65,7 +66,7 @@ function c37390589.operation(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 	if opt==1 or opt==2 then
-		local tc=Duel.GetFirstTarget()
+		local tc=e:GetLabelObject()
 		if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
 		if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 			Duel.Equip(tp,c,tc)
