@@ -1,8 +1,22 @@
 --AtoZ−ドラゴン・バスターキャノン
 function c65172015.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddFusionProcMix(c,true,true,1561110,91998119)
-	aux.AddContactFusion(c,c65172015.contactfil,c65172015.contactop,aux.FALSE)
+	if not c:IsStatus(STATUS_COPYING_EFFECT) then
+		aux.AddContactFusion(c,c65172015.contactfil,c65172015.contactop,aux.FALSE)
+		if c.material_count==nil then
+			c65172015.material_count=2
+			c65172015.material={1561110,91998119}
+			c65172015.min_material_count=2
+			c65172015.max_material_count=2
+		end
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+		e1:SetCode(EFFECT_FUSION_MATERIAL)
+		e1:SetCondition(Auxiliary.FConditionMix(true,true,c65172015.ffilter(1561110),c65172015.ffilter(91998119)))
+		e1:SetOperation(Auxiliary.FOperationMix(true,true,c65172015.ffilter(1561110),c65172015.ffilter(91998119)))
+		c:RegisterEffect(e1)
+	end
 	--negate
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(65172015,0))
@@ -30,12 +44,17 @@ function c65172015.initial_effect(c)
 	e3:SetOperation(c65172015.spop2)
 	c:RegisterEffect(e3)
 end
-function c65172015.crmfilter(c)
-	local code=c:GetOriginalCode()
-	return (code==1561110 or code==91998119) and c:IsAbleToRemoveAsCost()
+function c65172015.ffilter(code)
+	return function(c,fc,sub,sub2,mg,sg,tp,contact)
+		if contact then
+			return c:GetOriginalCode()==code
+		else
+			return c:IsFusionCode(code) or (sub and c:CheckFusionSubstitute(fc)) or (sub2 and c:IsHasEffect(511002961))
+		end
+	end
 end
 function c65172015.contactfil(tp)
-	return Duel.GetMatchingGroup(c65172015.crmfilter,tp,LOCATION_ONFIELD,0,nil)
+	return Duel.GetMatchingGroup(Card.IsAbleToRemoveAsCost,tp,LOCATION_ONFIELD,0,nil)
 end
 function c65172015.contactop(g)
 	Duel.Remove(g,POS_FACEUP,REASON_COST+REASON_MATERIAL)
