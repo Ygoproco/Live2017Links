@@ -36,6 +36,7 @@ function c94585852.lrcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_STANDBY and rc:IsSetCard(0x45) and rc:IsType(TYPE_MONSTER)
 end
 function c94585852.regop(e,tp,eg,ep,ev,re,r,rp)
+	if not eg then return end
 	local lv1=0
 	local lv2=0
 	local tc=eg:GetFirst()
