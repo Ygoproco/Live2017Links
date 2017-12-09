@@ -53,7 +53,7 @@ function c53842431.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c53842431.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1)
+	return Duel.GetFieldGroupCount(tp,LOCATION_PZONE,0) == 1
 end
 function c53842431.thfilter(c)
 	return (c:IsSetCard(0x10d) or c:IsCode(55424270)) and c:IsLevelBelow(7)
