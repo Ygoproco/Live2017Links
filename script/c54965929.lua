@@ -48,7 +48,7 @@ function c54965929.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c54965929.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1)
+	return Duel.GetFieldGroupCount(tp,LOCATION_PZONE,0) == 1
 end
 function c54965929.spfilter(c,e,tp)
 	return c:IsCanAddCounter(0x1,1,false,LOCATION_MZONE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
