@@ -43,7 +43,7 @@ function c91182675.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c91182675.ctcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1)
+	return Duel.GetFieldGroupCount(tp,LOCATION_PZONE,0) == 1
 end
 function c91182675.ctfilter(c)
 	return c:IsFaceup() and c:IsCanAddCounter(0x1,1)
