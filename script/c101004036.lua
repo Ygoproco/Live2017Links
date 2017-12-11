@@ -16,17 +16,17 @@ function c101004036.initial_effect(c)
 	e1:SetOperation(c101004036.rmop)
 	c:RegisterEffect(e1)
 end
-function c101004036.cfilter(c,zone)
+function c101004036.cfilter(c,zone,tp)
 	local seq=c:GetSequence()
-	if c:IsControler(1) then seq=seq+16 end
+	if c:IsControler(1-tp) then seq=seq+16 end
 	return bit.extract(zone,seq)~=0
 end
 function c101004036.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c101004036.cfilter,1,nil,e:GetHandler():GetLinkedZone())
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c101004036.cfilter,1,nil,e:GetHandler():GetLinkedZone(),tp)
 end
 function c101004036.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local g=eg:Filter(c101004036.cfilter,1,nil,e:GetHandler():GetLinkedZone())
+	local g=eg:Filter(c101004036.cfilter,nil,e:GetHandler():GetLinkedZone(),tp)
 	local g2=Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,TYPE_SPELL+TYPE_TRAP)
 	g:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,g:GetCount(),0,0)
@@ -34,7 +34,7 @@ end
 function c101004036.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	local g=eg:Filter(c101004036.cfilter,1,nil,c:GetLinkedZone())
+	local g=eg:Filter(c101004036.cfilter,nil,c:GetLinkedZone(),tp)
 	local g2=Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,TYPE_SPELL+TYPE_TRAP)
 	g:Merge(g2)
 	if Duel.Remove(g,POS_FACEUP,REASON_EFFECT)~=0 then
