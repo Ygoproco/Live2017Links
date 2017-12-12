@@ -80,8 +80,9 @@ function c100225007.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
-function c100225007.spcon(e,tp,eg,ep,ev,re,r,rp,chk)
-	return ep~=tp and eg:GetFirst()==e:GetHandler():GetEquipTarget()
+function c100225007.spcon(e,tp,eg,ep,ev,re,r,rp)
+	local cet=e:GetHandler():GetEquipTarget()
+	return ep~=tp and ((eg and eg:GetFirst() == cet) or (re and re:GetHandler() == cet))
 end
 function c100225007.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
