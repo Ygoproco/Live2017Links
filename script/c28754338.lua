@@ -19,7 +19,7 @@ function c28754338.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local c=e:GetHandler()
 	if c:GetSequence()<5 then ft=ft+1 end
-	if chk==0 then return ft>-2 and c:IsReleasable() and Duel.CheckReleaseGroup(tp,c28754338.cfilter,1,c,ft,tp) end
+	if chk==0 then return ft>-1 and c:IsReleasable() and Duel.CheckReleaseGroup(tp,c28754338.cfilter,1,c,ft,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 	local rg=Duel.SelectReleaseGroup(tp,c28754338.cfilter,1,1,c,ft,tp)
 	rg:AddCard(c)
