@@ -6,7 +6,7 @@ function c101004036.initial_effect(c)
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),2)
 	--banish
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(5821478,0))
+	e1:SetDescription(aux.Stringid(101004036,0))
 	e1:SetCategory(CATEGORY_REMOVE+CATEGORY_DAMAGE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
