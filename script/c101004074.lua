@@ -76,9 +76,9 @@ function c101004074.intg(e,c)
 	return c:IsFaceup() and c:IsCode(101004060)
 end
 function c101004074.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():GetFlagEffect(101004074)==0 end
-	e:GetHandler():RegisterFlagEffect(101004074,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 	e:SetLabel(100)
+	if chk==0 then return e:GetHandler():GetFlagEffect(101004074)==0 end
+	e:GetHandler():RegisterFlagEffect(101004074,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
 end
 function c101004074.filter1(c,e,tp)
 	return Duel.IsExistingMatchingCard(c101004074.filter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalAttribute())
