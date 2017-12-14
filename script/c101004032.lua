@@ -56,8 +56,8 @@ function c101004032.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101004032.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
 	local cg=e:GetHandler():GetColumnGroup()
-	if chk==0 then return cg:GetCount()>0 end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,cg,cg:GetCount(),0,0)
 end
 function c101004032.desop(e,tp,eg,ep,ev,re,r,rp)
