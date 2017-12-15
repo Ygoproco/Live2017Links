@@ -32,10 +32,10 @@ function c101004032.initial_effect(c)
 	c:RegisterEffect(e3)
 	--disable field
 	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_ADJUST)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetCode(EFFECT_DISABLE_FIELD)
-	e4:SetOperation(c101004032.disop)
+	e4:SetOperation(c101004032.operation)
 	c:RegisterEffect(e4)
 end
 function c101004032.cfilter(c)
@@ -66,6 +66,18 @@ function c101004032.desop(e,tp,eg,ep,ev,re,r,rp)
 		local cg=c:GetColumnGroup()
 		Duel.Destroy(cg,REASON_EFFECT)
 	end
+end
+function c101004032.operation(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local pe=e:GetLabelObject()
+	if pe then pe:Reset() end
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetCode(EFFECT_DISABLE_FIELD)
+	e1:SetOperation(c101004032.disop)
+	c:RegisterEffect(e1)
+	e:SetLabelObject(e1)
 end
 function c101004032.disop(e,tp)
 	local c=e:GetHandler()
