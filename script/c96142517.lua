@@ -69,7 +69,7 @@ function c96142517.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg=mg0:Filter(Card.IsRelateToEffect,nil,e)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 or mg:GetCount()==0 or Duel.GetLocationCountFromEx(tp)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c96142517.spfilter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,rk+1,mg0)
+	local g=Duel.SelectMatchingCard(tp,c96142517.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,rk+1,mg0)
 	local sc=g:GetFirst()
 	if sc then
 		Duel.Overlay(sc,mg)
