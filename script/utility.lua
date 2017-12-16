@@ -59,6 +59,7 @@ end
 --for additional registers
 local regeff=Card.RegisterEffect
 function Card.RegisterEffect(c,e,forced,...)
+	if c:IsStatus(STATUS_INITIALIZING) and not e then Debug.Message("missing (Effect e) in c"..c:GetOriginalCode()..".lua") return end
 	--1 == 511002571 - access to effects that activate that detach an Xyz Material as cost
 	--2 == 511001692 - access to Cardian Summoning conditions/effects
 	regeff(c,e,forced)
@@ -66,10 +67,10 @@ function Card.RegisterEffect(c,e,forced,...)
 	local resetflag,resetcount=e:GetReset()
 	for _,val in ipairs(reg) do
 		local prop=EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SET_AVAILABLE
-		if e:IsHasProperty(EFFECT_FLAG_UNCOPYABLE) then prop=prop+EFFECT_FLAG_UNCOPYABLE end
+		if e:IsHasProperty(EFFECT_FLAG_UNCOPYABLE) then prop=prop|EFFECT_FLAG_UNCOPYABLE end
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
-		e2:SetProperty(prop)
+		e2:SetProperty(prop,EFFECT_FLAG2_MAJESTIC_MUST_COPY)
 		if val==1 then
 			e2:SetCode(511002571)
 		elseif val==2 then
@@ -484,15 +485,15 @@ end
 function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetflag,resetcount)
 	local finalprop=EFFECT_FLAG_CANNOT_DISABLE
 	if prop~=nil then
-		finalprop=finalprop+prop
+		finalprop=finalprop|prop
 	end
 	local e1=Effect.CreateEffect(c)
 	if con then
 		e1:SetCondition(con)
 	end
 	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(finalprop)
-	e1:SetCode(89785779) --to be changed when official code is released
+	e1:SetProperty(finalprop,EFFECT_FLAG2_MAJESTIC_MUST_COPY)
+	e1:SetCode(89785779)
 	e1:SetLabelObject(linkedeff)
 	if resetflag and resetcount then
 		e1:SetReset(resetflag,resetcount)
@@ -504,8 +505,8 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetProperty(finalprop-EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetCode(89785779+EFFECT_EQUIP_LIMIT) --to be changed when official code is released
+	e2:SetProperty(finalprop&~EFFECT_FLAG_CANNOT_DISABLE,EFFECT_FLAG2_MAJESTIC_MUST_COPY)
+	e2:SetCode(89785779+EFFECT_EQUIP_LIMIT)
 	if resetflag and resetcount then
 		e2:SetReset(resetflag,resetcount)
 	elseif resetflag then
@@ -699,52 +700,70 @@ end
 function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,nolimit,pos,mmz,emz)
 	return	function(e,tp,eg,ep,ev,re,r,rp,sg)
 				local pos=pos or POS_FACEUP
-				local cardtable={}
-				local cc=sg:GetFirst()
-				while cc do
-					table.insert(cardtable,cc)
-					cc=sg:GetNext()
-				end
-				local cardtableclone={table.unpack(cardtable)}
+				local summonp=math.abs(sump-tp)
 				local targettp=math.abs(targetp-tp)
-				local mmz=mmz
-				if not mmz then
-					mmz=0
-					for i=0,4 do
-						if Duel.GetLocationCount(targettp,LOCATION_MZONE,targettp,LOCATION_REASON_TOFIELD,0x1<<i)>0 then
-							mmz=mmz|(0x1<<i)
+				if Duel.GetMasterRule()>=4 then
+					local cardtable={}
+					local cc=sg:GetFirst()
+					while cc do
+						table.insert(cardtable,cc)
+						cc=sg:GetNext()
+					end
+					local cardtableclone={table.unpack(cardtable)}
+					local mmz=mmz
+					if not mmz then
+						mmz=0
+						for i=0,4 do
+							if Duel.GetLocationCount(targettp,LOCATION_MZONE,targettp,LOCATION_REASON_TOFIELD,0x1<<i)>0 then
+								mmz=mmz|(0x1<<i)
+							end
 						end
 					end
-				end
-				if mmz<=0 then return false end
-				local emz=emz
-				if not emz then
-					emz=Duel.GetLinkedZone(tp)
-					if Duel.GetMasterRule()>=4 then
+					if mmz<=0 then return false end
+					local emz=emz
+					if not emz then
+						emz=Duel.GetLinkedZone(tp)
 						if Duel.CheckLocation(targettp,LOCATION_MZONE,5) then
 							emz=emz|0x20
 						end
 						if Duel.CheckLocation(targettp,LOCATION_MZONE,6) then
 							emz=emz|0x40
 						end
-					else
-						emz=emz&~0x20&~0x40
 					end
-				end
-				local summonp=math.abs(sump-tp)
-				for _,tc in ipairs(cardtableclone) do
-					table.remove(cardtable,1)
-					local zone=Auxiliary.MainAndExtraGetSummonZones(tc,mmz,emz,e,sumtype,summonp,targettp,nocheck,nolimit,pos,table.unpack(cardtable))
-					if zone==0 then return false end
-					if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
-					emz=emz&~(0x1<<tc:GetSequence())
-					mmz=mmz&~(0x1<<tc:GetSequence())
-					if func then
-						func(e,tp,eg,ep,ev,re,r,rp,tc)
+					for _,tc in ipairs(cardtableclone) do
+						table.remove(cardtable,1)
+						local zone=Auxiliary.MainAndExtraGetSummonZones(tc,mmz,emz,e,sumtype,summonp,targettp,nocheck,nolimit,pos,table.unpack(cardtable))
+						if zone==0 then return false end
+						if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
+						emz=emz&~(0x1<<tc:GetSequence())
+						mmz=mmz&~(0x1<<tc:GetSequence())
+						if func then
+							func(e,tp,eg,ep,ev,re,r,rp,tc)
+						end
 					end
+					Duel.SpecialSummonComplete()
+					return true,sg
+				else
+					local mmz=mmz
+					if not mmz then
+						mmz=0x1f
+					end
+					local emz=emz
+					if not emz then
+						emz=0x1f
+					end
+					local tc=sg:GetFirst()
+					while tc do
+						local zone=tc:IsLocation(LOCATION_EXTRA) and emz or mmz
+						if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
+						if func then
+							func(e,tp,eg,ep,ev,re,r,rp,tc)
+						end
+						tc=sg:GetNext()
+					end
+					Duel.SpecialSummonComplete()
+					return true,sg
 				end
-				Duel.SpecialSummonComplete()
-				return true,sg
 			end
 end
 function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)

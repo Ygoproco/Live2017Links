@@ -18,6 +18,7 @@ function Auxiliary.AddSynchroProcedure(c,...)
 		mt.synchro_parameters={...}
 		if type(mt.synchro_parameters[2])=='function' then
 			Debug.Message("Old Synchro Procedure detected in c"..code..".lua")
+			return
 		end
 	end
 	local e1=Effect.CreateEffect(c)
