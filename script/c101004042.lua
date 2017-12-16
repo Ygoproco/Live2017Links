@@ -38,7 +38,7 @@ function c101004042.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	return ep~=tp and tc:IsControler(tp) and tc:IsSetCard(0x103) and tc~=e:GetHandler()
 end
-function c101004042.spfilter(c,e,tp)
+function c101004042.spfilter(c,e,tp,zone)
 	return c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 end
 function c101004042.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
