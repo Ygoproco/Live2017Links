@@ -52,7 +52,7 @@ end
 function c100225012.rcop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
-		c:RemoveCounter(tp,0x146,3,REASON_EFFECT)
+		c:RemoveCounter(tp,0x146,1,REASON_EFFECT)
 		c:RegisterFlagEffect(100225012,RESET_EVENT+0x1fe0000,0,0)
 	end
 end
