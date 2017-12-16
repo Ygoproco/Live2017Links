@@ -68,6 +68,9 @@ function c100225012.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and Duel.IsExistingMatchingCard(c100225012.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,LOCATION_HAND+LOCATION_DECK)
 end
+function c100225012.rescon(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
+end
 function c100225012.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
@@ -75,13 +78,7 @@ function c100225012.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetMatchingGroup(c100225012.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,e,tp)
 	if tg:GetCount()==0 or ft<=0 then return end
 	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
-	local g=nil
-	if tg:GetCount()>ft then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		g=tg:Select(tp,ft,ft,nil)
-	else
-		g=tg
-	end
+	local g=aux.SelectUnselectGroup(tg,e,tp,1,ft,c100225012.rescon,1,tp,HINTMSG_SPSUMMON)
 	if g:GetCount()>0 and Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		c:AddCounter(0x146,3)
 		c:ResetFlagEffect(100225012)
