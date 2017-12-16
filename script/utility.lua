@@ -15,14 +15,14 @@ end
 function Auxiliary.GetMustBeMaterialGroup(tp,eg,sump,sc,g,r)
 	--- eg all default materials, g - valid materials
 	local eff={Duel.GetPlayerEffect(tp,EFFECT_MUST_BE_MATERIAL)}
-	local g=Group.CreateGroup()
+	local sg=Group.CreateGroup()
 	for _,te in ipairs(eff) do
 		local val=type(te:GetValue())=='function' and te:GetValue()(te,eg,sump,sc,g) or te:GetValue()
 		if val&r>0 then
-			g:AddCard(te:GetHandler())
+			sg:AddCard(te:GetHandler())
 		end
 	end
-	return g
+	return sg
 end
 function Group.Includes(g1,g2)
 	local g1p=g1:Clone()
