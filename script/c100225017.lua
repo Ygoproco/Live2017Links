@@ -13,7 +13,7 @@ function c100225017.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c100225017.desfilter1(c,e,tp)
-	return c:IsFaceup() and Duel.GetMZoneCount(tp,c)>0
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and Duel.GetMZoneCount(tp,c)>0
 	and Duel.IsExistingMatchingCard(c100225017.spfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp,c:GetOriginalCode())
 end
 function c100225017.spfilter(c,e,tp,code)
