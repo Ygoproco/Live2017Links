@@ -24,7 +24,7 @@ function c74997493.initial_effect(c)
 	e3:SetOperation(c74997493.drop)
 	c:RegisterEffect(e3)
 end
-function c74997493.lcheck(g,lc)
+function c74997493.lcheck(g,lc,tp)
 	return g:GetClassCount(Card.GetCode)==g:GetCount()
 end
 function c74997493.regcon(e,tp,eg,ep,ev,re,r,rp)

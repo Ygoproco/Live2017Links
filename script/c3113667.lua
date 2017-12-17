@@ -1,6 +1,5 @@
 --鋼鉄の襲撃者
 --Heavy Metal Raiders
---Script by nekrozar
 --Effect is not fully implemented
 function c3113667.initial_effect(c)
 	--Activate
@@ -25,7 +24,7 @@ function c3113667.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP)
 	e3:SetCode(EVENT_BATTLE_DESTROYED)
 	e3:SetRange(LOCATION_FZONE)
-	e3:SetCountLimit(1)
+	e3:SetCountLimit(1,EFFECT_COUNT_CODE_SINGLE)
 	e3:SetCondition(c3113667.spcon1)
 	e3:SetTarget(c3113667.sptg)
 	e3:SetOperation(c3113667.spop)
