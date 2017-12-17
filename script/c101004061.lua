@@ -28,6 +28,7 @@ function c101004061.initial_effect(c)
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_EQUIP)
 	e4:SetCode(EFFECT_DOUBLE_TRIBUTE)
+	e4:SetValue(c101004061.condition)
 	c:RegisterEffect(e4)
 end
 function c101004061.spfilter(c,e,tp)
@@ -82,4 +83,7 @@ function c101004061.desop(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsLocation(LOCATION_MZONE) then
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
+end
+function c101004061.condition(e,c)
+     return c:IsType(TYPE_MONSTER)
 end
