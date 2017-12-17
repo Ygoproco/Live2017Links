@@ -82,4 +82,4 @@ function c101004061.desop(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsLocation(LOCATION_MZONE) then
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
-end	
+end
