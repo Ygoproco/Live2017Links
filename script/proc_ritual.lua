@@ -77,7 +77,7 @@ function Auxiliary.AddRitualProcGreaterCode(c,...)
 	Auxiliary.AddRitualProcGreater(c,Auxiliary.FilterBoolFunction(Card.IsCode,...))
 end
 --Ritual Summon, equal to
-function Auxiliary.AddRitualProcEqual(c,filter,desc,lv)
+function Auxiliary.AddRitualProcEqual(c,filter,lv,desc)
 	--lv can be nil, otherwise, fixed level
 	local e1=Effect.CreateEffect(c)
 	if desc then
@@ -150,11 +150,11 @@ function Auxiliary.RPEOperation(filter,lv)
 				end
 			end
 end
-function Auxiliary.AddRitualProcEqualCode(c,desc,lv,...)
+function Auxiliary.AddRitualProcEqualCode(c,lv,desc,...)
 	if not c:IsStatus(STATUS_COPYING_EFFECT) and c.fit_monster==nil then
 		local code=c:GetOriginalCode()
 		local mt=_G["c" .. code]
 		mt.fit_monster={...}
 	end
-	Auxiliary.AddRitualProcEqual(c,Auxiliary.FilterBoolFunction(Card.IsCode,...),desc,lv)
+	Auxiliary.AddRitualProcEqual(c,Auxiliary.FilterBoolFunction(Card.IsCode,...),lv,desc)
 end
