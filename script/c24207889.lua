@@ -1,6 +1,5 @@
 --センサー万別
 --Sensor Differentiation
---Scripted by Eerie Code and edo9300
 function c24207889.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -37,7 +36,7 @@ end
 c24207889[0]=nil
 c24207889[1]=nil
 function c24207889.sumlimit(e,c,sump,sumtype,sumpos,targetp)
-	if sumpos and bit.band(sumpos,POS_FACEDOWN)>0 then return false end
+	if sumpos and sumpos&POS_FACEDOWN>0 then return false end
 	local tp=sump
 	if targetp then tp=targetp end
 	return Duel.IsExistingMatchingCard(c24207889.rmfilter,tp,LOCATION_MZONE,0,1,nil,c:GetRace())
@@ -84,7 +83,7 @@ function c24207889.adjustop(e,tp,eg,ep,ev,re,r,rp)
 		c24207889[1]:Clear()
 	end
 	for p=0,1 do
-		local pg=c24207889[p]
+		local pg=c24207889[p]:Filter(Card.IsLocation,nil,LOCATION_MZONE)
 		local g=Duel.GetMatchingGroup(Card.IsFaceup,p,LOCATION_MZONE,0,nil)
 		local dg=g:Filter(c24207889.filter,nil,g,pg)
 		if dg:GetCount()==0 or Duel.SendtoGrave(dg,REASON_EFFECT)==0 then
@@ -100,4 +99,3 @@ function c24207889.adjustop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-

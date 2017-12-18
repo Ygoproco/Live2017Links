@@ -45,12 +45,12 @@ function c58984738.val(c,sc,ma)
 	local eff3={c:GetCardEffect(EFFECT_TRIPLE_TRIBUTE)}
 	if ma>=3 then
 		for _,te in ipairs(eff3) do
-			if te:GetValue()(te,sc) then return 0x30001 end
+			if type(te:GetValue())~='function' or te:GetValue()(te,sc) then return 0x30001 end
 		end
 	end
 	local eff2={c:GetCardEffect(EFFECT_DOUBLE_TRIBUTE)}
 	for _,te in ipairs(eff2) do
-		if te:GetValue()(te,sc) then return 0x20001 end
+		if type(te:GetValue())~='function' or te:GetValue()(te,sc) then return 0x20001 end
 	end
 	return 1
 end

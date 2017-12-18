@@ -71,6 +71,7 @@ function c11163040.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
+	if tc == nil then return end
 	if not tc:IsRelateToEffect(e) then return end
 	local cc=tc:GetControler()
 	local code=tc:GetOriginalCode()
