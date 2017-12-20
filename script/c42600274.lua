@@ -33,7 +33,6 @@ function c42600274.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local g=Duel.SelectReleaseGroupEx(tp,c42600274.hspfilter,1,1,e:GetHandler(),ft,tp)
 	Duel.Release(g,REASON_COST)
-	c:RegisterFlagEffect(0,RESET_EVENT+0x4fc0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(42600274,0))
 end
 function c42600274.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_RITUAL)
