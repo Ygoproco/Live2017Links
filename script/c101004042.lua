@@ -1,6 +1,6 @@
 --オルターガイスト・キードゥルガー
 --Altergeist Kidolga
---Script by nekrozar
+--Script by nekrozar; changed by senpaizuri
 function c101004042.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
@@ -17,12 +17,6 @@ function c101004042.initial_effect(c)
 	e1:SetTarget(c101004042.sptg)
 	e1:SetOperation(c101004042.spop)
 	c:RegisterEffect(e1)
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e2:SetCode(EVENT_ATTACK_ANNOUNCE)
-	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetOperation(c101004042.atkop)
-	c:RegisterEffect(e2)
 	--to hand
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(101004042,1))
@@ -57,17 +51,15 @@ function c101004042.spop(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CANNOT_ATTACK)
-		e1:SetLabel(Duel.GetTurnCount())
+		e1:SetLabelObject(c)
 		e1:SetCondition(c101004042.atkcon)
 		e1:SetReset(RESET_EVENT+0x1fe0000)
 		tc:RegisterEffect(e1)
 	end
 end
 function c101004042.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnCount()~=e:GetLabel() and e:GetOwner():GetFlagEffect(101004042)
-end
-function c101004042.atkop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RegisterFlagEffect(101004042,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
+	local c=e:GetLabelObject()
+	return c:GetAttackedCount()<1
 end
 function c101004042.thfilter(c)
 	return c:IsSetCard(0x103) and c:IsAbleToHand()
