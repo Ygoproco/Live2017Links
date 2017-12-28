@@ -1,6 +1,6 @@
 --霊神統一
 --Elemental Training
---Scripted by Eerie Code
+--Scripted by Eerie Code; fixed by senpaizuri
 function c101004074.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -94,13 +94,13 @@ function c101004074.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		return Duel.CheckReleaseGroup(tp,c101004074.filter1,1,nil,e,tp)
 	end
 	local rg=Duel.SelectReleaseGroup(tp,c101004074.filter1,1,1,nil,e,tp)
-	e:SetLabel(rg:GetFirst():GetOriginalAttribute())
+	e:SetLabelObject(rg:GetFirst())
 	Duel.Release(rg,REASON_COST)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function c101004074.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local att=e:GetLabel()
+	local att=e:GetLabelObject():GetOriginalAttribute()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c101004074.filter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,att)
 	if g:GetCount()>0 then
