@@ -48,8 +48,20 @@ function c55623480.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
 	local sg=Duel.GetMatchingGroup(c55623480.rmfilter,tp,LOCATION_HAND+LOCATION_ONFIELD+LOCATION_GRAVE,0,e:GetHandler())
-	if chk==0 then return sg:GetCount()>=7 and aux.SelectUnselectGroup(sg,e,tp,7,7,aux.ChkfMMZ(1),0) end
-	local g=aux.SelectUnselectGroup(sg,e,tp,7,7,aux.ChkfMMZ(1),1,tp,HINTMSG_REMOVE)
+	if chk==0 then return sg:GetCount()>=7 and (ft>0 or sg:FilterCount(aux.MZFilter,nil,tp)>=ct) end
+	local g
+	if ft<=0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+		g=sg:FilterSelect(tp,aux.MZFilter,ct,ct,nil,tp)
+		if ct<7 then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+			local g1=sg:Select(tp,7-ct,7-ct,g)
+			g:Merge(g1)
+		end
+	else
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+		g=sg:Select(tp,7,7,nil)
+	end
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c55623480.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
