@@ -22,28 +22,36 @@ function c101004022.initial_effect(c)
 	e2:SetOperation(c101004022.attop)
 	c:RegisterEffect(e2)
 end
-function c101004022.costfilter(c)
+function c101004022.costfilter(c,tp)
 	return c:IsSetCard(0x400d) and c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost()
+		and Duel.IsExistingMatchingCard(c101004022.filter,tp,LOCATION_DECK,0,1,c)
 end
 function c101004022.sgcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local fc=Duel.IsPlayerAffectedByEffect(tp,101004060)
+	local fg=Group.CreateGroup()
+	for i,pe in ipairs({Duel.IsPlayerAffectedByEffect(tp,101004060)}) do
+		fg:AddCard(pe:GetHandler())
+	end
 	local loc=LOCATION_HAND
-	if fc then loc=LOCATION_HAND+LOCATION_DECK end
-	if chk==0 then return Duel.IsExistingMatchingCard(c101004022.costfilter,tp,loc,0,1,nil) end
+	if fg:GetCount()>0 then loc=LOCATION_HAND+LOCATION_DECK end
+	if chk==0 then return Duel.IsExistingMatchingCard(c101004022.costfilter,tp,loc,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local tc=Duel.SelectMatchingCard(tp,c101004022.costfilter,tp,loc,0,1,1,nil):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,c101004022.costfilter,tp,loc,0,1,1,nil,tp):GetFirst()
 	if tc:IsLocation(LOCATION_DECK) then
-		Duel.Hint(HINT_CARD,0,101004060)
-		local field=Duel.GetFirstMatchingCard(Card.IsHasEffect,tp,LOCATION_ONFIELD,0,nil,101004060)
-		if field then field:RegisterFlagEffect(101004060,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0) end
+		local fc=nil
+		if fg:GetCount()==1 then
+			fc=fg:GetFirst()
+		else
+			fc=fg:Select(tp,1,1,nil)
+		end
+		Duel.Hint(HINT_CARD,0,fc:GetCode())
+		fc:RegisterFlagEffect(101004060,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
 	end
 	Duel.SendtoGrave(tc,REASON_COST)
 end
 function c101004022.filter(c)
-	return c:IsSetCard(0x400d) and c:IsType(TYPE_MONSTER) and c:IsAbleToGrave()
+	return (c:IsSetCard(0x400d) or c:IsSetCard(0x212)) and not c:IsCode(101004022) and c:IsType(TYPE_MONSTER) and c:IsAbleToGrave()
 end
 function c101004022.sgtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local c=e:GetHandler()
 	if chk==0 then return Duel.IsExistingMatchingCard(c101004022.filter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
 end
