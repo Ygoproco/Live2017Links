@@ -79,6 +79,7 @@ function c101004025.regop(e,tp,eg,ep,ev,re,r,rp)
 	e0:SetRange(LOCATION_MZONE)
 	e0:SetTargetRange(LOCATION_MZONE,0)
 	e0:SetTarget(c101004025.immtg)
+	e0:SetReset(RESET_EVENT+0x1fe0000)
 	if flag&0x1~=0 then
 		local e1=e0:Clone()
 		e1:SetDescription(aux.Stringid(101004025,1))
