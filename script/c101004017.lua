@@ -36,8 +36,8 @@ function c101004017.initial_effect(c)
 end
 function c101004017.get_zone(c,seq)
 	local zone=0
-	if seq < 4 and c:IsLinkMarker(LINK_MARKER_LEFT) then zone=bit.bor(zone,math.pow(2,seq+1)) end
-	if seq > 0 and seq <= 4 and c:IsLinkMarker(LINK_MARKER_RIGHT) then zone=bit.bor(zone,math.pow(2,seq-1)) end
+	if seq < 4 and c:IsLinkMarker(LINK_MARKER_LEFT) then zone=zone|(1<<seq+1) end
+	if seq > 0 and seq <= 4 and c:IsLinkMarker(LINK_MARKER_RIGHT) then zone=zone|(1<<seq-1) end
 	return zone
 end
 function c101004017.spfilter(c,e,tp,seq)
