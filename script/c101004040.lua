@@ -9,9 +9,16 @@ function c101004040.initial_effect(c)
 	e1:SetCategory(CATEGORY_TOHAND)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_ATTACK_ANNOUNCE)
+	e1:SetCondition(c101004040.thcon)
 	e1:SetTarget(c101004040.thtg)
 	e1:SetOperation(c101004040.thop)
 	c:RegisterEffect(e1)
+end
+function c101004040.lkfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0xfb)
+end
+function c75119040.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetLinkedGroup():FilterCount(c101004040.lkfilter,nil)>0
 end
 function c101004040.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0xfb) and c:IsAbleToHand()
