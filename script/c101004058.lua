@@ -17,7 +17,7 @@ function c101004058.filter(c,e,tp,zone)
 	return c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 end
 function c101004058.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local zone=Duel.GetLinkedZone(tp)
+	local zone=Duel.GetLinkedZone(tp)&0x1f
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c101004058.filter(chkc,e,tp,zone) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingTarget(c101004058.filter,tp,LOCATION_GRAVE,0,1,nil,e,tp,zone) end
