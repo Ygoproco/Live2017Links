@@ -4,9 +4,11 @@
 function c23331400.initial_effect(c)
 	--token
 	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(23331400,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
+	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1,23331400)
 	e1:SetCondition(c23331400.tkcon)
 	e1:SetTarget(c23331400.tktg)
