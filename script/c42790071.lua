@@ -1,7 +1,7 @@
 --オルターガイスト・マルチフェイカー
 --Altergeist Multifaker
 function c42790071.initial_effect(c)
-	--special summon
+	--special summon procedure
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_CHAINING)
@@ -21,12 +21,13 @@ function c42790071.initial_effect(c)
 	e2:SetTarget(c42790071.sptg)
 	e2:SetOperation(c42790071.spop)
 	c:RegisterEffect(e2)
-	--spsummon
+	--special summon from deck
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(42790071,0))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e3:SetCountLimit(1,42790072)
 	e3:SetCost(c42790071.spcost)
 	e3:SetTarget(c42790071.sptg2)
