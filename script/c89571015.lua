@@ -27,6 +27,10 @@ function c89571015.atlimit(e,c)
 end
 function c89571015.immval(e,te)
 	local tc=te:GetHandler()
-	return te:IsActiveType(TYPE_MONSTER) and te:IsActivated() and tc:GetSequence()>4
+	if not (tc:IsLocation(LOCATION_MZONE) or tc:IsPreviousLocation(LOCATION_MZONE)) then return end
+	if tc:IsLocation(LOCATION_MZONE) then
+		return te:IsActiveType(TYPE_MONSTER) and te:IsActivated() and tc:GetSequence()>4
+	elseif tc:IsPreviousLocation(LOCATION_MZONE) then
+		return te:IsActiveType(TYPE_MONSTER) and te:IsActivated() and tc:GetPreviousSequence()>4
+	end
 end
-
