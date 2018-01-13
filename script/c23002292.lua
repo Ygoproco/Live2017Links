@@ -1,6 +1,5 @@
 --レッド・リブート
 --Red Reboot
---Scripted by Eerie Code
 function c23002292.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -40,6 +39,8 @@ function c23002292.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) then
 		rc:CancelToGrave()
 		Duel.ChangePosition(rc,POS_FACEDOWN)
+		rc:SetStatus(STATUS_ACTIVATE_DISABLED,false)
+		rc:SetStatus(STATUS_SET_TURN,false)
 		Duel.RaiseEvent(rc,EVENT_SSET,e,REASON_EFFECT,tp,tp,0)
 		local g=Duel.GetMatchingGroup(c23002292.setfilter,tp,0,LOCATION_DECK,nil)
 		if g:GetCount()>0 and Duel.GetLocationCount(1-tp,LOCATION_SZONE)>0 and Duel.SelectYesNo(1-tp,aux.Stringid(23002292,0)) then
@@ -58,4 +59,3 @@ function c23002292.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-
