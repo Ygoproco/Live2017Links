@@ -36,8 +36,9 @@ function c101004017.initial_effect(c)
 end
 function c101004017.get_zone(c,seq)
 	local zone=0
-	if seq<4 and c:IsLinkMarker(LINK_MARKER_LEFT) then zone=bit.bor(zone,math.pow(2,seq-1)) end
-	if seq>0 and seq<5 and c:IsLinkMarker(LINK_MARKER_RIGHT) then zone=bit.bor(zone,math.pow(2,seq+1)) end
+	if seq < 4 and c:IsLinkMarker(LINK_MARKER_LEFT) then zone=zone|(1<<seq+1) end
+	if seq > 0 and seq <= 4 and c:IsLinkMarker(LINK_MARKER_RIGHT) then zone=zone|(1<<seq-1) end
+	return zone
 end
 function c101004017.spfilter(c,e,tp,seq)
 	local zone=c101004017.get_zone(c,seq)
@@ -57,7 +58,7 @@ function c101004017.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
 		local zone=c101004017.get_zone(tc,c:GetSequence())
-		if zone~=0 and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
+		if zone~=0 and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP,zone) then
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_DISABLE)
@@ -70,7 +71,7 @@ function c101004017.spop(e,tp,eg,ep,ev,re,r,rp)
 			tc:RegisterEffect(e2)
 			local e3=Effect.CreateEffect(c)
 			e3:SetType(EFFECT_TYPE_SINGLE)
-			e3:SetCode(EFFECT_CHANGE_ATTACK_FINAL)
+			e3:SetCode(EFFECT_SET_ATTACK_FINAL)
 			e3:SetValue(0)
 			e3:SetReset(RESET_EVENT+0x1fe0000)
 			tc:RegisterEffect(e3)

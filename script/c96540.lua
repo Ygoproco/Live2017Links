@@ -19,7 +19,7 @@ function c96540.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 end
 function c96540.costfilter(c,e,tp)
-	return c:GetOriginalLevel()>0 and Duel.IsExistingMatchingCard(c96540.spfilter,tp,LOCATION_DECK,0,1,nil,c,e,tp)
+	return c:IsFaceup() and c:GetOriginalLevel()>0 and Duel.IsExistingMatchingCard(c96540.spfilter,tp,LOCATION_DECK,0,1,nil,c,e,tp)
 end
 function c96540.spfilter(c,tc,e,tp)
 	return c:GetOriginalLevel()==tc:GetOriginalLevel()-1
