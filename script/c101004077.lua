@@ -56,26 +56,22 @@ function c101004077.activate(e,tp,eg,ep,ev,re,r,rp)
 			e4:SetTargetRange(LOCATION_SZONE,LOCATION_SZONE)
 			e4:SetTarget(c101004077.distg)
 			e4:SetReset(RESET_PHASE+PHASE_END)
-			e4:SetLabel(c:GetColumnZone(LOCATION_SZONE))
 			Duel.RegisterEffect(e4,tp)
 			local e5=Effect.CreateEffect(c)
 			e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 			e5:SetCode(EVENT_CHAIN_SOLVING)
 			e5:SetOperation(c101004077.disop)
 			e5:SetReset(RESET_PHASE+PHASE_END)
-			e5:SetLabel(c:GetColumnZone(LOCATION_SZONE))
 			Duel.RegisterEffect(e5,tp)
 		end
 	end
 end
 function c101004077.distg(e,c)
-	local zone=e:GetLabel()
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and bit.extract(zone,c:GetSequence())~=0
+	return c:IsType(TYPE_SPELL+TYPE_TRAP) and e:GetHandler():GetColumnGroup():IsContains(c)
 end
 function c101004077.disop(e,tp,eg,ep,ev,re,r,rp)
-	local zone=e:GetLabel()
-	local loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
-	if loc&LOCATION_SZONE~=0 and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and bit.extract(zone,seq)~=0 then
+	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
+	if loc&LOCATION_SZONE~=0 and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and e:GetHandler():GetColumnGroup():IsContains(re:GetHandler()) then
 		Duel.NegateEffect(ev)
 	end
 end
