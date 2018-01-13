@@ -25,6 +25,7 @@ function c70975131.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_PHASE+PHASE_END)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetCost(c70975131.cost)
 	e3:SetCountLimit(1,70975132)
 	e3:SetCondition(c70975131.setcon)
 	e3:SetTarget(c70975131.settg)
@@ -48,6 +49,10 @@ function c70975131.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c70975131.regop(e,tp,eg,ep,ev,re,r,rp)
 	e:GetHandler():RegisterFlagEffect(70975131,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+end
+function c70975131.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost() end
+	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
 end
 function c70975131.setcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetFlagEffect(70975131)~=0 and Duel.GetTurnPlayer()==tp
