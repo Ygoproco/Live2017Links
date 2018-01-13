@@ -39,15 +39,16 @@ function c50426119.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=aux.SelectUnselectGroup(rg,e,tp,2,2,aux.ChkfMMZ(1),1,tp,HINTMSG_REMOVE)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
-function c50426119.rmfilter(c)
+function c50426119.rmfilter(c,atk)
 	return c:IsFaceup() and c:GetAttack()>atk and c:IsAbleToRemove()
 end
-function c50426119.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c50426119.rmfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c50426119.rmfilter,tp,0,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,c50426119.rmfilter,tp,0,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
+function c50426119.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local atk=e:GetHandler():GetAttack()
+    	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and c50426119.rmfilter(chkc,atk) end
+    	if chk==0 then return Duel.IsExistingTarget(c50426119.rmfilter,tp,0,LOCATION_MZONE,1,nil,atk) end
+   	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+   	local g=Duel.SelectTarget(tp,c50426119.rmfilter,tp,0,LOCATION_MZONE,1,1,nil,atk)
+    	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function c50426119.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
