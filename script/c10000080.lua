@@ -78,7 +78,7 @@ end
 function c10000080.ttcon2(e,c,minc)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	for _,te in ipairs(Duel.GetPlayerEffect(tp,EFFECT_CANNOT_SUMMON)) do
+	for _,te in ipairs({Duel.GetPlayerEffect(tp,EFFECT_CANNOT_SUMMON)}) do
 		local tg=te:GetTarget()
 		if type(tg)~='function' or tg(te,c,tp,SUMMON_TYPE_ADVANCE,POS_FACEUP_ATTACK,1-tp) then return false end
 	end

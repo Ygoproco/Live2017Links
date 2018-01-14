@@ -11,6 +11,8 @@ function c12289247.initial_effect(c)
 	e1:SetTarget(c12289247.rptg)
 	e1:SetOperation(c12289247.rpop)
 	c:RegisterEffect(e1)
+	if not AshBlossomTable then AshBlossomTable={} end
+	table.insert(AshBlossomTable,e1)
 	--Special Summon
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(12289247,3))

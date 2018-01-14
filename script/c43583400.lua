@@ -1,6 +1,12 @@
 --アンチエイリアン
 function c43583400.initial_effect(c)
 	--summon
+	local e0=Effect.CreateEffect(c)
+	e0:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+	e0:SetCode(EVENT_BATTLED)
+	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+	e0:SetOperation(c43583400.atkreg)
+	c:RegisterEffect(e0)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(43583400,0))
 	e1:SetCategory(CATEGORY_SUMMON)
@@ -23,8 +29,12 @@ function c43583400.initial_effect(c)
 	e2:SetOperation(c43583400.drop)
 	c:RegisterEffect(e2)
 end
+function c43583400.atkreg(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetAttackTarget()==nil then return end
+	e:GetHandler():RegisterFlagEffect(43583400,RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+end
 function c43583400.sumcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE and e:GetHandler():GetBattledGroupCount()>0
+	return Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE and e:GetHandler():GetFlagEffect(43583400)>0
 end
 function c43583400.sumfilter(c)
 	return c:IsRace(RACE_CYBERSE) and c:IsSummonable(true,nil)
