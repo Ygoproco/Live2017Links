@@ -32,10 +32,12 @@ function c39064822.lcheck(g,lc)
 	return g:GetClassCount(Card.GetCode)==g:GetCount()
 end
 function c39064822.sumcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
+	local tp=e:GetHandlerPlayer()
+	return Duel.GetTurnPlayer()==tp  and e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function c39064822.sumcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
+	if chk==0 then return Duel.GetFlagEffect(tp,39064822)==0 and  Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
+	Duel.RegisterFlagEffect(tp,39064822,RESET_PHASE+PHASE_END,EFFECT_FLAG_OATH,1)
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 function c39064822.sumtg(e,tp,eg,ep,ev,re,r,rp,chk)
