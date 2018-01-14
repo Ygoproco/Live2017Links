@@ -46,6 +46,6 @@ function c86885905.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummonComplete()
 end
 function c86885905.etarget(e,c)
-	return c:IsSetCard(0x103) and c:IsType(TYPE_TRAP) and not c==e:GetHandler()
+	return c:IsSetCard(0x103) and c:IsType(TYPE_TRAP) and c~=e:GetHandler()
 end
 
