@@ -72,6 +72,7 @@ function c19636995.plchk(e,tp,eg,ep,ev,re,r,rp)
 	local cg=c:GetColumnGroup()
 	cg:KeepAlive()
 	if c:GetFlagEffect(19636995+1)==0 or c:GetFlagEffectLabel(19636995+1)~=c:GetSequence() then
+		c:ResetFlagEffect(19636995+1)
 		c:RegisterFlagEffect(19636995+1,RESET_EVENT+0xffe0000,0,1,c:GetSequence())
 		e:SetLabelObject(cg)
 	elseif not e:GetLabelObject():Includes(cg) then
