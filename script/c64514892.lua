@@ -41,17 +41,14 @@ end
 function c64514892.atkval(e,c)
 	return Duel.GetMatchingGroupCount(c64514892.cfilter,0,LOCATION_MZONE,LOCATION_MZONE,nil)*500
 end
-function c93966624.desfilter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP)
-end
 function c64514892.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c93966624.desfilter,tp,LOCATION_ONFIELD,0,1,nil)
-		and Duel.IsExistingTarget(c93966624.desfilter,tp,0,LOCATION_ONFIELD,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsType,tp,LOCATION_ONFIELD,0,1,nil,TYPE_SPELL+TYPE_TRAP) 
+	and Duel.IsExistingTarget(Card.IsType,tp,0,LOCATION_ONFIELD,1,nil,TYPE_SPELL+TYPE_TRAP) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectTarget(tp,c69351984.desfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
+	local g1=Duel.SelectTarget(tp,Card.IsType,tp,LOCATION_ONFIELD,0,1,1,nil,TYPE_SPELL+TYPE_TRAP)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g2=Duel.SelectTarget(tp,c69351984.desfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
+	local g2=Duel.SelectTarget(tp,Card.IsType,tp,0,LOCATION_ONFIELD,1,1,nil,TYPE_SPELL+TYPE_TRAP)
 	g1:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,2,0,0)
 end
@@ -74,7 +71,7 @@ function c64514892.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c64514892.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
