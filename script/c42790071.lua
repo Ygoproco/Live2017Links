@@ -2,13 +2,6 @@
 --Altergeist Multifaker
 function c42790071.initial_effect(c)
 	--special summon procedure
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e1:SetCode(EVENT_CHAINING)
-	e1:SetRange(LOCATION_HAND)
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e1:SetOperation(aux.chainreg)
-	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(42790071,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -40,7 +33,7 @@ function c42790071.counterfilter(c)
 end
 function c42790071.spcon1(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_TRAP) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
-		and rp==tp and e:GetHandler():GetFlagEffect(1)>0
+		and rp==tp 
 end
 function c42790071.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
