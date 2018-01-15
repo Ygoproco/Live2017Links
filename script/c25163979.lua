@@ -1,6 +1,5 @@
 --星遺物へ誘う悪夢
 --World Legacy Nightmare
---Script by nekrozar
 function c25163979.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -61,7 +60,7 @@ function c25163979.mvop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 			local s=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
 			local nseq=math.log(s,2)
-			Duel.MoveSequence(tc,nseq)
+			Duel.MoveSequence(g:GetFirst(),nseq)
 		end
 	else
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
