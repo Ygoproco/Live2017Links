@@ -1,7 +1,7 @@
 --ヤジロベーダー
 --Yajirovader
 --Script by nekrozar
---Some parte remade by Edo9300
+--Some parts remade by Edo9300
 function c10852583.initial_effect(c)
 	--self destroy
 	local e1=Effect.CreateEffect(c)
@@ -19,8 +19,8 @@ function c10852583.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1)
-	e3:SetCondition(c10852583.seqcon)
-	e3:SetOperation(c10852583.seqop)
+	e3:SetCondition(aux.seqmovcon)
+	e3:SetOperation(aux.seqmovop)
 	c:RegisterEffect(e3)
 	--move
 	local e4=Effect.CreateEffect(c)
@@ -42,24 +42,6 @@ function c10852583.descon(e)
 end
 function c10852583.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(e:GetHandler(),REASON_EFFECT)
-end
-function c10852583.seqcon(e,tp,eg,ep,ev,re,r,rp)
-	local seq=e:GetHandler():GetSequence()
-	if seq>4 then return false end
-	return (seq>0 and Duel.CheckLocation(tp,LOCATION_MZONE,seq-1))
-		or (seq<4 and Duel.CheckLocation(tp,LOCATION_MZONE,seq+1))
-end
-function c10852583.seqop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or c:IsControler(1-tp) then return end
-	local seq=c:GetSequence()
-	if seq>4 then return end
-	local flag=0
-	if seq>0 and Duel.CheckLocation(tp,LOCATION_MZONE,seq-1) then flag=flag|(0x1<<seq-1) end
-	if seq<4 and Duel.CheckLocation(tp,LOCATION_MZONE,seq+1) then flag=flag|(0x1<<seq+1) end
-	if flag==0 then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,~flag),2))
 end
 function c10852583.mvcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:GetCount()==1 and eg:GetFirst():IsControler(1-tp)
