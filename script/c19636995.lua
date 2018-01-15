@@ -69,7 +69,8 @@ function c19636995.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c19636995.plchk(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local cg=c:GetColumnGroup()
+	local cg=c:GetColumnGroup():Filter(function(c) return not c:IsStatus(STATUS_SUMMONING) and not c:IsStatus(STATUS_SUMMON_DISABLED)end,nil)
+	Debug.Message(cg:GetCount())
 	cg:KeepAlive()
 	if c:GetFlagEffect(19636995+1)==0 or c:GetFlagEffectLabel(19636995+1)~=c:GetSequence() then
 		c:ResetFlagEffect(19636995+1)
