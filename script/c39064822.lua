@@ -8,7 +8,6 @@ function c39064822.initial_effect(c)
 	--extra summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(39064822,0))
-	e1:SetCategory(CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -46,6 +45,9 @@ function c39064822.sumtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	else
 		e:SetLabel(0)
 	end
+	local cat=0
+	if e:GetLabel()==1 then cat=cat+CATEGORY_DRAW end
+	e:SetCategory(cat)
 end
 function c39064822.sumop(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetLabel()==1 and Duel.IsPlayerCanDraw(tp,1)
