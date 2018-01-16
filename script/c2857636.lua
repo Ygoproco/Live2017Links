@@ -8,7 +8,6 @@ function c2857636.initial_effect(c)
 	--destroy
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(2857636,0))
-	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -49,6 +48,9 @@ function c2857636.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	else
 		e:SetLabel(0)
 	end
+	local cat=CATEGORY_DESTROY
+	if e:GetLabel()==1 then cat=cat+CATEGORY_DRAW end
+	e:SetCategory(cat)
 end
 function c2857636.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
