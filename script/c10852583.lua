@@ -59,12 +59,9 @@ function c10852583.mvop(e,tp,eg,ep,ev,re,r,rp)
 	local seq1=c:GetSequence()
 	local seq2=4-tc:GetSequence()
 	if seq1>4 or seq1==seq2 then return end
-	local increase=seq2>seq1 and -1 or 1
-	while(not Duel.CheckLocation(tp,LOCATION_MZONE,seq2) and seq2>=0 and seq2<=4) do
-		seq2=seq2+increase
-	end
-	if(seq2>=0 and seq2<=4) then
-		Duel.MoveSequence(c,seq2)
+	local nseq=seq1+(seq2>seq1 and 1 or -1)
+	if(Duel.CheckLocation(tp,LOCATION_MZONE,nseq)) then
+		Duel.MoveSequence(c,nseq)
 		local cg=c:GetColumnGroup()
 		if cg:GetCount()>0 then
 			Duel.BreakEffect()
