@@ -14,10 +14,10 @@ function c50548657.initial_effect(c)
 	e1:SetOperation(c50548657.spop)
 	c:RegisterEffect(e1)
 end
-function c50548657.costfilter(c,e,tp,ft)
+function c50548657.costfilter(c,e,tp,g,ft)
 	local lv=c:GetLevel()
 	return c:IsLevelBelow(4) and c:IsRace(RACE_CYBERSE) and Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup())
-		and g:CheckWithSumEqual(Card.GetLevel,lv,1,ft)
+		and g:CheckWithSumEqual(Card.GetLevel,lv,1,ft+1)
 end
 function c50548657.spfilter(c,e,tp)
 	return c:IsRace(RACE_CYBERSE) and c:IsType(TYPE_NORMAL) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
