@@ -8,7 +8,6 @@ function c65330383.initial_effect(c)
 	--set
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(65330383,0))
-	e1:SetCategory(CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -53,6 +52,9 @@ function c65330383.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	else
 		e:SetLabel(0)
 	end
+	local cat=0
+	if e:GetLabel()==1 then cat=cat+CATEGORY_DRAW end
+	e:SetCategory(cat)
 end
 function c65330383.setop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
