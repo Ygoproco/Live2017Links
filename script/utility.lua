@@ -12,6 +12,23 @@ function userdatatype(o)
 	elseif o.SetLabelObject then return "Effect"
 	end
 end
+function Card.CheckAdjacent(c)
+	local p=c:GetControler()
+	local seq=c:GetSequence()
+	if seq>4 then return false end
+	return (seq>0 and Duel.CheckLocation(p,LOCATION_MZONE,seq-1))
+		or (seq<4 and Duel.CheckLocation(p,LOCATION_MZONE,seq+1))
+end
+function Card.MoveAdjacent(c)
+	local seq=c:GetSequence()
+	if seq>4 then return end
+	local flag=0
+	if seq>0 and Duel.CheckLocation(tp,LOCATION_MZONE,seq-1) then flag=flag|(0x1<<seq-1) end
+	if seq<4 and Duel.CheckLocation(tp,LOCATION_MZONE,seq+1) then flag=flag|(0x1<<seq+1) end
+	if flag==0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+	Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,~flag),2))
+end
 function Auxiliary.GetMustBeMaterialGroup(tp,eg,sump,sc,g,r)
 	--- eg all default materials, g - valid materials
 	local eff={Duel.GetPlayerEffect(tp,EFFECT_MUST_BE_MATERIAL)}
@@ -807,6 +824,16 @@ function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,no
 		end
 	end
 	return false
+end
+--condition for effects that make the monster change its current sequence
+function Auxiliary.seqmovcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():CheckAdjacent()
+end
+--operation for effects that make the monster change its current sequence
+function Auxiliary.seqmovop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) or c:IsControler(1-tp) then return end
+	c:MoveAdjacent()
 end
 
 function loadutility(file)
