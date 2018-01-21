@@ -27,7 +27,7 @@ function c99674361.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c99674361.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	local zone=Duel.GetLinkedZone(tp)
+	local zone=Duel.GetLinkedZone(tp)&0x1f
 	if tc:IsRelateToEffect(e) and zone~=0 then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP,zone)
 	end
