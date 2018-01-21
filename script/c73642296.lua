@@ -1,7 +1,5 @@
 --屋敷わらし
 --Yashiki Warashi
---Script by nekrozar
---not fully implemented
 function c73642296.initial_effect(c)
 	--negate
 	local e1=Effect.CreateEffect(c)
@@ -17,33 +15,30 @@ function c73642296.initial_effect(c)
 	e1:SetTarget(c73642296.distg)
 	e1:SetOperation(c73642296.disop)
 	c:RegisterEffect(e1)
+	--to be modified when TCG name is released
+	--if not AshBlossomTable then AshBlossomTable={} end
 end
 function c73642296.discon(e,tp,eg,ep,ev,re,r,rp)
-	local ex1,g1,gc1,dp1,dv1=Duel.GetOperationInfo(ev,CATEGORY_TOHAND)
-	local ex2,g2,gc2,dp2,dv2=Duel.GetOperationInfo(ev,CATEGORY_TODECK)
-	local ex4,g4,gc4,dp4,dv4=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
-	local ex5,g5,gc5,dp5,dv5=Duel.GetOperationInfo(ev,CATEGORY_REMOVE)
-	local ex6=re:IsHasCategory(CATEGORY_LEAVE_GRAVE)
-	return ((ex1 and bit.band(dv1,LOCATION_GRAVE)==LOCATION_GRAVE)
-		or (ex2 and bit.band(dv2,LOCATION_GRAVE)==LOCATION_GRAVE)
-		or (ex4 and bit.band(dv4,LOCATION_GRAVE)==LOCATION_GRAVE)
-		or (ex5 and bit.band(dv5,LOCATION_GRAVE)==LOCATION_GRAVE)
-		or ex6) and Duel.IsChainNegatable(ev)
+	if not Duel.IsChainNegatable(ev) then return false end
+	local ex1,g1,gc1,dp1,loc1=Duel.GetOperationInfo(ev,CATEGORY_TOHAND)
+	local ex2,g2,gc2,dp2,loc2=Duel.GetOperationInfo(ev,CATEGORY_TODECK)
+	local ex3,g3,gc3,dp3,loc3=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
+	local ex4,g4,gc4,dp4,loc4=Duel.GetOperationInfo(ev,CATEGORY_REMOVE)
+	return (ex1 and loc1&LOCATION_GRAVE==LOCATION_GRAVE) or (ex2 and loc2&LOCATION_GRAVE==LOCATION_GRAVE) 
+		or (ex3 and loc3&LOCATION_GRAVE==LOCATION_GRAVE) or (ex4 and loc4&LOCATION_GRAVE==LOCATION_GRAVE) 
+		or (ex1 and g1 and g1:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)) or (ex2 and g2 and g2:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)) 
+		or (ex3 and g3 and g3:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)) or (ex4 and g4 and g4:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE))
 end
 function c73642296.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return c:IsDiscardable() end
-	Duel.SendtoGrave(c,REASON_COST+REASON_DISCARD)
+	if chk==0 then return e:GetHandler():IsDiscardable() end
+	Duel.SendtoGrave(e:GetHandler(),REASON_COST+REASON_DISCARD)
 end
 function c73642296.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 end
 function c73642296.disop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.NegateActivation(ev) then
-		if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsRelateToEffect(re) then
-			Duel.SendtoGrave(eg,REASON_EFFECT)
-		end
+	if Duel.NegateActivation(ev) and re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsRelateToEffect(re) then
+		Duel.SendtoGrave(eg,REASON_EFFECT)
 	end
 end
-

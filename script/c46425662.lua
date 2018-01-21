@@ -1,6 +1,5 @@
 --エレメントセイバー・ナル
 --Elementsaber Naru
---Scripted by Eerie Code
 function c46425662.initial_effect(c)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
@@ -66,14 +65,27 @@ function c46425662.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c46425662.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	local c=e:GetHandler()
+	if chk==0 then
+		local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		for _,te in ipairs(eff) do
+			local op=te:GetOperation()
+			if not op or op(e,c) then return false end
+		end
+		return true
+	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
-	local att=Duel.AnnounceAttribute(tp,1,0xff-e:GetHandler():GetAttribute())
+	local att=Duel.AnnounceAttribute(tp,1,0xff-c:GetAttribute())
 	e:SetLabel(att)
 end
 function c46425662.attop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
+		local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		for _,te in ipairs(eff) do
+			local op=te:GetOperation()
+			if not op or op(e,c) then return end
+		end
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
@@ -82,4 +94,3 @@ function c46425662.attop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterEffect(e1)
 	end
 end
-
