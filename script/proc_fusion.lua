@@ -91,7 +91,7 @@ function Auxiliary.FOperationMix(insf,sub,...)
 				end
 				for tc in aux.Next(mustg) do
 					sg:AddCard(tc)
-					if tc:IsHasEffect(73941492+TYPE_FUSION) then
+					if not contact and tc:IsHasEffect(73941492+TYPE_FUSION) then
 						local eff={gc:GetCardEffect(73941492+TYPE_FUSION)}
 						for i=1,#eff do
 							local f=eff[i]:GetValue()
@@ -161,7 +161,7 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 	local rg=Group.CreateGroup()
 	local mg2=mg
 	--c has the fusion limit
-	if c:IsHasEffect(73941492+TYPE_FUSION) then
+	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
@@ -176,12 +176,14 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 		end
 	end
 	--A card in the selected group has the fusion lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
-	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
-		for i,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
-				return false
+	if not contact then
+		local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		for tc in aux.Next(g2) do
+			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+			for i,f in ipairs(eff) do
+				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
+					return false
+				end
 			end
 		end
 	end
@@ -400,7 +402,7 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 		minc=Auxiliary.FCheckExact-#{...}
 	end
 	--c has the fusion limit
-	if c:IsHasEffect(73941492+TYPE_FUSION) then
+	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
@@ -413,13 +415,15 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 		end
 	end
 	--A card in the selected group has the fusion lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
-	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
-		for i,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
-				mg:Merge(rg)
-				return false
+	if not contact then
+		local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		for tc in aux.Next(g2) do
+			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+			for i,f in ipairs(eff) do
+				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
+					mg:Merge(rg)
+					return false
+				end
 			end
 		end
 	end
@@ -531,7 +535,7 @@ function Auxiliary.FOperationMixRepUnfix(insf,sub,minc,maxc,...)
 				end
 				for tc in aux.Next(mustg) do
 					sg:AddCard(tc)
-					if tc:IsHasEffect(73941492+TYPE_FUSION) then
+					if not contact and tc:IsHasEffect(73941492+TYPE_FUSION) then
 						local eff={gc:GetCardEffect(73941492+TYPE_FUSION)}
 						for i=1,#eff do
 							local f=eff[i]:GetValue()
@@ -889,7 +893,7 @@ end
 function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 	local res
 	local rg=Group.CreateGroup()
-	if c:IsHasEffect(73941492+TYPE_FUSION) then
+	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
@@ -901,19 +905,21 @@ function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 			mg:Sub(sg2)
 		end
 	end
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
-	if g2:GetCount()>0 then
-		local tc=g2:GetFirst()
-		while tc do
-			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
-			for i,f in ipairs(eff) do
-				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
-					mg:Merge(rg)
-					return false
+	if not contact then
+		local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		if g2:GetCount()>0 then
+			local tc=g2:GetFirst()
+			while tc do
+				local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+				for i,f in ipairs(eff) do
+					if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
+						mg:Merge(rg)
+						return false
+					end
 				end
+				tc=g2:GetNext()
 			end
-			tc=g2:GetNext()
-		end	
+		end
 	end
 	sg:AddCard(c)
 	if sg:GetCount()<2 then
@@ -978,7 +984,7 @@ function Auxiliary.ShaddollFOperation(insf,f1,f2)
 					mg:Merge(sg)
 				end
 				if mustg:GetCount()>2 or (Auxiliary.FCheckExact and Auxiliary.FCheckExact~=2) or not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
-				if Duel.IsPlayerAffectedByEffect(tp,511004008) and Duel.SelectYesNo(1-tp,65) then
+				if not contact and Duel.IsPlayerAffectedByEffect(tp,511004008) and Duel.SelectYesNo(1-tp,65) then
 					p=1-tp
 					Duel.ConfirmCards(p,sg)
 					if mg:IsExists(Card.IsLocation,1,nil,LOCATION_HAND) then sfhchk=true end

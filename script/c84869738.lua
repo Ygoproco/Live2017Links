@@ -51,7 +51,7 @@ function c84869738.rescon(mft,exft,ft)
 	return	function(sg,e,tp,mg)
 				local exct=sg:FilterCount(Card.IsLocation,nil,LOCATION_EXTRA)
 				local mct=sg:FilterCount(aux.NOT(Card.IsLocation),nil,LOCATION_EXTRA)
-				return exft>=exct and mft>=mct and ft>=sg:GetCount()
+				return exft>=exct and mft>=mct and ft>=sg:GetCount() and sg:GetClassCount(Card.GetCode)>=sg:GetCount()
 			end
 end
 function c84869738.activate(e,tp,eg,ep,ev,re,r,rp)
