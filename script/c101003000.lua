@@ -37,21 +37,16 @@ function c101003000.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoHand(c,nil,REASON_EFFECT)
 end
 function c101003000.tgfilter(c,tp)
-	return Duel.IsExistingMatchingCard(c101003000.gyfilter,tp,0,LOCATION_MZONE,1,nil,c:GetColumnGroup())
+	return c:GetColumnGroup():IsExists(c101003000.gyfilter,nil,tp)
 end
-function c101003000.gyfilter(c,g)
-	return g:IsContains(c)
+function c101003000.gyfilter(c,tp)
+	return c:IsControler(tp) and c:IsLocation(LOCATION_PZONE)
 end
 function c101003000.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c101003000.tgfilter,tp,LOCATION_PZONE,0,1,nil,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c101003000.tgfilter,tp,0,LOCATION_MZONE,1,nil,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,0,1-tp,LOCATION_MZONE)
 end
 function c101003000.gyop(e,tp,eg,ep,ev,re,r,rp)
-	local pg=Duel.GetMatchingGroup(c101003000.tgfilter,tp,LOCATION_PZONE,0,nil,tp)
-	if pg:GetCount()==0 then return end
-	local g=Group.CreateGroup()
-	for pc in aux.Next(pg) do
-		g:Merge(Duel.GetMatchingGroup(c101003000.gyfilter,tp,0,LOCATION_MZONE,nil,pc:GetColumnZone()))
-	end
+	local g=Duel.GetMatchingGroup(c101003000.tgfilter,tp,0,LOCATION_MZONE,nil,tp)
 	Duel.SendtoGrave(g,REASON_EFFECT)
 end
