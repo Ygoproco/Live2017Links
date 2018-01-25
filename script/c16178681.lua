@@ -50,8 +50,8 @@ function c16178681.filter(c)
 end
 function c16178681.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsDestructable()
-		and Duel.IsExistingMatchingCard(c16178681.filter,tp,LOCATION_DECK,0,1,nil) and Duel.GetFlagEffect(tp,16178681)==0 end
-	Duel.RegisterFlagEffect(tp,16178681,RESET_PHASE+PHASE_END,0,1)
+		and Duel.IsExistingMatchingCard(c16178681.filter,tp,LOCATION_DECK,0,1,nil) and Duel.GetFlagEffect(tp,16178682)==0 end
+	Duel.RegisterFlagEffect(tp,16178682,RESET_PHASE+PHASE_END,0,1)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
