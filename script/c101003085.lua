@@ -54,7 +54,7 @@ function c101003085.activate(e,tp,eg,ep,ev,re,r,rp)
 	local thc=g:GetNext()
 	if spc~=e:GetLabelObject() then spc,thc=thc,spc end
 	if Duel.SpecialSummon(spc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)~=0 then
-		Duel.SendtoHand(thc,REASON_EFFECT)
+		Duel.SendtoHand(thc,nil,REASON_EFFECT)
 	end
 end
 function c101003085.drfilter(c)
