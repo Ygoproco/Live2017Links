@@ -42,7 +42,7 @@ function c98645731.initial_effect(c)
 	end
 end
 function c98645731.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetActivityCount(tp,ACTIVITY_SPSUMMON)==0 end
+	if chk==0 then return Duel.GetActivityCount(tp,ACTIVITY_SPSUMMON)==0 and not c98645731[tp] end
 	--oath effects
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -84,7 +84,7 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 		local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
 		if ex then
 			if cg and cg:GetCount()>0 then
-				if cp==0 or cp==PLAYER_ALL then
+				if (rp==0 and cp==0) or cp==PLAYER_ALL then
 					c98645731[2][ev]=true
 				end
 			else
@@ -101,11 +101,11 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 		local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
 		if ex then
 			if cg and cg:GetCount()>0 then
-				if cp==1 or cp==PLAYER_ALL then
+				if cp==0 or cp==1 or cp==PLAYER_ALL then
 					c98645731[3][ev]=true
 				end
 			else
-				if rp==1 then
+				if rp==1 or cp==1 then
 					c98645731[3][ev]=true
 				end
 			end

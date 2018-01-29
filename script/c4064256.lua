@@ -37,11 +37,15 @@ function c4064256.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c4064256.tg(e,c)
-	--[[local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
-	for _,te in ipairs(eff) do
-		local op=te:GetOperation()
-		if not op or op(e,c) then return false end
-	end]]
+	if c:GetFlagEffect(1)==0 then
+		c:RegisterFlagEffect(1,0,0,0)
+		local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		c:ResetFlagEffect(1)
+		for _,te in ipairs(eff) do
+			local op=te:GetOperation()
+			if not op or op(e,c) then return false end
+		end
+	end
 	return true
 end
 function c4064256.val(e,c,re,chk)
