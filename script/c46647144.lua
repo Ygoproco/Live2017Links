@@ -1,6 +1,5 @@
 --星遺物－『星槍』
 --World Legacy - "World Lance"
---Script by nekrozar
 function c46647144.initial_effect(c)
 	--atkdown
 	local e1=Effect.CreateEffect(c)
@@ -78,10 +77,12 @@ function c46647144.tkop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
 		or Duel.GetLocationCount(1-tp,LOCATION_MZONE)<=0
 		or not Duel.IsPlayerCanSpecialSummonMonster(tp,46647145,0xfe,0x4011,0,0,1,RACE_MACHINE,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE)
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,46647145,0xfe,0x4011,0,0,1,RACE_MACHINE,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE,1-tp) then return end
-	local token=Duel.CreateToken(tp,46647145)
-	Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
-	Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,46647145,0xfe,0x4011,0,0,1,RACE_MACHINE,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE,1-tp) 
+		or Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	local t1=Duel.CreateToken(tp,46647145)
+	local t2=Duel.CreateToken(tp,46647145)
+	Duel.SpecialSummonStep(t1,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+	Duel.SpecialSummonStep(t2,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
 	Duel.SpecialSummonComplete()
 end
 
