@@ -57,6 +57,7 @@ function Card.CheckAdjacent(c)
 		or (seq<4 and Duel.CheckLocation(p,LOCATION_MZONE,seq+1))
 end
 function Card.MoveAdjacent(c)
+	local tp=c:GetControler()
 	local seq=c:GetSequence()
 	if seq>4 then return end
 	local flag=0
