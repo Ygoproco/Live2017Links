@@ -57,6 +57,7 @@ function c10045474.activate(e,tp,eg,ep,ev,re,r,rp)
 		if not tc:IsImmuneToEffect(e1) and not tc:IsImmuneToEffect(e2) and (not e3 or not tc:IsImmuneToEffect(e3)) 
 			and c:IsRelateToEffect(e) and pos&POS_FACEDOWN>0 then
 			Duel.BreakEffect()
+			c:RegisterFlagEffect(10045474,RESET_CHAIN,0,0)
 			local e4=Effect.CreateEffect(c)
 			e4:SetType(EFFECT_TYPE_FIELD)
 			e4:SetCode(EFFECT_DISABLE)
@@ -78,12 +79,13 @@ end
 function c10045474.distg(e,c)
 	local seq=e:GetLabel()
 	if c:IsControler(1-e:GetHandlerPlayer()) then seq=4-seq end
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and seq==c:GetSequence()
+	return c:IsType(TYPE_SPELL+TYPE_TRAP) and seq==c:GetSequence() and c:GetFlagEffect(10045474)==0
 end
 function c10045474.disop(e,tp,eg,ep,ev,re,r,rp)
 	local cseq=e:GetLabel()
-	if not re:IsActiveType(TYPE_SPELL+TYPE_TRAP) then return false end
+	if not re:IsActiveType(TYPE_SPELL+TYPE_TRAP) then return end
 	local rc=re:GetHandler()
+	if rc:GetFlagEffect(10045474)>0 then return end
 	local p,loc,seq=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION,CHAININFO_TRIGGERING_SEQUENCE)
 	if re:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		if loc&LOCATION_SZONE==0 or rc:IsControler(1-p) then

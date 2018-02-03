@@ -8,7 +8,7 @@ function c99674361.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,99674361+EFFECT_COUNT_CODE_OATH)
+	e1:SetCountLimit(1,99674361)
 	e1:SetTarget(c99674361.target)
 	e1:SetOperation(c99674361.activate)
 	c:RegisterEffect(e1)
@@ -27,7 +27,7 @@ function c99674361.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c99674361.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	local zone=Duel.GetLinkedZone(tp)
+	local zone=Duel.GetLinkedZone(tp)&0x1f
 	if tc:IsRelateToEffect(e) and zone~=0 then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP,zone)
 	end

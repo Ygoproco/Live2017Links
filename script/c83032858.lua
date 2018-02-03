@@ -1,6 +1,5 @@
 --エレメントセイバー・アイナ
 --Elementsaber Aina
---Script by nekrozar
 function c83032858.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -62,19 +61,32 @@ function c83032858.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c83032858.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,true,false,POS_FACEUP)
 	end
 end
 function c83032858.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	local c=e:GetHandler()
+	if chk==0 then
+		local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		for _,te in ipairs(eff) do
+			local op=te:GetOperation()
+			if not op or op(e,c) then return false end
+		end
+		return true
+	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
-	local att=Duel.AnnounceAttribute(tp,1,0xff-e:GetHandler():GetAttribute())
+	local att=Duel.AnnounceAttribute(tp,1,0xff-c:GetAttribute())
 	e:SetLabel(att)
 end
 function c83032858.attop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
+		local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		for _,te in ipairs(eff) do
+			local op=te:GetOperation()
+			if not op or op(e,c) then return end
+		end
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_ATTRIBUTE)

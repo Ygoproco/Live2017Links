@@ -5,6 +5,43 @@ POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
 TYPE_EXTRA=TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK
 
+Group.__add = function (o1,o2)
+	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
+	o1=o1:Clone()
+	if userdatatype(o2)=="Card" then
+		o1:AddCard(o2)
+	else
+		o1:Merge(o2)
+	end
+	return o1
+end
+
+Group.__sub = function (o1,o2)
+	o1=o1:Clone()
+	if userdatatype(o2)=="Card" then
+		o1:RemoveCard(o2)
+	else
+		o1:Sub(o2)
+	end
+	return o1
+end
+
+Group.__len = function (g)
+	return g:GetCount()
+end
+
+Group.__eq = function (g1,g2)
+	return #g1==#g2
+end
+
+Group.__lt = function (g1,g2)
+	return #g1<#g2
+end
+
+Group.__le = function (g1,g2)
+	return #g1<=#g2
+end
+
 function userdatatype(o)
 	if type(o)~="userdata" then return "not userdata"
 	elseif o.GetOriginalCode then return "Card"
@@ -20,6 +57,7 @@ function Card.CheckAdjacent(c)
 		or (seq<4 and Duel.CheckLocation(p,LOCATION_MZONE,seq+1))
 end
 function Card.MoveAdjacent(c)
+	local tp=c:GetControler()
 	local seq=c:GetSequence()
 	if seq>4 then return end
 	local flag=0
@@ -42,9 +80,7 @@ function Auxiliary.GetMustBeMaterialGroup(tp,eg,sump,sc,g,r)
 	return sg
 end
 function Group.Includes(g1,g2)
-	local g1p=g1:Clone()
-	g1p:Sub(g2)
-	return g1p:GetCount()+g2:GetCount()==g1:GetCount()
+	return #(g1-g2)+#g2==#g1
 end
 function Auxiliary.ExtraLinked(c,emc,card,eg)
 	eg:AddCard(c)
