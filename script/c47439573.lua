@@ -30,7 +30,7 @@ function c47439573.rmfilter(c,g)
 	return c:IsAbleToRemove() and g:IsExists(Card.IsCode,1,nil,c:GetCode())
 end
 function c47439573.activate(e,tp,eg,ep,ev,re,r,rp)
-	local dg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(c47439573.filter,nil,e,tp)
+	local dg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(c47439573.filter,nil,e,1-tp)
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
 	if g:GetCount()>0 then
 		Duel.ConfirmCards(tp,g)
