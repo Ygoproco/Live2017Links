@@ -1,4 +1,4 @@
---Chimeratech Megafleet Dragon
+--キメラテック・メガフリート・ドラゴン
 function c87116928.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -13,8 +13,8 @@ function c87116928.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 c87116928.material_setcode={0x93,0x1093}
-function c87116928.matfilter(c)
-	return c:GetSequence()>4 and c:IsLocation(LOCATION_MZONE)
+function c87116928.matfilter(c,fc,sumtype,tp)
+	return c:GetSequence()>4 and c:IsLocation(LOCATION_MZONE) and (c:IsControler(tp) or c:IsFaceup())
 end
 function c87116928.splimit(e,se,sp,st)
 	return e:GetHandler():GetLocation()~=LOCATION_EXTRA
