@@ -76,7 +76,7 @@ function c100306001.tdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectMatchingCard(1-tp,Card.IsAbleToDeck,1-tp,LOCATION_HAND,0,1,1,nil)
 	if g:GetCount()>0 then
-		if Duel.SelectOption(1-tp,aux.Stringid(100306001,2),aux.Stringid(100306001,3))==0 then
+		if Duel.SelectOption(tp,aux.Stringid(100306001,2),aux.Stringid(100306001,3))==0 then
 			Duel.SendtoDeck(g,nil,0,REASON_EFFECT)
 		else
 			Duel.SendtoDeck(g,nil,1,REASON_EFFECT)
