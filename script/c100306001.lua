@@ -1,5 +1,5 @@
 --闇黒の魔王ディアボロス
---Darkest Diabolos, King of the Lair
+--Darkest Diabolos, Lord of the Lair
 --Scripted by Eerie Code
 function c100306001.initial_effect(c)
 	--cannot release
@@ -12,6 +12,7 @@ function c100306001.initial_effect(c)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_UNRELEASABLE_NONSUM)
+	e2:SetValue(c100306001.sumlimit2)
 	c:RegisterEffect(e2)
 	--cannot be target
 	local e3=Effect.CreateEffect(c)
@@ -45,6 +46,10 @@ end
 function c100306001.sumlimit(e,c)
 	if not c then return false end
 	return not c:IsControler(e:GetHandlerPlayer())
+end
+function c100306001.sumlimit2(e)
+	local p=Duel.GetChainInfo(0,CHAININFO_TRIGGERING_PLAYER)
+	return p~=e:GetHandlerPlayer()
 end
 function c100306001.spcfilter(c,tp)
 	return c:GetPreviousControler()==tp and c:GetPreviousAttributeOnField()==ATTRIBUTE_DARK
