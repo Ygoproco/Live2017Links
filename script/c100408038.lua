@@ -123,7 +123,7 @@ function c100408038.setop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(LOCATION_REMOVED)
 		e1:SetReset(RESET_EVENT+0x47e0000)
-		c:RegisterEffect(e1)
+		tc:RegisterEffect(e1)
 		tc=tg:GetNext()
 	end
 	Duel.ConfirmCards(1-tp,tg)
