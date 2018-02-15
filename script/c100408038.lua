@@ -65,7 +65,7 @@ function c100408038.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.BreakEffect()
 	Duel.SendtoGrave(tc,REASON_EFFECT)
 end
-function c100408038.chainop(e,tp,eg,ep,ev,re,r,rp)
+function c100408038.actop(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_SPELL) then
 		Duel.SetChainLimit(c100408038.chainlm)
