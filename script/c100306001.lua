@@ -41,6 +41,7 @@ function c100306001.initial_effect(c)
 	e5:SetCost(c100306001.tdcost)
 	e5:SetTarget(c100306001.tdtg)
 	e5:SetOperation(c100306001.tdop)
+	e5:SetLabelObject(e2)
 	c:RegisterEffect(e5)
 end
 function c100306001.sumlimit(e,c)
@@ -69,10 +70,18 @@ function c100306001.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+
 function c100306001.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,nil,ATTRIBUTE_DARK) end
-    local g=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,nil,ATTRIBUTE_DARK)
-    Duel.Release(g,REASON_COST)
+	local eff = e:GetLabelObject()
+	local eff2 = eff:Clone()
+	eff:Reset()
+	if chk==0 then 
+		return Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,nil,ATTRIBUTE_DARK) 
+	else
+		local g=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,nil,ATTRIBUTE_DARK)
+		Duel.Release(g,REASON_COST)
+	end
+	e:GetHandler():RegisterEffect(eff2)
 end
 function c100306001.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,0,LOCATION_HAND,1,nil) end
