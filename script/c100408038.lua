@@ -101,7 +101,7 @@ end
 function c100408038.setop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local ct=e:GetLabel()
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
 	if ct>ft then ct=ft end
 	if ct<=0 then return end
 	local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c100408038.setfilter),tp,LOCATION_GRAVE,0,nil)

@@ -54,7 +54,8 @@ function c100408034.activate(e,tp,eg,ep,ev,re,r,rp)
 			e3:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 			tc:RegisterEffect(e3)
 		end
-		if Duel.GetMatchingGroupCount(Card.IsType,tp,LOCATION_GRAVE,0,nil,TYPE_SPELL)>=3 and tc:IsControlerCanBeChanged() and Duel.SelectYesNo(tp,aux.Stringid(100408034,0)) then
+		if Duel.GetMatchingGroupCount(Card.IsType,tp,LOCATION_GRAVE,0,nil,TYPE_SPELL)>=3 and
+		tc:IsControlerCanBeChanged() and tc:IsControler(1-tp) and Duel.SelectYesNo(tp,aux.Stringid(100408034,0)) then
 			Duel.BreakEffect()
 			Duel.GetControl(tc,tp,PHASE_END,1)
 		end

@@ -1,6 +1,6 @@
 --闇黒の魔王ディアボロス
 --Darkest Diabolos, Lord of the Lair
---Scripted by Eerie Code
+--Scripted by Eerie Code, completed by Lyris
 function c100306001.initial_effect(c)
 	--cannot release
 	local e1=Effect.CreateEffect(c)
@@ -10,14 +10,20 @@ function c100306001.initial_effect(c)
 	e1:SetCode(EFFECT_UNRELEASABLE_SUM)
 	e1:SetValue(c100306001.sumlimit)
 	c:RegisterEffect(e1)
-	local e2=e1:Clone()
-	e2:SetCode(EFFECT_UNRELEASABLE_NONSUM)
-	e2:SetValue(c100306001.sumlimit2)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(EFFECT_CANNOT_RELEASE)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetTargetRange(0,1)
+	e2:SetTarget(c100306001.relval)
+	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	--cannot be target
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetValue(aux.tgoval)
 	c:RegisterEffect(e3)
@@ -47,9 +53,8 @@ function c100306001.sumlimit(e,c)
 	if not c then return false end
 	return not c:IsControler(e:GetHandlerPlayer())
 end
-function c100306001.sumlimit2(e)
-	local p=Duel.GetChainInfo(0,CHAININFO_TRIGGERING_PLAYER)
-	return p~=e:GetHandlerPlayer()
+function c100306001.relval(e,c)
+	return c==e:GetHandler()
 end
 function c100306001.spcfilter(c,tp)
 	return c:GetPreviousControler()==tp and c:GetPreviousAttributeOnField()==ATTRIBUTE_DARK
@@ -81,7 +86,7 @@ function c100306001.tdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectMatchingCard(1-tp,Card.IsAbleToDeck,1-tp,LOCATION_HAND,0,1,1,nil)
 	if g:GetCount()>0 then
-		if Duel.SelectOption(tp,aux.Stringid(100306001,2),aux.Stringid(100306001,3))==0 then
+		if Duel.SelectOption(1-tp,aux.Stringid(100306001,2),aux.Stringid(100306001,3))==0 then
 			Duel.SendtoDeck(g,nil,0,REASON_EFFECT)
 		else
 			Duel.SendtoDeck(g,nil,1,REASON_EFFECT)
