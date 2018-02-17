@@ -1,5 +1,6 @@
 --センサー万別
 --Sensor Differentiation
+--scripted by edo and eerie
 function c24207889.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -83,7 +84,7 @@ function c24207889.adjustop(e,tp,eg,ep,ev,re,r,rp)
 		c24207889[1]:Clear()
 	end
 	for p=0,1 do
-		local pg=c24207889[p]:Filter(Card.IsLocation,nil,LOCATION_MZONE)
+		local pg=c24207889[p]
 		local g=Duel.GetMatchingGroup(Card.IsFaceup,p,LOCATION_MZONE,0,nil)
 		local dg=g:Filter(c24207889.filter,nil,g,pg)
 		if dg:GetCount()==0 or Duel.SendtoGrave(dg,REASON_EFFECT)==0 then
