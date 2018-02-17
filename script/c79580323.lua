@@ -34,7 +34,7 @@ function c79580323.splimit(e,se,sp,st)
 	return st==(SUMMON_TYPE_SPECIAL+101) or st&SUMMON_TYPE_PENDULUM==SUMMON_TYPE_PENDULUM
 end
 function c79580323.sfilter(c)
-	return c:IsSetCard(0x4a) and c:IsType(TYPE_EQUIP) and c:IsAbleToHand()
+	return c:IsSetCard(0x4d) and c:IsType(TYPE_EQUIP) and c:IsAbleToHand()
 end
 function c79580323.stg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
