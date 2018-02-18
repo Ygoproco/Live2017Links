@@ -573,7 +573,7 @@ function Auxiliary.EquipByEffectLimit(e,c)
 	if e:GetOwner()~=c then return false end
 	local eff={c:GetCardEffect(89785779+EFFECT_EQUIP_LIMIT)}
 	for _,te in ipairs(eff) do
-		if te==e:GetLabelObject() then return true end
+		if te:GetLabelObject():GetLabelObject()==e:GetLabelObject() then return true end
 	end
 	return false
 end
