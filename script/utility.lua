@@ -566,7 +566,7 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 		e2:SetReset(resetflag)
 	end
 	c:RegisterEffect(e2)
-	linkedeff:SetLabelObject(e2)
+	e2:SetLabelObject(linkedeff)
 end
 
 function Auxiliary.EquipByEffectLimit(e,c)
