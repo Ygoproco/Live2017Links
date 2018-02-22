@@ -179,7 +179,7 @@ function Card.RegisterEffect(c,e,forced,...)
 	if e:GetCode()==EFFECT_SPSUMMON_PROC then
 		local target=e:GetTarget()
 		e:SetTarget(function(e,...)
-		local res = target(e,table.unpack({...}))
+		local res = target and target(e,table.unpack({...})) or true
 		if res and e:GetHandler():IsLocation(LOCATION_EXTRA) then
 			aux.ExtraSummon=true
 			local e1=Effect.GlobalEffect()
