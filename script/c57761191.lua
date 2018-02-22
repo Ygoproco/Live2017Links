@@ -161,13 +161,13 @@ function c21377582.regop(e,tp,eg,ep,ev,re,r,rp)
 	local typ=e:GetLabelObject():GetLabel()
 	e:SetLabel(typ)
 	if typ&TYPE_MONSTER~=0 then
-		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,3))
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,2))
 	end
 	if typ&TYPE_SPELL~=0 then
-		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,4))
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,3))
 	end
 	if typ&TYPE_TRAP~=0 then
-		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,5))
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,4))
 	end
 end
 function c21377582.efilter(e,te)
