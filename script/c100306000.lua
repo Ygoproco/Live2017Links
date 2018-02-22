@@ -36,7 +36,6 @@ end
 function c100306000.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0 
 		and Duel.IsExistingMatchingCard(c100306000.thfilter,tp,LOCATION_DECK,0,3,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c100306000.thop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c100306000.thfilter,tp,LOCATION_DECK,0,nil)
