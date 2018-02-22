@@ -1,5 +1,5 @@
 --ヴァンパイア・デザイア
-
+--Vampire Desire
 --Script by nekrozar
 function c100408008.initial_effect(c)
 	--Activate
@@ -78,7 +78,7 @@ function c100408008.activate(e,tp,eg,ep,ev,re,r,rp)
 	else
 		local tc=Duel.GetFirstTarget()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		local tg=Duel.SelectMatchingCard(tp,c100408008.spfilter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
+		local g=Duel.SelectMatchingCard(tp,c100408008.spfilter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
 		if g:GetCount()>0 and Duel.SendtoGrave(g,REASON_EFFECT)~=0 and g:GetFirst():IsLocation(LOCATION_GRAVE)
 			and tc:IsRelateToEffect(e) then
 			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)

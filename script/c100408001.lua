@@ -1,5 +1,5 @@
 --ヴァンパイアの使い魔
-
+--Vampire Familiar
 --Script by nekrozar
 function c100408001.initial_effect(c)
 	--tohand
