@@ -36,7 +36,7 @@ function c21377582.initial_effect(c)
     	e4:SetLabelObject(e2)
     	c:RegisterEffect(e4) 
 	--destroy
-	local e4=Effect.CreateEffect(c)
+	local e5=Effect.CreateEffect(c)
 	e5:SetDescription(aux.Stringid(21377582,2))
 	e5:SetCategory(CATEGORY_DESTROY)
 	e5:SetType(EFFECT_TYPE_QUICK_O)
