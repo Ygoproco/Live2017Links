@@ -36,8 +36,8 @@ function c57761191.initial_effect(c)
 	e5:SetCode(EFFECT_IMMUNE_EFFECT)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetCondition(c21377582.regcon)
-	e5:SetValue(c21377582.efilter)
+	e5:SetCondition(c57761191.regcon)
+	e5:SetValue(c57761191.efilter)
 	e5:SetLabelObject(e4)
 	c:RegisterEffect(e5)
 	--immune hint reg
@@ -45,8 +45,8 @@ function c57761191.initial_effect(c)
 	e6:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
 	e6:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e6:SetCode(EVENT_SUMMON_SUCCESS)
-	e6:SetCondition(c21377582.regcon)
-	e6:SetOperation(c21377582.regop)
+	e6:SetCondition(c57761191.regcon)
+	e6:SetOperation(c57761191.regop)
 	e6:SetLabelObject(e4)
 	c:RegisterEffect(e6) 
 	--special summon
@@ -156,21 +156,21 @@ end
 function c57761191.regcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_ADVANCE)
 end
-function c21377582.regop(e,tp,eg,ep,ev,re,r,rp)
+function c57761191.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local typ=e:GetLabelObject():GetLabel()
 	e:SetLabel(typ)
 	if typ&TYPE_MONSTER~=0 then
-		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,2))
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(57761191,2))
 	end
 	if typ&TYPE_SPELL~=0 then
-		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,3))
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(57761191,3))
 	end
 	if typ&TYPE_TRAP~=0 then
-		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(21377582,4))
+		c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(57761191,4))
 	end
 end
-function c21377582.efilter(e,te)
+function c57761191.efilter(e,te)
 	local typ=e:GetLabelObject():GetLabel()
 	e:SetLabel(typ)
 	return te:IsActiveType(e:GetLabel()) and te:GetOwner()~=e:GetOwner()
