@@ -5,6 +5,43 @@ POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
 TYPE_EXTRA=TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK
 
+--things needed for steelswarm origin
+local iscan=Duel.IsCanBeSpecialSummoned
+Duel.IsCanBeSpecialSummoned=function(c,...)
+	if c:IsLocation(LOCATION_EXTRA) then
+		aux.ExtraSummon=true
+	end
+	local res=iscan(c,table.unpack({...}))
+	aux.ExtraSummon=false
+	return res
+end
+Duel.SpecialSummon=function(o,...)
+	local g1=(Group.CreateGroup()+o):Filter(Card.IsLocation,nil,LOCATION_EXTRA)
+	local g2=(Group.CreateGroup()+o)-g1
+	local count = 0
+	aux.ExtraSummon=true
+	for c in aux.Next(g1) do
+		if Duel.SpecialSummonStep(c,table.unpack({...})) then
+			count = count + 1
+		end
+	end
+	aux.ExtraSummon=false
+	for c in aux.Next(g2) do
+		if Duel.SpecialSummonStep(c,table.unpack({...})) then
+			count = count + 1
+		end
+	end
+	Duel.SpecialSummonComplete()
+	return count
+end
+local lcex=Duel.GetLocationCountFromEx
+Duel.GetLocationCountFromEx=function(...)
+	aux.ExtraSummon=true
+	local res = lcex(table.unpack({...}))
+	aux.ExtraSummon=false
+	return res
+end
+
 Group.__add = function (o1,o2)
 	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
 	o1=o1:Clone()
@@ -137,6 +174,22 @@ function Card.RegisterEffect(c,e,forced,...)
 			e2:SetReset(resetflag)
 		end
 		c:RegisterEffect(e2)
+	end
+	--used for steelswarm origin, updates the summon procedures to support its effect
+	if e:GetCode()==EFFECT_SPSUMMON_PROC then
+		local target=e:GetTarget()
+		e:SetTarget(function(e,...)
+		local res = target(e,table.unpack({...}))
+		if res and e:GetHandler():IsLocation(LOCATION_EXTRA) then
+			aux.ExtraSummon=true
+			local e1=Effect.GlobalEffect()
+			e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+			e1:SetCode(EVENT_ADJUST)
+			e1:SetOperation(function(e)aux.ExtraSummon=false e:Reset() end)
+			Duel.RegisterEffect(e1,0)
+		end
+		return res
+		end)
 	end
 end
 function Card.IsColumn(c,seq,tp,loc)
