@@ -122,9 +122,9 @@ function Auxiliary.PendOperation()
 					Duel.HintSelection(Group.FromCards(rpz))
 					 if sg:IsExists(Card.IsLocation,1,nil,LOCATION_EXTRA) then
 						local g2=sg:Clone()
-                        g2:KeepAlive()
-                        aux.SummoningGroup=g2
-                        aux.SummoningCard=nil
+						g2:KeepAlive()
+						aux.SummoningGroup=g2
+						aux.SummoningCard=nil
 					end
 				end
 			end
