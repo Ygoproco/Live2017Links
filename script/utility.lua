@@ -11,23 +11,27 @@ Duel.IsCanBeSpecialSummoned=function(c,...)
 	if c:IsLocation(LOCATION_EXTRA) then
 		aux.ExtraSummon=true
 	end
-	local res=iscan(c,table.unpack({...}))
+	local res=iscan(c,...)
 	aux.ExtraSummon=false
 	return res
 end
+local spsum=Duel.SpecialSummon
 Duel.SpecialSummon=function(o,...)
 	local g1=(Group.CreateGroup()+o):Filter(Card.IsLocation,nil,LOCATION_EXTRA)
 	local g2=(Group.CreateGroup()+o)-g1
+	if #g1 == 0 then
+		return spsum(o,...)
+	end
 	local count = 0
 	aux.ExtraSummon=true
 	for c in aux.Next(g1) do
-		if Duel.SpecialSummonStep(c,table.unpack({...})) then
+		if Duel.SpecialSummonStep(c,...) then
 			count = count + 1
 		end
 	end
 	aux.ExtraSummon=false
 	for c in aux.Next(g2) do
-		if Duel.SpecialSummonStep(c,table.unpack({...})) then
+		if Duel.SpecialSummonStep(c,...) then
 			count = count + 1
 		end
 	end
@@ -37,7 +41,7 @@ end
 local lcex=Duel.GetLocationCountFromEx
 Duel.GetLocationCountFromEx=function(...)
 	aux.ExtraSummon=true
-	local res = lcex(table.unpack({...}))
+	local res = lcex(...)
 	aux.ExtraSummon=false
 	return res
 end
@@ -178,20 +182,21 @@ function Card.RegisterEffect(c,e,forced,...)
 	--used for steelswarm origin, updates the summon procedures to support its effect
 	if e:GetCode()==EFFECT_SPSUMMON_PROC then
 		local target=e:GetTarget()
-		if target then
-			e:SetTarget(function(e,...)
-				local res = target(e,...)
-				if res and e:GetHandler():IsLocation(LOCATION_EXTRA) then
-					aux.ExtraSummon=true
-					local e1=Effect.GlobalEffect()
-					e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
-					e1:SetCode(EVENT_ADJUST)
-					e1:SetOperation(function(e)aux.ExtraSummon=false e:Reset() end)
-					Duel.RegisterEffect(e1,0)
-				end
-				return res
-			end)
-		end
+		e:SetTarget(function(e,...)
+			local res = true
+			if target then
+				res = target(e,...)
+			end
+			if res and e:GetHandler():IsLocation(LOCATION_EXTRA) then
+				aux.ExtraSummon=true
+				local e1=Effect.GlobalEffect()
+				e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+				e1:SetCode(EVENT_ADJUST)
+				e1:SetOperation(function(e)aux.ExtraSummon=false e:Reset() end)
+				Duel.RegisterEffect(e1,0)
+			end
+			return res
+		end)
 	end
 end
 local geff=Effect.GlobalEffect
