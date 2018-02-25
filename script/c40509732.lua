@@ -46,7 +46,7 @@ end
 function c40509732.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetAttackTarget()
-	if not tc then return end
+	if not tc or not c:IsFaceup() then return end
 	if tc:IsControler(tp) then tc=Duel.GetAttacker() end
 	c:CreateRelation(tc,RESET_EVENT+0x1fe0000)
 	local e1=Effect.CreateEffect(c)
