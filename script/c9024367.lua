@@ -27,7 +27,7 @@ function c9024367.initial_effect(c)
 	e4:SetOperation(c9024367.disop)
 	c:RegisterEffect(e4)
 	local e5=e4:Clone()
-	e5:SetCode(EVENT_BE_BATTLE_TARGET)
+	e5:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	c:RegisterEffect(e5)
 end
 function c9024367.bttg(e,c)
@@ -41,7 +41,7 @@ end
 function c9024367.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
-	if bc and bc:IsRace(RACE_DRAGON) and c:IsFaceup() then
+	if bc and bc:IsRace(RACE_DRAGON) then
 		c:CreateRelation(bc,RESET_EVENT+0x1fe0000)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
