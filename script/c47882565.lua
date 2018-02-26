@@ -65,6 +65,7 @@ function c47882565.activate(e,tp,eg,ep,ev,re,r,rp)
 			sc:RegisterEffect(e2,true)
 		end
 		sc:CompleteProcedure()
+		sc:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(47882565,0))
 	end
 end
 function c47882565.atkfilter(c)
