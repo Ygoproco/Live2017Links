@@ -62,7 +62,7 @@ end
 function c19642889.negop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
-	if bc and bc:IsAtrribute(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK) and c:IsFaceup() then
+	if bc and bc:IsAttribute(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK) and c:IsFaceup() then
 		c:CreateRelation(bc,RESET_EVENT+0x1fe0000)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
