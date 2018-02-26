@@ -1,6 +1,4 @@
 --星遺物からの目醒め
---World Legacy Awakening
---Script by nekrozar
 function c12989604.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -13,7 +11,7 @@ function c12989604.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c12989604.filter(c)
-	return c:IsSpecialSummonable(SUMMON_TYPE_LINK)
+	return c:IsType(TYPE_LINK) and c:IsSpecialSummonable(SUMMON_TYPE_LINK)
 end
 function c12989604.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c12989604.filter,tp,LOCATION_EXTRA,0,1,nil) end
