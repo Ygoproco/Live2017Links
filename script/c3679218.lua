@@ -31,7 +31,7 @@ function c3679218.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c3679218.matfilter(c)
-	return c:IsSetCard(0x112) and not c:IsCode(3679218)
+	return c:IsLinkSetCard(0x112) and not c:IsLinkCode(3679218)
 end
 function c3679218.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
