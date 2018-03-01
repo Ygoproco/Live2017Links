@@ -198,7 +198,48 @@ function Card.RegisterEffect(c,e,forced,...)
 			return res
 		end)
 	end
+	local tmp = function(eff,set)
+		return function(...)
+			local cond=eff:GetCondition()
+			eff:SetCondition(function(...)
+				Debug.Message(aux.linkset)
+				return ((not set and not aux.linkset) or (set and aux.linkset)) and (not cond or cond(...))
+			end)
+		end
+	end
+	if e:GetCode()==EFFECT_ADD_FUSION_CODE or e:GetCode()==EFFECT_ADD_FUSION_SETCODE then
+		tmp(e,false)
+	end
+	if e:GetCode()==EFFECT_ADD_LINK_CODE or e:GetCode()==EFFECT_ADD_LINK_SETCODE then
+		tmp(e,true)
+		if e:GetCode()==EFFECT_ADD_LINK_CODE  then e:SetCode(EFFECT_ADD_FUSION_CODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_SETCODE  then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
+	end
+	tmp = nil
 end
+local fsets = Card.IsFusionSetCard
+local fgets = Card.GetFusionSetCard
+local fsetc = Card.IsFusionCode
+local fgetc = Card.GetFusionCode
+local tmp = function(set,func)
+	return function(...)
+		local prev = aux.linkset
+		aux.linkset=set
+		local res = func(...)
+		aux.linkset = prev
+		return res
+	end
+end
+Card.IsFusionSetCard = tmp(false,fsets)
+Card.IsLinkSetCard = tmp(true,fsets)
+Card.GetFusionSetCard = tmp(false,fgets)
+Card.GetLinkSetCard = tmp(true,fgets)
+Card.IsFusionCode = tmp(false,fsetc)
+Card.IsLinkCode = tmp(true,fsetc)
+Card.GetFusionCode = tmp(false,fgetc)
+Card.GetLinkCode = tmp(true,fgetc)
+tmp = nil
+
 local geff=Effect.GlobalEffect
 function Effect.GlobalEffect()
 	if not aux.penreg then

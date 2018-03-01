@@ -2,7 +2,7 @@
 --force effect scripted by edo9300
 function c61888819.initial_effect(c)
     --link summon
-    aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0xa),2,2)
+    aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0xa),2,2)
     c:EnableReviveLimit()
     --force mzone
     local e1=Effect.CreateEffect(c)
