@@ -27,6 +27,7 @@ function c100241003.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
+	local tc=g:GetFirst()
 	if tc:IsLocation(LOCATION_MZONE) then
 		local atk=g:GetFirst():GetTextAttack()
 		if atk<0 then atk=0 end
