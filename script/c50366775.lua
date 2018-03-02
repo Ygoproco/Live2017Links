@@ -52,9 +52,6 @@ function c50366775.operation(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(code2)
 		c:RegisterEffect(e2)
 	end
-	for _,code in ipairs({c:GetLinkCode()}) do
-		Debug.Message(code)
-	end
 	local e3=e1:Clone()
 	e3:SetCode(EFFECT_ADD_ATTRIBUTE)
 	e3:SetOperation(c50366775.chngcon)

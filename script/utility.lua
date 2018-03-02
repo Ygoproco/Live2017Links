@@ -154,6 +154,24 @@ end
 local regeff=Card.RegisterEffect
 function Card.RegisterEffect(c,e,forced,...)
 	if c:IsStatus(STATUS_INITIALIZING) and not e then Debug.Message("missing (Effect e) in c"..c:GetOriginalCode()..".lua") return end
+	local tmp = function(eff,set)
+		return function(...)
+			local cond=eff:GetCondition()
+			eff:SetCondition(function(...)
+				Debug.Message(aux.linkset)
+				return ((not set and not aux.linkset) or (set and aux.linkset)) and (not cond or cond(...))
+			end)
+		end
+	end
+	if e:GetCode()==EFFECT_ADD_FUSION_CODE or e:GetCode()==EFFECT_ADD_FUSION_SETCODE then
+		tmp(e,false)
+	end
+	if e:GetCode()==EFFECT_ADD_LINK_CODE or e:GetCode()==EFFECT_ADD_LINK_SETCODE then
+		tmp(e,true)
+		if e:GetCode()==EFFECT_ADD_LINK_CODE  then e:SetCode(EFFECT_ADD_FUSION_CODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_SETCODE  then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
+	end
+	tmp = nil
 	--1 == 511002571 - access to effects that activate that detach an Xyz Material as cost
 	--2 == 511001692 - access to Cardian Summoning conditions/effects
 	regeff(c,e,forced)
@@ -198,24 +216,6 @@ function Card.RegisterEffect(c,e,forced,...)
 			return res
 		end)
 	end
-	local tmp = function(eff,set)
-		return function(...)
-			local cond=eff:GetCondition()
-			eff:SetCondition(function(...)
-				Debug.Message(aux.linkset)
-				return ((not set and not aux.linkset) or (set and aux.linkset)) and (not cond or cond(...))
-			end)
-		end
-	end
-	if e:GetCode()==EFFECT_ADD_FUSION_CODE or e:GetCode()==EFFECT_ADD_FUSION_SETCODE then
-		tmp(e,false)
-	end
-	if e:GetCode()==EFFECT_ADD_LINK_CODE or e:GetCode()==EFFECT_ADD_LINK_SETCODE then
-		tmp(e,true)
-		if e:GetCode()==EFFECT_ADD_LINK_CODE  then e:SetCode(EFFECT_ADD_FUSION_CODE) end
-		if e:GetCode()==EFFECT_ADD_LINK_SETCODE  then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
-	end
-	tmp = nil
 end
 local fsets = Card.IsFusionSetCard
 local fgets = Card.GetFusionSetCard
@@ -225,9 +225,9 @@ local tmp = function(set,func)
 	return function(...)
 		local prev = aux.linkset
 		aux.linkset=set
-		local res = func(...)
+		local res = {func(...)}
 		aux.linkset = prev
-		return res
+		return table.unpack(res)
 	end
 end
 Card.IsFusionSetCard = tmp(false,fsets)
