@@ -42,7 +42,6 @@ function c50366775.operation(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 	e1:SetValue(code1)
 	c:RegisterEffect(e1)
-	Debug.Message(e1:GetCode())
 	if code2 then
 		local e2=Effect.CreateEffect(e:GetHandler())
 		e2:SetType(EFFECT_TYPE_SINGLE)
