@@ -4,7 +4,7 @@
 function c59644128.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0xfc),2,2)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0xfc),2,2)
 	--position
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(59644128,0))
