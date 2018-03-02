@@ -30,7 +30,7 @@ function c77307161.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c77307161.matfilter(c,lc,sumtype,tp)
-	return c:IsLevelBelow(2) and c:IsSetCard(0xfb) 
+	return c:IsLevelBelow(2) and c:IsLinkSetCard(0xfb) 
 end
 function c77307161.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
