@@ -5,52 +5,6 @@ POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
 TYPE_EXTRA=TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK
 
---things needed for steelswarm origin
-local iscan=Duel.IsCanBeSpecialSummoned
-Duel.IsCanBeSpecialSummoned=function(c,...)
-	if c:IsLocation(LOCATION_EXTRA) then
-		aux.ExtraSummon=true
-	end
-	local res=iscan(c,...)
-	aux.ExtraSummon=false
-	return res
-end
-local spstep = Duel.SpecialSummonStep
-Duel.SpecialSummonStep = function(c,...)
-	aux.ExtraSummon = c:IsLocation(LOCATION_EXTRA)
-	local res = spstep(c,...)
-	aux.ExtraSummon = false
-	return res
-end
-local spsum=Duel.SpecialSummon
-Duel.SpecialSummon=function(o,...)
-	local g1=(Group.CreateGroup()+o):Filter(Card.IsLocation,nil,LOCATION_EXTRA)
-	local g2=(Group.CreateGroup()+o)-g1
-	if #g1 == 0 then
-		return spsum(o,...)
-	end
-	local count = 0
-	for c in aux.Next(g1) do
-		if Duel.SpecialSummonStep(c,...) then
-			count = count + 1
-		end
-	end
-	for c in aux.Next(g2) do
-		if Duel.SpecialSummonStep(c,...) then
-			count = count + 1
-		end
-	end
-	Duel.SpecialSummonComplete()
-	return count
-end
-local lcex=Duel.GetLocationCountFromEx
-Duel.GetLocationCountFromEx=function(...)
-	aux.ExtraSummon=true
-	local res = lcex(...)
-	aux.ExtraSummon=false
-	return res
-end
-
 Group.__add = function (o1,o2)
 	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
 	o1=o1:Clone()
@@ -221,85 +175,6 @@ function Card.RegisterEffect(c,e,forced,...)
 			return res
 		end)
 	end
-end
-local fsets = Card.IsFusionSetCard
-local fgets = Card.GetFusionSetCard
-local fsetc = Card.IsFusionCode
-local fgetc = Card.GetFusionCode
-local tmp = function(set,func)
-	return function(...)
-		local prev = aux.linkset
-		aux.linkset=set
-		local res = {func(...)}
-		aux.linkset = prev
-		return table.unpack(res)
-	end
-end
-Card.IsFusionSetCard = tmp(false,fsets)
-Card.IsLinkSetCard = tmp(true,fsets)
-Card.GetFusionSetCard = tmp(false,fgets)
-Card.GetLinkSetCard = tmp(true,fgets)
-Card.IsFusionCode = tmp(false,fsetc)
-Card.IsLinkCode = tmp(true,fsetc)
-Card.GetFusionCode = tmp(false,fgetc)
-Card.GetLinkCode = tmp(true,fgetc)
-tmp = nil
-
-local geff=Effect.GlobalEffect
-function Effect.GlobalEffect()
-	if not aux.penreg then
-		aux.penreg = true
-		registerpendulum()
-	end
-	return geff()
-end
-local neweff=Effect.CreateEffect
-function Effect.CreateEffect(c)
-	if not aux.penreg then
-		aux.penreg = true
-		registerpendulum()
-	end
-	return neweff(c)
-end
---those effects have to be registered before anyting else, in this way we can be sure they will always be called first when checking the conditions, so the global variables can be set
-function registerpendulum()
-	local e1=geff()
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetTargetRange(1,1)
-	e1:SetCondition(function() return aux.SummoningGroup end)
-	e1:SetValue(function(e)
-		if not aux.SummoningCard then
-			aux.SummoningCard=aux.SummoningGroup:GetFirst()
-		else
-			aux.SummoningCard=aux.SummoningGroup:GetNext()
-		end
-		return 0
-	end)
-	Duel.RegisterEffect(e1,0)
-	local e2=geff()
-	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetCode(EFFECT_FORCE_MZONE)
-	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e2:SetTargetRange(1,1)
-	e2:SetCondition(function() return aux.SummoningGroup end)
-	e2:SetLabel(0)
-	e2:SetValue(function(e)
-		if aux.SummoningCard and (e:GetLabel()==0 or (aux.SummoningCard:IsLocation(LOCATION_EXTRA) and e:GetLabel()==1)) then
-			aux.ExtraSummon=true
-		else
-			aux.ExtraSummon=false
-		end
-		e:SetLabel((e:GetLabel()+1)%3)
-		return 0xffffffff
-	end)
-	Duel.RegisterEffect(e2,0)
-	local e1=Effect.GlobalEffect()
-	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
-	e1:SetCode(EVENT_ADJUST)
-	e1:SetOperation(function(e)if aux.SummoningGroup then aux.SummoningGroup:DeleteGroup() aux.SummoningGroup=nil end end)
-	Duel.RegisterEffect(e1,0)
 end
 function Card.IsColumn(c,seq,tp,loc)
 	if not c:IsOnField() then return false end
@@ -1054,4 +929,5 @@ loadutility("proc_pendulum.lua")
 loadutility("proc_link.lua")
 loadutility("proc_equip.lua")
 loadutility("proc_persistent.lua")
+loadutility("proc_workaround.lua")
 pcall(dofile,"init.lua")
