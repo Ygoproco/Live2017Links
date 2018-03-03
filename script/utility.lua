@@ -15,6 +15,13 @@ Duel.IsCanBeSpecialSummoned=function(c,...)
 	aux.ExtraSummon=false
 	return res
 end
+local spstep = Duel.SpecialSummonStep
+Duel.SpecialSummonStep = function(c,...)
+	aux.ExtraSummon = c:IsLocation(LOCATION_EXTRA)
+	local res = spstep(c,...)
+	aux.ExtraSummon = false
+	return res
+end
 local spsum=Duel.SpecialSummon
 Duel.SpecialSummon=function(o,...)
 	local g1=(Group.CreateGroup()+o):Filter(Card.IsLocation,nil,LOCATION_EXTRA)
@@ -23,13 +30,11 @@ Duel.SpecialSummon=function(o,...)
 		return spsum(o,...)
 	end
 	local count = 0
-	aux.ExtraSummon=true
 	for c in aux.Next(g1) do
 		if Duel.SpecialSummonStep(c,...) then
 			count = count + 1
 		end
 	end
-	aux.ExtraSummon=false
 	for c in aux.Next(g2) do
 		if Duel.SpecialSummonStep(c,...) then
 			count = count + 1
