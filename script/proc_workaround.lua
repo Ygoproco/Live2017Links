@@ -1,3 +1,11 @@
+--Utilities to be added to the core
+function Card.IsInMainMZone(tp)
+	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 and (not tp or c:IsControler(tp))
+end
+function Card.IsInExtraMZone(tp)
+	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()>4 and (not tp or c:IsControler(tp))
+end
+
 --things needed for steelswarm origin
 local iscan=Duel.IsCanBeSpecialSummoned
 Duel.IsCanBeSpecialSummoned=function(c,...)
