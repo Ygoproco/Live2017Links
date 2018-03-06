@@ -1,8 +1,8 @@
 --Utilities to be added to the core
-function Card.IsInMainMZone(tp)
+function Card.IsInMainMZone(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 and (not tp or c:IsControler(tp))
 end
-function Card.IsInExtraMZone(tp)
+function Card.IsInExtraMZone(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()>4 and (not tp or c:IsControler(tp))
 end
 
