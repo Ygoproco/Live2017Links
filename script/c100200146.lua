@@ -37,7 +37,7 @@ function c100200146.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
 end
 function c100200146.tgfilter(c,lv)
-	return c:IsLevelBelow(lv) and c:IsAbleToGrave() 
+	return c:IsLevelBelow(lv-1) and c:IsAbleToGrave() 
 end
 function c100200146.lvop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
