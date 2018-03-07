@@ -164,6 +164,7 @@ function Duel.CheckReleaseGroupCost(tp,f,ct,use_hand,specialchk,ex,...)
     return mg:Includes(mustg) and mg:IsExists(Auxiliary.RelCheckRecursive,1,nil,tp,sg,mg,exg,mustg,0,ct,specialchk)
 end
 function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,specialchk,ex,...)
+    local params={...}
 	if not ex then ex=Group.CreateGroup() end
     local g=Duel.GetReleaseGroup(tp,use_hand)
 	if f then g=g:Filter(f,ex,table.unpack(params)) end
