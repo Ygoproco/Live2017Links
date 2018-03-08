@@ -41,6 +41,7 @@ function c100200146.tgfilter(c,lv)
 end
 function c100200146.lvop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c100200146.tgfilter,tp,LOCATION_DECK,0,1,1,nil,c:GetLevel())
 	if g:GetCount()==0 or Duel.SendtoGrave(g,REASON_EFFECT)==0 then return end
