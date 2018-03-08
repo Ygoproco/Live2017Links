@@ -27,7 +27,7 @@ function c63288573.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c63288573.matfilter(c,scard,sumtype,tp)
-	return c:IsSetCard(0x1115) and not c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
+	return c:IsLinkSetCard(0x1115) and not c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
 end
 function c63288573.atkval(e)
 	return Duel.GetMatchingGroupCount(Card.IsType,e:GetHandlerPlayer(),LOCATION_GRAVE,0,nil,TYPE_SPELL)*100
