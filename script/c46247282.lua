@@ -69,8 +69,6 @@ function c46247282.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c46247282.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local pe=e:GetLabelObject()
-	if pe then pe:Reset() end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetRange(LOCATION_MZONE)
