@@ -134,22 +134,27 @@ end
 
 --Lair of Darkness
 function Auxiliary.ReleaseCostFilter(c,f,...)
-    return c:IsFaceup() and c:IsReleasable() and c:IsHasEffect(100306022) and (not f or f(c,table.unpack({...})))
+	return c:IsFaceup() and c:IsReleasable() and c:IsHasEffect(59160188) 
+		and (not f or f(c,table.unpack({...})))
 end
 function Auxiliary.RelSingleUse(sg,tp,exg)
     return #sg-#(sg-exg)<=1
 end
-function Auxiliary.RelCheckRecursive(c,tp,sg,mg,exg,mustg,ct,minc,specialchk)
+function Auxiliary.ReleaseCheckMMZ(sg,tp)
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		or sg:IsExists(aux.FilterBoolFunction(Card.IsInMainMZone,tp),1,nil)
+end
+function Auxiliary.RelCheckRecursive(c,tp,sg,mg,exg,mustg,ct,minc,specialchk,...)
     sg:AddCard(c)
     ct=ct+1
-    local res=Auxiliary.RelCheckGoal(tp,sg,exg,mustg,ct,minc,specialchk) 
-        or (ct<minc and mg:IsExists(Auxiliary.RelCheckRecursive,1,sg,tp,sg,mg,exg,mustg,ct,minc,specialchk))
+    local res=Auxiliary.RelCheckGoal(tp,sg,exg,mustg,ct,minc,specialchk,table.unpack({...})) 
+        or (ct<minc and mg:IsExists(Auxiliary.RelCheckRecursive,1,sg,tp,sg,mg,exg,mustg,ct,minc,specialchk,table.unpack({...})))
     sg:RemoveCard(c)
     ct=ct-1
     return res
 end
-function Auxiliary.RelCheckGoal(tp,sg,exg,mustg,ct,minc,specialchk)
-    return ct>=minc and (not specialchk or specialchk(sg,tp,exg)) and sg:Includes(mustg)
+function Auxiliary.RelCheckGoal(tp,sg,exg,mustg,ct,minc,specialchk,...)
+    return ct>=minc and (not specialchk or specialchk(sg,tp,exg,table.unpack({...}))) and sg:Includes(mustg)
 end
 function Duel.CheckReleaseGroupCost(tp,f,ct,use_hand,specialchk,ex,...)
     local params={...}
@@ -157,28 +162,28 @@ function Duel.CheckReleaseGroupCost(tp,f,ct,use_hand,specialchk,ex,...)
     if not specialchk then specialchk=Auxiliary.RelSingleUse else specialchk=Auxiliary.AND(specialchk,Auxiliary.RelSingleUse) end
     local g=Duel.GetReleaseGroup(tp,use_hand)
 	if f then g=g:Filter(f,ex,table.unpack(params)) end
-    local exg=Duel.GetMatchingGroup(Auxiliary.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack({...}))
+    local exg=Duel.GetMatchingGroup(Auxiliary.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack(params))
     local mustg=g:Filter(function(c,tp)return c:IsHasEffect(EFFECT_EXTRA_RELEASE) and c:IsControler(1-tp)end,nil,tp)
     local mg=g+exg
     local sg=Group.CreateGroup()
-    return mg:Includes(mustg) and mg:IsExists(Auxiliary.RelCheckRecursive,1,nil,tp,sg,mg,exg,mustg,0,ct,specialchk)
+    return mg:Includes(mustg) and mg:IsExists(Auxiliary.RelCheckRecursive,1,nil,tp,sg,mg,exg,mustg,0,ct,specialchk,table.unpack({...}))
 end
 function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,specialchk,ex,...)
     local params={...}
 	if not ex then ex=Group.CreateGroup() end
     local g=Duel.GetReleaseGroup(tp,use_hand)
 	if f then g=g:Filter(f,ex,table.unpack(params)) end
-    local exg=Duel.GetMatchingGroup(aux.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack({...}))
+    local exg=Duel.GetMatchingGroup(Auxiliary.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack(params))
     local mg=g+exg
     local mustg=g:Filter(function(c,tp)return c:IsHasEffect(EFFECT_EXTRA_RELEASE) and c:IsControler(1-tp)end,nil,tp)
     local sg=Group.CreateGroup()
     local cancel=false
     sg:Merge(mustg)
     while #sg<maxc do
-        local cg=mg:Filter(Auxiliary.RelCheckRecursive,sg,tp,sg,mg,exg,mustg,#sg,minc,specialchk)
+        local cg=mg:Filter(Auxiliary.RelCheckRecursive,sg,tp,sg,mg,exg,mustg,#sg,minc,specialchk,table.unpack({...}))
         if #cg==0 then break end
-        cancel=#sg>=minc and #sg<=maxc and Auxiliary.RelCheckGoal(tp,sg,exg,mustg,#sg,minc,specialchk)
-        local tc=Group.SelectUnselect(cg,sg,tp,cancel,#sg==0 or cancel,1,1)
+        cancel=#sg>=minc and #sg<=maxc and Auxiliary.RelCheckGoal(tp,sg,exg,mustg,#sg,minc,specialchk,table.unpack({...}))
+        local tc=Group.SelectUnselect(cg,sg,tp,cancel,cancel,1,1)
         if not tc then break end
         if #mustg==0 or not mustg:IsContains(tc) then
             if not sg:IsContains(tc) then
@@ -193,7 +198,7 @@ function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,specialchk,ex,...)
         --LoD is reset for the rest of the turn
         local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
         Duel.Hint(HINT_CARD,0,fc:GetCode())
-        fc:RegisterFlagEffect(100306022,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
+        fc:RegisterFlagEffect(59160188,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
     end
 	return sg
 end
