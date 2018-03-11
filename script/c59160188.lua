@@ -73,10 +73,9 @@ function c59160188.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=math.min(Duel.GetLocationCount(p,LOCATION_MZONE),e:GetLabel())
 	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ct=math.min(1,ct) end
 	if ct==0 then return end
-	local i=0
-	repeat
+	for i=1,ct do
 		local token=Duel.CreateToken(tp,59160189)
-		Duel.SpecialSummon(token,0,tp,p,false,false,POS_FACEUP_DEFENSE)
-		i=i+1
-	until i==ct or not Duel.SelectYesNo(tp,aux.Stringid(59160188,1))
+		Duel.SpecialSummonStep(token,0,tp,p,false,false,POS_FACEUP_DEFENSE)
+	end
+	Duel.SpecialSummonComplete()
 end
