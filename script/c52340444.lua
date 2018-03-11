@@ -1,6 +1,5 @@
 --閃刀機－ホーネットビット
 --Brandish Mecha Hornet Bit
---Script by nekrozar
 function c52340444.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -26,7 +25,7 @@ function c52340444.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,52340445,0x1115,0x4011,atk,atk,1,RACE_WARRIOR,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c52340444.activate(e,tp,eg,ep,ev,re,r,rp)
 	local atk=0
@@ -61,4 +60,3 @@ function c52340444.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SpecialSummonComplete()
 end
-
