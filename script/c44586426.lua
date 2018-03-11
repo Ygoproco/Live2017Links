@@ -1,6 +1,5 @@
 --太陽電池メン
 --Solar Batteryman
---Scripted by Eerie Code
 function c44586426.initial_effect(c)
 	--gy
 	local e1=Effect.CreateEffect(c)
@@ -65,13 +64,14 @@ end
 function c44586426.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c44586426.tkop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if not Duel.IsPlayerCanSpecialSummonMonster(tp,44586427,0,0x4011,0,0,1,RACE_THUNDER,ATTRIBUTE_LIGHT) then return end
-	local token=Duel.CreateToken(tp,44586427)
-	Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_ATTACK)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,44586427,0,0x4011,0,0,1,RACE_THUNDER,ATTRIBUTE_LIGHT) then
+		local token=Duel.CreateToken(tp,44586427)
+		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
 function c44586426.nmfilter(c,cd)
 	return (c:IsFaceup() or c:IsLocation(LOCATION_GRAVE)) and c:IsType(TYPE_EFFECT) 
@@ -87,7 +87,7 @@ end
 function c44586426.nmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and c:IsFaceup() and tc:IsRelateToEffect(e) and (tc:IsLocation(LOCATION_GRAVE) or tc:IsFaceup()) then
+	if c:IsRelateToEffect(e) and c:IsFaceup() and tc and tc:IsRelateToEffect(e) and (tc:IsLocation(LOCATION_GRAVE) or tc:IsFaceup()) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_CODE)
