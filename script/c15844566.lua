@@ -70,8 +70,8 @@ function c15844566.cfilter(c,g)
 end
 function c15844566.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local lg=e:GetHandler():GetLinkedGroup()
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c15844566.cfilter,1,nil,lg) end
-	local g=Duel.SelectReleaseGroup(tp,c15844566.cfilter,1,1,nil,lg)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c15844566.cfilter,1,false,nil,nil,lg) end
+	local g=Duel.SelectReleaseGroupCost(tp,c15844566.cfilter,1,1,false,nil,nil,lg)
 	Duel.Release(g,REASON_COST)
 end
 function c15844566.atkop(e,tp,eg,ep,ev,re,r,rp)

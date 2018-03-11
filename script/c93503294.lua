@@ -39,8 +39,8 @@ function c93503294.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	local zone=c:GetLinkedZone(tp)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c93503294.spcfilter,1,c,lg,zone) end
-	local tc=Duel.SelectReleaseGroup(tp,c93503294.spcfilter,1,1,c,lg,zone):GetFirst()
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c93503294.spcfilter,1,false,nil,c,lg,zone) end
+	local tc=Duel.SelectReleaseGroupCost(tp,c93503294.spcfilter,1,1,false,nil,c,lg,zone):GetFirst()
 	if lg:IsContains(tc) then
 		e:SetLabel(tc:GetSequence())
 	end
