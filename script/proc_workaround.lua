@@ -174,6 +174,7 @@ end
 function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,specialchk,ex,...)
     local params={...}
 	if not ex then ex=Group.CreateGroup() end
+    if not specialchk then specialchk=Auxiliary.ReleaseCheckSingleUse else specialchk=Auxiliary.AND(specialchk,Auxiliary.ReleaseCheckSingleUse) end
     local g=Duel.GetReleaseGroup(tp,use_hand)
 	if f then g=g:Filter(f,ex,table.unpack(params)) end
     local exg=Duel.GetMatchingGroup(Auxiliary.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack(params))
