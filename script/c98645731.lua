@@ -88,8 +88,15 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 					c98645731[2][ev]=true
 				end
 			else
-				if rp==0 or cp==0 then
-					c98645731[2][ev]=true
+				local ex2,cg2,ct2,cp2,cv2=Duel.GetOperationInfo(ev,CATEGORY_TOKEN)
+				if ex2 then
+					if cp==0 or cp==PLAYER_ALL then
+						c98645731[2][ev]=true
+					end
+				else
+					if rp==0 or cp==0 or cp==PLAYER_ALL then
+						c98645731[2][ev]=true
+					end
 				end
 			end
 			if ev>c98645731[4] then
@@ -105,8 +112,15 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 					c98645731[3][ev]=true
 				end
 			else
-				if rp==1 or cp==1 then
-					c98645731[3][ev]=true
+				local ex2,cg2,ct2,cp2,cv2=Duel.GetOperationInfo(ev,CATEGORY_TOKEN)
+				if ex2 then
+					if cp==1 or cp==PLAYER_ALL then
+						c98645731[2][ev]=true
+					end
+				else
+					if rp==1 or cp==1 or cp==PLAYER_ALL then
+						c98645731[3][ev]=true
+					end
 				end
 			end
 			if ev>c98645731[4] then
