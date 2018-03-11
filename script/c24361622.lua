@@ -41,9 +41,8 @@ function c24361622.thfilter(c)
 	return c:IsFaceup() and c:IsAbleToHand()
 end
 function c24361622.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c24361622.thcfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,nil,tp) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local g=Duel.SelectMatchingCard(tp,c24361622.thcfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,1,nil,tp)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c24361622.thcfilter,1,true,nil,nil,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,c24361622.thcfilter,1,1,true,nil,nil,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c24361622.thtg(e,tp,eg,ep,ev,re,r,rp,chk)

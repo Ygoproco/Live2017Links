@@ -69,8 +69,8 @@ function c41456841.atcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttacker()==c and c:IsChainAttackable(0,true)
 end
 function c41456841.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,nil,1,e:GetHandler()) end
-	local g=Duel.SelectReleaseGroup(tp,nil,1,1,e:GetHandler())
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,e:GetHandler()) end
+	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,e:GetHandler())
 	Duel.Release(g,REASON_COST)
 end
 function c41456841.atop(e,tp,eg,ep,ev,re,r,rp)
@@ -87,7 +87,7 @@ end
 function c41456841.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,91512836,0,0x4011,100,100,1,RACE_INSECT,ATTRIBUTE_EARTH) end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
 end
 function c41456841.spop(e,tp,eg,ep,ev,re,r,rp)
