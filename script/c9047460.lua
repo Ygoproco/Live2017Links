@@ -35,7 +35,7 @@ function c9047460.tkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c9047460.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c9047460.tkop(e,tp,eg,ep,ev,re,r,rp)
@@ -46,8 +46,8 @@ function c9047460.tkop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c9047460.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,nil,1,nil) end
-	local sg=Duel.SelectReleaseGroup(tp,nil,1,1,nil)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,nil) end
+	local sg=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,nil)
 	Duel.Release(sg,REASON_COST)
 end
 function c9047460.sptg(e,tp,eg,ep,ev,re,r,rp,chk)

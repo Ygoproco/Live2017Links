@@ -29,25 +29,8 @@ function c27198001.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c27198001.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local rg=Duel.GetReleaseGroup(tp)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local ct=-ft+1
-	if chk==0 then return ft>-2 and rg:GetCount()>1 and (ft>0 or rg:IsExists(aux.MZFilter,ct,nil,tp)) end
-	local g=nil
-	if ft>0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		g=rg:Select(tp,2,2,nil)
-	elseif ft>-1 then
-		local ct=-ft+1
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		g=rg:FilterSelect(tp,aux.MZFilter,ct,ct,nil,tp)
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		local g2=rg:Select(tp,2-ct,2-ct,g)
-		g:Merge(g2)
-	else
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		g=rg:FilterSelect(tp,aux.MZFilter,2,2,nil,tp)
-	end
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,2,false,aux.ReleaseCheckMMZ,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,aux.ReleaseCheckMMZ,nil)
 	Duel.Release(g,REASON_COST)
 end
 function c27198001.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -70,7 +53,7 @@ end
 function c27198001.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133) 
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,0x4011,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE)end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c27198001.operation(e,tp,eg,ep,ev,re,r,rp)

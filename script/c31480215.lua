@@ -42,7 +42,7 @@ function c31480215.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c31480215.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c31480215.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -64,8 +64,8 @@ function c31480215.splimit(e,c,tp,sumtp,sumpos)
 	return c:GetAttribute()~=ATTRIBUTE_WIND
 end
 function c31480215.lvcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,e:GetHandler(),0x101b) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,e:GetHandler(),0x101b)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsSetCard,1,false,nil,e:GetHandler(),0x101b) end
+	local g=Duel.SelectReleaseGroupCost(tp,Card.IsSetCard,1,1,false,nil,e:GetHandler(),0x101b)
 	Duel.Release(g,REASON_COST)
 end
 function c31480215.lvop(e,tp,eg,ep,ev,re,r,rp)

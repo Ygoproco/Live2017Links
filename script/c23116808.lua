@@ -82,8 +82,8 @@ function c23116808.tkop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c23116808.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,e:GetHandler(),ATTRIBUTE_FIRE) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,e:GetHandler(),ATTRIBUTE_FIRE)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,e:GetHandler(),ATTRIBUTE_FIRE) end
+	local g=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,1,1,false,nil,e:GetHandler(),ATTRIBUTE_FIRE)
 	Duel.Release(g,REASON_COST)
 end
 function c23116808.atkop(e,tp,eg,ep,ev,re,r,rp)

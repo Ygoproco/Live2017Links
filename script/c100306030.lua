@@ -19,8 +19,8 @@ end
 function c100306030.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local dc=Duel.GetFieldGroupCount(tp,0,LOCATION_HAND+LOCATION_DECK)
 	local matk=math.min(3000,dc*500)
-	if chk==0 then return matk>0 and Duel.CheckReleaseGroup(tp,c100306030.costfilter,1,nil,matk) end
-	local g=Duel.SelectReleaseGroup(tp,c100306030.costfilter,1,1,nil,matk)
+	if chk==0 then return matk>0 and Duel.CheckReleaseGroupCost(tp,c100306030.costfilter,1,false,nil,nil,matk) end
+	local g=Duel.SelectReleaseGroupCost(tp,c100306030.costfilter,1,1,false,nil,nil,matk)
 	e:SetLabel(g:GetFirst():GetAttack())
 	Duel.Release(g,REASON_COST)
 end

@@ -50,7 +50,7 @@ function c22110647.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c22110647.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -63,10 +63,17 @@ function c22110647.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummonComplete()
 	end
 end
+function c22110647.descfilter(c)
+	return c:IsSetCard(0x101b)
+end
+function c22110647.desfilter(c,e)
+	return c:IsCanBeEffectTarget(e)
+end
 function c22110647.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local dg=Duel.GetMatchingGroup(c22110647.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,e)
 	if chk==0 then return e:GetHandler():GetAttackAnnouncedCount()==0
-		and Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,nil,0x101b) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,nil,0x101b)
+		and Duel.CheckReleaseGroupCost(tp,c22110647.descfilter,1,false,aux.ReleaseCheckTarget,nil,dg) end
+	local g=Duel.SelectReleaseGroupCost(tp,c22110647.descfilter,1,1,false,aux.ReleaseCheckTarget,nil,dg)
 	Duel.Release(g,REASON_COST)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)

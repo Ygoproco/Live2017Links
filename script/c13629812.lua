@@ -20,14 +20,21 @@ function c13629812.initial_effect(c)
 	e2:SetOperation(c13629812.retop)
 	c:RegisterEffect(e2)
 end
+function c13629812.cfilter(c)
+	return c:IsSetCard(0x2b)
+end
+function c13629812.filter(c,e)
+	return c:IsAbleToRemove() and c:IsCanBeEffectTarget(e)
+end
 function c13629812.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,nil,0x2b) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,nil,0x2b)
+	local dg=Duel.GetMatchingGroup(c13629812.filter,tp,0,LOCATION_MZONE,nil,e)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c13629812.cfilter,1,false,aux.ReleaseCheckTarget,nil,dg) end
+	local g=Duel.SelectReleaseGroupCost(tp,c13629812.cfilter,1,1,false,aux.ReleaseCheckTarget,nil,dg)
 	Duel.Release(g,REASON_COST)
 end
 function c13629812.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and chkc:IsAbleToRemove() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,0,LOCATION_MZONE,1,nil) end
+	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)

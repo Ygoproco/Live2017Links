@@ -78,7 +78,7 @@ function c69890967.tkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c69890967.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c69890967.tkop(e,tp,eg,ep,ev,re,r,rp)
@@ -94,8 +94,8 @@ function c69890967.tkop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c69890967.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,nil,1,e:GetHandler()) end
-	local g=Duel.SelectReleaseGroup(tp,nil,1,1,e:GetHandler())
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,e:GetHandler()) end
+	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,e:GetHandler())
 	local atk=g:GetFirst():GetTextAttack()
 	if atk<0 then atk=0 end
 	e:SetLabel(atk)

@@ -16,8 +16,8 @@ end
 function c40703222.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and Duel.CheckReleaseGroup(tp,c40703222.cfilter,1,nil,ft,tp) end
-	local g=Duel.SelectReleaseGroup(tp,c40703222.cfilter,1,1,nil,ft,tp)
+	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,c40703222.cfilter,1,false,nil,nil,ft,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,c40703222.cfilter,1,1,false,nil,nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c40703222.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -28,7 +28,7 @@ function c40703222.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,ft,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,ft,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ft,tp,0)
 end
 function c40703222.activate(e,tp,eg,ep,ev,re,r,rp)

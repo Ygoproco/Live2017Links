@@ -53,7 +53,7 @@ function c4417407.indcon(e)
 end
 function c4417407.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c4417407.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -63,13 +63,17 @@ function c4417407.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+function c4417407.poscfilter(c)
+	return c:IsType(TYPE_TOKEN)
+end
 function c4417407.poscost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsType,1,nil,TYPE_TOKEN) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsType,1,1,nil,TYPE_TOKEN)
+	local dg=Duel.GetMatchingGroup(c4417407.filter,tp,0,LOCATION_MZONE,nil,e)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c4417407.poscfilter,1,false,aux.ReleaseCheckTarget,nil,dg) end
+	local g=Duel.SelectReleaseGroupCost(tp,c4417407.poscfilter,1,1,false,aux.ReleaseCheckTarget,nil,dg)
 	Duel.Release(g,REASON_COST)
 end
-function c4417407.filter(c)
-	return not c:IsPosition(POS_FACEUP_DEFENSE) and c:IsCanChangePosition()
+function c4417407.filter(c,e)
+	return not c:IsPosition(POS_FACEUP_DEFENSE) and c:IsCanChangePosition() and (not e or c:IsCanBeEffectTarget(e))
 end
 function c4417407.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and c4417407.filter(chkc) end

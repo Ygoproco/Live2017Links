@@ -16,8 +16,8 @@ end
 function c28062325.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	local ft=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c28062325.cfilter,1,nil,ft,tp) end
-	local g=Duel.SelectReleaseGroup(tp,c28062325.cfilter,1,1,nil,ft,tp)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c28062325.cfilter,1,false,nil,nil,ft,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,c28062325.cfilter,1,1,false,nil,nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c28062325.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -27,7 +27,7 @@ function c28062325.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		return not Duel.IsPlayerAffectedByEffect(tp,59822133)
 			and Duel.IsPlayerCanSpecialSummonMonster(tp,28062326,0,0x4011,800,500,1,RACE_PLANT,ATTRIBUTE_EARTH,POS_FACEUP_DEFENSE,1-tp)
 	end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c28062325.activate(e,tp,eg,ep,ev,re,r,rp)

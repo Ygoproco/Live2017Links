@@ -137,12 +137,15 @@ function Auxiliary.ReleaseCostFilter(c,f,...)
 	return c:IsFaceup() and c:IsReleasable() and c:IsHasEffect(59160188) 
 		and (not f or f(c,table.unpack({...})))
 end
-function Auxiliary.RelSingleUse(sg,tp,exg)
+function Auxiliary.ReleaseCheckSingleUse(sg,tp,exg)
     return #sg-#(sg-exg)<=1
 end
 function Auxiliary.ReleaseCheckMMZ(sg,tp)
 	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		or sg:IsExists(aux.FilterBoolFunction(Card.IsInMainMZone,tp),1,nil)
+end
+function Auxiliary.ReleaseCheckTarget(sg,tp,exg,dg)
+	return dg:IsExists(aux.TRUE,1,sg)
 end
 function Auxiliary.RelCheckRecursive(c,tp,sg,mg,exg,mustg,ct,minc,specialchk,...)
     sg:AddCard(c)
@@ -159,7 +162,7 @@ end
 function Duel.CheckReleaseGroupCost(tp,f,ct,use_hand,specialchk,ex,...)
     local params={...}
 	if not ex then ex=Group.CreateGroup() end
-    if not specialchk then specialchk=Auxiliary.RelSingleUse else specialchk=Auxiliary.AND(specialchk,Auxiliary.RelSingleUse) end
+    if not specialchk then specialchk=Auxiliary.ReleaseCheckSingleUse else specialchk=Auxiliary.AND(specialchk,Auxiliary.ReleaseCheckSingleUse) end
     local g=Duel.GetReleaseGroup(tp,use_hand)
 	if f then g=g:Filter(f,ex,table.unpack(params)) end
     local exg=Duel.GetMatchingGroup(Auxiliary.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack(params))
@@ -171,6 +174,7 @@ end
 function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,specialchk,ex,...)
     local params={...}
 	if not ex then ex=Group.CreateGroup() end
+    if not specialchk then specialchk=Auxiliary.ReleaseCheckSingleUse else specialchk=Auxiliary.AND(specialchk,Auxiliary.ReleaseCheckSingleUse) end
     local g=Duel.GetReleaseGroup(tp,use_hand)
 	if f then g=g:Filter(f,ex,table.unpack(params)) end
     local exg=Duel.GetMatchingGroup(Auxiliary.ReleaseCostFilter,tp,0,LOCATION_MZONE,g+ex,f,table.unpack(params))

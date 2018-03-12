@@ -11,14 +11,14 @@ function c42956963.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c42956963.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,nil,1,nil) end
-	local g=Duel.SelectReleaseGroup(tp,nil,1,1,nil)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,nil)
 	Duel.Release(g,REASON_COST)
 end
 function c42956963.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(1-tp,LOCATION_MZONE)>2
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,42956964,0x45,0x4011,2000,2000,6,RACE_FIEND,ATTRIBUTE_DARK,POS_FACEUP_ATTACK,1-tp) end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,3,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,3,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,3,tp,0)
 end
 function c42956963.activate(e,tp,eg,ep,ev,re,r,rp)

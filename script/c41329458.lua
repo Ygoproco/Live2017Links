@@ -41,28 +41,9 @@ end
 function c41329458.rfilter(c,tp)
 	return c:IsSetCard(0x101b) and (c:IsControler(tp) or c:IsFaceup())
 end
-function c41329458.mzfilter(c,tp)
-	return c:IsControler(tp) and c:GetSequence()<5
-end
 function c41329458.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local rg=Duel.GetReleaseGroup(tp):Filter(c41329458.rfilter,nil,tp)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local ct=-ft+1
-	if chk==0 then return ft>-2 and rg:GetCount()>1 and (ft>0 or rg:IsExists(c41329458.mzfilter,ct,nil,tp)) end
-	local g=nil
-	if ft>0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		g=rg:Select(tp,2,2,nil)
-	elseif ft==0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		g=rg:FilterSelect(tp,c41329458.mzfilter,1,1,nil,tp)
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		local g2=rg:Select(tp,1,1,g:GetFirst())
-		g:Merge(g2)
-	else
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		g=rg:FilterSelect(tp,c41329458.mzfilter,2,2,nil,tp)
-	end
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c41329458.rfilter,2,false,aux.ReleaseCheckMMZ,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,c41329458.rfilter,2,2,false,aux.ReleaseCheckMMZ,nil)
 	Duel.Release(g,REASON_COST)
 end
 function c41329458.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -85,7 +66,7 @@ end
 function c41329458.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c41329458.spop2(e,tp,eg,ep,ev,re,r,rp)

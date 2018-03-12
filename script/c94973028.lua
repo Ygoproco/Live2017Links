@@ -58,7 +58,7 @@ function c94973028.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c94973028.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c94973028.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -71,16 +71,23 @@ function c94973028.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummonComplete()
 	end
 end
+function c94973028.descfilter(c)
+	return c:IsType(TYPE_TOKEN)
+end
 function c94973028.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsType,2,nil,TYPE_TOKEN) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsType,2,2,nil,TYPE_TOKEN)
+	local dg=Duel.GetMatchingGroup(c94973028.desfilter,tp,0,LOCATION_ONFIELD,nil,e)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c94973028.descfilter,2,false,aux.ReleaseCheckTarget,nil,dg) end
+	local g=Duel.SelectReleaseGroupCost(tp,c94973028.descfilter,2,2,false,aux.ReleaseCheckTarget,nil,dg)
 	Duel.Release(g,REASON_COST)
 end
+function c94973028.desfilter(c,e)
+	return c:IsAbleToRemove() and (not e or c:IsCanBeEffectTarget(e))
+end
 function c94973028.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(1-tp) and chkc:IsOnField() and chkc:IsAbleToRemove() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,nil) end
+	if chkc then return chkc:IsControler(1-tp) and chkc:IsOnField() and c94973028.desfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c94973028.desfilter,tp,0,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,1,nil)
+	local g=Duel.SelectTarget(tp,c94973028.desfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
