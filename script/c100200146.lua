@@ -44,7 +44,7 @@ function c100200146.lvop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c100200146.tgfilter,tp,LOCATION_DECK,0,1,1,nil,c:GetLevel())
-	if g:GetCount()==0 or Duel.SendtoGrave(g,REASON_EFFECT)==0 then return end
+	if g:GetCount()==0 or Duel.SendtoGrave(g,REASON_EFFECT)~=g:FilterCount(Card.IsLocation,nil,LOCATION_GRAVE) then return end
 	if c:IsFaceup() and c:IsRelateToEffect(e) then
 		local lv=g:GetFirst():GetLevel()
 		local e1=Effect.CreateEffect(c)
