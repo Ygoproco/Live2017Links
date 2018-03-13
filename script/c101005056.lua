@@ -22,6 +22,7 @@ function c101005056.initial_effect(c)
 	e2:SetOperation(c101005056.thop)
 	c:RegisterEffect(e2)
 end
+c101005056.fit_monster={46427957,72426662}
 function c101005056.cfilter(c,e,tp,m)
 	if bit.band(c:GetType(),0x81)~=0x81 or not c:IsCode(46427957,72426662)
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
