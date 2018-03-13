@@ -13,7 +13,7 @@ function c101005046.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
 	e1:SetValue(70095154)
 	c:RegisterEffect(e1)
-	--destroy
+	--atk/def
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(101005046,1))
 	e2:SetType(EFFECT_TYPE_QUICK_O)
@@ -32,7 +32,7 @@ function c101005046.lcheck(g,lc)
 	return g:IsExists(Card.IsLinkCode,1,nil,70095154)
 end
 function c101005046.con(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated() and e:GetHandler():GetAttackedCount()<1
+	return (Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()) and e:GetHandler():GetAttackAnnouncedCount()<1
 end
 function c101005046.filter(c)
 	return c:IsFaceup() and c:IsAttackAbove(2100) and c:IsRace(RACE_MACHINE)
@@ -58,15 +58,15 @@ function c101005046.operation(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetCode(EFFECT_UPDATE_DEFENSE)
 		tc:RegisterEffect(e2)
 		local e3=Effect.CreateEffect(c)
-			e3:SetType(EFFECT_TYPE_SINGLE)
-			e3:SetCode(EFFECT_NO_BATTLE_DAMAGE)
-			e3:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-			c:RegisterEffect(e3)
-			local e4=Effect.CreateEffect(c)
-			e4:SetType(EFFECT_TYPE_SINGLE)
-			e4:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-			e4:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-			e4:SetValue(1)
-			c:RegisterEffect(e4)
+		e3:SetType(EFFECT_TYPE_SINGLE)
+		e3:SetCode(EFFECT_NO_BATTLE_DAMAGE)
+		e3:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		c:RegisterEffect(e3)
+		local e4=Effect.CreateEffect(c)
+		e4:SetType(EFFECT_TYPE_SINGLE)
+		e4:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+		e4:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e4:SetValue(1)
+		c:RegisterEffect(e4)
 	end
 end
