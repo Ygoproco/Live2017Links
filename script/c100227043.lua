@@ -37,23 +37,20 @@ function c100227043.hdcon(e,tp,eg,ep,ev,re,r,rp)
 	local zone=Duel.GetLinkedZone(0)+Duel.GetLinkedZone(1)*0x10000
 	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c100227043.cfilter,1,nil,zone)
 end
-function c100227043.hdcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
-	local rt=Duel.GetFieldGroup(1-tp,0,LOCATION_HAND)
-	if rt>2 then rt=2 end
-	if Duel.GetFieldGroup(tp,0,LOCATION_HAND)<2 then rt=Duel.GetFieldGroup(tp,0,LOCATION_HAND) end
-	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
-	local sg=g:RandomSelect(tp,rt)
-	Duel.SendtoGrave(sg,REASON_COST+REASON_DISCARD)
-	e:SetLabel(rt)
-end
 function c100227043.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,1-tp,e:GetLabel())
+	local rt1 = Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT)
+	if rt1>0 then
+		local rt2 = Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT)
+		Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,PLAYER_ALL,rt)
+	end
 end
 function c100227043.hdop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND):RandomSelect(tp,e:GetLabel())
-	Duel.SendtoGrave(g,REASON_EFFECT+REASON_DISCARD)
+	local rt1 = math.min(Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT),2)
+	local g1=Duel.GetMatchingGroup(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT):RandomSelect(tp,rt1)
+	local rt2 = Duel.SendtoGrave(g1,REASON_EFFECT+REASON_DISCARD)
+	local g2=Duel.GetMatchingGroup(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT):Select(1-tp,rt2,rt2,nil)
+	Duel.SendtoGrave(g2,REASON_EFFECT+REASON_DISCARD)
 end
 function c100227043.hdcon2(e)
 	return e:GetHandler():IsExtraLinked()
