@@ -103,6 +103,6 @@ end
 function c101005057.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
 	if g:GetCount()>0 then
-		Duel.Destroy(sg,REASON_EFFECT)
+		Duel.Destroy(g,REASON_EFFECT)
 	end
 end
