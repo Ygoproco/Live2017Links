@@ -19,10 +19,10 @@ function c101005051.ritual_filter(c)
 	return c:IsType(TYPE_RITUAL) and c:IsRace(RACE_CYBERSE)
 end
 function c101005051.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return aux.exccon(e) and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
+	return aux.exccon(e)
 end
 function c101005051.cfilter(c)
-	return c:IsType(TYPE_RITUAL) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
+	return bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
 function c101005051.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost()
@@ -36,7 +36,7 @@ function c101005051.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,101005151,0,0x4011,0,0,4,RACE_CYBERSE,ATTRIBUTE_LIGHT) end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
+		Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c101005051.spop(e,tp,eg,ep,ev,re,r,rp)
