@@ -88,6 +88,7 @@ function c101005072.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local tc=Duel.SelectMatchingCard(tp,c101005072.relfilter,tp,LOCATION_MZONE+LOCATION_HAND+LOCATION_GRAVE,0,1,1,rc,e,tp,rc,ft):GetFirst()
 	if tc then
+		rc:SetMaterial(Group.FromCards(tc))
 		if tc:IsLocation(LOCATION_GRAVE) then
 			if Duel.SendtoDeck(tc,nil,2,REASON_EFFECT+REASON_MATERIAL+REASON_RITUAL)==0 then return end
 		else
