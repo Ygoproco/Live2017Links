@@ -3,7 +3,7 @@
 --Scripted by ahtelel
 function c101005035.initial_effect(c)
 	--link summon
-	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkRace,RACE_CYBERSE),2,2)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_CYBERSE),2,2)
 	c:EnableReviveLimit()
 	--to hand
 	local e1=Effect.CreateEffect(c)
@@ -37,11 +37,15 @@ function c101005035.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local lg=e:GetHandler():GetLinkedGroup()
 	return eg:IsExists(c101005035.thcfilter,1,nil,tp,lg)
 end
-function c101005035.thfilter(c,tp)
-	return (c:IsCode(101005051) or (c:IsType(TYPE_RITUAL) and c:IsRace(RACE_CYBERSE))) and c:IsAbleToHand()
-end
 function c101005035.cfilter(c,tp)
 	return c:IsType(TYPE_SPELL) and c:IsAbleToRemoveAsCost()
+end
+function c101005035.thfilter(c,tp)
+	return c:IsCode(101005051) and c:IsAbleToHand()
+		and Duel.IsExistingMatchingCard(c101005035.thfilter2,tp,LOCATION_DECK,0,1,c)
+end
+function c101005035.thfilter2(c)
+	return c:IsType(TYPE_RITUAL) and c:IsType(TYPE_MONSTER) and c:IsRace(RACE_CYBERSE) and c:IsAbleToHand()
 end
 function c101005035.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c101005035.cfilter,tp,LOCATION_GRAVE,0,1,nil,tp) end
@@ -55,15 +59,18 @@ function c101005035.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c101005035.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c101005035.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+	local g1=Duel.SelectMatchingCard(tp,c101005035.thfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
+	if g1:GetCount()>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+		local g2=Duel.SelectMatchingCard(tp,c101005035.thfilter2,tp,LOCATION_DECK,0,1,1,nil,tp)
+		g1:Merge(g2)
+		Duel.SendtoHand(g1,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,g1)
 	end
 	Duel.RegisterFlagEffect(tp,101005035,RESET_PHASE+PHASE_END,0,1)
 end
 function c101005035.spcon(e,tp,eg,ep,ev,re,r,rp)   
-	return Duel.GetFlagEffect(tp,101005035)>=0
+	return Duel.GetFlagEffect(tp,101005035)>0
 end
 function c101005035.spfilter(c,e,tp)
 	return c:IsRace(RACE_CYBERSE) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
