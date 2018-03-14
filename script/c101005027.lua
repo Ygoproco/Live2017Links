@@ -13,7 +13,7 @@ function c101005027.initial_effect(c)
 	c:RegisterEffect(e0)
 	--multi attack
 	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e1:SetDescription(aux.Stringid(101005027,0))
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetRange(LOCATION_MZONE)
@@ -69,7 +69,8 @@ function c101005027.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCondition(c101005027.actcon)
 		e1:SetOperation(c101005027.actop)
 		e1:SetReset(RESET_EVENT+0x1ff0000)
-		tc:RegisterEffect(e1)
+		Duel.RegisterEffect(e1,tp)
+		tc:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(101005027,2))
 	end
 end
 function c101005027.actcon(e,tp,eg,ep,ev,re,r,rp)
