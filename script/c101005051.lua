@@ -2,7 +2,7 @@
 --Cynet Ritual
 --Scripted by ahtelel
 function c101005051.initial_effect(c)
-	aux.AddRitualProcEqual(c,c101005051.ritual_filter)
+	aux.AddRitualProcGreater(c,c101005051.ritual_filter)
 	--token
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
@@ -19,7 +19,7 @@ function c101005051.ritual_filter(c)
 	return c:IsType(TYPE_RITUAL) and c:IsRace(RACE_CYBERSE)
 end
 function c101005051.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return aux.exccon(e)
+	return aux.exccon(e) and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
 end
 function c101005051.cfilter(c)
 	return bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
