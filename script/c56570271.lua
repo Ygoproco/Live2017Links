@@ -32,7 +32,7 @@ function c56570271.operation(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Draw(p,d,REASON_EFFECT)
 end
-function c78358521.tgop(e,tp,eg,ep,ev,re,r,rp)
+function c56570271.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if Duel.GetFlagEffect(tp,56570271)~=0 then return end
 	--cannot special summon
