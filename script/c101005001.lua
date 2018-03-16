@@ -26,7 +26,7 @@ function c101005001.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c101005001.filter(chkc) end
 	local c=e:GetHandler()
 	if chk==0 then return zone~=0 and
-		c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingTarget(c101005001.filter,tp,LOCATION_GRAVE,0,1,e:GetHandler(),e,tp,zone) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
