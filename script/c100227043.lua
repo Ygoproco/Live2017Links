@@ -56,13 +56,12 @@ function c100227043.hdcon2(e)
 	return e:GetHandler():IsExtraLinked()
 end
 function c100227043.hdtg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,0,LOCATION_HAND,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,1-tp,2)
 end
 function c100227043.hdop2(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetFieldGroup(1-tp,0,LOCATION_HAND):RandomSelect(tp,2)
-	Duel.SendtoGrave(g,REASON_EFFECT+REASON_DISCARD)
-	if Duel.GetFieldGroup(1-tp,0,LOCATION_HAND)==0 then
+	local g=Duel.SelectMatchingCard(1-tp,Card.IsDiscardable,tp,0,LOCATION_HAND,2,2,nil)
+	if Duel.SendtoGrave(g,REASON_EFFECT+REASON_DISCARD)>0 and Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)==0 then
 		Duel.Damage(1-tp,3000,REASON_EFFECT)
 	end
 end
