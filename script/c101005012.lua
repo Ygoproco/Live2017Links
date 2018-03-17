@@ -14,7 +14,7 @@ function c101005012.initial_effect(c)
 	c:RegisterEffect(e1)
 	--effect
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(57617178,0))
+	e2:SetDescription(aux.Stringid(101005012,1))
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
