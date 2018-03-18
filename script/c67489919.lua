@@ -83,7 +83,7 @@ function c67489919.indcon(e)
 end
 function c67489919.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 
-		and GetFieldGroupCount(tp,0,LOCATION_MZONE)>0
+		and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>0
 end
 function c67489919.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
