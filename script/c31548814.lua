@@ -43,9 +43,10 @@ function c31548814.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ft=math.min(Duel.GetLocationCount(tp,LOCATION_MZONE),3)
 	if ft>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
 	local g=Duel.GetMatchingGroup(c31548814.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
-	if ft<=0 or g:GetCount()<=0 then return end
-	local sg=g:SelectWithSumEqual(tp,Card.GetLevel,8,1,ft)
-	if sg:GetCount()>0 then
-		Duel.SpecialSummon(sg,0,tp,tp,true,false,POS_FACEUP)
+	if g:CheckWithSumEqual(Card.GetLevel,8,1,ft) then
+		local sg=g:SelectWithSumEqual(tp,Card.GetLevel,8,1,ft)
+		if sg:GetCount()>0 then
+			Duel.SpecialSummon(sg,0,tp,tp,true,false,POS_FACEUP)
+		end
 	end
 end
