@@ -1,6 +1,5 @@
 --鉄騎龍ティアマトン
 --Tiamaton the Steel Battalion Dragon
---Script by nekrozar, completed by Eerie Code
 function c46247282.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot special summon
@@ -32,10 +31,10 @@ function c46247282.initial_effect(c)
 	c:RegisterEffect(e3)
 	--disable field
 	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e4:SetCode(EVENT_ADJUST)
+	e4:SetType(EFFECT_TYPE_FIELD)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetOperation(c46247282.operation)
+	e4:SetCode(EFFECT_DISABLE_FIELD)
+	e4:SetOperation(c46247282.disop)
 	c:RegisterEffect(e4)
 end
 function c46247282.cfilter(c)
@@ -66,16 +65,6 @@ function c46247282.desop(e,tp,eg,ep,ev,re,r,rp)
 		local cg=c:GetColumnGroup()
 		Duel.Destroy(cg,REASON_EFFECT)
 	end
-end
-function c46247282.operation(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetCode(EFFECT_DISABLE_FIELD)
-	e1:SetOperation(c46247282.disop)
-	c:RegisterEffect(e1)
-	e:SetLabelObject(e1)
 end
 function c46247282.disop(e,tp)
 	local c=e:GetHandler()
