@@ -16,7 +16,7 @@ end
 function c27503418.filter1(c,e,tp,tc,lv)
 	local rlv=c:GetLevel()-lv
 	return rlv>0 and c:IsType(TYPE_SYNCHRO) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_SYNCHRO,tp,false,false)
-		and Duel.GetLocationCountFromEx(tp,tp,tc,c)
+		and Duel.GetLocationCountFromEx(tp,tp,tc,c)>0
 		and Duel.IsExistingMatchingCard(c27503418.filter2,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,c,tp,rlv)
 end
 function c27503418.filter2(c,tp,lv)
