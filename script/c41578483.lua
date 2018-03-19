@@ -39,19 +39,20 @@ function c41578483.initial_effect(c)
 	e4:SetTargetRange(0x7f,0x7f)
 	e4:SetTarget(c41578483.distg)
 	c:RegisterEffect(e4)
-	--atk limit
+	--
 	local e5=Effect.CreateEffect(c)
-	e5:SetType(EFFECT_TYPE_FIELD)
-	e5:SetCode(EFFECT_CANNOT_ATTACK)
+	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e5:SetCode(EVENT_CHAIN_SOLVING)
+	e5:SetOperation(c41578483.disop)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetTargetRange(0x7f,0x7f)
-	e5:SetTarget(c41578483.distg)
 	c:RegisterEffect(e5)
+	--atk limit
 	local e6=Effect.CreateEffect(c)
-	e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e6:SetCode(EVENT_CHAIN_SOLVING)
-	e6:SetOperation(c41578483.disop)
+	e6:SetType(EFFECT_TYPE_FIELD)
+	e6:SetCode(EFFECT_CANNOT_ATTACK)
 	e6:SetRange(LOCATION_MZONE)
+	e6:SetTargetRange(0x7f,0x7f)
+	e6:SetTarget(c41578483.distg)
 	c:RegisterEffect(e6)
 end
 function c41578483.eqval(ec,c,tp)
@@ -115,7 +116,7 @@ function c41578483.distg(e,c)
 	return c:IsFaceup() and g:IsExists(Card.IsCode,1,nil,c:GetCode())
 end
 function c41578483.disop(e,tp,eg,ep,ev,re,r,rp)
-	local g=e:GetHandler():GetEquipGroup()
+	local g=e:GetHandler():GetEquipGroup():Filter(aux.AND(c41578483.disfilter,Card.IsActiveType),nil,TYPE_MONSTER+TYPE_EFFECT)
 	if g and re and g:IsContains(re:GetOwner()) then
 		Duel.NegateEffect(ev)
 	end
