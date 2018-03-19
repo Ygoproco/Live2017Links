@@ -14,6 +14,7 @@ function c23408872.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c23408872.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,aux.ReleaseCheckMMZ,nil,RACE_AQUA) end
 	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,1,false,aux.ReleaseCheckMMZ,nil,RACE_AQUA)
 	Duel.Release(g,REASON_COST)
