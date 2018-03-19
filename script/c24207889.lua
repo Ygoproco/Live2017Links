@@ -37,7 +37,7 @@ function c24207889.sumlimit(e,c,sump,sumtype,sumpos,targetp)
 	if sumpos and (sumpos&POS_FACEDOWN)>0 then return false end
 	local tp=sump
 	if targetp then tp=targetp end
-	return Duel.IsExistingMatchingCard(c24207889.rmfilter,tp,LOCATION_MZONE,0,1,nil,c:GetRace())
+	return Duel.IsExistingMatchingCard(c24207889.rmfilter,tp,LOCATION_MZONE,0,1,c,c:GetRace())
 end
 function c24207889.adjustop(e,tp,eg,ep,ev,re,r,rp)
 	local phase=Duel.GetCurrentPhase()
