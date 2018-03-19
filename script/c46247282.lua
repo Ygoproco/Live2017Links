@@ -1,5 +1,4 @@
 --鉄騎龍ティアマトン
---Tiamaton the Steel Battalion Dragon
 function c46247282.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot special summon
@@ -54,29 +53,26 @@ function c46247282.spop(e,tp,eg,ep,ev,re,r,rp)
 		c:CompleteProcedure()
 	end
 end
+function c46247282.desfilter(c,g)
+	return g:IsContains(c)
+end
 function c46247282.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local cg=e:GetHandler():GetColumnGroup()
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,cg,cg:GetCount(),0,0)
+	local g=Duel.GetMatchingGroup(c46247282.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,cg)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 end
 function c46247282.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	local cg=c:GetColumnGroup()
 	if c:IsRelateToEffect(e) and c:IsFaceup() then
-		local cg=c:GetColumnGroup()
-		Duel.Destroy(cg,REASON_EFFECT)
+		local g=Duel.GetMatchingGroup(c46247282.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,cg)
+		if g:GetCount()>0 then
+			Duel.Destroy(g,REASON_EFFECT)
+		end
 	end
 end
 function c46247282.disop(e,tp)
 	local c=e:GetHandler()
-	local seq=c:GetSequence()
-	local nseq=4-seq
-	local flag=0
-	if Duel.CheckLocation(tp,LOCATION_MZONE,seq) then flag=flag+(2^seq) end
-	if Duel.CheckLocation(tp,LOCATION_SZONE,seq) then flag=flag+((2^seq)<<8) end
-	if Duel.CheckLocation(1-tp,LOCATION_MZONE,nseq) then flag=flag+((2^nseq)<<16) end
-	if Duel.CheckLocation(1-tp,LOCATION_SZONE,nseq) then flag=flag+((2^nseq)<<24) end
-	if seq==1 then flag=flag+(2^5) end
-	if seq==3 then flag=flag+(2^6) end
-	return flag
+	return c:GetColumnZone(LOCATION_MZONE) + (c:GetColumnZone(LOCATION_SZONE)<<8)
 end
-
