@@ -21,8 +21,19 @@ end
 function c101005001.filter(c)
 	return c:IsRace(RACE_CYBERSE) and c:GetLevel()==4
 end
+function c101005001.filter2(c)
+	return c:IsType(TYPE_LINK) and c:IsLinkState() and c:IsFaceup()
+end
+function c101005001.getzone(tp)
+	local zone = 0
+	local g = Duel.GetMatchingGroup(c101005001.filter2,tp,LOCATION_MZONE,0,nil)
+	for tc in aux.Next(g) do
+		zone = zone | tc:GetLinkedZone()
+	end
+	return zone&0x1f
+end
 function c101005001.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local zone=Duel.GetLinkedZone(tp)&0x1f
+	local zone=c101005001.getzone(tp)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c101005001.filter(chkc) end
 	local c=e:GetHandler()
 	if chk==0 then return zone~=0 and
@@ -36,7 +47,7 @@ function c101005001.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c101005001.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local zone=Duel.GetLinkedZone(tp)&0x1f
+	local zone=c101005001.getzone(tp)
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP,zone)~=0 then
 		local tc=Duel.GetFirstTarget()
@@ -45,4 +56,3 @@ function c101005001.operation(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
