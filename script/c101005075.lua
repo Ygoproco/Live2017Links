@@ -47,7 +47,7 @@ function c101005075.ceop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ChangeChainOperation(ev,c101005075.repop)
 end
 function c101005075.spfilter1(c,e,tp)
-	local zone = c:GetLinkedZone()&0x1f
+	local zone = c:IsControler(tp) and c:GetLinkedZone()&0x1f or (c:GetLinkedZone()>>16)&0x1f
 	return c:IsFaceup() and c:IsType(TYPE_LINK) and Duel.IsExistingMatchingCard(c101005075.spfilter2,tp,0x13,0,1,c,e,tp,zone)
 end
 function c101005075.spfilter2(c,e,tp,zone)
@@ -63,7 +63,7 @@ function c101005075.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
-		local zone = tc:GetLinkedZone()&0x1f
+		local zone = tc:IsControler(tp) and tc:GetLinkedZone()&0x1f or (tc:GetLinkedZone()>>16)&0x1f
 		local sg = Duel.SelectMatchingCard(tp,c101005075.spfilter2,tp,0x13,0,1,1,c,e,tp,zone)
 		if sg then
 			Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEDOWN_DEFENSE,zone)
