@@ -47,9 +47,9 @@ function c63053267.indval(e,re,rp)
 end
 function c63053267.damval(e,re,val,r,rp,rc)
 	local tp=e:GetHandlerPlayer()
-	if Duel.GetFlagEffect(tp,63053267)~=0 or r&REASON_BATTLE==0
+	if e:GetHandler():GetFlagEffect(63053267)~=0 or r&REASON_BATTLE==0
 		or not rc:IsSetCard(0x10b) or not rc:IsControler(tp) then return val end
-	Duel.RegisterFlagEffect(tp,63053267,RESET_PHASE+PHASE_END,0,1)
+	e:GetHandler():RegisterFlagEffect(63053267,RESET_PHASE+PHASE_END,0,1)
 	return val*2
 end
 function c63053267.cfilter(c)
