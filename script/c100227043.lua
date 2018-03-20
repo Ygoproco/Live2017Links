@@ -42,12 +42,13 @@ function c100227043.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local rt1=math.min(Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT),2)
 	if rt1>0 then
 		local rt2=math.min(Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT),2)
-		Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,PLAYER_ALL,rt1+rt2)
+		Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,PLAYER_ALL,math.min(rt1,rt2))
 	end
 end
 function c100227043.hdop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT)
 	if ct==0 then return end
+	local sel
 	if ct<2 then sel=1 else Duel.Hint(HINT_SELECTMSG,tp,565) sel=Duel.AnnounceNumber(tp,1,2) end
 	local g1=Duel.GetMatchingGroup(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT):RandomSelect(tp,sel)
 	local rt=Duel.SendtoGrave(g1,REASON_EFFECT+REASON_DISCARD)
