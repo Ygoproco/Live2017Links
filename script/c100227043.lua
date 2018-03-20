@@ -39,17 +39,20 @@ function c100227043.hdcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c100227043.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local rt1 = Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT)
+	local rt1=math.min(Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT),2)
 	if rt1>0 then
-		local rt2 = Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT)
-		Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,PLAYER_ALL,rt)
+		local rt2=math.min(Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT),2)
+		Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,PLAYER_ALL,rt1+rt2)
 	end
 end
 function c100227043.hdop(e,tp,eg,ep,ev,re,r,rp)
-	local rt1 = math.min(Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT),2)
-	local g1=Duel.GetMatchingGroup(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT):RandomSelect(tp,rt1)
-	local rt2 = Duel.SendtoGrave(g1,REASON_EFFECT+REASON_DISCARD)
-	local g2=Duel.GetMatchingGroup(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT):Select(1-tp,rt2,rt2,nil)
+	local ct=Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT)
+	if ct==0 then return end
+	if ct<2 then sel=1 else Duel.Hint(HINT_SELECTMSG,tp,565) sel=Duel.AnnounceNumber(tp,1,2) end
+	local g1=Duel.GetMatchingGroup(Card.IsDiscardable,tp,LOCATION_HAND,0,nil,REASON_EFFECT):RandomSelect(tp,sel)
+	local rt=Duel.SendtoGrave(g1,REASON_EFFECT+REASON_DISCARD)
+	if rt==0 or rt>Duel.GetMatchingGroupCount(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT) then return end
+	local g2=Duel.GetMatchingGroup(Card.IsDiscardable,tp,0,LOCATION_HAND,nil,REASON_EFFECT):Select(1-tp,rt,rt,nil)
 	Duel.SendtoGrave(g2,REASON_EFFECT+REASON_DISCARD)
 end
 function c100227043.hdcon2(e)
