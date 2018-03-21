@@ -29,11 +29,11 @@ function c101005031.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.GetAttacker()==c and Duel.GetAttackTarget()~=nil end
 	local g=Duel.GetAttackTarget()
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
 end
 function c101005031.thop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetAttackTarget()
-	if g:GetCount()>0 and g:IsRelateToBattle()then
+	if g and g:IsRelateToBattle()then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 	end
 end
