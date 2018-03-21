@@ -25,6 +25,7 @@ function c101005079.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SelectTarget(tp,c101005079.filter,tp,0,LOCATION_MZONE,1,1,nil,tp)
 end
 function c101005079.activate(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if not tc:IsRelateToEffect(e) or c:IsFacedown() then return end
 	local atk=tc:GetAttack()
