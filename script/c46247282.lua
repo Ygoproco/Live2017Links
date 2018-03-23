@@ -33,7 +33,7 @@ function c46247282.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_FIELD)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EFFECT_DISABLE_FIELD)
-	e4:SetOperation(c46247282.disop)
+	e4:SetValue(c46247282.disop)
 	c:RegisterEffect(e4)
 end
 function c46247282.cfilter(c)
@@ -72,7 +72,17 @@ function c46247282.desop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c46247282.disop(e,tp)
+function c46247282.disop(e)
 	local c=e:GetHandler()
-	return c:GetColumnZone(LOCATION_MZONE) + (c:GetColumnZone(LOCATION_SZONE)<<8)
+	local seq=c:GetSequence()
+	local nseq=4-seq
+	if c:GetControler()==1 then seq,nseq=nseq,seq end
+	local flag=0
+	if Duel.CheckLocation(0,LOCATION_MZONE,seq) then flag=flag+(2^seq) end
+	if Duel.CheckLocation(0,LOCATION_SZONE,seq) then flag=flag+((2^seq)<<8) end
+	if Duel.CheckLocation(1,LOCATION_MZONE,nseq) then flag=flag+((2^nseq)<<16) end
+	if Duel.CheckLocation(1,LOCATION_SZONE,nseq) then flag=flag+((2^nseq)<<24) end
+	if seq==1 then flag=flag+(2^5) end
+	if seq==3 then flag=flag+(2^6) end
+	return flag
 end
