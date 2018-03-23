@@ -1,7 +1,7 @@
 --ペンテスタッグ
 --Pentestag
 --Scripted by Eerie Code
-function c100318042.initial_effect(c)
+function c72336818.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),2,2)
 	--pierce
@@ -13,3 +13,4 @@ function c100318042.initial_effect(c)
 	e1:SetTarget(aux.TargetBoolFunction(Card.IsLinkState))
 	c:RegisterEffect(e1)
 end
+
