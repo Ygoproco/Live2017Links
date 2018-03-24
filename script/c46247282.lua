@@ -84,7 +84,7 @@ function c46247282.disop(e)
 	if Duel.CheckLocation(0,LOCATION_SZONE,seq) then flag=flag+((2^seq)<<8) end
 	if Duel.CheckLocation(1,LOCATION_MZONE,nseq) then flag=flag+((2^nseq)<<16) end
 	if Duel.CheckLocation(1,LOCATION_SZONE,nseq) then flag=flag+((2^nseq)<<24) end
-	if seq==1 then flag=flag+(2^5) end
-	if seq==3 then flag=flag+(2^6) end
+	if seq==1 and Duel.CheckLocation(0,LOCATION_MZONE,5) then flag=flag+(2^5) end
+	if seq==3 and Duel.CheckLocation(0,LOCATION_MZONE,6) then flag=flag+(2^6) end
 	return flag
 end
