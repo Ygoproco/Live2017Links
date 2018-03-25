@@ -28,7 +28,7 @@ function c101005077.spcheck(sg,tp,exg,dg)
 	return dg:GetCount()-a>=1
 end
 function c101005077.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc~=e:GetHandler() end
+	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and chkc~=e:GetHandler() end
 	local dg=Duel.GetMatchingGroup(Card.IsCanBeEffectTarget,tp,0,LOCATION_ONFIELD,e:GetHandler(),e)
 	if chk==0 then
 		if e:GetLabel()==1 then
