@@ -46,7 +46,7 @@ function c48130397.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c48130397.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg1=Duel.GetFusionMaterial(tp):Filter(c48130397.filter3,nil,e)
-	local mg2=Duel.GetFusionMaterial(1-tp):Filter(c48130397.filter3,nil,e)
+	local mg2=Duel.GetFusionMaterial(1-tp):Filter(c48130397.filter3,nil,e,true)
 	mg1:Merge(mg2)
 	local sg1=Duel.GetMatchingGroup(c48130397.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	local mg3=nil
