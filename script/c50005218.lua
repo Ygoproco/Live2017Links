@@ -41,7 +41,6 @@ function c50005218.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c50005218.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if not tc:IsRelateToEffect(e) then return end
 	Duel.ConfirmDecktop(tp,3)
 	local g=Duel.GetDecktopGroup(tp,3)
 	if g:GetCount()>0 then
@@ -57,7 +56,9 @@ function c50005218.thop(e,tp,eg,ep,ev,re,r,rp)
 					Duel.SendtoGrave(sg,REASON_RULE)
 				end
 			end
-			Duel.SendtoGrave(tc,REASON_EFFECT)
+			if tc:IsRelateToEffect(e) then
+				Duel.SendtoGrave(tc,REASON_EFFECT)
+			end
 		end
 		Duel.ShuffleDeck(tp)
 	end
