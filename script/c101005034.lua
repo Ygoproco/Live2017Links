@@ -10,7 +10,7 @@ function c101005034.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e1:SetCountLimit(1)
+	e1:SetValue(1)
 	c:RegisterEffect(e1)
 	--position
 	local e2=Effect.CreateEffect(c)
