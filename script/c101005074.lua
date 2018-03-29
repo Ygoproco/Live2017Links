@@ -108,7 +108,7 @@ function c101005074.eqfilter2(c)
 end
 function c101005074.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c101005074.eqfilter1(chkc) end
-	if chk==0 then Duel.GetLocationCount(tp,LOCATION_SZONE)>0 
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0 
 		and Duel.IsExistingTarget(c101005074.eqfilter1,tp,LOCATION_MZONE,0,1,nil)
 		and Duel.IsExistingMatchingCard(c101005074.eqfilter2,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
@@ -121,7 +121,7 @@ function c101005074.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local ec=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and ec:IsFaceup() then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c101005074.eqfilter),tp,LOCATION_GRAVE,0,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c101005074.eqfilter2),tp,LOCATION_GRAVE,0,1,1,nil)
 		local tc=g:GetFirst()
 		if not tc or not Duel.Equip(tp,tc,ec,true) then return end
 		local e1=Effect.CreateEffect(c)
