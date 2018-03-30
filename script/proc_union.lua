@@ -1,15 +1,17 @@
 --Procedure for Union monster equip/unequip
 --c: Union monster
 --f: Potential targets
---oldrule: Uses old rules
-function Auxiliary.AddUnionProcedure(c,f,oldrule)
+--oldequip: Uses old rules for number of monster equiped (A monster can only by equipped with 1 Union monster at a time.)
+--oldprotect: Uses old rules for destroy replacement (If the equipped monster would be destroyed, destroy this card instead.)
+function Auxiliary.AddUnionProcedure(c,f,oldequip,oldprotect)
+	if oldprotect == nil then oldprotect = oldequip end
 	--equip
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(1068)
 	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetTarget(Auxiliary.UnionTarget(f,oldrule))
+	e1:SetTarget(Auxiliary.UnionTarget(f,oldequip))
 	e1:SetOperation(Auxiliary.UnionOperation(f))
 	c:RegisterEffect(e1)
 	--unequip
@@ -19,15 +21,15 @@ function Auxiliary.AddUnionProcedure(c,f,oldrule)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCondition(Auxiliary.UnionSumCondition)
-	e2:SetTarget(Auxiliary.UnionSumTarget(oldrule))
-	e2:SetOperation(Auxiliary.UnionSumOperation(oldrule))
+	e2:SetTarget(Auxiliary.UnionSumTarget(oldequip))
+	e2:SetOperation(Auxiliary.UnionSumOperation(oldequip))
 	c:RegisterEffect(e2)
 	--destroy sub
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_EQUIP)
 	e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 	e3:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e3:SetValue(Auxiliary.UnionReplace(oldrule))
+	e3:SetValue(Auxiliary.UnionReplace(oldprotect))
 	c:RegisterEffect(e3)
 	--eqlimit
 	local e4=Effect.CreateEffect(c)
@@ -37,7 +39,7 @@ function Auxiliary.AddUnionProcedure(c,f,oldrule)
 	e4:SetValue(Auxiliary.UnionLimit(f))
 	c:RegisterEffect(e4)
 	--auxiliary function compatibility
-	if oldrule then
+	if oldequip then
 		local m=_G["c"..c:GetOriginalCode()]
 		m.old_union=true
 	end
