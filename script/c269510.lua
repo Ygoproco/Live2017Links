@@ -77,7 +77,7 @@ end
 function c269510.splimit(e,c,tp,sumtp,sumpos)
 	local g=Duel.GetMatchingGroup(c269510.limfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	if g:GetCount()<=0 then return false end
-	local mg,lk=g:GetMinGroup(Card.GetLink)
+	local mg,lk=g:GetMaxGroup(Card.GetLink)
 	return bit.band(sumtp,SUMMON_TYPE_LINK)==SUMMON_TYPE_LINK and lk and lk>c:GetLink()
 end
 function c269510.atktg(e,c)
