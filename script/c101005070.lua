@@ -49,7 +49,9 @@ function c101005070.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c101005070.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	c:AddCounter(0x48,4)
+	if c:IsRelateToEffect(e) then
+		c:AddCounter(0x48,4)
+	end
 end
 function c101005070.counterfilter(c)
 	return c:GetSummonLocation()~=LOCATION_EXTRA or (c:IsType(TYPE_LINK) and c:IsAttribute(ATTRIBUTE_DARK))
