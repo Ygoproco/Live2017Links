@@ -603,14 +603,14 @@ function Auxiliary.AddEREquipLimit(c,con,equipval,equipop,linkedeff,prop,resetfl
 		e2:SetReset(resetflag)
 	end
 	c:RegisterEffect(e2)
-	e2:SetLabelObject(linkedeff)
+	linkedeff:SetLabelObject(e2)
 end
 
 function Auxiliary.EquipByEffectLimit(e,c)
 	if e:GetOwner()~=c then return false end
 	local eff={c:GetCardEffect(89785779+EFFECT_EQUIP_LIMIT)}
 	for _,te in ipairs(eff) do
-		if te:GetLabelObject():GetLabelObject()==e:GetLabelObject() then return true end
+		if te==e:GetLabelObject() then return true end
 	end
 	return false
 end
