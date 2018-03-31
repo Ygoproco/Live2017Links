@@ -84,7 +84,7 @@ function c35606858.cfilter(c,e,tp,te)
 end
 function c35606858.dctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return eg:IsExists(c35606858.cfilter,1,nil,e,tp) end
-	local g=eg:Filter(c35606858.cfilter,nil,e,tp,e)
+	local g=eg:Filter(c35606858.cfilter,nil,e,tp)
 	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_DICE,nil,0,tp,1)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
