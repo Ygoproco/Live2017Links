@@ -89,7 +89,8 @@ end
 function c63092423.ctop1(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
-		c:RemoveCounter(tp,0x44,2,REASON_EFFECT)
+		local ct=math.min(2,c:GetCounter(0x44))
+		c:RemoveCounter(tp,0x44,ct,REASON_EFFECT)
 	end
 end
 function c63092423.ctop2(e,tp,eg,ep,ev,re,r,rp)
