@@ -28,7 +28,7 @@ function c101005100.initial_effect(c)
 	local e8=Effect.CreateEffect(c)
 	e8:SetDescription(aux.Stringid(101005100,1))
 	e8:SetCategory(CATEGORY_DRAW)
-	e8:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e8:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e8:SetProperty(EFFECT_FLAG_DELAY)
 	e8:SetCode(EVENT_TO_GRAVE)
 	e8:SetCountLimit(1,101005152)
@@ -81,10 +81,10 @@ function c101005100.rmop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
 end
-function c101005100.thcon(e,tp,eg,ep,ev,re,r,rp)
+function c101005100.drcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local ec=c:GetPreviousEquipTarget()
-	return c:IsReason(REASON_LOST_TARGET) and ec:IsReason(REASON_DESTROY)
+	return c:IsReason(REASON_LOST_TARGET) and ec and ec:IsReason(REASON_DESTROY)
 end
 function c101005100.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end

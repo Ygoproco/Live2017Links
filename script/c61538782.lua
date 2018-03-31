@@ -10,19 +10,17 @@ function c61538782.initial_effect(c)
 	e1:SetTarget(c61538782.eqtg)
 	e1:SetOperation(c61538782.eqop)
 	c:RegisterEffect(e1)
-	--aux.AddEREquipLimit(c,nil,aux.FilterBoolFunction(Card.IsType,TYPE_MONSTER),c61538782.equipop,e1)
-	aux.AddEREquipLimit(c,nil,aux.TRUE,c61538782.equipop,e1)
+	aux.AddEREquipLimit(c,nil,aux.FilterBoolFunction(Card.IsType,TYPE_MONSTER),c61538782.equipop,e1)
 end
 function c61538782.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetBattleTarget()
-	if not c:IsRelateToBattle() or c:IsFacedown() then return false end
-	e:SetLabelObject(tc)
-	return tc:IsLocation(LOCATION_GRAVE) and tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) and not tc:IsForbidden()
+	return c:IsRelateToBattle() and c:IsFaceup() and tc:IsLocation(LOCATION_GRAVE) and tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) 
+		and not tc:IsForbidden()
 end
 function c61538782.eqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local tc=e:GetLabelObject()
+	local tc=e:GetHandler():GetBattleTarget()
 	Duel.SetTargetCard(tc)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,tc,1,0,0)
 end
