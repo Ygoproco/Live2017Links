@@ -35,7 +35,7 @@ function c80335817.indtg(e,c)
 	return c:IsType(TYPE_PENDULUM)
 end
 function c80335817.indval(e,re,r,rp)
-	if bit.band(r,REASON_EFFECT)~=0 then
+	if bit.band(r,REASON_EFFECT)~=0 and e:GetHandlerPlayer()~=rp then
 	return 1
 	else return 0 end
 end
