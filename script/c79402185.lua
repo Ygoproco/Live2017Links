@@ -29,8 +29,8 @@ function c79402185.chk(c,sg)
 	return c:IsCode(58071123) and sg:IsExists(Card.IsCode,2,c,43017476)
 end
 function c79402185.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsCode,3,nil,c79402185.spcheck,nil,43017476,58071123) end
-	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsCode,3,3,nil,c79402185.spcheck,nil,43017476,58071123)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsCode,3,true,c79402185.spcheck,nil,43017476,58071123) end
+	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsCode,3,3,true,c79402185.spcheck,nil,43017476,58071123)
 	Duel.Release(sg,REASON_COST)
 end
 function c79402185.filter(c,e,tp)
@@ -38,7 +38,7 @@ function c79402185.filter(c,e,tp)
 end
 function c79402185.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		if e:GetLabel()==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return false end
+		if e:GetLabel()==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)<=-1 then return false end
 		e:SetLabel(0)
 		return Duel.IsExistingMatchingCard(c79402185.filter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp)
 	end
