@@ -23,8 +23,8 @@ function c101005101.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCode(EFFECT_SELF_TOGRAVE)
+	e3:SetRange(LOCATION_SZONE)
+	e3:SetCode(EFFECT_SELF_DESTROY)
 	e3:SetCondition(c101005101.sdcon)
 	c:RegisterEffect(e3)
 	--double atk/def
@@ -56,8 +56,9 @@ function c101005101.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101005101.sdcon(e)
-	local g=e:GetHandler():GetEquipGroup()
-	return g and g:GetCount()>0 and Duel.IsExistingMatchingCard(nil,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,g)
+	local c=e:GetHandler()
+	local tc=c:GetEquipTarget()
+	return tc and Duel.IsExistingMatchingCard(nil,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,tc)
 end
 function c101005101.adcon(e)
 	if Duel.GetCurrentPhase()~=PHASE_DAMAGE_CAL then return false end
