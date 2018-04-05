@@ -6,6 +6,12 @@ function Card.IsInExtraMZone(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()>4 and (not tp or c:IsControler(tp))
 end
 
+--workaround for gryphon while update not happen and fix that (credits to cc/l)
+local ils = Card.IsLinkState
+Card.IsLinkState = function(c)
+    return ils(c) or Duel.IsExistingMatchingCard(function(c,tc)return c:IsFaceup() and c:GetLinkedGroup():IsContains(tc) end,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,c)
+end
+
 --things needed for steelswarm origin
 local iscan=Duel.IsCanBeSpecialSummoned
 Duel.IsCanBeSpecialSummoned=function(c,...)
