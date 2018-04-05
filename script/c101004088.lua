@@ -67,9 +67,8 @@ function c101004088.lvop(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c101004088.negcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if ep==tp or c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-	return (re:IsActiveType(TYPE_MONSTER) or re:IsHasType(EFFECT_TYPE_ACTIVATE)) and Duel.IsChainNegatable(ev)
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+		and ep~=tp and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and Duel.IsChainNegatable(ev)
 end
 function c101004088.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
