@@ -7,7 +7,7 @@ function c101005011.initial_effect(c)
 	e1:SetDescription(aux.Stringid(101005011,0))
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
-	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SPSUM_PARAM)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetTargetRange(POS_FACEUP_DEFENSE,0)
 	e1:SetCountLimit(1,101005011)
@@ -71,7 +71,7 @@ end
 function c101005011.thfilter(c)
 	return c:IsSetCard(0xfe) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
 end
-function c101005033.thcon(e,tp,eg,ep,ev,re,r,rp)
+function c101005011.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_NORMAL)
 end
 function c101005011.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
