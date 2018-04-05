@@ -71,7 +71,7 @@ end
 function c101005011.thfilter(c)
 	return c:IsSetCard(0xfe) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
 end
-function c101005033.thcon(e,tp,eg,ep,ev,re,r,rp)
+function c101005011.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_NORMAL)
 end
 function c101005011.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
