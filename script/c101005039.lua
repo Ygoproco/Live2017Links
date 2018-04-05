@@ -45,7 +45,7 @@ function c101005039.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c101005039.immval(e,te)
-	return te:GetOwner()~=e:GetHandler() and te:IsActiveType(TYPE_MONSTER)
+	return te:GetOwner()~=e:GetHandler() and te:IsActiveType(TYPE_MONSTER) and e:GetHandlerPlayer() ~= te:GetHandlerPlayer()
 		and te:GetOwner():GetAttack()<=e:GetHandler():GetAttack() and te:IsActivated()
 end
 function c101005039.negfilter(c,g)
