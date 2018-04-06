@@ -54,6 +54,9 @@ function c7165085.activate(e,tp,eg,ep,ev,re,r,rp)
 				end
 				tc:CreateEffectRelation(te)
 				if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
+				if target~=te:GetTarget() then
+					target=te:GetTarget()
+				end
 				if target then target(te,tep,eg,ep,ev,re,r,rp,1) end
 				local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 				local tg=g:GetFirst()
@@ -62,6 +65,9 @@ function c7165085.activate(e,tp,eg,ep,ev,re,r,rp)
 					tg=g:GetNext()
 				end
 				tc:SetStatus(STATUS_ACTIVATED,true)
+				if operation~=te:GetOperation() then
+					operation=te:GetOperation()
+				end
 				if operation then operation(te,tep,eg,ep,ev,re,r,rp) end
 				tc:ReleaseEffectRelation(te)
 				tg=g:GetFirst()
