@@ -19,8 +19,11 @@ end
 function c87116928.splimit(e,se,sp,st)
 	return e:GetHandler():GetLocation()~=LOCATION_EXTRA
 end
+function c87116928.cfilter(c,tp)
+	return c:IsAbleToGraveAsCost() and (c:IsControler(tp) or c:IsFaceup())
+end
 function c87116928.contactfil(tp)
-	return Duel.GetMatchingGroup(Card.IsAbleToGraveAsCost,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	return Duel.GetMatchingGroup(c87116928.cfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 end
 function c87116928.contactop(g,tp,c)
 	Duel.SendtoGrave(g,REASON_COST+REASON_MATERIAL)
