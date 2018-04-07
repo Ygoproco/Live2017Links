@@ -54,7 +54,7 @@ end
 function c101005039.negcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
+	if rp==tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
 	local lg=e:GetHandler():GetLinkedGroup()
 	lg:AddCard(c)
 	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
