@@ -95,17 +95,11 @@ function Auxiliary.ExtraLinked(c,emc,card,eg)
 	return res
 end
 function Card.IsExtraLinked(c)
-	local card50=Duel.GetFieldCard(0,LOCATION_MZONE,5)
-	local card60=Duel.GetFieldCard(0,LOCATION_MZONE,6)
-	if card50 and card60 then
-		local mg=card50:GetMutualLinkedGroup()
-		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card60,c,Group.FromCards(card50))
-	end
-	local card51=Duel.GetFieldCard(1,LOCATION_MZONE,5)
-	local card61=Duel.GetFieldCard(1,LOCATION_MZONE,6)
-	if card51 and card61 then
-		local mg=card51:GetMutualLinkedGroup()
-		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card61,c,Group.FromCards(card51))
+	local card5=Duel.GetFieldCard(0,LOCATION_MZONE,5) and Duel.GetFieldCard(0,LOCATION_MZONE,5) or Duel.GetFieldCard(1,LOCATION_MZONE,6)
+	local card6=Duel.GetFieldCard(0,LOCATION_MZONE,6) and Duel.GetFieldCard(0,LOCATION_MZONE,6) or Duel.GetFieldCard(1,LOCATION_MZONE,5)
+	if card5 and card6 then
+		local mg=card5:GetMutualLinkedGroup()
+		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card6,c,Group.FromCards(card5))
 	end
 	return false
 end
