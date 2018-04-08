@@ -25,9 +25,9 @@ function c101004090.initial_effect(c)
 	e3:SetDescription(aux.Stringid(101004090,1))
 	e3:SetCategory(CATEGORY_LVCHANGE+CATEGORY_DESTROY)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetCode(EVENT_BATTLE_CONFIRM)
+	e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetCountLimit(1)
+	e3:SetCondition(c4388680.lvlcon)
 	e3:SetCondition(c101004090.lvlcon)
 	e3:SetOperation(c101004090.lvlop)
 	c:RegisterEffect(e3)
@@ -48,12 +48,14 @@ function c101004090.acttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 			return
 		end
 	end
-	if Duel.CheckEvent(EVENT_BATTLE_CONFIRM) then
+	if Duel.CheckEvent(EVENT_PRE_DAMAGE_CALCULATE) then
 		if c101004090.lvlcon(e,tp,eg,ep,ev,re,r,rp)
+			and c101004090.lvlcost(e,tp,eg,ep,ev,re,r,rp,0)
 			and Duel.SelectYesNo(tp,94) then
 			e:SetCategory(CATEGORY_LVCHANGE+CATEGORY_DESTROY)
 			e:SetProperty(0)
 			e:SetOperation(c101004090.lvlop)
+			c101004090.lvlcost(e,tp,eg,ep,ev,re,r,rp,1)
 			e:GetHandler():RegisterFlagEffect(0,RESET_CHAIN,EFFECT_FLAG_CLIENT_HINT,1,0,65)
 			return
 		end
@@ -91,7 +93,11 @@ end
 
 
 
-
+function c101004090.lvlcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return c:GetFlagEffect(101004090)==0 end
+	c:RegisterFlagEffect(101004090,RESET_CHAIN,0,1)
+end
 function c101004090.lvlcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetAttacker()
 	local bc=Duel.GetAttackTarget()
