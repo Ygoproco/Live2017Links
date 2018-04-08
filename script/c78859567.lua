@@ -19,14 +19,14 @@ function c78859567.filter(c,e,tp)
 end
 function c78859567.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local zone=Duel.GetLinkedZone(tp)
+		local zone=Duel.GetLinkedZone(tp)&0x1f
 		local ct=Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)
 		return ct>0 and Duel.IsExistingMatchingCard(c78859567.filter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
 function c78859567.activate(e,tp,eg,ep,ev,re,r,rp)
-	local zone=Duel.GetLinkedZone(tp)
+	local zone=Duel.GetLinkedZone(tp)&0x1f
 	local ct=Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)
 	if ct<=0 then return end
 	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ct=1 end
