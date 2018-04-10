@@ -101,7 +101,7 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 		local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
 		if ex then
 			if cg and cg:GetCount()>0 then
-				if rp==1 or cp==1 or cp==PLAYER_ALL then
+				if rp==1 or cp==PLAYER_ALL then
 					c98645731[3][ev]=true
 				end
 			else
@@ -130,4 +130,5 @@ end
 function c98645731.clear(e,tp,eg,ep,ev,re,r,rp)
 	c98645731[0]=false
 	c98645731[1]=false
+	c98645731[4]=0
 end
