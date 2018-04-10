@@ -26,8 +26,8 @@ function c61411502.chk3(c,sg,ex)
 	return c:IsAttribute(ATTRIBUTE_WATER) and sg:IsExists(Card.IsAttribute,1,ex2,ATTRIBUTE_WIND)
 end
 function c61411502.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,4,false,c56619314.spcheck,nil,ATTRIBUTE_WIND+ATTRIBUTE_WATER+ATTRIBUTE_FIRE+ATTRIBUTE_EARTH) end
-	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,4,4,false,c56619314.spcheck,nil,ATTRIBUTE_WIND+ATTRIBUTE_WATER+ATTRIBUTE_FIRE+ATTRIBUTE_EARTH)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,4,false,c61411502.spcheck,nil,ATTRIBUTE_WIND+ATTRIBUTE_WATER+ATTRIBUTE_FIRE+ATTRIBUTE_EARTH) end
+	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,4,4,false,c61411502.spcheck,nil,ATTRIBUTE_WIND+ATTRIBUTE_WATER+ATTRIBUTE_FIRE+ATTRIBUTE_EARTH)
 	Duel.Release(sg,REASON_COST)
 end
 function c61411502.target(e,tp,eg,ep,ev,re,r,rp,chk)
