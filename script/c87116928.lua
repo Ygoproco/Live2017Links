@@ -23,7 +23,7 @@ function c87116928.cfilter(c,tp)
 	return c:IsAbleToGraveAsCost() and (c:IsControler(tp) or c:IsFaceup())
 end
 function c87116928.contactfil(tp)
-	return Duel.GetMatchingGroup(c87116928.cfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	return Duel.GetMatchingGroup(c87116928.cfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,tp)
 end
 function c87116928.contactop(g,tp,c)
 	Duel.SendtoGrave(g,REASON_COST+REASON_MATERIAL)
