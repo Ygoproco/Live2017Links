@@ -68,7 +68,7 @@ function c101005003.thfilter(c)
 end
 function c101005003.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(g,nil,2,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_EXTRA) then
+	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_EXTRA) then
 		local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c101005003.thfilter),tp,LOCATION_GRAVE,0,nil)
 		if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(101005003,2)) then
 			Duel.BreakEffect()
