@@ -1,5 +1,5 @@
 --アークロード・パラディオン
---Arklord Palladion
+--Arch-lord Palladion
 --Scripted by Eerie Code
 function c101005044.initial_effect(c)
 	c:EnableReviveLimit()
@@ -36,7 +36,7 @@ function c101005044.lcheck(g,lc)
 	return g:IsExists(Card.IsType,1,nil,TYPE_LINK)
 end
 function c101005044.atkval(e,c)
-	local g=e:GetHandler():GetLinkedGroup()
+	local g=e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil)
 	return g:GetSum(Card.GetBaseAttack)
 end
 function c101005044.atklimit(e,c)
