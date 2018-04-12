@@ -37,6 +37,7 @@ function c101005039.initial_effect(c)
 	e4:SetDescription(aux.Stringid(101005039,1))
 	e4:SetCategory(CATEGORY_ATKCHANGE)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
+	e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(1)
@@ -54,7 +55,7 @@ end
 function c101005039.negcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-	if rp==tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
+	if rp==tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
 	local lg=e:GetHandler():GetLinkedGroup()
 	lg:AddCard(c)
 	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)

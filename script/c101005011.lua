@@ -1,4 +1,4 @@
---星異物-『星冠』
+--星遺物－『星冠』
 --World Legacy - "World Crown"
 --Scripted by ahtelel
 function c101005011.initial_effect(c)
@@ -34,6 +34,7 @@ function c101005011.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e3:SetCode(EVENT_RELEASE)
+	e3:SetCountLimit(1,101005011+100)
 	e3:SetCondition(c101005011.thcon)
 	e3:SetTarget(c101005011.thtg)
 	e3:SetOperation(c101005011.thop)
