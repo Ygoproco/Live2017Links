@@ -33,7 +33,8 @@ function c101005060.activate(e,tp,eg,ep,ev,re,r,rp)
 			g:Sub(sg)
 			Duel.SendtoGrave(g,REASON_EFFECT+REASON_REVEAL)
 		else
-			Duel.SendtoDeck(g,nil,2,REASON_EFFECT+REASON_REVEAL) 
+			Duel.SendtoDeck(g,nil,2,REASON_EFFECT+REASON_REVEAL)
+			Duel.ShuffleDeck(tp)
 		end
 	end
 	local e1=Effect.CreateEffect(e:GetHandler())
