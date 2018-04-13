@@ -35,7 +35,7 @@ function c101005054.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsAbleToEnterBP()
 end
 function c101005054.filter(c)
-	return c:IsFaceup() and c:IsSetCard(0x217)
+	return c:IsFaceup() and c:IsSetCard(0x217) and c:IsType(TYPE_LINK)
 end
 function c101005054.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c101005054.filter(chkc) end
