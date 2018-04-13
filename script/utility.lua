@@ -95,17 +95,11 @@ function Auxiliary.ExtraLinked(c,emc,card,eg)
 	return res
 end
 function Card.IsExtraLinked(c)
-	local card50=Duel.GetFieldCard(0,LOCATION_MZONE,5)
-	local card60=Duel.GetFieldCard(0,LOCATION_MZONE,6)
-	if card50 and card60 then
-		local mg=card50:GetMutualLinkedGroup()
-		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card60,c,Group.FromCards(card50))
-	end
-	local card51=Duel.GetFieldCard(1,LOCATION_MZONE,5)
-	local card61=Duel.GetFieldCard(1,LOCATION_MZONE,6)
-	if card51 and card61 then
-		local mg=card51:GetMutualLinkedGroup()
-		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card61,c,Group.FromCards(card51))
+	local card5=Duel.GetFieldCard(0,LOCATION_MZONE,5) and Duel.GetFieldCard(0,LOCATION_MZONE,5) or Duel.GetFieldCard(1,LOCATION_MZONE,6)
+	local card6=Duel.GetFieldCard(0,LOCATION_MZONE,6) and Duel.GetFieldCard(0,LOCATION_MZONE,6) or Duel.GetFieldCard(1,LOCATION_MZONE,5)
+	if card5 and card6 then
+		local mg=card5:GetMutualLinkedGroup()
+		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card6,c,Group.FromCards(card5))
 	end
 	return false
 end
@@ -113,6 +107,24 @@ end
 local regeff=Card.RegisterEffect
 function Card.RegisterEffect(c,e,forced,...)
 	if c:IsStatus(STATUS_INITIALIZING) and not e then Debug.Message("missing (Effect e) in c"..c:GetOriginalCode()..".lua") return end
+	local tmp = function(eff,set)
+		return function(...)
+			local cond=eff:GetCondition()
+			eff:SetCondition(function(...)
+				Debug.Message(aux.linkset)
+				return ((not set and not aux.linkset) or (set and aux.linkset)) and (not cond or cond(...))
+			end)
+		end
+	end
+	if e:GetCode()==EFFECT_ADD_FUSION_CODE or e:GetCode()==EFFECT_ADD_FUSION_SETCODE then
+		tmp(e,false)
+	end
+	if e:GetCode()==EFFECT_ADD_LINK_CODE or e:GetCode()==EFFECT_ADD_LINK_SETCODE then
+		tmp(e,true)
+		if e:GetCode()==EFFECT_ADD_LINK_CODE  then e:SetCode(EFFECT_ADD_FUSION_CODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_SETCODE  then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
+	end
+	tmp = nil
 	--1 == 511002571 - access to effects that activate that detach an Xyz Material as cost
 	--2 == 511001692 - access to Cardian Summoning conditions/effects
 	regeff(c,e,forced)
@@ -137,6 +149,25 @@ function Card.RegisterEffect(c,e,forced,...)
 			e2:SetReset(resetflag)
 		end
 		c:RegisterEffect(e2)
+	end
+	--used for steelswarm origin, updates the summon procedures to support its effect
+	if e:GetCode()==EFFECT_SPSUMMON_PROC then
+		local target=e:GetTarget()
+		e:SetTarget(function(e,...)
+			local res = true
+			if target then
+				res = target(e,...)
+			end
+			if res and e:GetHandler():IsLocation(LOCATION_EXTRA) then
+				aux.ExtraSummon=true
+				local e1=Effect.GlobalEffect()
+				e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+				e1:SetCode(EVENT_ADJUST)
+				e1:SetOperation(function(e)aux.ExtraSummon=false e:Reset() end)
+				Duel.RegisterEffect(e1,0)
+			end
+			return res
+		end)
 	end
 end
 function Card.IsColumn(c,seq,tp,loc)
@@ -892,4 +923,5 @@ loadutility("proc_pendulum.lua")
 loadutility("proc_link.lua")
 loadutility("proc_equip.lua")
 loadutility("proc_persistent.lua")
+loadutility("proc_workaround.lua")
 pcall(dofile,"init.lua")

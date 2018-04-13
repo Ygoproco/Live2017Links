@@ -23,18 +23,17 @@ end
 function c97173708.spfilter(c,e,tp,clv)
 	return c:IsLevel(clv) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c97173708.rescon(sg,e,tp,mg)
-	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:GetClassCount(Card.GetLevel)==1
+function c97173708.spcheck(sg,tp)
+	return aux.ReleaseCheckMMZ(sg,tp) and sg:GetClassCount(Card.GetLevel)==1
 end
 function c97173708.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c97173708.spfilter(chkc,e,tp,e:GetLabel()) end
-	local rg=Duel.GetReleaseGroup(tp):Filter(c97173708.rfilter,nil,e,tp)
 	if chk==0 then
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
-		return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and rg:GetCount()>1 and aux.SelectUnselectGroup(rg,e,tp,2,9,c97173708.rescon,0)
+		return Duel.CheckReleaseGroupCost(tp,c97173708.rfilter,2,false,c97173708.spcheck,nil,e,tp)
 	end
-	local sg=aux.SelectUnselectGroup(rg,e,tp,2,9,c97173708.rescon,1,tp,HINTMSG_RELEASE)
+	local sg=Duel.SelectReleaseGroupCost(tp,c97173708.rfilter,2,99,false,c97173708.spcheck,nil,e,tp)
 	local lv=sg:GetFirst():GetLevel()
 	e:SetLabel(lv)
 	Duel.Release(sg,REASON_COST)

@@ -29,8 +29,8 @@ function c39163598.endop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c39163598.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,nil,0xc) end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,nil,0xc)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsSetCard,1,false,nil,nil,0xc) end
+	local g=Duel.SelectReleaseGroupCost(tp,Card.IsSetCard,1,1,false,nil,nil,0xc)
 	Duel.Release(g,REASON_COST)
 end
 function c39163598.tgfilter(c)

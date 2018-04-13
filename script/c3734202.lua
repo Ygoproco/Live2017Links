@@ -102,9 +102,9 @@ end
 function c3734202.spcost1(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if chk==0 then return Duel.GetFlagEffect(tp,3734202)==0
-		and Duel.CheckReleaseGroup(tp,c3734202.cfilter,1,nil,RACE_INSECT,ft,tp) end
+		and Duel.CheckReleaseGroupCost(tp,c3734202.cfilter,1,false,nil,nil,RACE_INSECT,ft,tp) end
 	Duel.RegisterFlagEffect(tp,3734202,RESET_PHASE+PHASE_END,0,1)
-	local g=Duel.SelectReleaseGroup(tp,c3734202.cfilter,1,1,nil,RACE_INSECT,ft,tp)
+	local g=Duel.SelectReleaseGroupCost(tp,c3734202.cfilter,1,1,false,nil,nil,RACE_INSECT,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c3734202.spfilter(c,e,tp,race)
@@ -128,9 +128,9 @@ end
 function c3734202.spcost2(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if chk==0 then return Duel.GetFlagEffect(tp,3734202)==0
-		and Duel.CheckReleaseGroup(tp,c3734202.cfilter,1,nil,RACE_PLANT,ft,tp) end
+		and Duel.CheckReleaseGroupCost(tp,c3734202.cfilter,1,false,nil,nil,RACE_PLANT,ft,tp) end
 	Duel.RegisterFlagEffect(tp,3734202,RESET_PHASE+PHASE_END,0,1)
-	local g=Duel.SelectReleaseGroup(tp,c3734202.cfilter,1,1,nil,RACE_PLANT,ft,tp)
+	local g=Duel.SelectReleaseGroupCost(tp,c3734202.cfilter,1,1,false,nil,nil,RACE_PLANT,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c3734202.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)

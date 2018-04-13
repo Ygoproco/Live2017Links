@@ -1,4 +1,3 @@
-
 --add procedure to Pendulum monster, also allows registeration of activation effect
 function Auxiliary.EnablePendulumAttribute(c,reg,desc)
 	local e1=Effect.CreateEffect(c)
@@ -121,6 +120,12 @@ function Auxiliary.PendOperation()
 					Duel.RegisterFlagEffect(tp,10000000,RESET_PHASE+PHASE_END+RESET_SELF_TURN,0,1)
 					Duel.HintSelection(Group.FromCards(c))
 					Duel.HintSelection(Group.FromCards(rpz))
+					 if sg:IsExists(Card.IsLocation,1,nil,LOCATION_EXTRA) then
+						local g2=sg:Clone()
+						g2:KeepAlive()
+						aux.SummoningGroup=g2
+						aux.SummoningCard=nil
+					end
 				end
 			end
 end

@@ -65,7 +65,7 @@ function c84899094.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,tg,1,0,0)
 end
 function c84899094.spop(e,tp,eg,ep,ev,re,r,rp)
-	local zone=Duel.GetLinkedZone(tp)
+	local zone=Duel.GetLinkedZone(tp)&0x1f
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) and zone~=0 then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE,zone)

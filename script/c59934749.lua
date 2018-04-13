@@ -2,7 +2,7 @@
 --Isolde, Fleeting Memory of the Noble Knights
 function c59934749.initial_effect(c)
 	--link summon
-	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsRace,RACE_WARRIOR),2,2)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_WARRIOR),2,2)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)

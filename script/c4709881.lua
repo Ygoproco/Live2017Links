@@ -1,7 +1,7 @@
 --星杯剣士アウラム
 function c4709881.initial_effect(c)
 	--link summon
-	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0xfd),2,2)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0xfd),2,2)
 	c:EnableReviveLimit()
 	--atkup
 	local e1=Effect.CreateEffect(c)
@@ -48,8 +48,8 @@ end
 function c4709881.spcost1(e,tp,eg,ep,ev,re,r,rp,chk)
 	local lg=e:GetHandler():GetLinkedGroup()
 	local zone=e:GetHandler():GetLinkedZone(tp)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c4709881.cfilter,1,nil,lg,tp,zone) end
-	local g=Duel.SelectReleaseGroup(tp,c4709881.cfilter,1,1,nil,lg,tp,zone)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c4709881.cfilter,1,false,nil,nil,lg,tp,zone) end
+	local g=Duel.SelectReleaseGroupCost(tp,c4709881.cfilter,1,1,false,nil,nil,lg,tp,zone)
 	Duel.Release(g,REASON_COST)
 	e:SetLabelObject(g:GetFirst())
 end

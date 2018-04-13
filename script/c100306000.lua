@@ -26,8 +26,8 @@ function c100306000.atkcon(e)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_NORMAL)
 end
 function c100306000.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,nil,ATTRIBUTE_DARK) end
-    local g=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,nil,ATTRIBUTE_DARK)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,nil,ATTRIBUTE_DARK) end
+    local g=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,1,1,false,nil,nil,ATTRIBUTE_DARK)
     Duel.Release(g,REASON_COST)
 end
 function c100306000.thfilter(c)
@@ -36,7 +36,6 @@ end
 function c100306000.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0 
 		and Duel.IsExistingMatchingCard(c100306000.thfilter,tp,LOCATION_DECK,0,3,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c100306000.thop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c100306000.thfilter,tp,LOCATION_DECK,0,nil)
@@ -44,9 +43,9 @@ function c100306000.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 		local sg=g:Select(tp,3,3,nil)
 		Duel.ConfirmCards(1-tp,sg)
+		Duel.ShuffleDeck(tp)
 		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_SET)
 		local tg=sg:Select(1-tp,1,1,nil)
 		Duel.SSet(tp,tg:GetFirst())
-		Duel.ConfirmCards(1-tp,tg)
 	end
 end

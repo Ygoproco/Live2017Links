@@ -48,13 +48,13 @@ function c100306002.thfilter2(c)
 end
 function c100306002.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return ((Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,nil,ATTRIBUTE_DARK) and Duel.IsPlayerCanDraw(tp,1))
-		or (Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,c,ATTRIBUTE_DARK) and Duel.IsExistingMatchingCard(c100306002.thfilter2,tp,LOCATION_DECK,0,1,nil))) end
+	if chk==0 then return ((Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,nil,ATTRIBUTE_DARK) and Duel.IsPlayerCanDraw(tp,1))
+		or (Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,c,ATTRIBUTE_DARK) and Duel.IsExistingMatchingCard(c100306002.thfilter2,tp,LOCATION_DECK,0,1,nil))) end
 	local sg=nil
 	if Duel.IsExistingMatchingCard(c100306002.thfilter2,tp,LOCATION_DECK,0,1,nil) and not Duel.IsPlayerCanDraw(tp,1) then
-		sg=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,c,ATTRIBUTE_DARK)
+		sg=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,1,1,false,nil,c,ATTRIBUTE_DARK)
 	else
-		sg=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,nil,ATTRIBUTE_DARK)
+		sg=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,1,1,false,nil,nil,ATTRIBUTE_DARK)
 	end
 	e:SetLabelObject(sg:GetFirst())
 	Duel.Release(sg,REASON_COST)

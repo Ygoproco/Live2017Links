@@ -75,8 +75,8 @@ function c100306001.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c100306001.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsAttribute,1,nil,ATTRIBUTE_DARK) end
-    local g=Duel.SelectReleaseGroup(tp,Card.IsAttribute,1,1,nil,ATTRIBUTE_DARK)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,nil,ATTRIBUTE_DARK) end
+    local g=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,1,1,false,nil,nil,ATTRIBUTE_DARK)
     Duel.Release(g,REASON_COST)
 end
 function c100306001.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)

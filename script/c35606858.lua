@@ -1,6 +1,5 @@
 --パーペチュアルキングデーモン
 --Perpetual King Archfiend
---Script by nekrozar
 function c35606858.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_FIEND),2,2)
@@ -55,7 +54,7 @@ function c35606858.tgcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c35606858.tgcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return c:GetFlagEffect(35606858)==0 end
+	if chk==0 then return c:GetFlagEffect(35606858)==0 and not c:IsStatus(STATUS_CHAINING) end
 	c:RegisterFlagEffect(35606858,RESET_CHAIN,0,1)
 end
 function c35606858.tgfilter(c,val)
@@ -74,21 +73,24 @@ function c35606858.tgop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c35606858.dccost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return c:GetFlagEffect(35606859)==0 end
+	if chk==0 then return c:GetFlagEffect(35606859)==0 and not c:IsStatus(STATUS_CHAINING) end
 	c:RegisterFlagEffect(35606859,RESET_CHAIN,0,1)
 end
 function c35606858.cfilter(c,e,tp)
-	return (c:IsRace(RACE_FIEND) or bit.band(c:GetPreviousRaceOnField(),RACE_FIEND)~=0)
+	return (c:IsRace(RACE_FIEND) or c:GetPreviousRaceOnField()&RACE_FIEND~=0)
 		and c:IsType(TYPE_MONSTER) and c:IsLocation(LOCATION_GRAVE) and c:IsControler(tp)
 		and (c:IsAbleToHand() or c:IsAbleToDeck() or (Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)))
 end
 function c35606858.dctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return eg:IsExists(c35606858.cfilter,1,nil,e,tp) end
+	local g=eg:Filter(c35606858.cfilter,nil,e,tp)
+	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_DICE,nil,0,tp,1)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
 end
 function c35606858.dcop(e,tp,eg,ep,ev,re,r,rp)
 	local d=Duel.TossDice(tp,1)
-	local g=eg:Filter(c35606858.cfilter,nil,e,tp)
+	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
 	if g:GetCount()==0 then return end
 	local tc=nil
 	if g:GetCount()>1 then
@@ -105,4 +107,3 @@ function c35606858.dcop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
 	end
 end
-

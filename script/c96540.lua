@@ -32,10 +32,10 @@ function c96540.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
 		return e:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
-			and Duel.CheckReleaseGroup(tp,c96540.costfilter,1,nil,e,tp)
+			and Duel.CheckReleaseGroupCost(tp,c96540.costfilter,1,false,nil,nil,e,tp)
 	end
 	e:SetLabel(0)
-	local g=Duel.SelectReleaseGroup(tp,c96540.costfilter,1,1,nil,e,tp)
+	local g=Duel.SelectReleaseGroupCost(tp,c96540.costfilter,1,1,false,nil,nil,e,tp)
 	Duel.Release(g,REASON_COST)
 	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)

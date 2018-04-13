@@ -19,7 +19,6 @@ function c21200905.initial_effect(c)
 	e2:SetDescription(aux.Stringid(4709881,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,21200905)
 	e2:SetCost(c21200905.spcost)
@@ -51,8 +50,8 @@ function c21200905.cfilter(c,g)
 end
 function c21200905.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local lg=e:GetHandler():GetLinkedGroup()
-	if chk==0 then return Duel.CheckReleaseGroup(tp,c21200905.cfilter,1,nil,lg) end
-	local g=Duel.SelectReleaseGroup(tp,c21200905.cfilter,1,1,nil,lg)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c21200905.cfilter,1,false,nil,nil,lg) end
+	local g=Duel.SelectReleaseGroupCost(tp,c21200905.cfilter,1,1,false,nil,nil,lg)
 	Duel.Release(g,REASON_COST)
 end
 function c21200905.spfilter(c,e,tp)

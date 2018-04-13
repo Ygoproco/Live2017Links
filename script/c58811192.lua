@@ -1,7 +1,7 @@
 --聖霊獣騎キムンファルコス
 --Ritual Beast Ulti-Kimunfalcos
 function c58811192.initial_effect(c)
-	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0xb5),2,2)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0xb5),2,2)
 	c:EnableReviveLimit()	
 	--atk up
 	local e1=Effect.CreateEffect(c)
@@ -85,7 +85,7 @@ function c58811192.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
 		and Duel.IsExistingTarget(c58811192.spfilter1,tp,LOCATION_REMOVED,0,1,nil,e,tp,0x10b5) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g1=Duel.SelectTarget(tp,c58811192.spfilter,tp,LOCATION_REMOVED,0,1,1,nil,e,tp,0x10b5)
+	local g1=Duel.SelectTarget(tp,c58811192.spfilter1,tp,LOCATION_REMOVED,0,1,1,nil,e,tp,0x10b5)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g2=Duel.SelectTarget(tp,c58811192.spfilter,tp,LOCATION_REMOVED,0,1,1,g1:GetFirst(),e,tp,0x20b5)
 	g1:Merge(g2)
