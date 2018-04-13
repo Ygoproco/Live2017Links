@@ -1,6 +1,5 @@
 --マガジンドラムゴン
 --Vorticular Drumgon
---Script by nekrozar
 function c101005041.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
@@ -13,8 +12,8 @@ function c101005041.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,101005041)
-	e2:SetTarget(c101005041.drtg)
-	e2:SetOperation(c101005041.drop)
+	e1:SetTarget(c101005041.drtg)
+	e1:SetOperation(c101005041.drop)
 	c:RegisterEffect(e1)
 	--disable field
 	local e2=Effect.CreateEffect(c)
