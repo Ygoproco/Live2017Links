@@ -33,7 +33,7 @@ function c101005042.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c101005042.matfilter(c)
-	return c:IsLinkSetCard(0x217) and not c:IsLinkCode(3679218)
+	return c:IsLinkSetCard(0x217) and not c:IsLinkCode(101005042)
 end
 function c101005042.lcheck(g,lc)
 	return g:IsExists(Card.IsType,1,nil,TYPE_LINK)
