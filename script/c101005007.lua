@@ -17,7 +17,7 @@ function c101005007.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EFFECT_DESTROY_REPLACE)
-	e2:SetRange(LOCATION_GRAVE)
+	e2:SetRange(LOCATION_GRAVE+LOCATION_MZONE)
 	e2:SetCountLimit(1,101005107)
 	e2:SetTarget(c101005007.reptg)
 	e2:SetValue(c101005007.repval)
@@ -38,8 +38,13 @@ function c101005007.repfilter(c,tp)
 		and c:IsControler(tp) and c:IsReason(REASON_EFFECT+REASON_BATTLE) and not c:IsReason(REASON_REPLACE)
 end
 function c101005007.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToRemove() and eg:IsExists(c101005007.repfilter,1,nil,tp) end
-	return Duel.SelectEffectYesNo(tp,e:GetHandler(),96)
+	if chk==0 then return Duel.GetFlagEffect(tp,101005007)==0 and e:GetHandler():IsAbleToRemove() and eg:IsExists(c101005007.repfilter,1,nil,tp) end
+	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
+		Duel.RegisterFlagEffect(tp,101005007,RESET_PHASE+PHASE_END,0,1)
+		return true
+	else
+		return false
+	end
 end
 function c101005007.repval(e,c)
 	return c101005007.repfilter(c,e:GetHandlerPlayer())
