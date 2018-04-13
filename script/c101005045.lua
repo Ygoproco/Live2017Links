@@ -1,6 +1,5 @@
 --明星の機械騎士
 --Mekk-Knight of the Morning Star
---Script by nekrozar
 function c101005045.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,nil,2,2,c101005045.lcheck)
