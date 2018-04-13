@@ -18,7 +18,7 @@ end
 function c101005060.filter(c)
 	return c:IsAbleToHand() and (c:IsType(TYPE_MONSTER) and c:IsSetCard(0x104)) or c:IsSetCard(0xfe)
 end
-function c101005060.operation(e,tp,eg,ep,ev,re,r,rp)
+function c101005060.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanDiscardDeck(tp,5) then return end
 	Duel.ConfirmDecktop(tp,5)
 	local g=Duel.GetDecktopGroup(tp,5)
