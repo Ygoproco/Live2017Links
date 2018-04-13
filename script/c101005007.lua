@@ -38,8 +38,13 @@ function c101005007.repfilter(c,tp)
 		and c:IsControler(tp) and c:IsReason(REASON_EFFECT+REASON_BATTLE) and not c:IsReason(REASON_REPLACE)
 end
 function c101005007.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToRemove() and eg:IsExists(c101005007.repfilter,1,nil,tp) end
-	return Duel.SelectEffectYesNo(tp,e:GetHandler(),96)
+	if chk==0 then return Duel.GetFlagEffect(tp,101005007)==0 and e:GetHandler():IsAbleToRemove() and eg:IsExists(c101005007.repfilter,1,nil,tp) end
+	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
+		Duel.RegisterFlagEffect(tp,101005007,RESET_PHASE+PHASE_END,0,1)
+		return true
+	else
+		return false
+	end
 end
 function c101005007.repval(e,c)
 	return c101005007.repfilter(c,e:GetHandlerPlayer())
