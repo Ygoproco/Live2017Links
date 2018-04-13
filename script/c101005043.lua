@@ -37,9 +37,6 @@ end
 function c101005043.matfilter(c)
 	return c:IsLinkSetCard(0x217) and not c:IsLinkCode(3679218)
 end
-function c101005043.lcheck(g,lc)
-	return g:IsExists(Card.IsType,1,nil,TYPE_LINK)
-end
 function c101005043.atkval(e,c)
 	local g=e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil) 
 	return g:GetSum(Card.GetBaseAttack)
