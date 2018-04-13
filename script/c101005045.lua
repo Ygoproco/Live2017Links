@@ -1,6 +1,5 @@
 --明星の機械騎士
 --Mekk-Knight of the Morning Star
---Script by nekrozar
 function c101005045.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,nil,2,2,c101005045.lcheck)
@@ -67,5 +66,5 @@ function c101005045.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101005045.tglimit(e,c)
-	return not e:GetHandler():GetColumnGroup():IsContains(c)
+	return not c:GetColumnGroup():IsContains(c:GetBattleTarget())
 end
