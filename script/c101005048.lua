@@ -26,7 +26,7 @@ function c101005048.operation(e,tp,eg,ep,ev,re,r,rp)
     if e:GetLabel()==0 then
         eff=EFFECT_CHANGE_RACE
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RACE)
-        val=Duel.AnnounceRace(tp,1,0xff)
+        val=Duel.AnnounceRace(tp,1,RACE_ALL)
     else
         eff=EFFECT_CHANGE_ATTRIBUTE
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
