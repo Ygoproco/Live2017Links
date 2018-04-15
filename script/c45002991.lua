@@ -48,7 +48,7 @@ function c45002991.disfilter(c,e)
 	return aux.disfilter1(c) and c:IsCanBeEffectTarget(e)
 end
 function c45002991.cfilter(c,tg,lg)
-	return (c:IsSetCard(0xfe) or c:IsSetCard(0x117)) and lg:IsContains(c)
+	return (c:IsSetCard(0xfe) or c:IsSetCard(0x116)) and lg:IsContains(c)
 end
 function c45002991.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local tg=Duel.GetMatchingGroup(c45002991.disfilter,tp,0,LOCATION_ONFIELD,nil,e)

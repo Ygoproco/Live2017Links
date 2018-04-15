@@ -29,13 +29,13 @@ function c69039982.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c69039982.tg(e,c)
-	return c:IsType(TYPE_LINK) and c:IsSetCard(0x117)
+	return c:IsType(TYPE_LINK) and c:IsSetCard(0x116)
 end
 function c69039982.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsAbleToEnterBP()
 end
 function c69039982.filter(c)
-	return c:IsFaceup() and c:IsSetCard(0x117) and c:IsType(TYPE_LINK)
+	return c:IsFaceup() and c:IsSetCard(0x116) and c:IsType(TYPE_LINK)
 end
 function c69039982.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c69039982.filter(chkc) end

@@ -36,11 +36,11 @@ function c55312487.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 end
 function c55312487.costfilter(c,e,tp)
-	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0x117) or c:IsSetCard(0xfe))
+	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0x116) or c:IsSetCard(0xfe))
 		and Duel.IsExistingMatchingCard(c55312487.spfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp,c)
 end
 function c55312487.spfilter(c,e,tp,tc)
-	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0x117) or c:IsSetCard(0xfe)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0x116) or c:IsSetCard(0xfe)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and c:GetOriginalCode()~=tc:GetOriginalCode()
 end
 function c55312487.sptarget(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -67,7 +67,7 @@ function c55312487.spoperation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c55312487.catfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x117) and c:IsType(TYPE_LINK)
+	return c:IsFaceup() and c:IsSetCard(0x116) and c:IsType(TYPE_LINK)
 end
 function c55312487.catcondition(e)
 	return Duel.IsExistingMatchingCard(c55312487.catfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)

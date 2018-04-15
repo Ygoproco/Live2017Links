@@ -39,7 +39,7 @@ function c54525057.spval(e,c)
 	return 0,Duel.GetLinkedZone(c:GetControler())
 end
 function c54525057.filter1(c)
-	return c:IsSetCard(0x117) and not c:IsCode(54525057) and c:IsAbleToHand()
+	return c:IsSetCard(0x116) and not c:IsCode(54525057) and c:IsAbleToHand()
 end
 function c54525057.filter2(c,ec)
 	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:GetLinkedGroup():IsContains(ec)

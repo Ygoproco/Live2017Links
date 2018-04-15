@@ -33,7 +33,7 @@ function c72228247.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c72228247.matfilter(c)
-	return c:IsLinkSetCard(0x117) and not c:IsLinkCode(72228247)
+	return c:IsLinkSetCard(0x116) and not c:IsLinkCode(72228247)
 end
 function c72228247.lcheck(g,lc)
 	return g:IsExists(Card.IsType,1,nil,TYPE_LINK)
@@ -53,7 +53,7 @@ function c72228247.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c72228247.thcfilter,1,nil,tp,lg)
 end
 function c72228247.thfilter(c,tp)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x117) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x116) and c:IsAbleToHand()
 end
 function c72228247.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c72228247.thfilter,tp,LOCATION_DECK,0,1,nil,tp) end

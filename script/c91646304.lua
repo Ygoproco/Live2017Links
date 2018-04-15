@@ -34,7 +34,7 @@ function c91646304.spval(e,c)
 	return 0,Duel.GetLinkedZone(c:GetControler())
 end
 function c91646304.repfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x117) and c:IsLocation(LOCATION_MZONE)
+	return c:IsFaceup() and c:IsSetCard(0x116) and c:IsLocation(LOCATION_MZONE)
 		and c:IsControler(tp) and c:IsReason(REASON_EFFECT+REASON_BATTLE) and not c:IsReason(REASON_REPLACE)
 end
 function c91646304.reptg(e,tp,eg,ep,ev,re,r,rp,chk)

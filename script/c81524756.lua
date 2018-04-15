@@ -39,7 +39,7 @@ function c81524756.dbcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsAbleToEnterBP()
 end
 function c81524756.dbfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:IsSetCard(0x117) and c:GetFlagEffect(81524756)==0
+	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:IsSetCard(0x116) and c:GetFlagEffect(81524756)==0
 end
 function c81524756.dbtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c81524756.dbfilter(chkc) end
