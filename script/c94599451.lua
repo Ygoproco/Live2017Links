@@ -42,7 +42,7 @@ function c94599451.ctfilter(c,tp)
         and c:GetPreviousControler()==tp and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c94599451.ctcon(e,tp,eg,ep,ev,re,r,rp)
-    return eg:IsExists(c94599451.ctfilter,1,nil)
+    return eg:IsExists(c94599451.ctfilter,1,nil,tp)
 end
 function c94599451.ctop(e,tp,eg,ep,ev,re,r,rp)
     e:GetHandler():AddCounter(0x1,2)
