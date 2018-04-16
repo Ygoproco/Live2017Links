@@ -1,5 +1,5 @@
 -- 覇勝星イダテン
---Idaten, the Star of Supreme Victory
+--Idaten the Conquer Star
 function c100227039.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -19,8 +19,8 @@ function c100227039.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetCountLimit(1)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetTarget(c100227039.tg)
-	e2:SetOperation(c100227039.op)
+	e2:SetCost(c100227039.atkcost)
+	e2:SetOperation(c100227039.atkup)
 	c:RegisterEffect(e2)
 		--search
 	local e3=Effect.CreateEffect(c)
@@ -54,19 +54,19 @@ function c100227039.atkop(e,tp,eg,ep,ev,re,r,rp)
 		bc:RegisterEffect(e1)
 	end
 end
-function c100227039.tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0 end
-	Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,tp,1)
+function c100227039.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
+	local ct=Duel.DiscardHand(tp,Card.IsDiscardable,1,60,REASON_COST+REASON_DISCARD)
+	e:SetLabel(ct)
 end
-function c100227039.op(e,tp,eg,ep,ev,re,r,rp)
+function c100227039.atkup(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local ct=Duel.DiscardHand(tp,aux.TRUE,1,60,REASON_EFFECT+REASON_DISCARD)
-	if ct>0 and c:IsFaceup() and c:IsRelateToEffect(e) then
+	if c:IsFaceup() and c:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
-		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
-		e1:SetValue(ct*200)
+		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetValue(e:GetLabel()*200)
 		c:RegisterEffect(e1)
 	end
 end
