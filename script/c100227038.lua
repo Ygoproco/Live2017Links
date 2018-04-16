@@ -91,6 +91,7 @@ end
 function c100227038.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)>0
 		and Duel.IsExistingMatchingCard(c100227038.cfilter,tp,LOCATION_MZONE,0,1,nil)
+		and Duel.GetTurnPlayer()~=tp
 end
 function c100227038.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
