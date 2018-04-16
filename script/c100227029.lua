@@ -81,7 +81,7 @@ function c100227029.spfilter(c,e,tp)
 end
 function c100227029.spcheck(sg,e,tp,mg)
 	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
-		and sg:GetClassCount(Card.GetLocation)==1
+		and sg:GetClassCount(Card.GetLocation)>=sg:GetCount()
 end
 function c100227029.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(c100227029.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp) end
