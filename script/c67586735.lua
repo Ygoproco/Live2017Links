@@ -19,18 +19,19 @@ function c67586735.initial_effect(c)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCondition(aux.exccon)
 	e2:SetCost(aux.bfgcost)
-	e2:SetTarget(c67586735.thtg)
-	e2:SetOperation(c67586735.thop)
+	e2:SetTarget(c67586735.tdtg)
+	e2:SetOperation(c67586735.tdop)
 	c:RegisterEffect(e2)
 end
 function c67586735.ddcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r & REASON_LINK == REASON_LINK and c:GetReasonCard():IsSetCard(0xfc)
+	local c=e:GetHandler()
+	local rc=c:GetReasonCard()
+	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r & REASON_LINK == REASON_LINK and rc:IsSetCard(0xfc)
 end
 function c67586735.ddtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 end
 function c67586735.ddop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.DiscardDeck(tp,1,REASON_EFFECT)==0 then return end
 	local c=e:GetHandler()
 	local sync=c:GetReasonCard()
 	if sync:IsFaceup() then
@@ -45,14 +46,14 @@ end
 function c67586735.filter(c)
 	return c:IsSetCard(0xfc) and c:IsType(TYPE_SPELL) and c:IsAbleToDeck()
 end
-function c67586735.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function c67586735.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c67586735.filter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(c67586735.filter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectTarget(tp,c67586735.filter,tp,LOCATION_GRAVE,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
 end
-function c67586735.operation(e,tp,eg,ep,ev,re,r,rp)
+function c67586735.tdtg(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
 		Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
