@@ -45,7 +45,7 @@ function c9617996.atklimit(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c)
 end
 function c9617996.thcfilter(c,tp,lg)
-	return c:IsControler(tp) and c:IsType(TYPE_EFFECT) and lg:IsContains(c)
+	return c:IsType(TYPE_EFFECT) and lg:IsContains(c)
 end
 function c9617996.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local lg=e:GetHandler():GetLinkedGroup()
