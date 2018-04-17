@@ -1,5 +1,5 @@
 --虚無械アイン
---Emptiness
+--Nonexistence
 --Scripted by Eerie Code
 function c100227027.initial_effect(c)
 	--activate
@@ -30,7 +30,7 @@ function c100227027.initial_effect(c)
 	c:RegisterEffect(e3)
 	--to deck
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(100227027,0))
+	e4:SetDescription(aux.Stringid(100227027,1))
 	e4:SetCategory(CATEGORY_TODECK)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetCode(EVENT_FREE_CHAIN)
