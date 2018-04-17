@@ -65,13 +65,16 @@ end
 function c66719533.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return c66719533.effcon(e,tp,eg,ep,ev,re,r,rp) and Duel.GetTurnPlayer()==tp
 end
-function c66719533.filter(c)
+function c66719533.atkfilter(c)
+	return c:IsFaceup() and not c:IsSetCard(0x105)
+end
+function c66719533.posfilter(c)
 	return c:IsCanChangePosition() and not c:IsSetCard(0x105)
 end
 function c66719533.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	local g=Duel.GetMatchingGroup(c66719533.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	local g=Duel.GetMatchingGroup(c66719533.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -91,12 +94,12 @@ function c66719533.poscon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c66719533.postg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local g=Duel.GetMatchingGroup(c66719533.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	local g=Duel.GetMatchingGroup(c66719533.posfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
 end
 function c66719533.posop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local sg=Duel.GetMatchingGroup(c66719533.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	local sg=Duel.GetMatchingGroup(c66719533.posfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	if sg:GetCount()>0 then
 		Duel.ChangePosition(sg,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
 	end
