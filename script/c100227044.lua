@@ -88,8 +88,7 @@ function c100227044.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetChainLimit(c100227044.chlimit)
 end
 function c100227044.chlimit(e,ep,tp)
-    return tp==ep
-end
+	return tp==ep
 end
 function c100227044.posop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
