@@ -105,11 +105,11 @@ function c100227027.drop(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Draw(p,d,REASON_EFFECT)
 end
-function c100227027.setfilter(c)
+function c100227027.stfilter(c)
 	return c:GetSequence()<5
 end
 function c100227027.tdcon(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsExistingMatchingCard(c100227027.setfilter,tp,LOCATION_SZONE,0,1,e:GetHandler())
+	return not Duel.IsExistingMatchingCard(c100227027.stfilter,tp,LOCATION_SZONE,0,1,e:GetHandler())
 end
 function c100227027.tdfilter(c)
 	return c:IsSetCard(0x4a) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
