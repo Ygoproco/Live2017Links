@@ -39,7 +39,7 @@ function c100227044.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c100227044.costfilter(c)
-	return c:IsAbleToGraveAsCost()
+	return c:IsAbleToGraveAsCost() and c:GetSequence()<5
 end
 function c100227044.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c100227044.costfilter,tp,LOCATION_SZONE,0,1,nil) end
@@ -73,37 +73,17 @@ function c100227044.spop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		e2:SetReset(RESET_EVENT+0x1fe0000)
 		tc:RegisterEffect(e2,true)
-		local e3=Effect.CreateEffect(c)
-		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e3:SetRange(LOCATION_MZONE)
-		e3:SetCode(EVENT_PHASE+PHASE_END)
-		e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-		e3:SetCountLimit(1)
-		e3:SetCondition(c100227044.descon)
-		e3:SetOperation(c100227044.desop)
-		e3:SetLabelObject(tc)
-		Duel.RegisterEffect(e3,tp)
-		tc:RegisterFlagEffect(76232522,RESET_EVENT+0x1fe0000,0,1)
 		Duel.SpecialSummonComplete()
 	end
 end
-function c100227044.descon(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	if tc:GetFlagEffect(76232522)==0 then
-		e:Reset()
-		return false
-	end
-	return true
-end
-function c100227044.desop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	Duel.Destroy(tc,REASON_EFFECT)
+function c100227044.posfilter(c)
+	return c:IsCanChangePosition() and not c:IsPosition(POS_FACEUP_DEFENSE)
 end
 function c100227044.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and chkc:IsDefensePos() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsDefensePos,tp,0,LOCATION_MZONE,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c100227044.posfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c100227044.posfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
-	local g=Duel.SelectTarget(tp,Card.IsDefensePos,tp,0,LOCATION_MZONE,1,1,nil)
+	Duel.SelectTarget(tp,c100227044.posfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
 	Duel.SetChainLimit(c100227044.chlimit)
 end
@@ -112,7 +92,7 @@ function c100227044.chlimit(e,ep,tp)
 end
 function c100227044.posop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		Duel.ChangePosition(tc,POS_FACEUP_ATTACK)
+	if tc:IsRelateToEffect(e) and not tc:IsPosition(POS_FACEUP_DEFENSE) then
+		Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
 	end
 end
