@@ -117,7 +117,7 @@ function c100227028.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c100227028.tdcon(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsExistingMatchingCard(nil,tp,LOCATION_SZONE,0,1,e:GetHandler())
+	return not Duel.IsExistingMatchingCard(function(c) return c:GetSequence()<5 end,tp,LOCATION_SZONE,0,1,e:GetHandler())
 end
 function c100227028.tdfilter(c)
 	return c:IsSetCard(0x4a) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
