@@ -52,12 +52,11 @@ end
 function c66200210.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c66200210.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=1 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
+	if not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
 		local token1=Duel.CreateToken(tp,66200211)
 		Duel.SpecialSummonStep(token1,0,tp,tp,false,false,POS_FACEUP)
 		local token2=Duel.CreateToken(tp,66200211)
@@ -66,8 +65,7 @@ function c66200210.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c66200210.cfilter(c,ft,tp)
-	return c:IsType(TYPE_TOKEN)
-		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5))
+	return c:IsType(TYPE_TOKEN) and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5))
 end
 function c66200210.spcost2(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
@@ -87,7 +85,7 @@ function c66200210.sptg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c66200210.spop2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

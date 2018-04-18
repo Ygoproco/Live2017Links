@@ -43,7 +43,7 @@ end
 function c31480215.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c31480215.spop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
@@ -54,8 +54,8 @@ function c31480215.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetTarget(c31480215.splimit)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
 		local token=Duel.CreateToken(tp,31480216)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

@@ -1,6 +1,5 @@
 --リンク・ストリーマー
 --Link Streamer
---Scripted by Eerie Code
 function c23331400.initial_effect(c)
 	--token
 	local e1=Effect.CreateEffect(c)
@@ -28,13 +27,12 @@ function c23331400.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,23331401,0,0x4011,0,0,1,RACE_CYBERSE,ATTRIBUTE_LIGHT) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c23331400.tkop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,23331401,0,0x4011,0,0,1,RACE_CYBERSE,ATTRIBUTE_LIGHT) then
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,23331401,0,0x4011,0,0,1,RACE_CYBERSE,ATTRIBUTE_LIGHT) then
 		local token=Duel.CreateToken(tp,23331401)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-

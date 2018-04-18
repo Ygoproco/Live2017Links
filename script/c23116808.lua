@@ -53,14 +53,11 @@ end
 function c23116808.descon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_SPECIAL+1
 end
-function c23116808.desfilter(c)
-	return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_FIRE)
-end
 function c23116808.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c23116808.desfilter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c23116808.spfilter(chkc) end
 	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,c23116808.desfilter,tp,LOCATION_MZONE,0,1,1,nil)
+	local g=Duel.SelectTarget(tp,c23116808.spfilter,tp,LOCATION_MZONE,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 end
 function c23116808.desop(e,tp,eg,ep,ev,re,r,rp)
@@ -74,14 +71,15 @@ function c23116808.tkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c23116808.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c23116808.tkop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
-	if not Duel.IsPlayerCanSpecialSummonMonster(tp,23116809,0,0x4011,100,100,1,RACE_PYRO,ATTRIBUTE_FIRE) then return end
-	local token=Duel.CreateToken(tp,23116809)
-	Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,23116809,0,0x4011,100,100,1,RACE_PYRO,ATTRIBUTE_FIRE) then
+		local token=Duel.CreateToken(tp,23116809)
+		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+	end
 end
 function c23116808.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,e:GetHandler(),ATTRIBUTE_FIRE) end

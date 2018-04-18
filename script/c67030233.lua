@@ -27,8 +27,8 @@ function c67030233.initial_effect(c)
 	--to extra & Special summon
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(67030233,2))
-	e4:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_FIELD)
-	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e4:SetCategory(CATEGORY_TODECK+CATEGORY_SPECIAL_SUMMON)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e4:SetCountLimit(1)
@@ -108,6 +108,7 @@ function c67030233.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,c67030233.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c67030233.spop(e,tp,eg,ep,ev,re,r,rp)

@@ -38,9 +38,12 @@ end
 function c41329458.indcon(e)
 	return Duel.IsExistingMatchingCard(Card.IsType,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil,TYPE_TOKEN)
 end
+function c41329458.rfilter(c,tp)
+	return c:IsSetCard(0x101b) and (c:IsControler(tp) or c:IsFaceup())
+end
 function c41329458.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsSetCard,2,false,aux.ReleaseCheckMMZ,nil,0x101b) end
-	local g=Duel.SelectReleaseGroupCost(tp,Card.IsSetCard,2,2,false,aux.ReleaseCheckMMZ,nil,0x101b)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c41329458.rfilter,2,false,aux.ReleaseCheckMMZ,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,c41329458.rfilter,2,2,false,aux.ReleaseCheckMMZ,nil)
 	Duel.Release(g,REASON_COST)
 end
 function c41329458.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -49,8 +52,9 @@ function c41329458.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c41329458.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
-	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+	if c:IsRelateToEffect(e) then
+		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
 function c41329458.cfilter(c)
 	return c:IsSetCard(0x101b) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
@@ -63,11 +67,11 @@ function c41329458.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c41329458.spop2(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
 		local token=Duel.CreateToken(tp,41329459)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

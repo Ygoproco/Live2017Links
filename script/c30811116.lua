@@ -56,11 +56,11 @@ end
 function c30811116.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c30811116.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
 		local token=Duel.CreateToken(tp,30811117)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end
@@ -70,19 +70,16 @@ function c30811116.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.SelectReleaseGroupCost(tp,Card.IsType,1,1,false,nil,nil,TYPE_TOKEN)
 	Duel.Release(g,REASON_COST)
 end
-function c30811116.filter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP)
-end
 function c30811116.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and c30811116.filter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c30811116.filter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
+	if chkc then return chkc:IsOnField() and chkc:IsType(TYPE_SPELL+TYPE_TRAP) end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsType,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil,TYPE_SPELL+TYPE_TRAP) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,c30811116.filter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
+	local g=Duel.SelectTarget(tp,Card.IsType,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil,TYPE_SPELL+TYPE_TRAP)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function c30811116.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end

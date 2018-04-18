@@ -37,8 +37,8 @@ function c7841112.initial_effect(c)
 	--to extra & Special summon
 	local e5=Effect.CreateEffect(c)
 	e5:SetDescription(aux.Stringid(7841112,2))
-	e5:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_FIELD)
-	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e5:SetCategory(CATEGORY_TODECK+CATEGORY_SPECIAL_SUMMON)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e5:SetCountLimit(1)
@@ -86,7 +86,7 @@ end
 function c7841112.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	local c=e:GetHandler()
-	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
+	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
@@ -124,6 +124,7 @@ function c7841112.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,c7841112.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c7841112.spop(e,tp,eg,ep,ev,re,r,rp)

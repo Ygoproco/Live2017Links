@@ -59,13 +59,11 @@ end
 function c94973028.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c94973028.spop(e,tp,eg,ep,ev,re,r,rp)
-	if not c94973028.spcon(e,tp,eg,ep,ev,re,r,rp) then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=1 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
+	if c94973028.spcon(e,tp,eg,ep,ev,re,r,rp) and not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
 		local token=Duel.CreateToken(tp,94973029)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 		token=Duel.CreateToken(tp,94973029)
@@ -95,7 +93,7 @@ function c94973028.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c94973028.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.Destroy(tc,REASON_EFFECT,LOCATION_REMOVED)
 	end
 end

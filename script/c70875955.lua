@@ -9,7 +9,7 @@ function c70875955.initial_effect(c)
 	c:RegisterEffect(e1)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e2:SetDescription(aux.Stringid(70875955,0))
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetRange(LOCATION_SZONE)
@@ -48,13 +48,12 @@ function c70875955.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(70875955)==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 	e:GetHandler():RegisterFlagEffect(70875955,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
 function c70875955.spop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	if e:GetLabel()==0 or Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
+	if e:GetHandler():IsRelateToEffect(e) and e:GetLabel()~=0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+    and Duel.IsPlayerCanSpecialSummonMonster(tp,31533705,0x101b,0x4011,0,0,3,RACE_MACHINE,ATTRIBUTE_WIND) then
 		local token=Duel.CreateToken(tp,70875956)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

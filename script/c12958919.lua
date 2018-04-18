@@ -45,7 +45,7 @@ function c12958919.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,12958920,0x49,0x4011,500,500,4,RACE_FIEND,ATTRIBUTE_DARK) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c12958919.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)

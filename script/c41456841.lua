@@ -1,6 +1,5 @@
 --究極変異態・インセクト女王
 --Ultimately Mutated Insect Queen
---Scripted by Eerie Code
 function c41456841.initial_effect(c)
 	c:EnableUnsummonable()
 	--cannot special summon
@@ -75,25 +74,26 @@ function c41456841.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c41456841.atop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToBattle() then return end
-	Duel.ChainAttack()
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
-	c:RegisterEffect(e1)
+	if c:IsRelateToBattle() then
+		Duel.ChainAttack()
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
+		c:RegisterEffect(e1)
+	end
 end
 function c41456841.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,91512836,0,0x4011,100,100,1,RACE_INSECT,ATTRIBUTE_EARTH) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c41456841.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if not Duel.IsPlayerCanSpecialSummonMonster(tp,91512836,0,0x4011,100,100,1,RACE_INSECT,ATTRIBUTE_EARTH) then return end
-	local token=Duel.CreateToken(tp,91512836)
-	Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,91512836,0,0x4011,100,100,1,RACE_INSECT,ATTRIBUTE_EARTH) then
+		local token=Duel.CreateToken(tp,91512836)
+		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
-

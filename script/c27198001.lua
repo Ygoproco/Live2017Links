@@ -1,6 +1,5 @@
 --九尾の狐
 --Nine-Tailed Fox
---Scripted by Eerie Code
 function c27198001.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -52,11 +51,10 @@ function c27198001.condition(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c27198001.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,0x4011,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE)
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and not Duel.IsPlayerAffectedByEffect(tp,59822133) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133) 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,0x4011,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE)end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c27198001.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
@@ -69,4 +67,3 @@ function c27198001.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SpecialSummonComplete()
 end
-

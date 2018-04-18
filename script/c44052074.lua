@@ -66,13 +66,12 @@ function c44052074.tktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g=Duel.SelectTarget(tp,c44052074.desfilter,tp,LOCATION_ONFIELD,0,1,1,nil,ft)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c44052074.tkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
-		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
-			or not Duel.IsPlayerCanSpecialSummonMonster(tp,44052075,0x7,0x4011,0,0,1,RACE_MACHINE,ATTRIBUTE_EARTH) then return end
+	if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,44052075,0x7,0x4011,0,0,1,RACE_MACHINE,ATTRIBUTE_EARTH) then
 		local token=Duel.CreateToken(tp,44052075)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

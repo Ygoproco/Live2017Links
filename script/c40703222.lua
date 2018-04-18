@@ -2,7 +2,7 @@
 function c40703222.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCost(c40703222.cost)
@@ -29,7 +29,7 @@ function c40703222.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,ft,tp,0)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ft,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ft,tp,0)
 end
 function c40703222.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
