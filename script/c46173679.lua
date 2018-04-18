@@ -54,13 +54,10 @@ function c46173679.activate(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UNRELEASABLE_SUM)
 			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e1:SetValue(c46173679.recon)
+			e1:SetValue(aux.TargetBoolFunction(aux.NOT(Card.IsAttribute),ATTRIBUTE_DARK))
 			e1:SetReset(RESET_EVENT+0x1fe0000)
 			token:RegisterEffect(e1,true)
 		end
 		Duel.SpecialSummonComplete()
 	end
-end
-function c46173679.recon(e,c)
-	return not c:IsAttribute(ATTRIBUTE_DARK)
 end
