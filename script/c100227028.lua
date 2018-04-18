@@ -63,8 +63,7 @@ function c100227028.acttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local b1=c100227028.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and c100227028.cost(e,tp,eg,ep,ev,re,r,rp,0)
 		and c100227028.sptg(e,tp,eg,ep,ev,re,r,rp,0)
-	local b2=c100227028.tdcon(e,tp,eg,ep,ev,re,r,rp)
-		and c100227028.cost(e,tp,eg,ep,ev,re,r,rp,0)
+	local b2=c100227028.cost(e,tp,eg,ep,ev,re,r,rp,0)
 		and c100227028.tdtg(e,tp,eg,ep,ev,re,r,rp,0)
 	if (b1 or b2) and Duel.SelectYesNo(tp,94) then
 		local op=0
@@ -92,8 +91,8 @@ function c100227028.acttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c100227028.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return c:GetFlagEffect(100227028)==0 end
-	c:RegisterFlagEffect(100227028,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	if chk==0 then return c:GetFlagEffect(1002270280)==0 end
+	c:RegisterFlagEffect(1002270280,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
 function c100227028.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
