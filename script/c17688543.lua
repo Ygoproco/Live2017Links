@@ -24,14 +24,26 @@ function c17688543.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if not tc or not tc:IsRelateToEffect(e) then return end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e1:SetCode(EVENT_PHASE+PHASE_END)
+	e1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e1:SetCountLimit(1)
+	if Duel.GetCurrentPhase()==PHASE_STANDBY then
+		e1:SetReset(RESET_PHASE+PHASE_STANDBY,2)
+		e1:SetLabel(Duel.GetTurnCount()+1)
+	else
+		e1:SetReset(RESET_PHASE+PHASE_STANDBY)
+		e1:SetLabel(Duel.GetTurnCount())
+	end
 	e1:SetLabelObject(tc)
+	e1:SetCondition(c17688543.spcon)
 	e1:SetOperation(c17688543.spop)
-	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+end
+function c17688543.spcon(e,tp)
+	return Duel.GetTurnCount()==e:GetLabel()
 end
 function c17688543.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
@@ -39,4 +51,3 @@ function c17688543.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-
