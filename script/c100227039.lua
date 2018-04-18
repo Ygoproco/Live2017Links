@@ -22,7 +22,7 @@ function c100227039.initial_effect(c)
 	e2:SetCost(c100227039.atkcost)
 	e2:SetOperation(c100227039.atkup)
 	c:RegisterEffect(e2)
-		--search
+	--search
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(2519690,0))
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
@@ -41,7 +41,7 @@ end
 function c100227039.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
-	return bc and c:GetLevel()>=bc:GetLevel() and bc:IsControler(1-tp)
+	return bc and bc:IsLevelBelow(c:GetLevel()) and bc:IsControler(1-tp)
 end
 function c100227039.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local bc=e:GetHandler():GetBattleTarget()
