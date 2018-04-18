@@ -17,7 +17,8 @@ function c100227034.cfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_MACHINE) and c:IsType(TYPE_EFFECT)
 end
 function c100227034.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetMatchingGroupCount(c100227034.cfilter,tp,LOCATION_MZONE,0,nil)==2
+	local g=Duel.GetMatchingGroup(nil,tp,LOCATION_MZONE,0,nil)
+	return g:GetCount()==2 and g:FilterCount(c100227034.cfilter,nil)==2
 end
 function c100227034.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,2) end
