@@ -26,17 +26,14 @@ end
 function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if not tc or not tc:IsRelateToEffect(e) then return end
+	local res=(Duel.GetCurrentPhase()==PHASE_STANDBY) and 2 or 1
+	local turn_asc=(Duel.GetCurrentPhase()>=PHASE_STANDBY) and 1 or 0
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e1:SetCountLimit(1)
-	if Duel.GetCurrentPhase()==PHASE_STANDBY then
-		e1:SetReset(RESET_PHASE+PHASE_STANDBY,2)
-		e1:SetLabel(Duel.GetTurnCount()+1)
-	else
-		e1:SetReset(RESET_PHASE+PHASE_STANDBY)
-		e1:SetLabel(Duel.GetTurnCount())
-	end
+	e1:SetReset(RESET_PHASE+PHASE_STANDBY,res)
+	e1:SetLabel(turn_asc+Duel.GetTurnCount())
 	e1:SetLabelObject(tc)
 	e1:SetCondition(c17688543.spcon)
 	e1:SetOperation(c17688543.spop)
