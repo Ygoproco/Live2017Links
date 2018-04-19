@@ -29,7 +29,7 @@ function c56597272.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UNRELEASABLE_SUM)
 		e1:SetReset(RESET_EVENT+0x1fe0000)
-		e1:SetValue(aux.TargetBoolFunction(Card.IsSetCard,0x18))
+		e1:SetValue(aux.TargetBoolFunction(aux.NOT(Card.IsSetCard),0x18))
 		token:RegisterEffect(e1,true)
 	end
 	Duel.SpecialSummonComplete()
