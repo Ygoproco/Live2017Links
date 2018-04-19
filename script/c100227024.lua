@@ -80,9 +80,11 @@ function c100227024.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c100227024.tdfilter,tp,0,LOCATION_ONFIELD,nil)
 	if g:GetCount()>0 then
 		Duel.SendtoDeck(g,nil,0,REASON_EFFECT)
-		Duel.ShuffleDeck(1-tp)
+		local tg=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_DECK)
+		if tg:IsExists(Card.IsControler,1,nil,tp) then Duel.ShuffleDeck(tp) end
+		if tg:IsExists(Card.IsControler,1,nil,1-tp) then Duel.ShuffleDeck(1-tp) end
 		Duel.BreakEffect()
-		Duel.Draw(1-tp,g:FilterCount(Card.IsLocation,nil,LOCATION_DECK),REASON_EFFECT)
+		Duel.Draw(1-tp,tg:FilterCount(Card.IsControler,nil,1-tp),REASON_EFFECT)
 	end
 end
 function c100227024.rtdcon(e,tp,eg,ep,ev,re,r,rp)
