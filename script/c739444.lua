@@ -43,7 +43,7 @@ function c739444.discon(e)
 end
 function c739444.disop(e,tp)
 	local c=e:GetHandler()
-	local flag1=bit.band(c:GetLinkedZone(tp),0xffffff00)
+	local flag1=bit.band(c:GetLinkedZone(tp),0xff00ffff)
 	local flag2=bit.band(c:GetLinkedZone(1-tp),0xff00ffff)
 	return flag1+flag2
 end
