@@ -38,8 +38,8 @@ function c28927782.select(e,tp,b1,b2)
 	else
 		e:SetCategory(CATEGORY_EQUIP)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-		Duel.SelectTarget(tp,c28927782.eqfilter1,tp,LOCATION_MZONE,0,1,1,nil)
-		Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,nil,1,tp,0)
+		local g=Duel.SelectTarget(tp,c28927782.eqfilter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
+		Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,tp,0)
 	end
 	e:GetHandler():RegisterFlagEffect(28927782,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
