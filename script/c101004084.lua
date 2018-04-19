@@ -96,7 +96,7 @@ function c101004084.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101004084.descon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnCount()>e:GetLabel() and e:GetLabelObject():GetFlagEffect(89015998)~=0
+	return Duel.GetTurnCount()>e:GetLabel() and e:GetLabelObject():GetFlagEffect(101004084)~=0
 end
 function c101004084.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(e:GetLabelObject(),REASON_EFFECT)
