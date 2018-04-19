@@ -67,22 +67,19 @@ end
 function c100227024.tdcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetBattledGroupCount()>0 or e:GetHandler():GetAttackedCount()>0
 end
-function c100227024.tdfilter(c)
-	return c:IsAbleToDeck()
-end
 function c100227024.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local g=Duel.GetMatchingGroup(c100227024.tdfilter,tp,0,LOCATION_ONFIELD,nil)
+	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,1-tp,g:GetCount())
 end
 function c100227024.tdop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(c100227024.tdfilter,tp,0,LOCATION_ONFIELD,nil)
-	if g:GetCount()>0 then
-		Duel.SendtoDeck(g,nil,0,REASON_EFFECT)
-		Duel.ShuffleDeck(1-tp)
+	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,nil)
+	if g:GetCount()>0 and Duel.SendtoDeck(g,nil,2,REASON_EFFECT)>0
+		local tg=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_DECK)
+		if tg:IsExists(Card.IsControler,1,nil,1-tp) then Duel.ShuffleDeck(1-tp) end
 		Duel.BreakEffect()
-		Duel.Draw(1-tp,g:FilterCount(Card.IsLocation,nil,LOCATION_DECK),REASON_EFFECT)
+		Duel.Draw(1-tp,tg:FilterCount(Card.IsControler,nil,1-tp),REASON_EFFECT)
 	end
 end
 function c100227024.rtdcon(e,tp,eg,ep,ev,re,r,rp)
