@@ -84,12 +84,12 @@ function c100227037.disop(e,tp,eg,ep,ev,re,r,rp)
 		return
 	end
 	local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
-		e1:SetCode(EFFECT_UPDATE_ATTACK)
-		e1:SetValue(-500)
-		c:RegisterEffect(e1)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
+	e1:SetReset(RESET_EVENT+0x1ff0000)
+	e1:SetCode(EFFECT_UPDATE_ATTACK)
+	e1:SetValue(-500)
+	c:RegisterEffect(e1)
 	if not c:IsImmuneToEffect(e1) and not c:IsHasEffect(EFFECT_REVERSE_UPDATE) then
 			if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 				Duel.Destroy(eg,REASON_EFFECT)
