@@ -1,4 +1,4 @@
---ハイ・キューピッド
+--ハイ・キューピット
 --High Cupit
 --Scripted by AlphaKretin
 function c11851647.initial_effect(c)
@@ -7,7 +7,7 @@ function c11851647.initial_effect(c)
 	e1:SetDescription(aux.Stringid(11851647,0))
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1)
+	e1:SetCountLimit(1,11851647)
 	e1:SetCost(c11851647.cost)
 	e1:SetOperation(c11851647.operation)
 	c:RegisterEffect(e1)
@@ -16,7 +16,9 @@ function c11851647.initial_effect(c)
 	e2:SetDescription(aux.Stringid(11851647,1))
 	e2:SetCategory(CATEGORY_RECOVER)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetCode(EVENT_TO_GRAVE)
+	e2:SetCountLimit(1,11851648)
 	e2:SetCondition(c11851647.reccon)
 	e2:SetTarget(c11851647.rectg)
 	e2:SetOperation(c11851647.recop)

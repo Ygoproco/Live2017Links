@@ -24,7 +24,7 @@ function c82428674.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c82428674.rmfilter(c)
-	return c:IsCode(70095154) and c:IsLevelAbove(1) and c:IsAbleToRemove()
+	return (not c:IsLocation(LOCATION_MZONE) or c:IsFaceup()) and c:IsCode(70095154) and c:IsLevelAbove(1) and c:IsAbleToRemove()
 end
 function c82428674.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c82428674.rmfilter,tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_MZONE,0,1,nil)

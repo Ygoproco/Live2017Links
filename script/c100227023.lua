@@ -71,7 +71,7 @@ function c100227023.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetBattledGroupCount()>0 or e:GetHandler():GetAttackedCount()>0 
 end
 function c100227023.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c100227023.damfilter,tp,0,LOCATION_MZONE,1,nil,e) end
+	if chk==0 then return true end
 end
 function c100227023.damop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

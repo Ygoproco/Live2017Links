@@ -21,7 +21,7 @@ function c89462956.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ShuffleDeck(1-tp)
 	local h1=Duel.Draw(tp,1,REASON_EFFECT)
 	local h2=Duel.Draw(1-tp,1,REASON_EFFECT)
-	if h1==0 or h2==0 then Duel.BreakEffect() end
+	if h1>0 or h2>0 then Duel.BreakEffect() end
 	if h1>0 then
 		Duel.ShuffleHand(tp)
 		Duel.DiscardHand(tp,aux.TRUE,1,1,REASON_EFFECT+REASON_DISCARD)
