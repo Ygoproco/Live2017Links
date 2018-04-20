@@ -37,7 +37,6 @@ function c50139096.atkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c50139096.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local e1=Effect.CreateEffect(c)
 	if c:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -59,7 +58,6 @@ function c50139096.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c50139096.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		local e1=Effect.CreateEffect(c)

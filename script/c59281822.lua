@@ -16,11 +16,11 @@ function c59281822.initial_effect(c)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCondition(c59281822.spcon)
 	c:RegisterEffect(e2)
-	--to hanf
+	--to hand
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(59281822,0))
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
-	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetCountLimit(1,59281822)
 	e3:SetTarget(c59281822.thtg)

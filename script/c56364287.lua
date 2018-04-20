@@ -17,6 +17,7 @@ function c56364287.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetTarget(c56364287.lvtg)
 	e2:SetOperation(c56364287.lvop)
 	c:RegisterEffect(e2)
 	--to hand
@@ -30,6 +31,9 @@ function c56364287.initial_effect(c)
 	e3:SetTarget(c56364287.thtg)
 	e3:SetOperation(c56364287.thop)
 	c:RegisterEffect(e3)
+end
+function c56364287.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return not e:GetHandler():IsLevel(5) end
 end
 function c56364287.lvop(e,tp,eg,ep,ev,re,r,rp,c)
 	local c=e:GetHandler()

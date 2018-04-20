@@ -10,6 +10,7 @@ function c11674673.initial_effect(c)
 	e1:SetDescription(aux.Stringid(11674673,0))
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,11674673)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCondition(c11674673.thcon)
@@ -55,7 +56,7 @@ function c11674673.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c11674673.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c11674673.thfilter,tp,LOCATION_DECK,0,1,nil,tp) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,2,tp,LOCATION_DECK)
 end
 function c11674673.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)

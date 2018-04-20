@@ -21,6 +21,7 @@ function c67378104.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c67378104.filter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectMatchingCard(tp,c67378104.filter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil)
+	Duel.ConfirmCards(1-tp,g)
 	Duel.SendtoDeck(g,nil,1,REASON_COST)
 end
 function c67378104.target(e,tp,eg,ep,ev,re,r,rp,chk)

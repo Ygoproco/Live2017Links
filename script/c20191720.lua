@@ -54,7 +54,7 @@ function c20191720.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c20191720.tdfilter(c)
-	return c:IsSetCard(0xfc) and c:IsAbleToExtra()
+	return c:IsSetCard(0xfc) and c:IsType(TYPE_LINK) and c:IsAbleToExtra()
 end
 function c20191720.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c20191720.tdfilter(chkc) end

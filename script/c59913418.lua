@@ -56,7 +56,7 @@ function c59913418.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.PayLPCost(tp,2000)
 end
 function c59913418.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler()) end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
 	local ct=g:FilterCount(Card.IsControler,nil,1-tp)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
