@@ -79,22 +79,19 @@ function c47346782.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if not tc:IsRelateToEffect(e) or tc:IsControler(tp) then return end
 	local seq=tc:GetSequence()
 	if seq>4 then return end
-	if (seq>0 and Duel.CheckLocation(1-tp,LOCATION_MZONE,seq-1))
-		or (seq<4 and Duel.CheckLocation(1-tp,LOCATION_MZONE,seq+1)) then
-		local zone=0
-		if seq>0 and Duel.CheckLocation(1-tp,LOCATION_MZONE,seq-1) then zone=bit.replace(zone,0x1,seq-1) end
-		if seq<4 and Duel.CheckLocation(1-tp,LOCATION_MZONE,seq+1) then zone=bit.replace(zone,0x1,seq+1) end
-		if Duel.GetControl(c,1-tp,0,0,zone)==0 then return end
-		local g1=Duel.GetMatchingGroup(c47346782.ctfilter2,tp,0,LOCATION_MZONE,nil)
-		if g1:GetCount()==2 then
-			local seq1=g1:GetFirst():GetSequence()
-			local seq2=g1:GetNext():GetSequence()
-			if seq2<seq1 then seq1,seq2 = seq2,seq1 end
-			local g2=Duel.GetMatchingGroup(c47346782.ctfilter3,tp,0,LOCATION_MZONE,nil,seq1,seq2)
-			if g2:GetCount()>0 then
-				Duel.BreakEffect()
-				Duel.GetControl(g2,tp)
-			end
+	local zone=0
+	if seq>0 then zone=bit.replace(zone,0x1,seq-1) end
+	if seq<4 then zone=bit.replace(zone,0x1,seq+1) end
+	if Duel.GetControl(c,1-tp,0,0,zone)==0 then return end
+	local g1=Duel.GetMatchingGroup(c47346782.ctfilter2,tp,0,LOCATION_MZONE,nil)
+	if g1:GetCount()==2 then
+		local seq1=g1:GetFirst():GetSequence()
+		local seq2=g1:GetNext():GetSequence()
+		if seq2<seq1 then seq1,seq2=seq2,seq1 end
+		local g2=Duel.GetMatchingGroup(c47346782.ctfilter3,tp,0,LOCATION_MZONE,nil,seq1,seq2)
+		if g2:GetCount()>0 then
+			Duel.BreakEffect()
+			Duel.GetControl(g2,tp)
 		end
 	end
 end
