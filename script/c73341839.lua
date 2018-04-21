@@ -25,7 +25,7 @@ function c73341839.rfilter(c)
 	return c:IsLinkBelow(3)
 end
 function c73341839.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) 
+	if chk==0 then return e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_ATTACK) 
 		and Duel.CheckReleaseGroupCost(tp,c73341839.rfilter,1,false,aux.ReleaseCheckMMZ,nil) end
 	local rg=Duel.SelectReleaseGroupCost(tp,c73341839.rfilter,1,1,false,aux.ReleaseCheckMMZ,nil)
 	local r=rg:GetFirst()
@@ -36,7 +36,7 @@ function c73341839.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c73341839.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and Duel.SpecialSummonStep(c,0,tp,tp,false,false,POS_FACEUP) then
+	if c:IsRelateToEffect(e) and Duel.SpecialSummonStep(c,0,tp,tp,false,false,POS_FACEUP_ATTACK) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
