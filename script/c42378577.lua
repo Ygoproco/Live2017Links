@@ -37,7 +37,6 @@ function c42378577.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c42378577.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	Debug.Message(e:GetLabel())
 	if chkc then return (e:GetLabel()==2 and c42378577.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		or c42378577.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc))
 		or (e:GetLabel()==0 and c42378577.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc))
