@@ -540,7 +540,7 @@ function Auxiliary.XyzTarget(f,lv,minc,maxc,mustbemat,exchk)
 					if not mustbemat then
 						mg:Merge(Duel.GetMatchingGroup(Card.IsHasEffect,tp,LOCATION_ONFIELD+LOCATION_GRAVE+LOCATION_REMOVED,0,nil,511002116))
 					end
-					if not og or min==99 then
+					if not og or max==99 then
 						local ct=0
 						local matg=Group.CreateGroup()
 						local sg=Group.CreateGroup()
