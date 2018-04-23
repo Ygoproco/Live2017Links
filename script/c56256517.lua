@@ -56,7 +56,6 @@ function c56256517.thop(e,tp,eg,ep,ev,re,r,rp)
         local g=e:GetLabelObject():Filter(c56256517.thfilter,nil,e:GetLabel())
         if g and #g==3 then
             Duel.SendtoHand(g,nil,REASON_EFFECT)
-            Duel.ConfirmCards(1-tp,g)
         end
     else c:SetTurnCounter(ct) end
 end
