@@ -87,7 +87,8 @@ function c96733134.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and tc:IsType(TYPE_PENDULUM) and tc:GetBattleTarget()~=nil
 end
 function c96733134.damop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(ep,ev*2)
+	local dam=Duel.GetBattleDamage(ep)
+	Duel.ChangeBattleDamage(ep,dam*2)
 end
 function c96733134.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE
