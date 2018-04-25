@@ -76,6 +76,7 @@ function c100228004.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c100228004.rescon(sg,e,tp,mg)
 	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:IsExists(c100228004.atchk1,1,nil,sg)
+		and (not e:GetHandler():IsLocation(LOCATION_EXTRA) or Duel.GetLocationCountFromEx(tp,tp,sg,e:GetHandler())>0)
 end
 function c100228004.atchk1(c,sg)
 	return c:IsAttribute(ATTRIBUTE_LIGHT) and sg:FilterCount(Card.IsAttribute,c,ATTRIBUTE_DARK)==1
