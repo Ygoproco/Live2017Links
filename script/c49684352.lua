@@ -65,7 +65,8 @@ function c49684352.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and e:GetHandler():GetBattleTarget()~=nil
 end
 function c49684352.damop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(ep,ev*2)
+	local dam=Duel.GetBattleDamage(ep)
+	Duel.ChangeBattleDamage(ep,dam*2)
 end
 function c49684352.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return r&REASON_EFFECT+REASON_BATTLE~=0

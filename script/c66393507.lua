@@ -89,5 +89,6 @@ function c66393507.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and tc:IsSetCard(0x104) and tc:GetBattleTarget()~=nil and e:GetHandler():GetLinkedGroup():IsContains(tc)
 end
 function c66393507.damop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(ep,ev*2)
+	local dam=Duel.GetBattleDamage(ep)
+	Duel.ChangeBattleDamage(ep,dam*2)
 end

@@ -41,7 +41,8 @@ function c99004583.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttackTarget()
 end
 function c99004583.dop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(ep,ev*2)
+	local dam=Duel.GetBattleDamage(ep)
+	Duel.ChangeBattleDamage(ep,dam*2)
 end
 function c99004583.costfilter(c)
 	return c:IsType(TYPE_SPELL) and c:IsDiscardable()
