@@ -36,7 +36,7 @@ end
 function c67586735.ddop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
     local sync=c:GetReasonCard()
-    if sync:IsRelateToEffect(e) and sync:IsFaceup() and sync:IsSetCard(0xfc) and c:IsType(TYPE_LINK) then
+    if sync:IsRelateToEffect(e) and sync:IsFaceup() and sync:IsSetCard(0xfc) and sync:IsType(TYPE_LINK) then
         local e1=Effect.CreateEffect(c)
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetCode(EFFECT_UPDATE_ATTACK)
