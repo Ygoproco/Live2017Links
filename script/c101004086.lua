@@ -35,5 +35,5 @@ function c101004086.activate(e,tp,eg,ep,ev,re,r,rp)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
     e1:SetReset(RESET_EVENT+0x1fe0000)
-    tc:RegisterEffect(e1)
+    g:GetFirst():RegisterEffect(e1)
 end
