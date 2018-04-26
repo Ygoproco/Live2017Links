@@ -116,7 +116,7 @@ function c22499034.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	if tc then
 		local b1=tc:IsAbleToHand()
-		local b2=tc:GetActivateEffect():IsActivatable(tp)
+		local b2=tc:GetActivateEffect():IsActivatable(tp) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
 		if b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(22499034,2))) then
 			Duel.SendtoHand(tc,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,tc)
