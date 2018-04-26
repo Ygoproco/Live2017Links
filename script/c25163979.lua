@@ -54,7 +54,7 @@ function c25163979.mvop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	if e:GetLabel()==0 then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(25163979,3))
+		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(25163979,0))
 		local g=Duel.SelectMatchingCard(tp,c25163979.mvfilter1,tp,LOCATION_MZONE,0,1,1,nil)
 		if g:GetCount()>0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
