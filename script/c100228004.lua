@@ -51,6 +51,12 @@ function c100228004.initial_effect(c)
 	e5:SetCondition(c100228004.dbcon)
 	e5:SetValue(LOCATION_DECKBOT)
 	c:RegisterEffect(e5)
+	local e6=Effect.CreateEffect(c)
+    	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+    	e6:SetCode(EVENT_SPSUMMON_SUCCESS)
+    	e6:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    	e6:SetOperation(c100228004.op)
+    	c:RegisterEffect(e6)
 end
 function c100228004.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,1000) end
@@ -130,5 +136,8 @@ function c100228004.gyop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c100228004.dbcon(e)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_SPECIAL)
+   	return e:GetHandler():GetFlagEffect(100228004)>0
+end
+function c100228004.op(e,tp,eg,ep,ev,re,r,rp)
+    	e:GetHandler():RegisterFlagEffect(100228004,RESET_EVENT+0x1fe0000,0,1)
 end
