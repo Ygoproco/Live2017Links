@@ -13,7 +13,7 @@ function c101004089.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCondition(c101004089.indcon)
-	e2:SetValue(aux.indoval)
+	e2:SetValue(c101004089.indval)
 	c:RegisterEffect(e2)
 	--banish
 	local e3=Effect.CreateEffect(c)
@@ -32,6 +32,9 @@ function c101004089.cfilter(c)
 end
 function c101004089.indcon(e)
 	return Duel.IsExistingMatchingCard(c101004089.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
+end
+function c101004089.indval(e,re,tp)
+	return tp~=e:GetHandlerPlayer()
 end
 function c101004089.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
