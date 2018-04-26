@@ -104,7 +104,7 @@ function c58984738.thcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c58984738.thfilter(c,tp)
 	return c:IsSetCard(0xf9) and c:GetType()==0x20004
-		and (c:IsAbleToHand() or c:GetActivateEffect():IsActivatable(tp))
+		and (c:IsAbleToHand() or (c:GetActivateEffect():IsActivatable(tp) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0))
 end
 function c58984738.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c58984738.thfilter,tp,LOCATION_DECK,0,1,nil,tp) end
