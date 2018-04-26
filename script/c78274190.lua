@@ -1,7 +1,15 @@
+--Superheavy Samurai General Coral
 --超重輝将サン－5
 function c78274190.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
+	--add setcode
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_ADD_SETCODE)
+	e1:SetValue(0x9a)
+	c:RegisterEffect(e1)
 	--scale
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -60,10 +68,10 @@ function c78274190.condition(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_GRAVE,0,1,nil,TYPE_SPELL+TYPE_TRAP)
 end
 function c78274190.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsSetCard,1,false,nil,nil,0x9a) end
+	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,nil,0x9a) end
 	local ct=Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)
 	if ct>2 then ct=2 end
-	local g=Duel.SelectReleaseGroupCost(tp,Card.IsSetCard,1,ct,false,nil,nil,0x9a)
+	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,ct,nil,0x9a)
 	local rct=Duel.Release(g,REASON_COST)
 	e:SetLabel(rct)
 end
