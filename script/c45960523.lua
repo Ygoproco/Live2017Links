@@ -26,7 +26,7 @@ function c45960523.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c45960523.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	return re and re:GetHandler():IsType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x105)
+	return re and re:IsType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x105)
 end
 function c45960523.rmfilter(c)
 	return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsAbleToRemove() and c:IsFaceup()

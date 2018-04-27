@@ -23,7 +23,7 @@ function c18743376.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c18743376.regcon(e,tp,eg,ep,ev,re,r,rp)
-	return re and re:GetHandler():IsType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x105)
+	return re and re:IsType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x105)
 end
 function c18743376.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
