@@ -1,6 +1,5 @@
 --鋼鉄の襲撃者
 --Heavy Metal Raiders
---Effect is not fully implemented
 function c3113667.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -38,6 +37,7 @@ function c3113667.indtg(e,c)
 	return c:IsRace(RACE_MACHINE) and c:IsAttribute(ATTRIBUTE_DARK)
 end
 function c3113667.indct(e,re,r,rp)
+	local c=e:GetHandler()
 	if r & REASON_BATTLE ==0 then return 0 end
 	local tp=e:GetHandlerPlayer()
 	local a=Duel.GetAttacker()
@@ -45,14 +45,28 @@ function c3113667.indct(e,re,r,rp)
 	if tc and tc:IsControler(1-tp) then a,tc=tc,a end
 	local dam=Duel.GetBattleDamage(tp)
 	if not tc or dam<=0 then return 1 end
-	local e1=Effect.CreateEffect(e:GetHandler())
+	c:RegisterFlagEffect(3113667,RESET_EVENT+RESETS_STANDARD,0,1)
+	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(dam)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	tc:RegisterEffect(e1)
+	--Reset
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_ADJUST)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetOperation(function (e)
+		if c:GetFlagEffect(3113667)==0 then
+			e1:Reset()
+			e:Reset()
+		end
+	end)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
+	tc:RegisterEffect(e2)
 	return 1
 end
 function c3113667.spcon1(e,tp,eg,ep,ev,re,r,rp)
