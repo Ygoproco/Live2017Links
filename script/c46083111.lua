@@ -58,6 +58,7 @@ function c46083111.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		local g=Duel.GetMatchingGroup(c46083111.filter1,tp,LOCATION_DECK,0,nil,e,tp)
 		return g:IsExists(c46083111.filter2,1,nil,g)
 	end
+	e:GetHandler():CreateEffectRelation(e)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_DECK)
 end
 function c46083111.spop(e,tp,eg,ep,ev,re,r,rp)
