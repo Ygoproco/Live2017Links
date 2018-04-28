@@ -67,6 +67,7 @@ function c3113667.indct(e,re,r,rp)
 	end)
 	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	tc:RegisterEffect(e2)
+	return 1
 end
 function c3113667.spcon1(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
