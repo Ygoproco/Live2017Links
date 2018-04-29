@@ -67,8 +67,8 @@ function c28692962.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.Remove(tc,POS_FACEUP,REASON_EFFECT+REASON_TEMPORARY)~=0
 		and tc:IsLocation(LOCATION_REMOVED) then
-		local ct=1
-		if Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY then ct=2 end
+		local ct=(Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY) and 2 or 1
+		local val=(Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY) and Duel.GetTurnCount() or (Duel.GetTurnCount()-1)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e1:SetCode(EVENT_PHASE+PHASE_STANDBY)
@@ -76,15 +76,10 @@ function c28692962.thop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCountLimit(1)
 		e1:SetCondition(c28692962.retcon)
 		e1:SetOperation(c28692962.retop)
-		if Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY then
-			e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,2)
-			e1:SetValue(Duel.GetTurnCount())
-		else
-			e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN)
-			e1:SetValue(0)
-		end
+		e1:SetValue(val)
+		e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,ct)
 		Duel.RegisterEffect(e1,tp)
-		tc:RegisterFlagEffect(28692962,RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,ct)
+		tc:RegisterFlagEffect(28692962,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,ct)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,c28692962.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 		if g:GetCount()>0 then
@@ -99,5 +94,6 @@ function c28692962.retcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c28692962.retop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
+	tc:ResetFlagEffect(28692962)
 	Duel.ReturnToField(tc)
 end
