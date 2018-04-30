@@ -41,6 +41,11 @@ end
 Group.__le = function (g1,g2)
 	return #g1<=#g2
 end
+--Returns 2 groups, the 1st group is teh one with cards that match the function, the second is the one with cards that don't
+Group.Split = function (g,fun,ex,...)
+	local ng=g:Filter(fun,ex,...)
+	return ng,g-ng
+end
 
 function userdatatype(o)
 	if type(o)~="userdata" then return "not userdata"
