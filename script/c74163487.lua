@@ -21,8 +21,11 @@ function c74163487.initial_effect(c)
 	e2:SetOperation(c74163487.regop)
 	c:RegisterEffect(e2)
 end
+function c74163487.incfilter(c,tp)
+	return c:IsSummonType(SUMMON_TYPE_LINK)
+end
 function c74163487.incon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(Card.IsType,1,nil,TYPE_LINK) and not eg:IsContains(e:GetHandler())
+	return eg:IsExists(Card.IsType,1,nil,TYPE_LINK) and eg:IsExists(c74163487.incfilter,1,nil,tp) and not eg:IsContains(e:GetHandler())
 end
 function c74163487.inop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
