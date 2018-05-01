@@ -31,11 +31,11 @@ end
 function c55241609.spcon(e,c)
 	if c==nil then return true end
 	local tp=e:GetHandlerPlayer()
-	local zone=Duel.GetLinkedZone(tp)
+	local zone=Duel.GetLinkedZone(tp)&0x1f
 	return zone~=0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,tp,zone)
 end
 function c55241609.spval(e,c)
-	return 0,Duel.GetLinkedZone(c:GetControler())
+	return 0,Duel.GetLinkedZone(c:GetControler())&0x1f
 end
 function c55241609.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0x116)
