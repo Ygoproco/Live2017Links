@@ -39,7 +39,7 @@ end
 function Auxiliary.RPGTarget(filter,extrafil,extraop)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
 				if chk==0 then
-					local mg=Duel.GetRitualMaterial(tp)+Duel.GetMatchingGroup(nil,tp,0xff,0,nil)
+					local mg=Duel.GetRitualMaterial(tp)
 					local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp,chk) or Group.CreateGroup()
 					local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 					return ft>-1 and Duel.IsExistingMatchingCard(Auxiliary.RPGFilter,tp,LOCATION_HAND,0,1,nil,filter,e,tp,mg,mg2,ft)

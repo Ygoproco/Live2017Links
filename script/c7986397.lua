@@ -59,9 +59,12 @@ function c7986397.checkvalid(c,rc,tp,sg,mg,mg2,ft)
 	else
 		Duel.SetSelectedCard(sg+c)
 		res=mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
-		if not res and not deck then
-			Duel.SetSelectedCard(sg+c)
-			res=(mg+mg2):CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
+		if not res and not deck and not mg2:IsContains(c) then
+			for tc in aux.Next(mg2) do
+				Duel.SetSelectedCard(sg+c+tc)
+				res=mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
+			if res then return res end
+			end
 		end
 	end
 	return res
