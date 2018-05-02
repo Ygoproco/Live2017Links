@@ -13,8 +13,8 @@ function c7986397.initial_effect(c)
 	if not AshBlossomTable then AshBlossomTable={} end
 	table.insert(AshBlossomTable,e1)
 end
-function c7986397.filter(c,e,tp,m1,m2)
-	if not c:IsSetCard(0x106) or bit.band(c:GetType(),0x81)~=0x81
+function c7986397.filter(c,e,tp,m1,m2,ft)
+	if not c:IsSetCard(0x106) or (c:GetType()&0x81)~=0x81
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local lv=c:GetLevel()
 	local mg=m1:Filter(Card.IsCanBeRitualMaterial,c,c)
@@ -23,16 +23,46 @@ function c7986397.filter(c,e,tp,m1,m2)
 		mg=mg:Filter(c.mat_filter,nil)
 		mg2=mg2:Filter(c.mat_filter,nil)
 	end
-	return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,1,99999,c) or mg2:IsExists(function(c,spc)Duel.SetSelectedCard(c)return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,spc)end,nil,1,c)
+	if ft>0 then
+		return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,1,99999,c) or mg2:IsExists(function(c,spc)Duel.SetSelectedCard(c)return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,spc)end,nil,1,c)
+	else
+		return mg:IsExists(Auxiliary.RPEFilterF,1,nil,tp,mg,c,lv) or mg:Filter(function(c)
+																				return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5
+																				end,nil):IsExists(function(c,spc)
+																									return mg2:IsExists(function(c,fc)
+																														Duel.SetSelectedCard(Group.FromCards(c,fc))
+																														return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,spc)
+																														end,1,nil,c)
+																									end,1,nil,c)
+	end
 end
-function c7986397.checkvalid(c,rc,tp,sg,mg,mg2)
+function c7986397.checkvalid(c,rc,tp,sg,mg,mg2,ft)
 	local deck = (mg2-sg)<mg2
 	if mg2:IsContains(c) and deck then return false end
-	Duel.SetSelectedCard(sg+c)
-	local res=mg:CheckWithSumEqual(Card.GetRitualLevel,rc:GetLevel(),0,99999,rc)
-	if not res and not deck then
+	local lv=rc:GetLevel()
+	local res
+	if ft<1 and not sg:IsExists(function(c)
+		return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5
+		end,1,nil) then
+		return mg:Filter(function(c)
+						return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5
+						end,nil):IsExists(function(c2)
+											Duel.SetSelectedCard(sg+c+c2)
+											local res2 = mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
+											if not res2 and not deck then
+												Duel.SetSelectedCard(sg+c+c2)
+												res2=(mg+mg2):CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
+											end
+											return res2
+										end,1,nil)
+		
+	else
 		Duel.SetSelectedCard(sg+c)
-		res=(mg+sg):CheckWithSumEqual(Card.GetRitualLevel,rc:GetLevel(),0,99999,rc)
+		res=mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
+		if not res and not deck then
+			Duel.SetSelectedCard(sg+c)
+			res=(mg+mg2):CheckWithSumEqual(Card.GetRitualLevel,lv,0,99999,rc)
+		end
 	end
 	return res
 end
@@ -44,7 +74,7 @@ function c7986397.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		local mg=Duel.GetRitualMaterial(tp)
 		local sg=Duel.GetMatchingGroup(c7986397.exfilter0,tp,LOCATION_DECK,0,nil)-mg
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-		return ft>-1 and Duel.IsExistingMatchingCard(c7986397.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,e,tp,mg,sg)
+		return Duel.IsExistingMatchingCard(c7986397.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,e,tp,mg,sg,ft)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_GRAVE)
 end
@@ -64,9 +94,11 @@ function c7986397.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		local mat=Group.CreateGroup()
 		while true do
-			local cg=full:Filter(c7986397.checkvalid,mat,rc,tp,mat,mg,sg)
+			local cg=full:Filter(c7986397.checkvalid,mat,rc,tp,mat,mg,sg,ft)
 			if #cg==0 then break end
-			local cancelable=(function()Duel.SetSelectedCard(mat)return Group.CreateGroup():CheckWithSumEqual(Card.GetRitualLevel,lv,0,0,rc)end)()
+			local cancelable=(function()Duel.SetSelectedCard(mat)return Group.CreateGroup():CheckWithSumEqual(Card.GetRitualLevel,lv,0,0,rc)end)() and (ft>0 or mat:IsExists(function(c)
+																																						return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5
+																																						end,1,nil))
 			local tc=cg:SelectUnselect(mat,tp,cancelable,cancelable,1,1)
 			if not tc then break end
 			if not mat:IsContains(tc) then
@@ -103,4 +135,3 @@ end
 function c7986397.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(e:GetLabelObject(),REASON_EFFECT)
 end
-
