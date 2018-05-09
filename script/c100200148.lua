@@ -68,5 +68,5 @@ function c100200148.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummonComplete()
 end
 function c100200148.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return not c:IsType(TYPE_LINK)
+	return c:IsType(TYPE_LINK)
 end
