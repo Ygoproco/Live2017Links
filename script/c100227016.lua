@@ -24,6 +24,7 @@ function c100227016.initial_effect(c)
 	e3:SetCode(EVENT_TO_GRAVE)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetCondition(c100227016.thcon)
+	e3:SetCost(c100227016.thcost)
 	e3:SetTarget(c100227016.thtg)
 	e3:SetOperation(c100227016.thop)
 	c:RegisterEffect(e3)
@@ -53,6 +54,10 @@ function c100227016.negop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c100227016.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetFlagEffect(100227016)~=0
+end
+function c100227016.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 function c100227016.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToHand() end
