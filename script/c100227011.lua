@@ -1,6 +1,7 @@
 -- ガラスの靴 
 -- Glass Slippers
 function c100227011.initial_effect(c)
+	aux.AddEquipProcedure(c)
 	--atk up
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_EQUIP)
