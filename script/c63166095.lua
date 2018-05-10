@@ -38,6 +38,7 @@ function c63166095.activate(e,tp,eg,ep,ev,re,r,rp)
 			and Duel.GetMatchingGroupCount(Card.IsType,tp,LOCATION_GRAVE,0,nil,TYPE_SPELL)>=3 
 			and Duel.SelectYesNo(tp,aux.Stringid(63166095,0)) then
 			Duel.BreakEffect()
+			Duel.ShuffleDeck(tp)
 			Duel.Draw(tp,1,REASON_EFFECT)
 		end
 	end
