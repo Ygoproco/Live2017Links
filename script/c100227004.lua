@@ -49,6 +49,7 @@ function c100227004.spop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,c100227004.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp)
 	local tc=g:GetFirst()
 	if tc then Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) end
+	Duel.SpecialSummonComplete()
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)>0
 		and Duel.IsExistingMatchingCard(c100227004.equipcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil,tp) 
 		and Duel.IsExistingMatchingCard(c100227004.eqfilter1,tp,LOCATION_DECK,0,1,nil,e:GetHandler()) 
@@ -57,6 +58,7 @@ function c100227004.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 		local g2=Duel.SelectMatchingCard(tp,c100227004.eqfilter1,tp,LOCATION_DECK,0,1,1,nil,c)
 		if g2:GetCount()>0 then
+			Duel.BreakEffect()
 			Duel.Equip(tp,g2:GetFirst(),c)
 		end
 	end
