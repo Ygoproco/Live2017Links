@@ -3,7 +3,7 @@
 --Script by dest
 function c100228002.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,nil,1,1,aux.NonTuner(nil),1,99,nil,nil,nil,0,nil,0,c100228002.syncheck)
+	aux.AddSynchroProcedure(c,nil,1,1,aux.NonTuner(nil),1,99,nil,nil,nil,nil,c100228002.syncheck)
 	c:EnableReviveLimit()
 	--destroy
 	local e2=Effect.CreateEffect(c)
