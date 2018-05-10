@@ -12,6 +12,7 @@ function c38502358.initial_effect(c)
 	c:RegisterEffect(e1)
 	--cannot be target/effect indestructable
 	local e2=Effect.CreateEffect(c)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e2:SetRange(LOCATION_MZONE)
