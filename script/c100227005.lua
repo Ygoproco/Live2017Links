@@ -8,7 +8,7 @@ function c100227005.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EFFECT_DIRECT_ATTACK)
 	e1:SetTargetRange(LOCATION_MZONE,0)
-	e1:SetTarget(c100227005.datg)
+	e1:SetTarget(aux.TargetBoolFunction(Card.IsCode,100227004))
 	c:RegisterEffect(e1)
 	--indestructable
 	local e2=Effect.CreateEffect(c)
@@ -16,7 +16,7 @@ function c100227005.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetTargetRange(LOCATION_MZONE,0)
+	e2:SetTargetRange(LOCATION_ONFIELD,0)
 	e2:SetTarget(c100227005.indtg)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
@@ -27,9 +27,6 @@ function c100227005.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 c100227005.listed_names={100227010}
-function c100227005.datg(e,c)
-	return c:IsCode(100227004)
-end
 function c100227005.indtg(e,c)
-	return c:IsCode(100227010)
+	return c:IsFaceup() and c:IsCode(100227010)
 end
