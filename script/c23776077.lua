@@ -51,7 +51,7 @@ function c23776077.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c23776077.rmfilter(c)
-	return c:IsLocation(LOCATION_MZONE) and c:IsAbleToRemove() and aux.SpElimFilter(c,false,true)
+	return c:IsAbleToRemove() and aux.SpElimFilter(c,false,true)
 end
 function c23776077.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE+LOCATION_GRAVE) and c23776077.rmfilter(chkc) end
