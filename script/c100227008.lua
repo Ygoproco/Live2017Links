@@ -40,7 +40,7 @@ function c100227008.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c100227008.thop(e,tp,eg,ep,ev,re,r,rp,chk)
-	local tg=Duel.GetFirstMatchingCard(c100227008.thfilter1,tp,LOCATION_DECK,0,nil)
+	local tg=Duel.GetFirstMatchingCard(c100227008.thfilter,tp,LOCATION_DECK,0,nil)
 	if tg then
 		Duel.SendtoHand(tg,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tg)
