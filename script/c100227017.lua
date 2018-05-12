@@ -20,7 +20,7 @@ function c100227017.cfilter(c)
 	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_MACHINE) and c:IsFaceup() and c:IsAbleToRemove()
 end
 function c100227017.filter(c,e,tp)
-	return c:IsCanBeSpecialSummoned(e,0,tp,true,false) c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_MACHINE) and c:IsLevelAbove(6)
+	return c:IsCanBeSpecialSummoned(e,0,tp,true,false) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_MACHINE) and c:IsLevelAbove(6)
 end
 function c100227017.mzfilter(c)
 	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5
