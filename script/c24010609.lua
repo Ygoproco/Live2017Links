@@ -101,7 +101,8 @@ end
 function c24010609.setop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local ct=e:GetLabel()
-	local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
+	local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)+1
+	if ct>ft then ct=ft end
 	if ct<=0 then return end
 	local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c24010609.setfilter),tp,LOCATION_GRAVE,0,nil)
 	if g:GetCount()==0 then return end
@@ -112,7 +113,7 @@ function c24010609.setop(e,tp,eg,ep,ev,re,r,rp)
 		tg:Merge(sg)
 		g:Remove(Card.IsCode,nil,sg:GetFirst():GetCode())
 		ct=ct-1
-	until ct==0 or ft==0 or g:GetCount()==0 or not Duel.SelectYesNo(tp,aux.Stringid(24010609,2))
+	until ct==0 or g:GetCount()==0 or not Duel.SelectYesNo(tp,aux.Stringid(24010609,2))
 	local tc=tg:GetFirst()
 	while tc do
 		Duel.SSet(tp,tc)
