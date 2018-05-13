@@ -1,6 +1,6 @@
 --氷獄龍 トリシューラ
 --Trishula, the Ice Prison Dragon
---Scripted by Eerie Code
+--Scripted by Eerie Code; fixed by senpaizuri
 function c100228005.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
@@ -45,9 +45,8 @@ function c100228005.mfilter(c)
 	return c:GetOriginalRace()~=RACE_DRAGON
 end
 function c100228005.remcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local mg=c:GetMaterial()
-	return c:IsSummonType(SUMMON_TYPE_FUSION) and not mg:IsExists(c100228005.mfilter,1,nil)
+	local mg=e:GetHandler():GetMaterial()
+	return mg and not mg:IsExists(c100228005.mfilter,1,nil)
 end
 function c100228005.remtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_DECK,0,1,nil)
@@ -63,10 +62,10 @@ function c100228005.remop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 		local sg1=g1:Select(tp,1,1,nil)
 		Duel.ConfirmDecktop(1-tp,1)
-		local sg2=g2:GetFirst()
+		Duel.ConfirmCards(tp,g3)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 		local sg3=g3:Select(tp,1,1,nil)
-		sg1:Merge(sg2)
+		sg1:Merge(g2)
 		sg1:Merge(sg3)
 		Duel.Remove(sg1,POS_FACEUP,REASON_EFFECT)
 	end
