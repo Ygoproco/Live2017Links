@@ -42,6 +42,7 @@ function Auxiliary.AddFusionProcMix(c,sub,insf,...)
 	e1:SetCondition(Auxiliary.FConditionMix(insf,sub,table.unpack(fun)))
 	e1:SetOperation(Auxiliary.FOperationMix(insf,sub,table.unpack(fun)))
 	c:RegisterEffect(e1)
+	return {e1}
 end
 function Auxiliary.FConditionMix(insf,sub,...)
 	--g:Material group(nil for Instant Fusion)
@@ -57,15 +58,16 @@ function Auxiliary.FConditionMix(insf,sub,...)
 				local c=e:GetHandler()
 				local tp=c:GetControler()
 				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=chkfnf>>12~=0
+				local contact=(chkfnf>>12)&0xf~=0
+				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
 				local sub=(sub or notfusion) and not contact
-				local mg=g:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,tp,table.unpack(funs))
+				local mg=g:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,table.unpack(funs))
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_FUSION)
 				if contact then mustg:Clear() end
 				if not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
 				if gc then
 					if gc:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) 
-						or gc:IsExists(aux.NOT(Auxiliary.FConditionFilterMix),1,nil,c,sub,sub,contact,tp,table.unpack(funs)) then return false end
+						or gc:IsExists(aux.NOT(Auxiliary.FConditionFilterMix),1,nil,c,sub,sub,contact,matcheck,tp,table.unpack(funs)) then return false end
 					mustg:Merge(gc)
 				end
 				local sg=Group.CreateGroup()
@@ -80,9 +82,10 @@ function Auxiliary.FOperationMix(insf,sub,...)
 				local c=e:GetHandler()
 				local tp=c:GetControler()
 				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=chkfnf>>12~=0
+				local contact=(chkfnf>>12)&0xf~=0
+				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
 				local sub=(sub or notfusion) and not contact
-				local mg=eg:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,tp,table.unpack(funs))
+				local mg=eg:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,table.unpack(funs))
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
 				if contact then mustg:Clear() end
 				local sg=Group.CreateGroup()
@@ -121,7 +124,8 @@ function Auxiliary.FOperationMix(insf,sub,...)
 				Duel.SetFusionMaterial(sg)
 			end
 end
-function Auxiliary.FConditionFilterMix(c,fc,sub,sub,contact,tp,...)
+function Auxiliary.FConditionFilterMix(c,fc,sub,sub,contact,matcheck,tp,...)
+	if matcheck~=0 and not matcheck(c,fc,sub,sub2,mg,sg,tp,contact,SUMMON_TYPE_FUSION) then return false end
 	if contact then
 		if not c:IsCanBeFusionMaterial(fc,tp) then return false end
 	else
@@ -235,6 +239,7 @@ function Auxiliary.AddFusionProcMixRep(c,sub,insf,fun1,minc,maxc,...)
 	e1:SetCondition(Auxiliary.FConditionMixRep(insf,sub,fun[1],minc,maxc,table.unpack(fun,2)))
 	e1:SetOperation(Auxiliary.FOperationMixRep(insf,sub,fun[1],minc,maxc,table.unpack(fun,2)))
 	c:RegisterEffect(e1)
+	return {e1}
 end
 function Auxiliary.FConditionMixRep(insf,sub,fun1,minc,maxc,...)
 	local funs={...}
@@ -247,14 +252,16 @@ function Auxiliary.FConditionMixRep(insf,sub,fun1,minc,maxc,...)
 				local c=e:GetHandler()
 				local tp=c:GetControler()
 				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=chkfnf>>12~=0
+				local contact=(chkfnf>>12)&0xf~=0
+				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
 				if contact then mustg:Clear() end
 				local sub=(sub or notfusion) and not contact
-				local mg=g:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,tp,fun1,table.unpack(funs))
+				local mg=g:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,fun1,table.unpack(funs))
 				if not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
 				if gc then
-					if gc:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
+					if gc:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c)
+						or gc:IsExists(aux.NOT(Auxiliary.FConditionFilterMix),1,nil,c,sub,sub,contact,matcheck,tp,table.unpack(funs))then return false end
 					mustg:Merge(gc)
 				end
 				local sg=Group.CreateGroup()
@@ -269,10 +276,11 @@ function Auxiliary.FOperationMixRep(insf,sub,fun1,minc,maxc,...)
 				local c=e:GetHandler()
 				local tp=c:GetControler()
 				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=chkfnf>>12~=0
+				local contact=(chkfnf>>12)&0xf~=0
+				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
 				local sub=(sub or notfusion) and not contact
 				local sg=Group.CreateGroup()
-				local mg=eg:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,tp,fun1,table.unpack(funs))
+				local mg=eg:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,fun1,table.unpack(funs))
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
 				if contact then mustg:Clear() end
 				if not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
@@ -502,7 +510,8 @@ function Auxiliary.FConditionMixRepUnfix(insf,sub,minc,maxc,...)
 				local c=e:GetHandler()
 				local tp=c:GetControler()
 				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=chkfnf>>12~=0
+				local contact=(chkfnf>>12)&0xf~=0
+				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
 				local sub=(sub or notfusion) and not contact
 				local mg=g:Filter(Auxiliary.FConditionFilterMixRepUnfix,c,c,sub,sub,contact,tp,table.unpack(funs))
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_FUSION)
@@ -524,7 +533,8 @@ function Auxiliary.FOperationMixRepUnfix(insf,sub,minc,maxc,...)
 				local c=e:GetHandler()
 				local tp=c:GetControler()
 				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=chkfnf>>12~=0
+				local contact=(chkfnf>>12)&0xf~=0
+				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
 				local sub=(sub or notfusion) and not contact
 				local mg=eg:Filter(Auxiliary.FConditionFilterMixRepUnfix,c,c,sub,sub,contact,tp,table.unpack(funs))
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
@@ -752,6 +762,9 @@ function Auxiliary.ContactCon(f,fcon)
 		if c==nil then return true end
 		local m=f(e:GetHandlerPlayer())
 		local chkf=c:GetControler()+0x1000
+		if e:GetValue()~=SUMMON_TYPE_FUSION then
+			chkf=chkf+0x10000
+		end
 		return c:CheckFusionMaterial(m,nil,chkf) and (not fcon or fcon(e:GetHandlerPlayer()))
 	end
 end
@@ -759,6 +772,9 @@ function Auxiliary.ContactTg(f)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local m=f(tp)
 		local chkf=tp+0x1000
+		if e:GetValue()~=SUMMON_TYPE_FUSION then
+			chkf=chkf+0x10000
+		end
 		local sg=Duel.SelectFusionMaterial(tp,e:GetHandler(),m,nil,chkf)
 		if sg:GetCount()>0 then
 			sg:KeepAlive()
@@ -777,15 +793,15 @@ function Auxiliary.ContactOp(f)
 end
 --Fusion monster, name + name
 function Auxiliary.AddFusionProcCode2(c,code1,code2,sub,insf)
-	Auxiliary.AddFusionProcMix(c,sub,insf,code1,code2)
+	return Auxiliary.AddFusionProcMix(c,sub,insf,code1,code2)
 end
 --Fusion monster, name + name + name
 function Auxiliary.AddFusionProcCode3(c,code1,code2,code3,sub,insf)
-	Auxiliary.AddFusionProcMix(c,sub,insf,code1,code2,code3)
+	return Auxiliary.AddFusionProcMix(c,sub,insf,code1,code2,code3)
 end
 --Fusion monster, name + name + name + name
 function Auxiliary.AddFusionProcCode4(c,code1,code2,code3,code4,sub,insf)
-	Auxiliary.AddFusionProcMix(c,sub,insf,code1,code2,code3,code4)
+	return Auxiliary.AddFusionProcMix(c,sub,insf,code1,code2,code3,code4)
 end
 --Fusion monster, name * n
 function Auxiliary.AddFusionProcCodeRep(c,code1,cc,sub,insf)
@@ -793,11 +809,11 @@ function Auxiliary.AddFusionProcCodeRep(c,code1,cc,sub,insf)
 	for i=1,cc do
 		code[i]=code1
 	end
-	Auxiliary.AddFusionProcMix(c,sub,insf,table.unpack(code))
+	return Auxiliary.AddFusionProcMix(c,sub,insf,table.unpack(code))
 end
 --Fusion monster, name * minc to maxc
 function Auxiliary.AddFusionProcCodeRep2(c,code1,minc,maxc,sub,insf)
-	Auxiliary.AddFusionProcMixRep(c,sub,insf,code1,minc,maxc)
+	return Auxiliary.AddFusionProcMixRep(c,sub,insf,code1,minc,maxc)
 end
 --Fusion monster, name + condition * n
 function Auxiliary.AddFusionProcCodeFun(c,code1,f,cc,sub,insf)
@@ -805,11 +821,11 @@ function Auxiliary.AddFusionProcCodeFun(c,code1,f,cc,sub,insf)
 	for i=1,cc do
 		fun[i]=f
 	end
-	Auxiliary.AddFusionProcMix(c,sub,insf,code1,table.unpack(fun))
+	return Auxiliary.AddFusionProcMix(c,sub,insf,code1,table.unpack(fun))
 end
 --Fusion monster, condition + condition
 function Auxiliary.AddFusionProcFun2(c,f1,f2,insf)
-	Auxiliary.AddFusionProcMix(c,false,insf,f1,f2)
+	return Auxiliary.AddFusionProcMix(c,false,insf,f1,f2)
 end
 --Fusion monster, condition * n
 function Auxiliary.AddFusionProcFunRep(c,f,cc,insf)
@@ -817,11 +833,11 @@ function Auxiliary.AddFusionProcFunRep(c,f,cc,insf)
 	for i=1,cc do
 		fun[i]=f
 	end
-	Auxiliary.AddFusionProcMix(c,false,insf,table.unpack(fun))
+	return Auxiliary.AddFusionProcMix(c,false,insf,table.unpack(fun))
 end
 --Fusion monster, condition * minc to maxc
 function Auxiliary.AddFusionProcFunRep2(c,f,minc,maxc,insf)
-	Auxiliary.AddFusionProcMixRep(c,false,insf,f,minc,maxc)
+	return Auxiliary.AddFusionProcMixRep(c,false,insf,f,minc,maxc)
 end
 --Fusion monster, condition1 + condition2 * n
 function Auxiliary.AddFusionProcFunFun(c,f1,f2,cc,insf)
@@ -829,19 +845,19 @@ function Auxiliary.AddFusionProcFunFun(c,f1,f2,cc,insf)
 	for i=1,cc do
 		fun[i]=f2
 	end
-	Auxiliary.AddFusionProcMix(c,false,insf,f1,table.unpack(fun))
+	return Auxiliary.AddFusionProcMix(c,false,insf,f1,table.unpack(fun))
 end
 --Fusion monster, condition1 + condition2 * minc to maxc
 function Auxiliary.AddFusionProcFunFunRep(c,f1,f2,minc,maxc,insf)
-	Auxiliary.AddFusionProcMixRep(c,false,insf,f2,minc,maxc,f1)
+	return Auxiliary.AddFusionProcMixRep(c,false,insf,f2,minc,maxc,f1)
 end
 --Fusion monster, name + condition * minc to maxc
 function Auxiliary.AddFusionProcCodeFunRep(c,code1,f,minc,maxc,sub,insf)
-	Auxiliary.AddFusionProcMixRep(c,sub,insf,f,minc,maxc,code1)
+	return Auxiliary.AddFusionProcMixRep(c,sub,insf,f,minc,maxc,code1)
 end
 --Fusion monster, name + name + condition * minc to maxc
 function Auxiliary.AddFusionProcCode2FunRep(c,code1,code2,f,minc,maxc,sub,insf)
-	Auxiliary.AddFusionProcMixRep(c,sub,insf,f,minc,maxc,code1,code2)
+	return Auxiliary.AddFusionProcMixRep(c,sub,insf,f,minc,maxc,code1,code2)
 end
 --Fusion monster, any number of name/condition * n - fixed
 function Auxiliary.AddFusionProcMixN(c,sub,insf,...)
@@ -864,7 +880,7 @@ function Auxiliary.AddFusionProcMixN(c,sub,insf,...)
 			table.insert(fun,t[i])
 		end
 	end
-	Auxiliary.AddFusionProcMix(c,sub,insf,table.unpack(fun))
+	return Auxiliary.AddFusionProcMix(c,sub,insf,table.unpack(fun))
 end
 --Shaddoll Fusion monster, 1 function + 1 attribute
 function Auxiliary.AddShaddollFusionProcMix(c,insf,f,att)
@@ -885,6 +901,7 @@ function Auxiliary.AddShaddollFusionProcMix(c,insf,f,att)
 	e1:SetCondition(Auxiliary.ShaddollFCondition(insf,f1,f2))
 	e1:SetOperation(Auxiliary.ShaddollFOperation(insf,f1,f2))
 	c:RegisterEffect(e1)
+	return {e1}
 end
 function Auxiliary.ShaddollExFilter(c,g,fc,tp,f1,f2)
 	return c:IsFaceup() and c:IsCanBeFusionMaterial(fc) and not g:IsContains(c) 

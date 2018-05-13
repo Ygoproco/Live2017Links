@@ -128,7 +128,7 @@ function c76647978.mgfilter(c,e,tp,fusc,mg)
 	return c:IsControler(tp) and c:IsLocation(LOCATION_GRAVE)
 		and bit.band(c:GetReason(),0x40008)==0x40008 and c:GetReasonCard()==fusc
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and fusc:CheckFusionMaterial(mg,c)
+		and fusc:CheckFusionMaterial(mg,c,PLAYER_NONE+65536)
 end
 function c76647978.spfilter(c,e,tp)
 	local g=UltraPolyTable[e:GetHandler()]:GetLabelObject()
