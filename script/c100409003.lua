@@ -16,7 +16,7 @@ function c100409003.initial_effect(c)
 end
 c100409003.listed_names={89631139,23995346}
 function c100409003.filter(c)
-	return ( (c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER)) or ( (aux.IsCodeListed(c,89631139) or aux.IsCodeListed(c,23995346)) and c:IsType(TYPE_SPELL+TYPE_TRAP) and not c:IsCode(100409003) ) 
+	return ( (c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER)) ) or ( (aux.IsCodeListed(c,89631139) or aux.IsCodeListed(c,23995346)) and c:IsType(TYPE_SPELL+TYPE_TRAP) and not c:IsCode(100409003) ) 
 		and c:IsAbleToHand()
 end
 function c100409003.target(e,tp,eg,ep,ev,re,r,rp,chk)
