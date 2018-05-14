@@ -44,6 +44,7 @@ function c100409023.initial_effect(c)
 	e5:SetCode(EVENT_PHASE+PHASE_END)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetCountLimit(1)
+	e5:SetCondition(c100409023.descon)
 	e5:SetTarget(c100409023.destg)
 	e5:SetOperation(c100409023.desop)
 	c:RegisterEffect(e5)
@@ -73,6 +74,9 @@ function c100409023.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsRelateToEffect(e) then
 		Duel.GetControl(tc,tp)
 	end
+end
+function c100409023.descon(e,tp,eg,ep,ev,re,r,rp)
+    return tp==Duel.GetTurnPlayer()
 end
 function c100409023.desfilter(c)
 	return c:IsFaceup() and c:GetCounter(0x1002)==1
