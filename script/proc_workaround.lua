@@ -5,6 +5,13 @@ end
 function Card.IsInExtraMZone(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:GetSequence()>4 and (not tp or c:IsControler(tp))
 end
+function GetID()
+    local str=string.match(debug.getinfo(2,'S')['source'],"c%d+%.lua")
+    str=string.sub(str,1,string.len(str)-4)
+    local scard=_G[str]
+    local s_id=tonumber(string.sub(str,2))
+    return scard,s_id
+end
 
 --workaround for gryphon while update not happen and fix that (credits to cc/l)
 local ils = Card.IsLinkState
