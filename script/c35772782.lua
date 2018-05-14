@@ -69,7 +69,7 @@ function c35772782.aclimit(e,re,tp)
 end
 function c35772782.dicecon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetOverlayGroupCount()>0 and c:GetFlagEffect(35772782)==0
+	return c:GetOverlayCount()>0 and c:GetFlagEffect(35772782)==0
 end
 function c35772782.diceop(e,tp,eg,ep,ev,re,r,rp)
 	local cc=Duel.GetCurrentChain()
