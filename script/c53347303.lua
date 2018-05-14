@@ -44,6 +44,7 @@ function c53347303.initial_effect(c)
 	e5:SetCode(3682106)
 	c:RegisterEffect(e5)
 end
+c53347303.listed_names={23995346}
 function c53347303.cfilter(c,ft,tp)
 	return c:IsCode(23995346) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp))
 end

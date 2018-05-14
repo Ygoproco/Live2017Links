@@ -44,6 +44,7 @@ function c45467446.initial_effect(c)
 	e6:SetValue(0xdd)
 	c:RegisterEffect(e6)
 end
+c45467446.listed_names={89631139}
 function c45467446.rmfilter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToRemove()
 end
