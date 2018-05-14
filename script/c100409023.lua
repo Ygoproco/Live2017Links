@@ -54,15 +54,18 @@ end
 function c100409023.acop(e,tp,eg,ep,ev,re,r,rp)
 	local p=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_PLAYER)
 	local c=e:GetHandler()
-	if re:IsActiveType(TYPE_MONSTER) and re:GetCounter(0x1002)==0 and p~=tp and c:GetFlagEffect(1)>0 then
-		re:AddCounter(0x1002,1)
+	if re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetCounter(0x1002)==0 and p~=tp and c:GetFlagEffect(1)>0 then
+		re:GetHandler():AddCounter(0x1002,1)
 	end
 end
+function c100409023.filter(c)
+	return c:GetCounter(0x1002)>0 and c:IsControlerCanBeChanged()
+end
 function c100409023.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and chkc:IsControlerCanBeChanged() and chkc:GetCounter(0x1002)==1 end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsControlerCanBeChanged,tp,0,LOCATION_MZONE,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c100409023.filter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c100409023.filter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	local g=Duel.SelectTarget(tp,Card.IsControlerCanBeChanged,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,c100409023.filter,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_CONTROL,g,1,0,0)
 end
 function c100409023.ctop(e,tp,eg,ep,ev,re,r,rp)
@@ -75,7 +78,7 @@ function c100409023.desfilter(c)
 	return c:IsFaceup() and c:GetCounter(0x1002)==1
 end
 function c100409023.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.IsExistingMatchingCard(c100409023.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	local g=Duel.GetMatchingGroup(c100409023.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 end
