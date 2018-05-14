@@ -961,7 +961,7 @@ function Auxiliary.ShaddollFCondition(insf,f1,f2)
 					return mustg:GetCount()==0 end
 				local chkf=chkf&0xff
 				local c=e:GetHandler()
-				local mg=g:Filter(Auxiliary.FConditionFilterMix,nil,c,true,true,false,tp,f1,f2)
+				local mg=g:Filter(Auxiliary.FConditionFilterMix,nil,c,true,true,false,0,tp,f1,f2)
 				local tp=e:GetHandlerPlayer()
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_FUSION)
 				if gc then mustg:Merge(gc) end
@@ -989,7 +989,7 @@ function Auxiliary.ShaddollFOperation(insf,f1,f2)
 				local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 				local tp=e:GetHandlerPlayer()
 				local exg=Group.CreateGroup()
-				local mg=eg:Filter(Auxiliary.FConditionFilterMix,nil,c,true,true,false,tp,f1,f2)
+				local mg=eg:Filter(Auxiliary.FConditionFilterMix,nil,c,true,true,false,0,tp,f1,f2)
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_FUSION)
 				if gc then mustg:Merge(gc) end
 				local p=tp
