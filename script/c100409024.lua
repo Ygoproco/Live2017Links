@@ -48,11 +48,11 @@ function c100409024.tfop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 		if c:IsSummonable(true,nil) and c:IsAbleToGrave() then
-			op=Duel.SelectOption(tp,aux.Stringid(100409024,1),aux.Stringid(100409024,2))
+			op=Duel.SelectOption(tp,aux.Stringid(100409024,2),aux.Stringid(100409024,1))
 		elseif c:IsAbleToGrave() then
-			op=Duel.SelectOption(tp,aux.Stringid(100409024,1))
-		else
 			op=Duel.SelectOption(tp,aux.Stringid(100409024,2))+1
+		else
+			op=Duel.SelectOption(tp,aux.Stringid(100409024,1))
 		end
 		e:SetLabel(op)
 		if op==0 then
