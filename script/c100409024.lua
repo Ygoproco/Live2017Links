@@ -56,9 +56,9 @@ function c100409024.tfop(e,tp,eg,ep,ev,re,r,rp)
 		end
 		e:SetLabel(op)
 		if op==0 then
-			Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
-		else		
 			Duel.Summon(tp,c,true,nil)
+		else		
+			Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
 		end
 	end
 	local e2=Effect.CreateEffect(c)
