@@ -3,7 +3,7 @@
 --Scripted by Eerie Code
 function c100200150.initial_effect(c)
 	--pendulum summon
-	aux.EnablePendulumAttribute(c,false)
+	aux.EnablePendulumAttribute(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(1160)
