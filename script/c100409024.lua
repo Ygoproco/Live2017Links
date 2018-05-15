@@ -35,6 +35,14 @@ function c100409024.tftg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c100409024.tfop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	local e0=Effect.CreateEffect(c)
+	e0:SetType(EFFECT_TYPE_FIELD)
+	e0:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e0:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e0:SetReset(RESET_PHASE+PHASE_END)
+	e0:SetTargetRange(1,0)
+	e0:SetTarget(c100409024.splimit)
+	Duel.RegisterEffect(e0,tp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
 	local tc=Duel.GetFirstMatchingCard(c100409024.tffilter,tp,LOCATION_DECK,0,nil)
@@ -78,4 +86,7 @@ end
 function c100409024.gyop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
 	Duel.Damage(tp,1000,REASON_EFFECT)
+end
+function c100409024.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return c:IsLocation(LOCATION_EXTRA) and not c:IsAttribute(ATTRIBUTE_DARK)
 end
