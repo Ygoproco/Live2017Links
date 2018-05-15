@@ -17,13 +17,14 @@ function c8955148.costfilter(c)
 	return c:IsCode(72566043) and c:IsAbleToDeck()
 end
 function c8955148.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsAbleToDeck() and chkc~=e:GetHandler() end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsAbleToDeck() and chkc:IsControler(tp)  and chkc~=e:GetHandler()  and Duel.IsPlayerCanDraw(tp,1)  end
 	if chk==0 then return e:GetHandler():IsAbleToDeck()
-		and Duel.IsExistingTarget(c8955148.costfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,e:GetHandler()) end
+		and Duel.IsExistingTarget(c8955148.costfilter,tp,LOCATION_GRAVE,0,1,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c8955148.costfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,e:GetHandler())
+	local g=Duel.SelectTarget(tp,c8955148.costfilter,tp,LOCATION_GRAVE,0,1,1,e:GetHandler())
 	g:AddCard(e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
 function c8955148.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -36,4 +37,3 @@ function c8955148.tdop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.Draw(tp,1,REASON_EFFECT)
 	end
 end
-

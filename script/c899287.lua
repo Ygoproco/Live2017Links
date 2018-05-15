@@ -46,11 +46,14 @@ function c899287.thop(e,tp,eg,ep,ev,re,r,rp,chk)
 		Duel.ConfirmCards(1-tp,tg)
 	end
 end
+function c899287.filter(c)
+	return c:GetSequence()<5
+end
 function c899287.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsControler(1-tp) end
-	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,0,LOCATION_SZONE,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_SZONE) and c899287.filter(chkc) and chkc:IsControler(1-tp) end
+	if chk==0 then return Duel.IsExistingTarget(c899287.filter,tp,0,LOCATION_SZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,function(c) return c:GetSequence()<5 end,tp,0,LOCATION_SZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,c899287.filter,tp,0,LOCATION_SZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function c899287.desop(e,tp,eg,ep,ev,re,r,rp)
@@ -59,4 +62,3 @@ function c899287.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
-
