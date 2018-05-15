@@ -61,7 +61,9 @@ function c9547962.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsControler(tp) then
-		Duel.GetControl(tc,1-tp)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+		Duel.GetControl(tc,1-tp,0,0,zone)
 	end
 end
 function c9547962.cfilter(c)
@@ -86,4 +88,3 @@ function c9547962.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
-
