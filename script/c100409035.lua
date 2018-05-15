@@ -15,7 +15,7 @@ function c100409035.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_SPSUMMON_CONDITION)
-	e2:SetValue(c100409035.spcon2)
+	-- e2:SetValue(c100409035.spcon2)
 	c:RegisterEffect(e2)
 	--search
 	local e3=Effect.CreateEffect(c)
@@ -25,8 +25,8 @@ function c100409035.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e3:SetCost(c100409035.cost)
-	e3:SetTarget(c100409035.thtg1)
-	e3:SetOperation(c100409035.tgop1)
+	e3:SetTarget(c100409035.thtg)
+	e3:SetOperation(c100409035.tgop)
 	c:RegisterEffect(e3)
 	--cannot attack
 	local e4=Effect.CreateEffect(c)
@@ -51,7 +51,7 @@ function c100409035.spcon(e,c)
 	if Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)<=0 then return false end
 	local g=Duel.GetMatchingGroup(c100409035.cfilter,c:GetControler(),LOCATION_MZONE,0,nil)
 	local ct=g:GetCount()
-	return ct>1
+	return ct>=1
 end
 function c100409035.spcon2(e)
 	return e:GetHandler():IsLocation(LOCATION_HAND)
