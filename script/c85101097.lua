@@ -68,7 +68,7 @@ function c85101097.ctlop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0
 		and c:IsRelateToEffect(e) and c:IsFaceup() then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16
 		Duel.GetControl(c,1-tp,0,0,zone)
 	end
 end

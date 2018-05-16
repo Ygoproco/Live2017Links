@@ -31,7 +31,7 @@ function c52702748.ctlop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+	local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16
 	Duel.GetControl(c,1-tp,0,0,zone)
 end
 function c52702748.rmfilter(c,p)
