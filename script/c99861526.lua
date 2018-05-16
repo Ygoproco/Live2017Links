@@ -38,7 +38,7 @@ function c99861526.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
 	local ec = #eg==1 and eg:GetFirst() or eg:Select(tp,1,1,nil):GetFirst()
 	if c==ec then
-		Duel.ChangeBattleDamage(ep,c:GetBaseAttack())
+		Duel.ChangeBattleDamage(ep,c:GetBaseAttack(),false)
 	end
 end
 function c99861526.poscon(e,tp,eg,ep,ev,re,r,rp)

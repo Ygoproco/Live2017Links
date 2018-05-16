@@ -80,7 +80,7 @@ function c34568403.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if c:GetFlagEffectLabel(36690018)==0 and c:GetFlagEffectLabel(34568403)==0 then
 		c:SetFlagEffectLabel(34568403,1)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16
 		Duel.GetControl(c,1-tp,0,0,zone)
 	end
 end

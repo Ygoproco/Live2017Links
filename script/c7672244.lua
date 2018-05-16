@@ -25,7 +25,7 @@ function c7672244.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16
 		Duel.GetControl(tc,1-tp,PHASE_END,1,zone)
 	end
 end
