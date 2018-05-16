@@ -34,7 +34,7 @@ function c100200150.initial_effect(c)
 	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e4)
 end
-function c100200150.reg(e,tp,eg,ep,ev,re,r,rp)
+function c100200150.reg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	e:GetHandler():RegisterFlagEffect(100200150,RESET_PHASE+PHASE_END,EFFECT_FLAG_OATH,1)
 end
