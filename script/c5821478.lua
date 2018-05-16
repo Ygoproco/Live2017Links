@@ -25,19 +25,12 @@ function c5821478.initial_effect(c)
 	e2:SetOperation(c5821478.damop)
 	c:RegisterEffect(e2)
 end
-function c5821478.cfilter(c,zone)
-	local seq=0
-	if c:IsLocation(LOCATION_MZONE) then
-		seq=c:GetSequence()
-	else
-		seq=1<<c:GetPreviousSequence()
-	end
-	if c:IsControler(1) then seq=seq+16 end
-	return bit.extract(zone,seq)~=0
-end
 function c5821478.descon(e,tp,eg,ep,ev,re,r,rp)
-	local zone=Duel.GetLinkedZone(0)+Duel.GetLinkedZone(1)*0x10000
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c5821478.cfilter,1,nil,zone)
+    for tc in aux.Next(Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_MZONE,LOCATION_MZONE,nil,TYPE_LINK)) do
+        local lg=tc:GetLinkedGroup()
+        if #lg~=#(lg-eg) then return true end
+    end
+    return false
 end
 function c5821478.desfilter(c)
 	return c:GetSequence()<5
