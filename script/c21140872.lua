@@ -48,6 +48,7 @@ function c21140872.initial_effect(c)
 	e3:SetLabelObject(e4)
 	c:RegisterEffect(e3)
 end
+c21140872.listed_names={74677422}
 c21140872.material_setcode=0x3b
 function c21140872.eqcon(e)
 	return Duel.GetAttacker():IsSetCard(0x3b)
