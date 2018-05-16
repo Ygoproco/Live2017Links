@@ -5,15 +5,15 @@ function c100409034.initial_effect(c)
 	aux.AddXyzProcedure(c,nil,4,2)
 	c:EnableReviveLimit()
 	--summon success
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(100409034,0))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(100409034,0))
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCondition(c100409034.spcon)
-	e2:SetTarget(c100409034.sptg)
-	e2:SetOperation(c100409034.spop)
-	c:RegisterEffect(e2)
+	e1:SetTarget(c100409034.sptg)
+	e1:SetOperation(c100409034.spop)
+	c:RegisterEffect(e1)
 	--indes
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD)
@@ -72,7 +72,9 @@ end
 function c100409034.indcon(e)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
 end
-
+function c100409034.indval(e,re,rp)
+	return rp~=e:GetHandlerPlayer()
+end
 function c100409034.spcon2(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
@@ -86,9 +88,9 @@ end
 function c100409034.sptg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c100409034.spfilter(chkc,e,tp) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c100409034.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVE,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(c100409034.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectTarget(tp,c100409034.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVE,0,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,c100409034.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c100409034.spop2(e,tp,eg,ep,ev,re,r,rp)
