@@ -46,7 +46,7 @@ function c71652522.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if tc:GetFlagEffect(71652522)~=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+		local zone=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16
 		Duel.GetControl(tc,1-tp,0,0,zone)
 	end
 end

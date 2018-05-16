@@ -66,7 +66,7 @@ function c35262428.ctlop(e,tp,eg,ep,ev,re,r,rp)
 	local p=e:GetLabel()
 	if tc:IsControler(1-p) then
 		Duel.Hint(HINT_SELECTMSG,1-p,HINTMSG_TOZONE)
-		local zone=Duel.SelectDisableField(1-p,1,0,LOCATION_MZONE,0)
+		local zone=Duel.SelectDisableField(1-p,1,0,LOCATION_MZONE,0)>>16
 		Duel.GetControl(tc,p,0,0,zone)
 	end
 end
