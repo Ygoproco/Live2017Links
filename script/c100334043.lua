@@ -25,7 +25,7 @@ function c100334043.spfilter(c,e,tp,zone,code)
 	return c:IsSetCard(0x101) and c:GetOriginalCode()~=code
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 end
-function c100334043.spcfilter(c,g,zone,e)
+function c100334043.spcfilter(c,g,zone,e,tp)
 	return c:IsRace(RACE_CYBERSE) and (zone~=0 or g:IsContains(c))
 		and Duel.IsExistingTarget(c100334043.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,zone,c:GetOriginalCode()) 
 end
@@ -34,9 +34,9 @@ function c100334043.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lg=c:GetLinkedGroup()
 	local zone=c:GetFreeLinkedZone()&0x1f
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c100334043.spfilter(chkc,e,tp,zone) end
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c100334043.spcfilter,1,false,nil,c,lg,zone,e) end
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c100334043.spcfilter,1,false,nil,c,lg,zone,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local tc=Duel.SelectReleaseGroupCost(tp,c100334043.spcfilter,1,1,false,nil,c,lg,zone,e)
+	local tc=Duel.SelectReleaseGroupCost(tp,c100334043.spcfilter,1,1,false,nil,c,lg,zone,e,tp)
 	Duel.Release(tc,REASON_COST)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,c100334043.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp,c:GetFreeLinkedZone()&0x1f,tc:GetFirst():GetOriginalCode())
