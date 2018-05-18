@@ -43,8 +43,7 @@ function c46294982.ntcon(e,c,minc)
 		and fc and c46294982.ffilter(fc)
 end
 function c46294982.condition(e,tp,eg,ep,ev,re,r,rp)
-	local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
-	return fc and c46294982.ffilter(fc)
+	return Duel.IsExistingMatchingCard(c46294982.ffilter,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 end
 function c46294982.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc~=e:GetHandler() end
