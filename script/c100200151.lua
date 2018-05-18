@@ -10,7 +10,7 @@ function c100200151.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_PZONE)
 	e1:SetCountLimit(1,100200151)
-	e1:SetCost(c100200151.spcost1)
+	e1:SetCost(c100200151.cost)
 	e1:SetTarget(c100200151.sptg1)
 	e1:SetOperation(c100200151.spop1)
 	c:RegisterEffect(e1)
@@ -120,7 +120,7 @@ function c100200151.excheck(sg,tp,exg,mg)
 	return mg:IsExists(c100200151.exkfilter,1,nil,sg,tp)
 end
 function c100200151.extg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local mg=Duel.GetMatchingGroup(c100200151.exfilter,tp,LOCATION_DECK,0,nil,e,tp)
+	local mg=Duel.GetMatchingGroup(c100200151.exfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
 	if chk==0 then
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
@@ -137,7 +137,7 @@ function c100200151.exop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c100200151.exfilter,tp,LOCATION_EXTRA,0,nil,e,tp):Filter(Card.IsLevel,nil,e:GetLabel())
 	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local tg=g:GetFirst(tp,1,1,nil):GetFirst()
+		local tc=g:Select(tp,1,1,nil):GetFirst()
 		Duel.SpecialSummon(tc,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
 		tc:CompleteProcedure()
 	end
