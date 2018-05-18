@@ -53,10 +53,11 @@ function c100409023.efilter(e,te)
 	return te:GetOwner()~=e:GetOwner()
 end
 function c100409023.acop(e,tp,eg,ep,ev,re,r,rp)
-	local p=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_PLAYER)
+	local p,loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_PLAYER,CHAININFO_TRIGGERING_LOCATION)
 	local c=e:GetHandler()
-	if re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetCounter(0x1002)==0 and p~=tp and c:GetFlagEffect(1)>0 then
+	if re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetCounter(0x1002)==0 and p~=tp and loc==LOCATION_MZONE and c:GetFlagEffect(1)>0 then
 		re:GetHandler():AddCounter(0x1002,1)
+
 	end
 end
 function c100409023.filter(c)
