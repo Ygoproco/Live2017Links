@@ -1,5 +1,5 @@
 --フォトン・バニッシャー
--- Photon Vanisher
+--Photon Vanisher
 function c100409035.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon
@@ -80,11 +80,10 @@ end
 function c100409035.efop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=c:GetReasonCard()
-	local e1=Effect.CreateEffect(rc)
+	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(100409035,2))
 	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_CLIENT_HINT)
-	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 	e1:SetCode(EFFECT_BATTLE_DESTROY_REDIRECT)
 	e1:SetValue(LOCATION_REMOVED)
 	e1:SetReset(RESET_EVENT+0x1fe0000)
