@@ -77,8 +77,9 @@ function c87460579.disop2(e,tp,eg,ep,ev,re,r,rp)
 end
 function c87460579.sccon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return (c:IsReason(REASON_BATTLE) or (c:GetReasonPlayer()~=tp and c:IsReason(REASON_EFFECT)))
-		and c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and c:IsSummonType(SUMMON_TYPE_SYNCHRO)
+	return (c:IsReason(REASON_BATTLE) or
+		(c:GetReasonPlayer()~=tp and c:IsReason(REASON_EFFECT) and c:GetPreviousControler()==tp))
+		and c:IsPreviousPosition(POS_FACEUP) and c:IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 function c87460579.filter(c,e,tp)
 	return c:IsSetCard(0xe6) and c:IsType(TYPE_SYNCHRO) and not c:IsCode(87460579) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
