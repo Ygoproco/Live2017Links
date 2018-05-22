@@ -116,7 +116,7 @@ function c63492244.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetLabelObject(tc)
 		e3:SetCondition(c63492244.agcon)
 		e3:SetOperation(c63492244.agop)
-		Duel.RegisterEffect(e3,1-tp)
+		Duel.RegisterEffect(e3,tp)
 		--activate check
 		local e4=Effect.CreateEffect(c)
 		e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
