@@ -60,11 +60,10 @@ function c49477180.mtop(e,tp,eg,ep,ev,re,r,rp)
 	if not rc then return end
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(49477180,1))
-	e1:SetCategory(CATEGORY_DESTROY)
+	e1:SetCategory(CATEGORY_HANDES+CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_BATTLED)
-	e1:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-	e1:SetCountLimit(1)
+	e1:SetCountLimit(1,49477181)
 	e1:SetTarget(c49477180.drtg)
 	e1:SetOperation(c49477180.drop)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
@@ -93,4 +92,3 @@ function c49477180.drop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.DiscardHand(tp,nil,1,1,REASON_EFFECT+REASON_DISCARD)
 	end
 end
-
