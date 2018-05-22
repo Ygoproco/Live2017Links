@@ -96,7 +96,7 @@ function c35371948.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetLabelObject(tc)
 		e3:SetCondition(c35371948.agcon)
 		e3:SetOperation(c35371948.agop)
-		Duel.RegisterEffect(e3,1-tp)
+		Duel.RegisterEffect(e3,tp)
 		--activate check
 		local e4=Effect.CreateEffect(c)
 		e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -141,7 +141,7 @@ function c35371948.agcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c35371948.agop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	Duel.SendtoGrave(tc,REASON_RULE)
+	Duel.SendtoGrave(tc,REASON_EFFECT)
 end
 function c35371948.rstop2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
