@@ -116,7 +116,7 @@ function c63492244.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetLabelObject(tc)
 		e3:SetCondition(c63492244.agcon)
 		e3:SetOperation(c63492244.agop)
-		Duel.RegisterEffect(e3,tp)
+		Duel.RegisterEffect(e3,1-tp)
 	end
 end
 function c63492244.rcon(e)
@@ -151,5 +151,5 @@ function c63492244.agcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c63492244.agop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	Duel.SendtoHand(tc,nil,REASON_EFFECT)
+	Duel.SendtoHand(tc,nil,REASON_RULE)
 end
