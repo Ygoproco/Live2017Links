@@ -96,7 +96,7 @@ function c35371948.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetLabelObject(tc)
 		e3:SetCondition(c35371948.agcon)
 		e3:SetOperation(c35371948.agop)
-		Duel.RegisterEffect(e3,tp)
+		Duel.RegisterEffect(e3,1-tp)
 	end
 end
 function c35371948.rcon(e)
@@ -131,7 +131,7 @@ function c35371948.agcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c35371948.agop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	Duel.SendtoGrave(tc,REASON_EFFECT)
+	Duel.SendtoGrave(tc,REASON_RULE)
 end
 function c35371948.damcon1(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and eg:GetFirst():IsSetCard(0xfb)
