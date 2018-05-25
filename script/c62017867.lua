@@ -43,19 +43,17 @@ function c62017867.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetDecktopGroup(tp,1)
 	local tc=g:GetFirst()
 	Duel.DisableShuffleCheck()
-	if tc:IsSetCard(0x9a) then
-		if Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 then
-		  	Duel.ShuffleHand(tp)
-		  	local at=Duel.GetAttacker()
-		  	if at:IsFaceup() and at:IsRelateToBattle() then
-			  	local e1=Effect.CreateEffect(e:GetHandler())
-			  	e1:SetType(EFFECT_TYPE_SINGLE)
-			  	e1:SetCode(EFFECT_SET_ATTACK_FINAL)
-			  	e1:SetValue(0)
-			 	e1:SetReset(RESET_EVENT+0x1fe0000)
-				at:RegisterEffect(e1)
-			end
-    	end
+	if tc:IsSetCard(0x9a) and Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 then
+		Duel.ShuffleHand(tp)
+		local at=Duel.GetAttacker()
+		if at:IsFaceup() and at:IsRelateToBattle() then
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_SET_ATTACK_FINAL)
+			e1:SetValue(0)
+			e1:SetReset(RESET_EVENT+0x1fe0000)
+			at:RegisterEffect(e1)
+		end
 	else
 		Duel.SendtoGrave(tc,REASON_EFFECT+REASON_REVEAL)
 	end
