@@ -1,42 +1,42 @@
 --撃滅龍 ダーク・アームド
 --Dark Armed, the Annihilator Dragon
 --Scripted by ahtelel
-function c100228003.initial_effect(c)
+function c78144171.initial_effect(c)
 	--xyz summon
-	aux.AddXyzProcedure(c,nil,7,2,c100228003.ovfilter,aux.Stringid(100228003,0),99,c100228003.xyzop)
+	aux.AddXyzProcedure(c,nil,7,2,c78144171.ovfilter,aux.Stringid(78144171,0),99,c78144171.xyzop)
 	c:EnableReviveLimit()
 	--destroy
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_REMOVE)
-	e1:SetDescription(aux.Stringid(100228003,1))
+	e1:SetDescription(aux.Stringid(78144171,1))
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCost(c100228003.cost)
-	e1:SetTarget(c100228003.target)
-	e1:SetOperation(c100228003.operation)
+	e1:SetCost(c78144171.cost)
+	e1:SetTarget(c78144171.target)
+	e1:SetOperation(c78144171.operation)
 	c:RegisterEffect(e1,false,1)
 end
-function c100228003.ovfilter(c)
+function c78144171.ovfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsLevelAbove(5) and Duel.GetMatchingGroupCount(Card.IsAttribute,c:GetControler(),LOCATION_GRAVE,0,nil,ATTRIBUTE_DARK)==5
 end
-function c100228003.xyzop(e,tp,chk)
-	if chk==0 then return Duel.GetFlagEffect(tp,100228003)==0 end
-	Duel.RegisterFlagEffect(tp,100228003,RESET_PHASE+PHASE_END,0,1)
+function c78144171.xyzop(e,tp,chk)
+	if chk==0 then return Duel.GetFlagEffect(tp,78144171)==0 end
+	Duel.RegisterFlagEffect(tp,78144171,RESET_PHASE+PHASE_END,0,1)
 	return true
 end
-function c100228003.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function c78144171.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
-function c100228003.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function c78144171.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) end
 	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,0,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
-function c100228003.operation(e,tp,eg,ep,ev,re,r,rp)
+function c78144171.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		if Duel.Destroy(tc,REASON_EFFECT)~=0 then
