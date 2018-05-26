@@ -76,7 +76,8 @@ end
 function c60222213.damop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local g=Duel.SelectMatchingCard(tp,c60222213.damfilter,tp,0,LOCATION_MZONE,1,1,nil,e)
+	local g=Duel.GetMatchingGroup(c60222213.damfilter,tp,0,LOCATION_MZONE,nil,e)
+	if g:GetCount()>1 then g=g:Select(tp,1,1,nil) end
 	local tc=g:GetFirst()
 	if tc and c:IsRelateToEffect(e) then
 		local atk=tc:GetAttack()
