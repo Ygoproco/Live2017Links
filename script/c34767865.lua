@@ -45,8 +45,7 @@ function c34767865.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanSpecialSummonMonster(tp,34767866,0,0x4011,0,0,4,RACE_CYBERSE,ATTRIBUTE_LIGHT) then return end
 	for i=1,2 do
 		local token=Duel.CreateToken(tp,34767866)
-		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
+		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 	Duel.SpecialSummonComplete()
 end
-
