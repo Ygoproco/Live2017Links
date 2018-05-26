@@ -15,6 +15,7 @@ function c24010609.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCountLimit(1)
+	e2:SetCondition(c24010609.tgcon)
 	e2:SetTarget(c24010609.tgtg)
 	e2:SetOperation(c24010609.tgop)
 	c:RegisterEffect(e2)
@@ -45,6 +46,9 @@ function c24010609.initial_effect(c)
 	e6:SetOperation(c24010609.clearop)
 	c:RegisterEffect(e6)
 end
+function c24010609.tgcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetFlagEffect(tp,24010609)==0
+end
 function c24010609.tgtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
 	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) and chkc~=c end
@@ -54,16 +58,17 @@ function c24010609.tgtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,1,0,0)
 end
 function c24010609.tgop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if not tc:IsRelateToEffect(e) then return end
+	Duel.SendtoGrave(tc,REASON_EFFECT)
+	if Duel.GetFlagEffect(tp,24010609)~=0 then return end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_CHAINING)
 	e1:SetOperation(c24010609.actop)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
-	local tc=Duel.GetFirstTarget()
-	if not tc:IsRelateToEffect(e) then return end
-	Duel.BreakEffect()
-	Duel.SendtoGrave(tc,REASON_EFFECT)
+	Duel.RegisterFlagEffect(tp,24010609,RESET_PHASE+PHASE_END,0,1)
 end
 function c24010609.actop(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
