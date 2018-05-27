@@ -11,31 +11,24 @@ function c6556178.initial_effect(c)
 	e1:SetTarget(c6556178.target)
 	e1:SetOperation(c6556178.operation)
 	c:RegisterEffect(e1)
-	--destroy
+	--banish when leaving the field
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
-	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetCode(EVENT_LEAVE_FIELD_P)
-	e2:SetOperation(c6556178.checkop)
+	e2:SetCode(EVENT_LEAVE_FIELD)
+	e2:SetOperation(c6556178.desop)
 	c:RegisterEffect(e2)
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
-	e3:SetCode(EVENT_LEAVE_FIELD)
-	e3:SetOperation(c6556178.rmop)
-	e3:SetLabelObject(e2)
-	c:RegisterEffect(e3)
 	--to hand
-	local e8=Effect.CreateEffect(c)
-	e8:SetDescription(aux.Stringid(6556178,1))
-	e8:SetCategory(CATEGORY_DRAW)
-	e8:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e8:SetProperty(EFFECT_FLAG_DELAY)
-	e8:SetCode(EVENT_TO_GRAVE)
-	e8:SetCountLimit(1,60162471)
-	e8:SetCondition(c6556178.drcon)
-	e8:SetTarget(c6556178.drtg)
-	e8:SetOperation(c6556178.drop)
-	c:RegisterEffect(e8)
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(6556178,1))
+	e3:SetCategory(CATEGORY_DRAW)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetProperty(EFFECT_FLAG_DELAY)
+	e3:SetCode(EVENT_TO_GRAVE)
+	e3:SetCountLimit(1,60162471)
+	e3:SetCondition(c6556178.drcon)
+	e3:SetTarget(c6556178.drtg)
+	e3:SetOperation(c6556178.drop)
+	c:RegisterEffect(e3)
 end
 function c6556178.spfilter(c,e,tp)
 	return c:IsSetCard(0x102) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -69,15 +62,9 @@ end
 function c6556178.eqlimit(e,c)
 	return e:GetOwner()==c
 end
-function c6556178.checkop(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetHandler():IsDisabled() then
-		e:SetLabel(1)
-	else e:SetLabel(0) end
-end
-function c6556178.rmop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local tc=c:GetFirstCardTarget()
-	if c:IsReason(REASON_DESTROY) and tc and tc:IsLocation(LOCATION_MZONE) then
+function c6556178.desop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetHandler():GetFirstCardTarget()
+	if tc and tc:IsLocation(LOCATION_MZONE) then
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
 end
