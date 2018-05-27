@@ -60,8 +60,10 @@ function c59160188.condition(e)
 	return e:GetHandler():GetFlagEffect(59160188)==0
 end
 function c59160188.regop(e,tp,eg,ep,ev,re,r,rp)
-	local val=e:GetLabelObject():GetLabel()
-	e:GetLabelObject():SetLabel(val+eg:GetCount())
+	if eg:GetFirst():IsType(TYPE_MONSTER) then
+		local val=e:GetLabelObject():GetLabel()
+		e:GetLabelObject():SetLabel(val+eg:GetCount())
+	end
 end
 function c59160188.clearop(e,tp,eg,ep,ev,re,r,rp)
 	e:GetLabelObject():SetLabel(0)
