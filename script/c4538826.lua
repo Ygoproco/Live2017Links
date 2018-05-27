@@ -131,6 +131,7 @@ function c4538826.gyop(e,tp,eg,ep,ev,re,r,rp)
 	if oc==0 then return end
 	local og=Duel.SelectMatchingCard(tp,nil,tp,0,LOCATION_ONFIELD,1,oc,nil)
 	if Duel.SendtoGrave(og,REASON_EFFECT)>0 then
+		Duel.BreakEffect()
 		local dc=Duel.GetOperatedGroup():FilterCount(c4538826.sgfilter,nil,1-tp)
 		Duel.Damage(1-tp,dc*300,REASON_EFFECT)
 	end

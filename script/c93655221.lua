@@ -59,12 +59,7 @@ function c93655221.activate(e,tp,eg,ep,ev,re,r,rp)
         e2:SetCode(EFFECT_DISABLE_EFFECT)
         e2:SetValue(RESET_TURN_SET)
         hc:RegisterEffect(e2)
-        if hc:IsType(TYPE_TRAPMONSTER) then
-            local e3=e1:Clone()
-            e3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-            hc:RegisterEffect(e3)
-        end
-        if not hc:IsImmuneToEffect(e1) and not hc:IsImmuneToEffect(e2) and (not e3 or not hc:IsImmuneToEffect(e3))
+        if not hc:IsImmuneToEffect(e1) and not hc:IsImmuneToEffect(e2)
             and tc:IsRelateToEffect(e) and tc:IsFaceup() and c:IsRelateToEffect(e) then
             Duel.Equip(tp,c,tc)
             c:CancelToGrave()
@@ -83,7 +78,11 @@ function c93655221.activate(e,tp,eg,ep,ev,re,r,rp)
             e2:SetLabelObject(tc)
             e2:SetReset(RESET_EVENT+0x1fe0000)
             c:RegisterEffect(e2)
+        else
+            c:CancelToGrave(false)
         end
+    else
+        c:CancelToGrave(false)
     end
 end
 function c93655221.eqlimit(e,c)
