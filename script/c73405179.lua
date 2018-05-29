@@ -27,8 +27,8 @@ c73405179.listed_names={72283691}
 function c73405179.atkfilter(c)
 	return c:IsFaceup() and c:IsCode(41916534)
 end
-function c73405179.atkcond(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c73405179.atkfilter,tp,LOCATION_MZONE,0,1,nil)
+function c73405179.atkcond(e)
+	return Duel.IsExistingMatchingCard(c73405179.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function c73405179.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
