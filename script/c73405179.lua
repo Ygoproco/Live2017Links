@@ -36,9 +36,12 @@ end
 function c73405179.thfilter(c,fc)
 	return (c:IsCode(41916534) or (fc and c:IsRace(RACE_WARRIOR))) and c:IsAbleToHand()
 end
+function c73405179.fieldcond(c)
+	return c:IsFaceup() and c:IsCode(72283691)
+end
 function c73405179.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
-		local fc=Duel.IsEnvironment(72283691)
+		local fc=Duel.IsExistingMatchingCard(c73405179.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 		return Duel.IsExistingMatchingCard(c73405179.thfilter,tp,LOCATION_DECK,0,1,nil,fc)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
