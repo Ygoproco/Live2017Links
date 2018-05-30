@@ -108,6 +108,7 @@ function c57135971.desop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetReset(RESET_EVENT+0x1fe0000)
 		e3:SetLabelObject(tc)
 		c:RegisterEffect(e3)
+	else Duel.SendtoGrave(c,REASON_RULE)
 	end
 end
 function c57135971.eqlimit2(e,c)
