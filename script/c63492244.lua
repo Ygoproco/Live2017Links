@@ -165,8 +165,8 @@ function c63492244.agop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c63492244.rstop2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
-	if tc:GetFlagEffectLabel(63492244)~=e:GetLabel() or tc==e:GetOwner() then return end
 	local c=e:GetOwner()
+	if tc:GetFlagEffectLabel(63492244)~=e:GetLabel() or tc==c then return end
 	c:CancelCardTarget(tc)
 	local te=e:GetLabelObject()
 	tc:ResetFlagEffect(63492244)
