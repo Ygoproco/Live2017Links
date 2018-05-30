@@ -58,7 +58,7 @@ function c94259633.eqop(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsRelateToEffect(e) and tc:IsType(TYPE_MONSTER) then
 		if c:IsFaceup() and c:IsRelateToEffect(e) and c94259633.eqcon(e,tp,eg,ep,ev,re,r,rp) then
 			c94259633.equipop(c,e,tp,tc)
-		else Duel.SendtoGrave(tc,REASON_EFFECT) end
+		else Duel.SendtoGrave(tc,REASON_RULE) end
 	end
 end
 function c94259633.adcon(e,tp,eg,ep,ev,re,r,rp)
