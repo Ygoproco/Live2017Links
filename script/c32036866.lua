@@ -52,7 +52,7 @@ function c32036866.cond2(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldCard(tp,LOCATION_SZONE,5)==nil
 end
 function c32036866.filter2(c,e,tp)
-	return c:IsSetCard(0x107) and c:IsType(TYPE_FIELD) and c:GetActivateEffect():IsActivatable(tp)
+	return c:IsSetCard(0x107) and c:IsType(TYPE_FIELD) and c:CheckActivateEffect(false,false,false)~=nil
 end
 function c32036866.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(aux.NecroValleyFilter(c32036866.filter2),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,tp) end

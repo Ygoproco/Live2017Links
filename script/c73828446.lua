@@ -38,8 +38,8 @@ end
 function c73828446.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local bc=eg:GetFirst():GetBattleTarget()
 	e:SetLabelObject(bc)
-	if chk==0 then return bc:IsAbleToRemove() and not bc:IsLocation(LOCATION_REMOVED) and bc:IsPublic()
-		and bc:IsType(TYPE_MONSTER) and not bc:IsType(TYPE_TOKEN) and bc:IsRelateToEffect(e)
+	if chk==0 then return bc:IsType(TYPE_MONSTER) and not bc:IsType(TYPE_TOKEN)
+		and bc:IsAbleToRemove() and not bc:IsLocation(LOCATION_REMOVED) and bc:IsPublic()
 		and Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,bc) end
 	Duel.SetTargetCard(bc)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,bc,1,0,0)
