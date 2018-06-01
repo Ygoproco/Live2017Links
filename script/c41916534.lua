@@ -67,6 +67,6 @@ end
 function c41916534.value(e,c)
 	return Duel.GetMatchingGroupCount(c41916534.atkfilter,c:GetControler(),LOCATION_MZONE,0,nil)*1000
 end
-function c41916534.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c41916534.fieldcond,tp,LOCATION_SZONE,SZONE,1,nil)
+function c41916534.condition(e)
+	return Duel.IsExistingMatchingCard(c41916534.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 end
