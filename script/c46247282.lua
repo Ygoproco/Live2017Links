@@ -34,7 +34,7 @@ function c46247282.initial_effect(c)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EFFECT_DISABLE_FIELD)
 	--thanks fluo for hardcoding our day
-	e4:SetCondition(function(e)if not e:GetValue() then e:SetValue(c46247282.disop) end return true end)
+	e4:SetCondition(function(e)if e:GetValue()~=0 then e:SetValue(c46247282.disop) end return true end)
 	e4:SetValue(c46247282.disop)
 	c:RegisterEffect(e4)
 end
