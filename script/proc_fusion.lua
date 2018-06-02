@@ -194,10 +194,11 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 	mg:Sub(rg)
 	sg:AddCard(c)
 	if sg:GetCount()<#{...} then
-		res=mg:IsExists(Auxiliary.FSelectMix,1,sg,tp,mg,sg,mustg:Filter(aux.TRUE,sg),fc,sub,sub2,contact,chkf,...)
+		res=mg:IsExists(Auxiliary.FSelectMix,1,sg,tp,mg,sg,mustg-sg,fc,sub,sub2,contact,chkf,...)
 	else
 		res=Auxiliary.FCheckMixGoal(tp,sg,fc,sub,sub2,contact,chkf,...)
 	end
+	res = res and sg:Includes(mustg)
 	sg:RemoveCard(c)
 	mg:Merge(rg)
 	return res
