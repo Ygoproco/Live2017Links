@@ -1,5 +1,5 @@
 --電送擬人エレキネシス
---Electronic Transimulation Wattkinesis
+--Wattkinetic Puppeteer
 --Scripted by Eerie Code
 function c88392300.initial_effect(c)
 	--move
@@ -27,22 +27,13 @@ function c88392300.seqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c88392300.seqop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if not tc:IsRelateToEffect(e) or tc:IsControler(tp) then return end
-	local seq=tc:GetSequence()
+	if not tc:IsRelateToEffect(e) or tc:IsControler(tp) or tc:IsImmuneToEffect(e) then return end
 	local flag=0
 	for i=0,4 do
-		if Duel.CheckLocation(1-tp,LOCATION_MZONE,i) then flag=bit.bor(flag,math.pow(2,i)) end
+		if Duel.CheckLocation(1-tp,LOCATION_MZONE,i) then flag=flag|(0x1<<i) end
 	end
 	if flag==0 then return end
-	Duel.Hint(HINT_SELECTMSG,tp,571)
-	local s=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,flag)
-	local nseq=0
-	for i=0,4 do
-		if math.pow(2,i+16)==s then
-			nseq=i
-			break
-		end
-	end
-	Duel.MoveSequence(tc,nseq)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+	Duel.MoveSequence(tc,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,flag)>>16,2))
 end
 
