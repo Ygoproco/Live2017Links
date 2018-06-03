@@ -31,11 +31,13 @@ function c7165085.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.ConfirmCards(tp,tc)
 	if tc:IsType(TYPE_TRAP) then
+		Duel.Hint(HINT_CARD,0,tc:GetOriginalCode())
+		Duel.ChangePosition(tc,POS_FACEUP)
 		local te=tc:GetActivateEffect()
 		local tep=tc:GetControler()
 		if not te then
-			local chk = Duel.Destroy(tc,REASON_EFFECT)
-			if chk == 0 then Duel.SendtoGrave(tc,REASON_RULE) end
+			local chk=Duel.Destroy(tc,REASON_EFFECT)
+			if chk==0 then Duel.SendtoGrave(tc,REASON_RULE) end
 		else
 			local condition=te:GetCondition()
 			local cost=te:GetCost()
@@ -47,8 +49,6 @@ function c7165085.activate(e,tp,eg,ep,ev,re,r,rp)
 				and (not target or target(te,tep,eg,ep,ev,re,r,rp,0)) then
 				Duel.ClearTargetCard()
 				e:SetProperty(te:GetProperty())
-				Duel.Hint(HINT_CARD,0,tc:GetOriginalCode())
-				Duel.ChangePosition(tc,POS_FACEUP)
 				if tc:GetType()==TYPE_TRAP then
 					tc:CancelToGrave(false)
 				end
