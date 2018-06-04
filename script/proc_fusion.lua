@@ -904,8 +904,8 @@ function Auxiliary.AddShaddollFusionProcMix(c,insf,f,att)
 	c:RegisterEffect(e1)
 	return {e1}
 end
-function Auxiliary.ShaddollExFilter(c,g,fc,tp,f1,f2)
-	return c:IsFaceup() and c:IsCanBeFusionMaterial(fc) and not g:IsContains(c) 
+function Auxiliary.ShaddollExFilter(c,g,fc,tp,f1,f2,eff)
+	return c:IsFaceup() and c:IsCanBeFusionMaterial(fc) and not g:IsContains(c) and not c:IsImmuneToEffect(eff)
 		and (f1(c,fc,true,true,nil,nil,tp,false) or f2(c,fc,true,true,nil,nil,tp,false))
 end
 function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
@@ -969,7 +969,7 @@ function Auxiliary.ShaddollFCondition(insf,f1,f2)
 				local exg=Group.CreateGroup()
 				local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 				if fc and fc:IsHasEffect(81788994) and fc:IsCanRemoveCounter(tp,0x16,3,REASON_EFFECT) then
-					exg=Duel.GetMatchingGroup(Auxiliary.ShaddollExFilter,tp,0,LOCATION_MZONE,nil,g,c,tp,f1,f2)
+					exg=Duel.GetMatchingGroup(Auxiliary.ShaddollExFilter,tp,0,LOCATION_MZONE,nil,g,c,tp,f1,f2,fc:GetCardEffect(81788994))
 					mg:Merge(exg)
 				end
 				if mustg:GetCount()>2 or (Auxiliary.FCheckExact and Auxiliary.FCheckExact~=2) or not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
@@ -997,7 +997,7 @@ function Auxiliary.ShaddollFOperation(insf,f1,f2)
 				local sfhchk=false
 				local urg=Group.CreateGroup()
 				if fc and fc:IsHasEffect(81788994) and fc:IsCanRemoveCounter(tp,0x16,3,REASON_EFFECT) then
-					local sg=Duel.GetMatchingGroup(Auxiliary.ShaddollExFilter,tp,0,LOCATION_MZONE,nil,eg,c,tp,f1,f2)
+					local sg=Duel.GetMatchingGroup(Auxiliary.ShaddollExFilter,tp,0,LOCATION_MZONE,nil,eg,c,tp,f1,f2,fc:GetCardEffect(81788994))
 					exg:Merge(sg)
 					mg:Merge(sg)
 				end
