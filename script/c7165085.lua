@@ -10,7 +10,7 @@ function c7165085.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c7165085.filter(c)
-	return c:IsFacedown() and c:GetSequence()~=5
+	return c:IsFacedown() and c:GetSequence()<5
 end
 function c7165085.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_SZONE) and c7165085.filter(chkc) end
@@ -29,59 +29,61 @@ function c7165085.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		return
 	end
-	Duel.ConfirmCards(tp,tc)
 	if tc:IsType(TYPE_TRAP) then
 		local te=tc:GetActivateEffect()
 		local tep=tc:GetControler()
-		if not te then
-			local chk=Duel.Destroy(tc,REASON_EFFECT)
-			if chk==0 then Duel.SendtoGrave(tc,REASON_RULE) end
+		local condition
+		local cost
+		local target
+		local operation
+		if te then
+			condition=te:GetCondition()
+			cost=te:GetCost()
+			target=te:GetTarget()
+			operation=te:GetOperation()
+		end
+		local chk=te and te:GetCode()==EVENT_FREE_CHAIN and te:IsActivatable(tep)
+			and (not condition or condition(te,tep,eg,ep,ev,re,r,rp))
+			and (not cost or cost(te,tep,eg,ep,ev,re,r,rp,0))
+			and (not target or target(te,tep,eg,ep,ev,re,r,rp,0))
+		Duel.ChangePosition(tc,POS_FACEUP)
+		Duel.ConfirmCards(tp,tc)
+		if chk then
+			Duel.ClearTargetCard()
+			e:SetProperty(te:GetProperty())
+			Duel.Hint(HINT_CARD,0,tc:GetOriginalCode())
+			if tc:GetType()==TYPE_TRAP then
+				tc:CancelToGrave(false)
+			end
+			tc:CreateEffectRelation(te)
+			if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
+			if target~=te:GetTarget() then
+				target=te:GetTarget()
+			end
+			if target then target(te,tep,eg,ep,ev,re,r,rp,1) end
+			local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
+			for tg in aux.Next(g) do
+				tg:CreateEffectRelation(te)
+			end
+			tc:SetStatus(STATUS_ACTIVATED,true)
+			if tc:IsHasEffect(EFFECT_REMAIN_FIELD) then
+				tc:SetStatus(STATUS_LEAVE_CONFIRMED,false)
+			end
+			if operation~=te:GetOperation() then
+				operation=te:GetOperation()
+			end
+			if operation then operation(te,tep,eg,ep,ev,re,r,rp) end
+			tc:ReleaseEffectRelation(te)
+			for tg in aux.Next(g) do
+				tg:ReleaseEffectRelation(te)
+			end
 		else
-			local condition=te:GetCondition()
-			local cost=te:GetCost()
-			local target=te:GetTarget()
-			local operation=te:GetOperation()
-			if te:GetCode()==EVENT_FREE_CHAIN and te:IsActivatable(tep)
-				and (not condition or condition(te,tep,eg,ep,ev,re,r,rp))
-				and (not cost or cost(te,tep,eg,ep,ev,re,r,rp,0))
-				and (not target or target(te,tep,eg,ep,ev,re,r,rp,0)) then
-				Duel.ClearTargetCard()
-				e:SetProperty(te:GetProperty())
-				Duel.Hint(HINT_CARD,0,tc:GetOriginalCode())
-				Duel.ChangePosition(tc,POS_FACEUP)
-				if tc:GetType()==TYPE_TRAP then
-					tc:CancelToGrave(false)
-				end
-				tc:CreateEffectRelation(te)
-				if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
-				if target~=te:GetTarget() then
-					target=te:GetTarget()
-				end
-				if target then target(te,tep,eg,ep,ev,re,r,rp,1) end
-				local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
-				local tg=g:GetFirst()
-				while tg do
-					tg:CreateEffectRelation(te)
-					tg=g:GetNext()
-				end
-				tc:SetStatus(STATUS_ACTIVATED,true)
-				if operation~=te:GetOperation() then
-					operation=te:GetOperation()
-				end
-				if operation then operation(te,tep,eg,ep,ev,re,r,rp) end
-				tc:ReleaseEffectRelation(te)
-				tg=g:GetFirst()
-				while tg do
-					tg:ReleaseEffectRelation(te)
-					tg=g:GetNext()
-				end
-			else
-				Duel.Hint(HINT_CARD,0,tc:GetOriginalCode())
-				Duel.ChangePosition(tc,POS_FACEUP)
-				local chk=Duel.Destroy(tc,REASON_EFFECT)
-				if chk==0 then Duel.SendtoGrave(tc,REASON_RULE) end
+			if Duel.Destroy(tc,REASON_EFFECT)~=0 then
+				Duel.SendtoGrave(tc,REASON_RULE)
 			end
 		end
+	else
+		Duel.ConfirmCards(tp,tc)
 	end
 	if c:IsRelateToEffect(e) and e:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		c:CancelToGrave()
