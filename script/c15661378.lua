@@ -27,7 +27,7 @@ function c15661378.fusfilter(c,code)
 	return c:IsFusionCode(code) and not c:IsHasEffect(511002961)
 end
 function c15661378.matfilter(c,fc,sub,sub2,mg,sg,tp,contact)
-	return c:IsLocation(LOCATION_ONFIELD+LOCATION_HAND)
+	return c:IsLocation(LOCATION_ONFIELD+LOCATION_HAND) and c:IsControler(tp)
 end
 function c15661378.filteraux(c)
 	return c:IsAbleToRemoveAsCost() and c:IsType(TYPE_MONSTER)

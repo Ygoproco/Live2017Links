@@ -23,7 +23,7 @@ function c15717011.subcon(e)
 end
 function c15717011.filter(c,e,tp,m,gc,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsAttribute(ATTRIBUTE_LIGHT)
-		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:CheckFusionMaterial(m,gc,chkf+65536)
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:CheckFusionMaterial(m,gc,chkf)
 end
 function c15717011.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
@@ -31,7 +31,7 @@ function c15717011.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c15717011.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	local chkf=tp+0x100
+	local chkf=tp+0x10100
 	if chk==0 then
 		if e:GetLabel()~=1 then return false end
 		e:SetLabel(0)
