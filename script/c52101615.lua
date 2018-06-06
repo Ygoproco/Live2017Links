@@ -29,6 +29,14 @@ function c52101615.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
+function c52101615.fil(c,tp)
+	return c:IsCanBeFusionMaterial() and c:IsHasEffect(59160188)
+end
+function c52101615.fcheck(mg)
+	return function(tp,sg,fc)
+		return #sg-#(sg-mg)<2
+	end
+end
 function c52101615.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local chkf=tp+0x10100
@@ -36,12 +44,24 @@ function c52101615.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		if e:GetLabel()~=1 then return false end
 		e:SetLabel(0)
 		local mg=Duel.GetMatchingGroup(Card.IsCanBeFusionMaterial,tp,LOCATION_MZONE,0,nil)
-		return Duel.IsExistingMatchingCard(c52101615.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg,c,chkf)
+		local mg2=Duel.GetMatchingGroup(c52101615.fil,tp,0,LOCATION_MZONE,nil,tp)
+		Auxiliary.FCheckAdditional=c52101615.fcheck(mg2)
+		local res=Duel.IsExistingMatchingCard(c52101615.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg+mg2,c,chkf)
+		Auxiliary.FCheckAdditional=nil
+		return res
 	end
 	local mg=Duel.GetMatchingGroup(Card.IsCanBeFusionMaterial,tp,LOCATION_MZONE,0,nil)
+	local mg2=Duel.GetMatchingGroup(c52101615.fil,tp,0,LOCATION_MZONE,nil,tp)
+	Auxiliary.FCheckAdditional=c52101615.fcheck(mg2)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c52101615.filter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,mg,c,chkf)
-	local mat=Duel.SelectFusionMaterial(tp,g:GetFirst(),mg,c,chkf)
+	local g=Duel.SelectMatchingCard(tp,c52101615.filter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,mg+mg2,c,chkf)
+	local mat=Duel.SelectFusionMaterial(tp,g:GetFirst(),mg+mg2,c,chkf)
+	Auxiliary.FCheckAdditional=nil
+	if #(mat-mg2)~=#mat then
+		local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
+		Duel.Hint(HINT_CARD,0,fc:GetCode())
+		fc:RegisterFlagEffect(59160188,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
+	end
 	Duel.Release(mat,REASON_COST)
 	e:SetLabel(g:GetFirst():GetCode())
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
