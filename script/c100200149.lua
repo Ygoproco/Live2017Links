@@ -18,7 +18,7 @@ function c100200149.regcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function c100200149.mfilter(c)
-	return not c:IsAttribute(ATTRIBUTE_DARK)
+	return not c:GetPreviousAttributeOnField(ATTRIBUTE_DARK)
 end
 function c100200149.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
