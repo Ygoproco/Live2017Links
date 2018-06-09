@@ -1,6 +1,6 @@
 --青眼の混沌龍 
 --Blue-Eyes Chaos Dragon
-function c100409001.initial_effect(c)
+function c20654247.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition
 	local e1=Effect.CreateEffect(c)
@@ -23,32 +23,32 @@ function c100409001.initial_effect(c)
 	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetValue(c100409001.indval)
+	e3:SetValue(c20654247.indval)
 	c:RegisterEffect(e3)
 	--pos
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(100409001,0))
+	e4:SetDescription(aux.Stringid(20654247,0))
 	e4:SetCategory(CATEGORY_POSITION+CATEGORY_ATKCHANGE)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
-	e4:SetCondition(c100409001.poscon)
-	e4:SetTarget(c100409001.postg)
-	e4:SetOperation(c100409001.posop)
+	e4:SetCondition(c20654247.poscon)
+	e4:SetTarget(c20654247.postg)
+	e4:SetOperation(c20654247.posop)
 	c:RegisterEffect(e4)
 end
-function c100409001.indval(e,re,tp)
+function c20654247.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
 end
-function c100409001.poscon(e)
+function c20654247.poscon(e)
 	local c=e:GetHandler()
 	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetMaterial():IsExists(Card.IsCode,1,nil,89631139)
 end
-function c100409001.postg(e,tp,eg,ep,ev,re,r,rp,chk)
+function c20654247.postg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,1,nil) end
 	local g=Duel.GetMatchingGroup(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
 end
-function c100409001.posop(e,tp,eg,ep,ev,re,r,rp)
+function c20654247.posop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tg=Duel.GetMatchingGroup(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,nil)
 	if #tg>0 and Duel.ChangePosition(tg,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)>0 then
@@ -77,3 +77,4 @@ function c100409001.posop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterEffect(e3)
 	end
 end
+
