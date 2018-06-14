@@ -1,6 +1,5 @@
 --ベルキャットファイター
-
---Script by nekrozar
+--Bellcat Fighter
 function c100231009.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,nil,3,3,c100231009.lcheck)
@@ -16,8 +15,8 @@ function c100231009.initial_effect(c)
 	e1:SetOperation(c100231009.tkop)
 	c:RegisterEffect(e1)
 end
-function c100231009.lcheck(g,lc)
-	return g:IsExists(Card.IsLinkType,1,nil,TYPE_TOKEN)
+function c100231009.lcheck(g,lc,sumtype,tp)
+	return g:IsExists(Card.IsType,1,nil,TYPE_TOKEN,lc,sumtype,tp)
 end
 function c100231009.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
