@@ -45,7 +45,7 @@ function c100334003.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c100334003.deftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local at=Duel.GetAttackTarget()
-	if chk==0 then return at and at:IsControler(tp) and at:IsRace(RACE_CYBERSE)　and at:IsFaceup() end
+	if chk==0 then return at and at:IsControler(tp) and at:IsRace(RACE_CYBERSE) and at:IsFaceup() end
 	Duel.SetTargetCard(at)
 	Duel.SetOperationInfo(0,CATEGORY_ATKCHANGE,at,1,tp,at:GetBaseAttack()/2)
 	Duel.SetOperationInfo(0,CATEGORY_DEFCHANGE,at,1,tp,at:GetBaseAttack()/2)
