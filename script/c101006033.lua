@@ -45,6 +45,7 @@ function c101006033.atop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 			tc:RegisterEffect(e1,true)
 	end
+end
 function c101006033.descon2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetHandler():GetBattleTarget()
 	return tp==e:GetOwnerPlayer() and tc and tc:IsControler(1-tp)
