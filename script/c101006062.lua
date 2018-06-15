@@ -37,7 +37,7 @@ function c101006062.con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetBattleDamage(tp)>0 or Duel.GetBattleDamage(1-tp)>0
 end
 function c101006062.cfilter(c)
-	return c:IsLevel(4) and c:IsRace(RACE_INSECT) and c:IsAbleToGrave()
+	return c:IsLevelBelow(4) and c:IsRace(RACE_INSECT) and c:IsAbleToGrave()
 end
 function c101006062.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c101006062.cfilter,tp,LOCATION_DECK,0,1,nil) end
