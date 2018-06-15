@@ -66,7 +66,7 @@ function c101006042.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b2=#g>=2
 	if chk==0 then return b1 or b2 end
 	local sg=Group.CreateGroup()
-	if b1 and (not b2 and not Duel.SelectYesNo(tp,aux.Stringid(101006042,2))) then
+	if b1 and (not b2 or not Duel.SelectYesNo(tp,aux.Stringid(101006042,2))) then
 		Duel.DiscardHand(tp,c101006042.descfilter,2,2,REASON_COST,nil)
 	else
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)
