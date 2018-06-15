@@ -1,5 +1,5 @@
 --フォトン・チェンジ
---Photon Transformation
+--Photon Change
 --Script by nekrozar
 function c42925441.initial_effect(c)
 	--Activate
@@ -71,7 +71,7 @@ function c42925441.spfilter1(c,e,tp,code)
 	return c:IsSetCard(0x55) and c:GetOriginalCode()~=code and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c42925441.costfilter2(c)
-	return c:IsFaceup() and (c:IsSetCard(0x55) or c:IsSetCard(0x7b))
+	return c:IsFaceup() and (c:IsSetCard(0x55) or c:IsSetCard(0x7b))  and c:IsAbleToGraveAsCost()
 end
 function c42925441.thfilter(c)
 	return c:IsSetCard(0x55) and not c:IsCode(42925441) and c:IsAbleToHand()
