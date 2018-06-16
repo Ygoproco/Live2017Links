@@ -38,8 +38,8 @@ function c101006036.initial_effect(c)
 	Duel.AddCustomActivityCounter(101006036,ACTIVITY_CHAIN,c101006036.chainfilter)
 end
 function c101006036.chainfilter(re,tp,cid)
-	return re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsRace(RACE_THUNDER)
-		and Duel.GetChainInfo(cid,CHAININFO_TRIGGERING_LOCATION)==LOCATION_HAND
+	return not (re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsRace(RACE_THUNDER)
+		and (Duel.GetChainInfo(cid,CHAININFO_TRIGGERING_LOCATION)==LOCATION_HAND))
 end
 function c101006036.hspfilter(c,tp,sc)
 	return c:IsRace(RACE_THUNDER) and not c:IsType(TYPE_FUSION) and c:IsType(TYPE_EFFECT) and Duel.GetLocationCountFromEx(tp,tp,sc,c)>0 and Duel.GetCustomActivityCount(101006036,tp,ACTIVITY_CHAIN)~=0
