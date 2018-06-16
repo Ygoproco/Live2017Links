@@ -11,12 +11,16 @@ function c25774450.initial_effect(c)
 	e1:SetOperation(c25774450.activate)
 	c:RegisterEffect(e1)
 end
+function c25774450.filter(c,ft)
+	if ft==0 then return c:GetSequence()<5 else return true end
+end
 function c25774450.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,0,LOCATION_MZONE,1,nil)
+	local ft=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
+	if chk==0 then return Duel.IsExistingTarget(c25774450.filter,tp,0,LOCATION_MZONE,1,nil,ft)
 		and Duel.IsExistingTarget(Card.IsAbleToChangeControler,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectTarget(tp,aux.TRUE,tp,0,LOCATION_MZONE,1,1,nil)
+	local g1=Duel.SelectTarget(tp,c25774450.filter,tp,0,LOCATION_MZONE,1,1,nil,ft)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
 	local g2=Duel.SelectTarget(tp,Card.IsAbleToChangeControler,tp,LOCATION_MZONE,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,1,0,0)
