@@ -37,7 +37,7 @@ function c101006062.con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetBattleDamage(tp)>0 or Duel.GetBattleDamage(1-tp)>0
 end
 function c101006062.cfilter(c)
-	return c:IsLevel(4) and c:IsRace(RACE_INSECT) and c:IsAbleToGrave()
+	return c:IsLevelBelow(4) and c:IsRace(RACE_INSECT) and c:IsAbleToGrave()
 end
 function c101006062.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c101006062.cfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -59,7 +59,7 @@ function c101006062.op(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.SelectMatchingCard(tp,c101006062.cfilter,tp,LOCATION_DECK,0,1,1,nil):GetFirst()
 	if tc and Duel.SendtoGrave(tc,REASON_EFFECT)>0
 		and tc:IsLocation(LOCATION_GRAVE) and tc:IsType(TYPE_NORMAL) then
-		local g=Duel.GetMatchingGroup(tp,aux.NecroValleyFilter(c101006062.filter),tp,LOCATION_DECK+LOCATION_GRAVE+LOCATION_HAND,0,1,nil,e,tp,tc:GetCode())
+		local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c101006062.filter),tp,LOCATION_DECK+LOCATION_GRAVE+LOCATION_HAND,0,nil,e,tp,tc:GetCode())
 		local ct=math.min(#g,Duel.GetLocationCount(tp,LOCATION_MZONE))
 		if ct>0 and Duel.SelectYesNo(tp,aux.Stringid(101006062,2)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
