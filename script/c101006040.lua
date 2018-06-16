@@ -49,7 +49,7 @@ end
 function c101006040.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
-		Duel.SendtoDeck(tc,nil,REASON_EFFECT)
+		Duel.SendtoDeck(tc,2,nil,REASON_EFFECT)
 	end
 end
 function c101006040.atkcon(e,tp,eg,ep,ev,re,r,rp)
