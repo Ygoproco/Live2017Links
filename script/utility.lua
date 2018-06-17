@@ -11,6 +11,13 @@ RACE_DIVINE=RACE_DEVINE
 SUMMON_TYPE_TRIBUTE=SUMMON_TYPE_ADVANCE
 SUMMON_TYPE_GEMINI=SUMMON_TYPE_DUAL
 
+Group.__band = function (o1,o2)
+	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
+	o1=o1:Clone()
+	o1=o1-(o1-o2)
+	return o1
+end
+
 Group.__add = function (o1,o2)
 	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
 	o1=o1:Clone()
@@ -47,7 +54,7 @@ end
 Group.__le = function (g1,g2)
 	return #g1<=#g2
 end
---Returns 2 groups, the 1st group is teh one with cards that match the function, the second is the one with cards that don't
+--Returns 2 groups, the 1st group is the one with cards that match the function, the second is the one with cards that don't
 Group.Split = function (g,fun,ex,...)
 	local ng=g:Filter(fun,ex,...)
 	return ng,g-ng
@@ -78,14 +85,43 @@ function Card.MoveAdjacent(c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,~flag),2))
 end
+function Auxiliary.GetExtraMaterials(tp,mustg,sc,summon_type)
+	local tg=Group.CreateGroup()
+	mustg = mustg or Group.CreateGroup()
+	local eff={Duel.GetPlayerEffect(tp,EFFECT_EXTRA_MATERIAL)}
+	local t={}
+	for _,te in ipairs(eff) do
+		if te:GetCode()==EFFECT_EXTRA_MATERIAL then
+			local eg=te:GetValue()(0,summon_type,te,tp,sc)-mustg
+			eg:KeepAlive()
+			tg=tg+eg
+			local efun=te:GetOperation() and te:GetOperation() or aux.TRUE
+			table.insert(t,{eg,efun,te})
+		end
+	end
+	return t,tg
+end
+function Auxiliary.CheckValidExtra(c,tp,sg,mg,lc,emt,filt)
+	local res=false
+	filt=filt or {}
+	for _,ex in ipairs(emt) do
+		if ex[1]:IsContains(c) and ex[2](c,ex[3],tp,sg,mg,lc,ex[1],0) then
+			res=true
+			table.insert(filt,ex)
+		end
+	end
+	return res
+end
 function Auxiliary.GetMustBeMaterialGroup(tp,eg,sump,sc,g,r)
 	--- eg all default materials, g - valid materials
 	local eff={Duel.GetPlayerEffect(tp,EFFECT_MUST_BE_MATERIAL)}
 	local sg=Group.CreateGroup()
 	for _,te in ipairs(eff) do
-		local val=type(te:GetValue())=='function' and te:GetValue()(te,eg,sump,sc,g) or te:GetValue()
-		if val&r>0 then
-			sg:AddCard(te:GetHandler())
+		if te:GetCode()==EFFECT_MUST_BE_MATERIAL then
+			local val=type(te:GetValue())=='function' and te:GetValue()(te,eg,sump,sc,g) or te:GetValue()
+			if val&r>0 then
+				sg:AddCard(te:GetHandler())
+			end
 		end
 	end
 	return sg

@@ -25,31 +25,85 @@ function Auxiliary.GetLinkCount(c)
 		return 1+0x10000*c:GetLink()
 	else return 1 end
 end
-function Auxiliary.LCheckRecursive(c,tp,sg,mg,mustg,lc,ct,minc,maxc,f,specialchk)
-	if mustg:GetCount()>maxc then return false end
+function Auxiliary.LCheckRecursive(c,tp,sg,mg,lc,minc,maxc,f,specialchk,og,emt,filt)
+	if #sg>maxc then return false end
+	filt=filt or {}
+	local oldfilt={table.unpack(filt)}
 	sg:AddCard(c)
-	ct=ct+1
-	local res=Auxiliary.LCheckGoal(tp,sg,mustg,lc,minc,ct,f,specialchk)
-		or (ct<maxc and mg:IsExists(Auxiliary.LCheckRecursive,1,sg,tp,sg,mg,mustg,lc,ct,minc,maxc,f,specialchk))
+	for _,f in ipairs(filt) do
+		if not f[2](c,f[3],tp,sg,mg,lc,f[1],1) then
+			sg:RemoveCard(c)
+			return false
+		end
+	end
+	if not og:IsContains(c) then
+		res=aux.CheckValidExtra(c,tp,sg,mg,lc,emt,filt)
+		if not res then
+			sg:RemoveCard(c)
+			filt={table.unpack(oldfilt)}
+			return false
+		end
+	end
+	local res=Auxiliary.LCheckGoal(tp,sg,lc,minc,f,specialchk,filt)
+		or (#sg<maxc and mg:IsExists(Auxiliary.LCheckRecursive,1,sg,tp,sg,mg,lc,minc,maxc,f,specialchk,og,emt,filt))
 	sg:RemoveCard(c)
-	ct=ct-1
+	filt={table.unpack(oldfilt)}
 	return res
 end
-function Auxiliary.LCheckGoal(tp,sg,mustg,lc,minc,ct,f,specialchk)
-	return ct>=minc and sg:CheckWithSumEqual(Auxiliary.GetLinkCount,lc:GetLink(),ct,ct) 
-		and (not specialchk or specialchk(sg,lc,tp)) and Duel.GetLocationCountFromEx(tp,tp,sg,lc)>0 and sg:Includes(mustg)
+function Auxiliary.LCheckRecursive2(c,tp,sg,sg2,secondg,mg,lc,minc,maxc,f,specialchk,og,emt,filt)
+	if #sg>maxc then return false end
+	local oldfilt={table.unpack(filt)}
+	sg:AddCard(c)
+	for _,f in ipairs(filt) do
+		if not f[2](c,f[3],tp,sg,mg,lc,f[1],1) then
+			sg:RemoveCard(c)
+			return false
+		end
+	end
+	if not og:IsContains(c) then
+		res=aux.CheckValidExtra(c,tp,sg,mg,lc,emt,filt)
+		if not res then
+			sg:RemoveCard(c)
+			filt={table.unpack(oldfilt)}
+			return false
+		end
+	end
+	if #(sg2-sg)==0 then
+		if secondg and #secondg>0 then
+			local res=secondg:IsExists(Auxiliary.LCheckRecursive,1,sg,tp,sg,mg,lc,minc,maxc,f,specialchk,og,emt,{table.unpack(filt)})
+			sg:RemoveCard(c)
+			return res
+		else
+			local res=Auxiliary.LCheckGoal(tp,sg,lc,minc,f,specialchk,{table.unpack(filt)})
+			sg:RemoveCard(c)
+			return res
+		end
+	end
+	local res=Auxiliary.LCheckRecursive2((sg2-sg):GetFirst(),tp,sg,sg2,secondg,mg,lc,minc,maxc,f,specialchk,og,emt,filt)
+	sg:RemoveCard(c)
+	return res
+end
+function Auxiliary.LCheckGoal(tp,sg,lc,minc,f,specialchk,filt)
+	for _,f in ipairs(filt) do
+		if not sg:IsExists(f[2],1,nil,f[3],tp,sg,Group.CreateGroup(),lc,f[1],1) then
+			return false
+		end
+	end
+	return #sg>=minc and sg:CheckWithSumEqual(Auxiliary.GetLinkCount,lc:GetLink(),#sg,#sg)
+		and (not specialchk or specialchk(sg,lc,tp)) and Duel.GetLocationCountFromEx(tp,tp,sg,lc)>0
 end
 function Auxiliary.LinkCondition(f,minc,maxc,specialchk)
 	return	function(e,c)
 				if c==nil then return true end
 				if c:IsType(TYPE_PENDULUM) and c:IsFaceup() then return false end
 				local tp=c:GetControler()
-				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_LINK)
-				if mustg:IsExists(aux.NOT(Card.IsCanBeLinkMaterial),1,nil,c,tp) then return false end
 				local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 				local mg=g:Filter(Auxiliary.LConditionFilter,nil,f,c,tp)
-				local sg=Group.CreateGroup()
-				return mg:Includes(mustg) and mg:IsExists(Auxiliary.LCheckRecursive,1,nil,tp,sg,mg,mustg,c,0,minc,maxc,f,specialchk)
+				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_LINK)
+				if mustg:IsExists(aux.NOT(Card.IsCanBeLinkMaterial),1,nil,c,tp) then return false end
+				local emt,tg=aux.GetExtraMaterials(tp,mustg+mg,c,SUMMON_TYPE_LINK)
+				local sg=mustg
+				return (mg+tg):IsExists(Auxiliary.LCheckRecursive,1,nil,tp,sg,(mg+tg),c,minc,maxc,f,specialchk,mg,emt)
 			end
 end
 function Auxiliary.LinkTarget(f,minc,maxc,specialchk)
@@ -57,13 +111,18 @@ function Auxiliary.LinkTarget(f,minc,maxc,specialchk)
 				local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 				local mg=g:Filter(Auxiliary.LConditionFilter,nil,f,c,tp)
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_LINK)
+				local emt,tg=aux.GetExtraMaterials(tp,mustg+mg,c,SUMMON_TYPE_LINK)
 				local sg=Group.CreateGroup()
 				local cancel=false
 				sg:Merge(mustg)
 				while sg:GetCount()<maxc do
-					local cg=mg:Filter(Auxiliary.LCheckRecursive,sg,tp,sg,mg,mustg,c,sg:GetCount(),minc,maxc,f,specialchk)
+					local filters={}
+					if #sg>0 then
+						Auxiliary.LCheckRecursive2(sg:GetFirst(),tp,Group.CreateGroup(),sg,mg+tg,mg+tg,c,minc,maxc,f,specialchk,mg,emt,filters)
+					end
+					local cg=(mg+tg):Filter(Auxiliary.LCheckRecursive,sg,tp,sg,(mg+tg),c,minc,maxc,f,specialchk,mg,emt,filters)
 					if cg:GetCount()==0 then break end
-					if sg:GetCount()>=minc and sg:GetCount()<=maxc and Auxiliary.LCheckGoal(tp,sg,mustg,c,minc,sg:GetCount(),f,specialchk) then
+					if sg:GetCount()>=minc and sg:GetCount()<=maxc and Auxiliary.LCheckGoal(tp,sg,c,minc,f,specialchk,filters) then
 						cancel=true
 					else
 						cancel=false
@@ -79,15 +138,24 @@ function Auxiliary.LinkTarget(f,minc,maxc,specialchk)
 					end
 				end
 				if sg:GetCount()>0 then
+					local filters={}
+					Auxiliary.LCheckRecursive2(sg:GetFirst(),tp,Group.CreateGroup(),sg,mg+tg,mg+tg,c,minc,maxc,f,specialchk,mg,emt,filters)
 					sg:KeepAlive()
-					e:SetLabelObject(sg)
+					local reteff=Effect.GlobalEffect()
+					reteff:SetTarget(function()return sg,filters end)
+					e:SetLabelObject(reteff)
 					return true
 				else return false end
 			end
 end
-function Auxiliary.LinkOperation(f,min,max,specialchk)
+function Auxiliary.LinkOperation(f,minc,maxc,specialchk)
 	return	function(e,tp,eg,ep,ev,re,r,rp,c,smat,mg)
-				local g=e:GetLabelObject()
+				local g,filt=e:GetLabelObject():GetTarget()()
+				for _,ex in ipairs(filt) do
+					if ex[3]:GetValue() then
+						ex[3]:GetValue()(1,SUMMON_TYPE_LINK,ex[3],ex[1]&g,c,tp)
+					end
+				end
 				c:SetMaterial(g)
 				Duel.SendtoGrave(g,REASON_MATERIAL+REASON_LINK)
 				g:DeleteGroup()
