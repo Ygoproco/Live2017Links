@@ -27,13 +27,14 @@ function c100334024.initial_effect(c)
 		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		ge1:SetCode(EVENT_PHASE+PHASE_END)
 		ge1:SetCountLimit(1)
-		ge1:SetOperation(c100334024.resetop)
+		ge1:SetCondition(c100334024.resetop)
 		Duel.RegisterEffect(ge1,0)
 	end
 end
 function c100334024.resetop(e,tp,eg,ep,ev,re,r,rp)
 	c100334024.attr_list[0]=0
 	c100334024.attr_list[1]=0
+	return false
 end
 function c100334024.thcfilter(c,e,tp)
 	local attr=c:GetAttribute()
