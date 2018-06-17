@@ -100,10 +100,10 @@ function Auxiliary.LinkCondition(f,minc,maxc,specialchk)
 				local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 				local mg=g:Filter(Auxiliary.LConditionFilter,nil,f,c,tp)
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_LINK)
-				if mustg:IsExists(aux.NOT(Card.IsCanBeLinkMaterial),1,nil,c,tp) then return false end
+				if mustg:IsExists(aux.NOT(Auxiliary.LConditionFilter),1,nil,f,c,tp) then return false end
 				local emt,tg=aux.GetExtraMaterials(tp,mustg+mg,c,SUMMON_TYPE_LINK)
 				local sg=mustg
-				return (mg+tg):IsExists(Auxiliary.LCheckRecursive,1,nil,tp,sg,(mg+tg),c,minc,maxc,f,specialchk,mg,emt)
+				return (mg+tg):Includes(mustg) and (mg+tg):IsExists(Auxiliary.LCheckRecursive,1,nil,tp,sg,(mg+tg),c,minc,maxc,f,specialchk,mg,emt)
 			end
 end
 function Auxiliary.LinkTarget(f,minc,maxc,specialchk)
