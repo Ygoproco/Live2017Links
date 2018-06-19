@@ -45,7 +45,7 @@ function c37440988.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c37440988.hspfilter(c,tp,sc)
-	return c:IsSetCard(0x2034) and c:GetLevel()==10 and c:IsControler(tp) and Duel.GetLocationCountFromEx(tp,tp,sc,c)>0
+	return c:IsFusionSetCard(0x2034) and c:GetLevel()==10 and c:IsControler(tp) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
 function c37440988.hspcon(e,c)
 	if c==nil then return true end
@@ -53,7 +53,7 @@ function c37440988.hspcon(e,c)
 end
 function c37440988.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=Duel.SelectReleaseGroup(tp,c37440988.hspfilter,1,1,nil,tp,c)
-	Duel.Release(g,REASON_COST)
+	Duel.Release(g,g,REASON_COST+REASON_MATERIAL)
 end
 function c37440988.cfilter(c)
 	return c:IsSetCard(0x1034) and c:GetAttack()>0 and c:IsAbleToRemoveAsCost()
