@@ -155,13 +155,10 @@ local regeff=Card.RegisterEffect
 function Card.RegisterEffect(c,e,forced,...)
 	if c:IsStatus(STATUS_INITIALIZING) and not e then Debug.Message("missing (Effect e) in c"..c:GetOriginalCode()..".lua") return end
 	local tmp = function(eff,set)
-		return function(...)
-			local cond=eff:GetCondition()
-			eff:SetCondition(function(...)
-				Debug.Message(aux.linkset)
-				return ((not set and not aux.linkset) or (set and aux.linkset)) and (not cond or cond(...))
-			end)
-		end
+		local cond=eff:GetCondition()
+		eff:SetCondition(function(...)
+			return ((not set and not aux.linkset) or (set and aux.linkset)) and (not cond or cond(...))
+		end)
 	end
 	if e:GetCode()==EFFECT_ADD_FUSION_CODE or e:GetCode()==EFFECT_ADD_FUSION_SETCODE then
 		tmp(e,false)
