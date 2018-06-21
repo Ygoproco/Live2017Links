@@ -37,12 +37,12 @@ function c100334032.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_CANNOT_ACTIVATE)
 		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 		e1:SetTargetRange(0,1)
-		e1:SetTarget(c100334032.aclimit)
 		e1:SetLabel(ec:GetOriginalCode())
+		e1:SetValue(c100334032.aclimit)
 		e1:SetReset(RESET_PHASE+PHASE_END,2)
-		Duel.RegisterEffect(e1,1-tp)
+		Duel.RegisterEffect(e1,tp)
 	end
 end
 function c100334032.aclimit(e,re,tp)
-	return re:GetHandler():IsOriginalCode(e:GetLabel()) and not re:GetHandler():IsImmuneToEffect(e)
+	return re:GetHandler():GetOriginalCode()==e:GetLabel() and not re:GetHandler():IsImmuneToEffect(e)
 end
