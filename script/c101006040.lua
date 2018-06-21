@@ -15,17 +15,17 @@ function c101006040.initial_effect(c)
 	e1:SetTarget(c101006040.target)
 	e1:SetOperation(c101006040.operation)
 	c:RegisterEffect(e1)
-	--disable
-	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(101006040,1))
-	e1:SetCategory(CATEGORY_ATKCHANGE)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetType(EFFECT_TYPE_IGNITION)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1)
-	e1:SetTarget(c101006040.atktg)
-	e1:SetOperation(c101006040.atkop)
-	c:RegisterEffect(e1)
+	--ATK
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(101006040,1))
+	e2:SetCategory(CATEGORY_ATKCHANGE)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1)
+	e2:SetTarget(c101006040.atktg)
+	e2:SetOperation(c101006040.atkop)
+	c:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_MATERIAL_CHECK)
@@ -40,16 +40,16 @@ function c101006040.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function c101006040.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc:IsAbleToHand() end
+	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsAbleToHand() end
 	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToHand,tp,0,LOCATION_SZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToHand,tp,0,LOCATION_SZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,1-tp,LOCATION_SZONE)
 end
 function c101006040.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
-		Duel.SendtoDeck(tc,2,nil,REASON_EFFECT)
+		Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
 	end
 end
 function c101006040.atkcon(e,tp,eg,ep,ev,re,r,rp)
@@ -64,8 +64,7 @@ function c101006040.filter2(c,atk)
 end
 function c101006040.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c101006040.filter1,tp,LOCATION_GRAVE,0,1,nil)
-		 end
+	if chk==0 then return Duel.IsExistingTarget(c101006040.filter1,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SELF)
 	local g1=Duel.SelectTarget(tp,c101006040.filter1,tp,LOCATION_GRAVE,0,1,1,nil)
 	e:SetLabelObject(g1:GetFirst())
@@ -73,24 +72,22 @@ function c101006040.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SelectTarget(tp,c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,g1:GetFirst())
 end
 function c101006040.atkop(e,tp,eg,ep,ev,re,r,rp)
+	local gc=e:GetLabelObject()
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tc=g:GetFirst()
-	local sc=g:GetNext()
-	if tc:IsFacedown() or not tc:IsRelateToEffect(e) 
-		or sc:IsFacedown() or not sc:IsRelateToEffect(e) then return end
-	local ac=e:GetLabelObject()
-	if tc==ac then tc=sc end
-	local atk=tc:GetBaseAttack()
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_SET_ATTACK_FINAL)
-	e1:SetValue(atk)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-	ac:RegisterEffect(e1)
+	if tc==gc then tc=g:GetNext() end
+	if gc:IsFaceup() and gc:IsRelateToEffect(e) and tc:IsFaceup() and tc:IsRelateToEffect(e) then
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
+		e1:SetValue(gc:GetAttack())
+		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		tc:RegisterEffect(e1)
+	end
 end
 function c101006040.valcheck(e,c)
 	local g=c:GetMaterial()
-	if g:IsExists(Card.IsCode,1,nil,101006040) then
+	if g:IsExists(Card.IsCode,1,nil,101006040) and c:IsSummonType(SUMMON_TYPE_LINK) then
 		e:GetLabelObject():SetLabel(1)
 	else
 		e:GetLabelObject():SetLabel(0)
