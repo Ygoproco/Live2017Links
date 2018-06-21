@@ -45,7 +45,7 @@ function c100334005.rthcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
-function c100334005.rthtg(e,tp,eg,ep,ev,re,r,rp)
+function c100334005.rthtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local bc=e:GetLabelObject()
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,bc,1,0,0)
