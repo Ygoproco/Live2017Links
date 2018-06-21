@@ -27,8 +27,8 @@ function c5821478.initial_effect(c)
 end
 function c5821478.descon(e,tp,eg,ep,ev,re,r,rp)
     if eg:IsContains(e:GetHandler()) then return false end
-    for tc in aux.Next(Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_MZONE,LOCATION_MZONE,e:GetHandler(),TYPE_LINK)) do
-        local lg=tc:GetLinkedGroup()-e:GetHandler()
+    for tc in aux.Next(Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_MZONE,LOCATION_MZONE,nil,TYPE_LINK)) do
+        local lg=tc:GetLinkedGroup()
         if #lg~=#(lg-eg) then return true end
     end
     return false
