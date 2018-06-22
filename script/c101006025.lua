@@ -62,13 +62,16 @@ function c101006025.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local op=e:GetLabel()
 	if chk==0 then
 		if op==0 then return false end
+		local res=false
 		if op==ATTRIBUTE_LIGHT then
-			return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(c101006025.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
+			res=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(c101006025.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
 		elseif op==ATTRIBUTE_DARK then
-			return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,0,LOCATION_HAND,1,nil)
+			res=Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,0,LOCATION_HAND,1,nil)
 		else
-			return Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,LOCATION_ONFIELD)>0
+			res=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,LOCATION_ONFIELD)>0
 		end
+		if not res then e:SetLabel(0) end
+		return res
 	end
 	if op==0 then
 		e:SetCategory(0)
@@ -86,6 +89,7 @@ function c101006025.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		e:SetOperation(c101006025.desop)
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,1,PLAYER_ALL,LOCATION_ONFIELD)
 	end
+	e:SetLabel(0)
 end
 function c101006025.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
