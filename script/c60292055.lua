@@ -1,17 +1,17 @@
 --エルフェーズ
 --Elphase
 --original script by Larry126/OCG changes by Naim
-function c100334042.initial_effect(c)
+function c60292055.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,c100334042.matfilter,2,2)
+	aux.AddLinkProcedure(c,c60292055.matfilter,2,2)
 	--atk up
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(c100334042.atkval)
+	e1:SetValue(c60292055.atkval)
 	c:RegisterEffect(e1)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
@@ -19,34 +19,34 @@ function c100334042.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET)
 	e2:SetCode(EVENT_LEAVE_FIELD)
-	e2:SetCountLimit(1,100334042)
-	e2:SetCondition(c100334042.spcon)
-	e2:SetTarget(c100334042.sptg)
-	e2:SetOperation(c100334042.spop)
+	e2:SetCountLimit(1,60292055)
+	e2:SetCondition(c60292055.spcon)
+	e2:SetTarget(c60292055.sptg)
+	e2:SetOperation(c60292055.spop)
 	c:RegisterEffect(e2)
 end
-function c100334042.matfilter(c,lc,sumtype,tp)
+function c60292055.matfilter(c,lc,sumtype,tp)
 	return c:IsLevelAbove(3) and c:IsRace(RACE_CYBERSE,lc,sumtype,tp)
 end
-function c100334042.atkval(e,c)
+function c60292055.atkval(e,c)
 	return c:GetLinkedGroupCount()*300
 end
-function c100334042.spcon(e,tp,eg,ep,ev,re,r,rp)
+function c60292055.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsSummonType(SUMMON_TYPE_LINK)
 end
-function c100334042.spfilter(c,e,tp)
+function c60292055.spfilter(c,e,tp)
 	return c:IsLevelBelow(4) and c:IsRace(RACE_CYBERSE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c100334042.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c100334042.spfilter(chkc,e,tp) end
+function c60292055.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c60292055.spfilter(chkc,e,tp) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingTarget(c100334042.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+		and Duel.IsExistingTarget(c60292055.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectTarget(tp,c100334042.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,c60292055.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
-function c100334042.spop(e,tp,eg,ep,ev,re,r,rp)
+function c60292055.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP) then
