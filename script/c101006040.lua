@@ -34,7 +34,7 @@ function c101006040.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c101006040.matfilter(c,scard,sumtype,tp)
-	return c:IsType(TYPE_EFFECT,lc,sumtype,tp) and c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
+	return c:IsType(TYPE_EFFECT,scard,sumtype,tp) and c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
 end
 function c101006040.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
