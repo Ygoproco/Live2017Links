@@ -1,17 +1,17 @@
 --ペア・ルック
-
+--Matching Outfits
 --Script by nekrozar
-function c100231011.initial_effect(c)
+function c94446564.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_REMOVE)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c100231011.target)
-	e1:SetOperation(c100231011.activate)
+	e1:SetTarget(c94446564.target)
+	e1:SetOperation(c94446564.activate)
 	c:RegisterEffect(e1)
 end
-function c100231011.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function c94446564.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local g1=Duel.GetDecktopGroup(tp,1)
 		local tc1=g1:GetFirst()
@@ -20,7 +20,7 @@ function c100231011.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		return tc1 and tc2 and tc1:IsAbleToRemove() and tc2:IsAbleToRemove() and tc1:IsAbleToHand() and tc2:IsAbleToHand()
 	end
 end
-function c100231011.activate(e,tp,eg,ep,ev,re,r,rp)
+function c94446564.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0 or Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)==0 then return end
 	Duel.ConfirmDecktop(tp,1)
 	Duel.ConfirmDecktop(1-tp,1)
