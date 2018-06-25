@@ -5,7 +5,7 @@ function c101006003.initial_effect(c)
 	--to hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(101006003,0))
-	e1:SetCategory(CATEGORY_TOHAND)
+	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
 	e1:SetCountLimit(1,101006003)
@@ -34,16 +34,14 @@ function c101006003.thop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)<3 then return end
 	Duel.ConfirmDecktop(tp,3)
 	local g=Duel.GetDecktopGroup(tp,3)
-	if g:GetCount()>0 then
-		Duel.DisableShuffleCheck()
-		if g:IsExists(c101006003.thfilter,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(101006003,2)) then
-			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-			local sg=g:FilterSelect(tp,c101006003.thfilter,1,1,nil)
-			Duel.SendtoHand(sg,nil,REASON_EFFECT)
-			Duel.ConfirmCards(1-tp,sg)
-		end
-		Duel.ShuffleDeck(tp)
+	if g:IsExists(c101006003.thfilter,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(101006003,2)) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+		local sg=g:FilterSelect(tp,c101006003.thfilter,1,1,nil)
+		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,sg)
+		Duel.ShuffleHand(tp)
 	end
+	Duel.ShuffleDeck(tp)
 end
 function c101006003.costfilter(c)
 	return c:IsSetCard(0x220) and c:IsAbleToGraveAsCost()
