@@ -92,7 +92,7 @@ function c101006037.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if Duel.SelectYesNo(tp,c,96) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
 		local g=Duel.SelectMatchingCard(tp,c101006037.repfilter,tp,LOCATION_GRAVE,0,2,2,nil)
-		Duel.Remove(g:GetFirst(),POS_FACEUP,REASON_EFFECT)
+		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 		return true
 	else return false end
 end
