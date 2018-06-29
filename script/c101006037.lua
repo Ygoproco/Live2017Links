@@ -86,8 +86,7 @@ function c101006037.repfilter(c)
 end
 function c101006037.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then
-	return not c:IsReason(REASON_REPLACE)
+	if chk==0 then	return not c:IsReason(REASON_REPLACE)  and c:IsReason(REASON_EFFECT)
 		and Duel.IsExistingMatchingCard(c101006037.repfilter,tp,LOCATION_GRAVE,0,2,nil) end
 	if Duel.SelectYesNo(tp,c,96) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
