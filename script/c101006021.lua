@@ -34,7 +34,7 @@ function c101006021.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST+REASON_DISCARD)
 end
 function c101006021.thfilter(c)
-	return c:IsSetCard(0x222) and c:IsAbleToHand()
+	return c:IsSetCard(0x222) and c:IsAbleToHand() and not c:IsCode(101006021)
 end
 function c101006021.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c101006021.thfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) end
@@ -74,19 +74,19 @@ function c101006021.spop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetCountLimit(1)
 		e3:SetLabel(fid)
 		e3:SetLabelObject(tc)
-		e3:SetCondition(c101006021.thcon)
-		e3:SetOperation(c101006021.thop)
+		e3:SetCondition(c101006021.thcon2)
+		e3:SetOperation(c101006021.thop2)
 		Duel.RegisterEffect(e3,tp)
 		Duel.SpecialSummonComplete()
 	end
 end
-function c101006021.thcon(e,tp,eg,ep,ev,re,r,rp)
+function c101006021.thcon2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if tc:GetFlagEffectLabel(101006021)~=e:GetLabel() then
 		e:Reset()
 		return false
 	else return true end
 end
-function c101006021.thop(e,tp,eg,ep,ev,re,r,rp)
+function c101006021.thop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoHand(e:GetLabelObject(),nil,REASON_EFFECT)
 end
