@@ -1,5 +1,5 @@
 --雷獣龍－サンダー・ドラゴン
---Thunder Dragon Beast
+--Beastial Thunder Dragon
 --scripted by AlphaKretin
 function c101006021.initial_effect(c)
 	--to hand
@@ -34,7 +34,7 @@ function c101006021.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST+REASON_DISCARD)
 end
 function c101006021.thfilter(c)
-	return c:IsSetCard(0x222) and c:IsAbleToHand() and not c:IsCode(101006021)
+	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsSetCard(0x222) and c:IsAbleToHand() and not c:IsCode(101006021)
 end
 function c101006021.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c101006021.thfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) end
