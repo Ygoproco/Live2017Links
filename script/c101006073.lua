@@ -64,7 +64,7 @@ function c101006073.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,c101006073.rmfilter,tp,LOCATION_DECK,0,1,1,nil)
 	local rc=g:GetFirst()
-	if rc and Duel.Remove(rc,0,REASON_EFFECT)~=0 and rc:IsLocation(LOCATION_REMOVED) then
+	if rc and Duel.Remove(rc,POS_FACEUP,REASON_EFFECT)~=0 and rc:IsLocation(LOCATION_REMOVED) then
 		local tc=Duel.GetFirstTarget()
 		if tc:IsRelateToEffect(e) then
 			Duel.Destroy(tc,REASON_EFFECT)
