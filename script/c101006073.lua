@@ -1,5 +1,5 @@
 --雷龍放電
---Thunder Dragon Stream
+--Thunder Dragon Streamer
 --script by Naim
 function c101006073.initial_effect(c)
 	--activate
@@ -38,7 +38,7 @@ function c101006073.efilter(e,ct)
 	return te:IsActiveType(TYPE_MONSTER) and tc:IsRace(RACE_THUNDER)
 end
 function c101006073.cncfilter(c,tp)
-	return c:IsFaceup() and c:IsRace(RACE_THUNDER) and c:IsControler(tp)
+	return c:IsFaceup() and  c:IsSetCard(0x222) and c:IsControler(tp)
 end
 function c101006073.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c101006073.cncfilter,1,nil,tp)
@@ -50,11 +50,11 @@ function c101006073.desfilter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function c101006073.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() end
+	if chkc then return chkc:IsOnField() and c101006073.desfilter(chkc) end
 	if chk==0 then return Duel.IsExistingMatchingCard(c101006073.rmfilter,tp,LOCATION_DECK,0,1,nil)
-		and Duel.IsExistingTarget(desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
+		and Duel.IsExistingTarget(c101006073.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
+	local g=Duel.SelectTarget(tp,c101006073.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,tp,LOCATION_DECK)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
