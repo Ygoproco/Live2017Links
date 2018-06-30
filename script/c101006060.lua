@@ -25,17 +25,14 @@ function c101006060.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c101006060.filter0(c)
-	return c:IsFaceup() and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
+	return c:IsType(TYPE_MONSTER) and (c:IsFaceup() and (c:IsLocation(LOCATION_MZONE) or c:IsLocation(LOCATION_REMOVED))) and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
 end
 function c101006060.filter1(c,e)
-	return c:IsFaceup() and c:IsCanBeFusionMaterial() and c:IsAbleToDeck() and not c:IsImmuneToEffect(e)
+	return c101006060.filter0(c) and c:IsImmuneToEffect(e)
 end
 function c101006060.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsRace(RACE_THUNDER) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,chkf)
-end
-function c101006060.filter3(c)
-	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
 end
 function c101006060.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
