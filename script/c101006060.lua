@@ -28,7 +28,7 @@ function c101006060.filter0(c)
 	return c:IsType(TYPE_MONSTER) and (c:IsFaceup() and (c:IsLocation(LOCATION_MZONE) or c:IsLocation(LOCATION_REMOVED))) and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
 end
 function c101006060.filter1(c,e)
-	return c101006060.filter0(c) and c:IsImmuneToEffect(e)
+	return c101006060.filter0(c) and not c:IsImmuneToEffect(e)
 end
 function c101006060.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsRace(RACE_THUNDER) and (not f or f(c))
