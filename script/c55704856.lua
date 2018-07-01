@@ -15,17 +15,14 @@ function c55704856.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return e:GetLabelObject()~=se
 end
 function c55704856.filter0(c)
-	return c:IsFaceup() and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
+	return c:IsType(TYPE_MONSTER) and c:IsFaceup() and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
 end
 function c55704856.filter1(c,e)
-	return c:IsFaceup() and c:IsCanBeFusionMaterial() and c:IsAbleToDeck() and not c:IsImmuneToEffect(e)
+	return c55704856.filter0(c) and not c:IsImmuneToEffect(e)
 end
 function c55704856.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and aux.IsMaterialListSetCard(c,0x1093) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,chkf)
-end
-function c55704856.filter3(c)
-	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
 end
 function c55704856.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
