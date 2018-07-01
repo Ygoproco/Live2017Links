@@ -55,6 +55,7 @@ function c101006010.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,2)
 		and aux.SelectUnselectGroup(tg,e,tp,5,5,c101006010.rescon,0) end
 	local g=aux.SelectUnselectGroup(tg,e,tp,5,5,c101006010.rescon,1,tp,HINTMSG_TODECK)
+	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,2)
 end
