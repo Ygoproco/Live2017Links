@@ -38,8 +38,8 @@ function c101006051.initial_effect(c)
 	e4:SetOperation(c101006051.atkop)
 	c:RegisterEffect(e4)
 end
-function c101006051.lmfilter(c,lc)
-	return c:IsFaceup() and c:IsCanBeLinkMaterial(lc) and c:IsCode(lc:GetCode())
+function c101006051.lmfilter(c,lc,tp)
+	return c:IsFaceup() and c:IsCode(lc:GetCode()) and c:IsCanBeLinkMaterial(lc,tp)
 end
 function c101006051.linkcon(e,c)
 	if c==nil then return true end
@@ -59,10 +59,10 @@ end
 function c101006051.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	if a:IsControler(1-tp) then a=Duel.GetAttackTarget() end
-	return a
+	return a 
 end
 function c101006051.atkfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_LINK) and not c:IsAttack(0)
+	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:GetAttack()~=0
 end
 function c101006051.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c101006051.atkfilter(chkc) end
