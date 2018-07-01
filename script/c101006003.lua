@@ -19,6 +19,7 @@ function c101006003.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCountLimit(1,101006003)
+	e2:SetCondition(c101006003.spcond)
 	e2:SetCost(c101006003.spcost)
 	e2:SetTarget(c101006003.sptg)
 	e2:SetOperation(c101006003.spop)
@@ -45,6 +46,9 @@ function c101006003.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101006003.costfilter(c)
 	return c:IsSetCard(0x220) and c:IsAbleToGraveAsCost()
+end
+function c101006003.spcond(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(c101006003.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil)
 end
 function c101006003.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
