@@ -40,11 +40,14 @@ end
 function c101006040.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
+function c101006040.filter(c)
+	return c:IsAbleToHand() and c:GetSequence()<5
+end
 function c101006040.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsAbleToHand() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToHand,tp,0,LOCATION_SZONE,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_SZONE) and c101006040.filter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c101006040.filter,tp,0,LOCATION_SZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
-	local g=Duel.SelectTarget(tp,Card.IsAbleToHand,tp,0,LOCATION_SZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,c101006040.filter,tp,0,LOCATION_SZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,1-tp,LOCATION_SZONE)
 end
 function c101006040.operation(e,tp,eg,ep,ev,re,r,rp)
