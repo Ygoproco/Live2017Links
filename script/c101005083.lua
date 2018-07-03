@@ -1,6 +1,6 @@
 --Danger! Nessie!
 --Scripted by AlphaKretin
-function c101005083.intial_effect(c)
+function c101005083.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(101005083,0))
