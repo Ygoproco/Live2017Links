@@ -1,6 +1,6 @@
 --Danger! Bigfoot!
 --Scripted by AlphaKretin
-function c101005082.intial_effect(c)
+function c101005082.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(101005082,0))
