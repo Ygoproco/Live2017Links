@@ -1,6 +1,6 @@
 --Danger!? Jackalope?
 --Scripted by AlphaKretin
-function c101005085.intial_effect(c)
+function c101005085.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(101005085,0))
