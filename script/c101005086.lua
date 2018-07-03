@@ -1,6 +1,6 @@
 --Realm of Danger!
 --Scripted by AlphaKretin
-function c101005086.intial_effect(c)
+function c101005086.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
