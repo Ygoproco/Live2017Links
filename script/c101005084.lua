@@ -1,6 +1,6 @@
 --Danger! Chupacabra!
 --Scripted by AlphaKretin
-function c101005084.intial_effect(c)
+function c101005084.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(101005084,0))

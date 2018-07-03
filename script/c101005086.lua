@@ -1,6 +1,6 @@
 --Realm of Danger!
 --Scripted by AlphaKretin
-function c101005086.intial_effect(c)
+function c101005086.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -33,7 +33,7 @@ function c101005086.dafilter(c)
 end
 function c101005086.datg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c101005086.dafilter(chkc)
-	if chk==0 return Duel.IsExistingTarget(c101005086.dafilter,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(c101005086.dafilter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_ONFIELD,0,1,1,c)
 end
