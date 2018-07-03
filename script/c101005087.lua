@@ -27,7 +27,7 @@ function c101005087.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.BreakEffect()
 		local g=Duel.GetFieldGroup(p,LOCATION_HAND,0)
 		if g:IsExists(Card.IsSetCard,1,nil,0x223) then
-			local sg=aux.SelectUnselect(g,e,tp,2,2,c101005087.rescon,1,tp,HINTMSG_DISCARD)
+			local sg=aux.SelectUnselectGroup(g,e,tp,2,2,c101005087.rescon,1,tp,HINTMSG_DISCARD)
 			Duel.SendtoGrave(sg,REASON_EFFECT+REASON_DISCARD)
 		else
 			Duel.ConfirmCards(1-p,g)
