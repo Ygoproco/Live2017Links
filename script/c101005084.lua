@@ -57,6 +57,9 @@ function c101005084.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+function c101005084.spcon2(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetPreviousLocation()==LOCATION_HAND and (r&REASON_DISCARD)~=0
+end
 function c101005084.spfilter2(c,e,tp)
 	return c:IsSetCard(0x223) and not c:IsCode(101005084) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
