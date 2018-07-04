@@ -60,7 +60,7 @@ function c101006078.activate(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
 			e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
 			e1:SetReset(RESET_EVENT+0x1fe0000)
-			Duel.RegisterEffect(e1,g)
+			g:GetFirst():RegisterEffect(e1)
 		end
 	end
 end
