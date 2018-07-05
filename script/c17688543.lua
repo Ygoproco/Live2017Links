@@ -26,13 +26,13 @@ end
 function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if not tc or not tc:IsRelateToEffect(e) then return end
-	local res=(Duel.GetCurrentPhase()==PHASE_STANDBY) and 2 or 1
-	local turn_asc=(Duel.GetCurrentPhase()>=PHASE_STANDBY) and 1 or 0
+	local res=(Duel.GetCurrentPhase()==PHASE_STANDBY and Duel.GetTurnPlayer()==tp) and 2 or 1
+	local turn_asc=(Duel.GetCurrentPhase()<PHASE_STANDBY and Duel.GetTurnPlayer()==tp) and 0 or (Duel.GetTurnPlayer()==tp) and 2 or 1
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e1:SetCountLimit(1)
-	e1:SetReset(RESET_PHASE+PHASE_STANDBY,res)
+	e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,res)
 	e1:SetLabel(turn_asc+Duel.GetTurnCount())
 	e1:SetLabelObject(tc)
 	e1:SetCondition(c17688543.spcon)
@@ -40,7 +40,7 @@ function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function c17688543.spcon(e,tp)
-	return Duel.GetTurnCount()==e:GetLabel()
+	return Duel.GetTurnCount()==e:GetLabel() and Duel.GetTurnPlayer()==tp
 end
 function c17688543.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()

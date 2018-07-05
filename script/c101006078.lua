@@ -46,7 +46,7 @@ function c101006078.activate(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetReset(RESET_PHASE+PHASE_END)
 	e3:SetCondition(c101006078.econ)
 	e3:SetValue(c101006078.elimit)
-	Duel.RegisterEffect(e2,tp)
+	Duel.RegisterEffect(e3,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local rc=Duel.SelectMatchingCard(tp,c101006078.rmfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
 	if rc and Duel.Remove(rc,POS_FACEUP,REASON_EFFECT)>0 then
@@ -55,6 +55,12 @@ function c101006078.activate(e,tp,eg,ep,ev,re,r,rp)
 		if #g>0 then
 			Duel.SSet(tp,g)
 			Duel.ConfirmCards(1-tp,g)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+			e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+			e1:SetReset(RESET_EVENT+0x1fe0000)
+			g:GetFirst():RegisterEffect(e1)
 		end
 	end
 end

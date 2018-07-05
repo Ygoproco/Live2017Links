@@ -64,7 +64,7 @@ function c101006056.activate(e,tp,eg,ep,ev,re,r,rp)
 		if #dg==0 then return end
 		local g=Group.FromCards(tc,dg:GetFirst())
 		for sc in aux.Next(g) do
-			Duel.SpecialSummonStep(sc,0,tp,tp,false,false,POS_FACEUP)
+			Duel.SpecialSummonStep(sc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_DISABLE)

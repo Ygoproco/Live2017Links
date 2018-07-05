@@ -262,7 +262,7 @@ function Auxiliary.FConditionMixRep(insf,sub,fun1,minc,maxc,...)
 				if not mg:Includes(mustg) or mustg:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c) then return false end
 				if gc then
 					if gc:IsExists(aux.NOT(Card.IsCanBeFusionMaterial),1,nil,c)
-						or gc:IsExists(aux.NOT(Auxiliary.FConditionFilterMix),1,nil,c,sub,sub,contact,matcheck,tp,table.unpack(funs))then return false end
+						or gc:IsExists(aux.NOT(Auxiliary.FConditionFilterMix),1,nil,c,sub,sub,contact,matcheck,tp,fun1,table.unpack(funs))then return false end
 					mustg:Merge(gc)
 				end
 				local sg=Group.CreateGroup()

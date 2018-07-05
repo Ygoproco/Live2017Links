@@ -15,6 +15,7 @@ function c101006051.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetRange(LOCATION_EXTRA)
 	e2:SetCondition(c101006051.linkcon)
+	e2:SetTarget(c101006051.linktg)
 	e2:SetOperation(c101006051.linkop)
 	e2:SetValue(SUMMON_TYPE_LINK)
 	local e3=Effect.CreateEffect(c)
@@ -38,17 +39,35 @@ function c101006051.initial_effect(c)
 	e4:SetOperation(c101006051.atkop)
 	c:RegisterEffect(e4)
 end
-function c101006051.lmfilter(c,lc)
-	return c:IsFaceup() and c:IsCanBeLinkMaterial(lc) and c:IsCode(lc:GetCode())
+function c101006051.lmfilter(c,lc,tp)
+	return c:IsFaceup() and c:IsCode(lc:GetCode()) and c:IsCanBeLinkMaterial(lc,tp)
 end
 function c101006051.linkcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.IsExistingMatchingCard(c101006051.lmfilter,tp,LOCATION_MZONE,0,1,nil,c)
+	local g=Duel.GetMatchingGroup(c101006051.lmfilter,tp,LOCATION_MZONE,0,nil,c,tp)
+	local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,g,REASON_LINK)
+	return ((#mustg==1 and c101006051.lmfilter(mustg:GetFirst(),c,tp)) or (#mustg==0 and #g>0))
 		and Duel.GetFlagEffect(tp,101006051)==0
 end
+function c101006051.linktg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetMatchingGroup(c101006051.lmfilter,tp,LOCATION_MZONE,0,nil,c,tp)
+	local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,g,REASON_LINK)
+	if #mustg>0 then
+		mustg:KeepAlive()
+		e:SetLabelObject(mustg)
+		return true
+	end
+	local tc=g:SelectUnselect(Group.CreateGroup(),tp,true,true)
+	if tc then
+		local sg=Group.FromCards(tc)
+		sg:KeepAlive()
+		e:SetLabelObject(sg)
+		return true
+	else return false end
+end
 function c101006051.linkop(e,tp,eg,ep,ev,re,r,rp,c)
-	local mg=Duel.SelectMatchingCard(tp,c101006051.lmfilter,tp,LOCATION_MZONE,0,1,1,nil,c)
+	local mg=e:GetLabelObject()
 	c:SetMaterial(mg)
 	Duel.SendtoGrave(mg,REASON_LINK)
 	Duel.RegisterFlagEffect(tp,101006051,RESET_PHASE+PHASE_END,0,1)
@@ -62,7 +81,7 @@ function c101006051.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return a
 end
 function c101006051.atkfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_LINK) and not c:IsAttack(0)
+	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:GetAttack()~=0
 end
 function c101006051.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c101006051.atkfilter(chkc) end

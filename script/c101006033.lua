@@ -35,7 +35,7 @@ end
 function c101006033.atop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsFaceup() and c:IsRelateToEffect(e) and c:GetFlagEffect(101006033)==0 then
-			tc:RegisterFlagEffect(101006033,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+			c:RegisterFlagEffect(101006033,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 			e1:SetCode(EVENT_BATTLE_START)
@@ -43,7 +43,7 @@ function c101006033.atop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCondition(c101006033.descon2)
 			e1:SetOperation(c101006033.desop2)
 			e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-			tc:RegisterEffect(e1,true)
+			c:RegisterEffect(e1,true)
 	end
 end
 function c101006033.descon2(e,tp,eg,ep,ev,re,r,rp)

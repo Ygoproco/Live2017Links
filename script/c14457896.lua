@@ -73,6 +73,18 @@ function c14457896.eqop(e,tp,eg,ep,ev,re,r,rp)
 	e4:SetOperation(c14457896.disop)
 	e4:SetReset(RESET_EVENT+0x1fe0000)
 	c:RegisterEffect(e4)
+	local att=Duel.GetAttacker()
+	if att and att==tc then
+		local tg=tc:GetBattleTarget()
+		if tg and tg:IsRace(RACE_INSECT) then
+			--cannot attack workaround
+			local e5=Effect.CreateEffect(c)
+			e5:SetType(EFFECT_TYPE_EQUIP)
+			e5:SetCode(EFFECT_CANNOT_ATTACK)
+			e5:SetReset(RESET_EVENT+0x1fe0000)
+			c:RegisterEffect(e5)
+		end
+	end
 end
 function c14457896.eqlimit(e,c)
 	return c==e:GetLabelObject()
