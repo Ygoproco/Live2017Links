@@ -36,7 +36,7 @@ function c101006011.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.SelectMatchingCard(tp,c101006011.costfilter,tp,LOCATION_HAND,0,1,1,nil)
 	Duel.ConfirmCards(1-tp,g)
 	Duel.ShuffleHand(tp)
-	e:SetLabel(g:GetFirst():GetLabel())
+	e:SetLabel(g:GetFirst():GetLevel())
 end
 function c101006011.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
