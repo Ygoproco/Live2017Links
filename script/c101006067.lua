@@ -60,7 +60,7 @@ end
 function c101006067.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFlagEffect(tp,101006067)==0
 		and Duel.IsExistingMatchingCard(c101006067.cfilter,tp,LOCATION_HAND,0,1,nil) end
-	Duel.RegisterFlagEffect(tp,101006067,RESET_PHASE+PHASE_END)
+	Duel.RegisterFlagEffect(tp,101006067,RESET_PHASE+PHASE_END,0,1)
 	Duel.DiscardHand(tp,c101006067.cfilter,1,1,REASON_COST+REASON_DISCARD,nil)
 end
 function c101006067.gyfilter(c)
