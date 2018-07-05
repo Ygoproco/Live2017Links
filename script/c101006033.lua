@@ -53,7 +53,7 @@ end
 function c101006033.desop2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetHandler():GetBattleTarget()
 	if Duel.Destroy(tc,REASON_EFFECT)==0 then return end
-	Duel.Damage(1-tp,tc:GetOriginalAttack(),REASON_EFFECT)
+	Duel.Damage(1-tp,tc:GetBaseAttack(),REASON_EFFECT)
 end
 function c101006033.mfilter(c)
 	return c:IsCode(101006033) and c:IsPreviousLocation(LOCATION_MZONE)	 
