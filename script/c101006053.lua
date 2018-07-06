@@ -43,7 +43,7 @@ function c101006053.spop1(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101006053.filter(c)
-	return c:IsSetCard(0x220) and c:IsType(TYPE_LINK) and c:GetMaterial():IsExists(Card.IsCode,1,nil,c:GetCode())
+	return c:IsSetCard(0x220) and c:IsType(TYPE_LINK) and c:GetMaterial():IsExists(Card.IsLinkCode,1,nil,c:GetCode())
 end
 function c101006053.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
