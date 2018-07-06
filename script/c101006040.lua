@@ -31,7 +31,6 @@ function c101006040.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_MATERIAL_CHECK)
 	e3:SetValue(c101006040.valcheck)
-	e3:SetLabelObject(e2)
 	c:RegisterEffect(e3)
 end
 function c101006040.matfilter(c,scard,sumtype,tp)
@@ -57,7 +56,7 @@ function c101006040.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101006040.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetLabel()==1
+	return e:GetHandler():GetFlagEffect(101006040)~=0
 end
 function c101006040.filter1(c)
 	return c:IsType(TYPE_MONSTER) and c:GetAttack()~=0
@@ -92,8 +91,6 @@ end
 function c101006040.valcheck(e,c)
 	local g=c:GetMaterial()
 	if g:IsExists(Card.IsCode,1,nil,101006040) and c:IsSummonType(SUMMON_TYPE_LINK) then
-		e:GetLabelObject():SetLabel(1)
-	else
-		e:GetLabelObject():SetLabel(0)
+		c:RegisterFlagEffect(101006040,RESET_EVENT+0xfe0000,0,1)
 	end
 end
