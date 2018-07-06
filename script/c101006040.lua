@@ -71,7 +71,7 @@ function c101006040.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g1=Duel.SelectTarget(tp,c101006040.filter1,tp,LOCATION_GRAVE,0,1,1,nil,tp)
 	e:SetLabelObject(g1:GetFirst())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,g1:GetFirst())
+	Duel.SelectTarget(tp,c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,g1:GetFirst():GetAttack())
 end
 function c101006040.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local gc=e:GetLabelObject()
