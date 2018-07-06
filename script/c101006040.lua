@@ -59,8 +59,7 @@ function c101006040.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetFlagEffect(101006040)~=0
 end
 function c101006040.filter1(c)
-	return c:IsType(TYPE_MONSTER) and c:GetAttack()~=0
-	and Duel.IsExistingTarget(c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,c:GetAttack())
+	return c:IsType(TYPE_MONSTER) and Duel.IsExistingTarget(c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,c:GetAttack())
 end
 function c101006040.filter2(c,atk)
 	return c:IsFaceup() and c:GetAttack()~=atk
