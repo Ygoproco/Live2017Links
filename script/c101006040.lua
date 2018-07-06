@@ -89,7 +89,7 @@ function c101006040.atkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101006040.valcheck(e,c)
 	local g=c:GetMaterial()
-	if g:IsExists(Card.IsCode,1,nil,101006040) and c:IsSummonType(SUMMON_TYPE_LINK) then
+	if g:IsExists(Card.IsLinkCode,1,nil,101006040) and c:IsSummonType(SUMMON_TYPE_LINK) then
 		c:RegisterFlagEffect(101006040,RESET_EVENT+0xfe0000,0,1)
 	end
 end
