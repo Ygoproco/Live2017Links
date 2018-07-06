@@ -31,7 +31,6 @@ function c101006040.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_MATERIAL_CHECK)
 	e3:SetValue(c101006040.valcheck)
-	e3:SetLabelObject(e2)
 	c:RegisterEffect(e3)
 end
 function c101006040.matfilter(c,scard,sumtype,tp)
@@ -57,23 +56,22 @@ function c101006040.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101006040.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetLabel()==1
+	return e:GetHandler():GetFlagEffect(101006040)~=0
 end
-function c101006040.filter1(c)
-	return c:IsType(TYPE_MONSTER) and c:GetAttack()~=0
-	and Duel.IsExistingTarget(c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,c:GetAttack())
+function c101006040.filter1(c,tp)
+	return c:IsType(TYPE_MONSTER) and Duel.IsExistingTarget(c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,c:GetAttack())
 end
 function c101006040.filter2(c,atk)
 	return c:IsFaceup() and c:GetAttack()~=atk
 end
 function c101006040.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c101006040.filter1,tp,LOCATION_GRAVE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(c101006040.filter1,tp,LOCATION_GRAVE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SELF)
-	local g1=Duel.SelectTarget(tp,c101006040.filter1,tp,LOCATION_GRAVE,0,1,1,nil)
+	local g1=Duel.SelectTarget(tp,c101006040.filter1,tp,LOCATION_GRAVE,0,1,1,nil,tp)
 	e:SetLabelObject(g1:GetFirst())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,g1:GetFirst())
+	Duel.SelectTarget(tp,c101006040.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,g1:GetFirst():GetAttack())
 end
 function c101006040.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local gc=e:GetLabelObject()
@@ -91,9 +89,7 @@ function c101006040.atkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101006040.valcheck(e,c)
 	local g=c:GetMaterial()
-	if g:IsExists(Card.IsCode,1,nil,101006040) and c:IsSummonType(SUMMON_TYPE_LINK) then
-		e:GetLabelObject():SetLabel(1)
-	else
-		e:GetLabelObject():SetLabel(0)
+	if g:IsExists(Card.IsLinkCode,1,nil,101006040) and c:IsSummonType(SUMMON_TYPE_LINK) then
+		c:RegisterFlagEffect(101006040,RESET_EVENT+0x6e0000,0,1)
 	end
 end
