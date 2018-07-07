@@ -30,21 +30,22 @@ function c57043986.initial_effect(c)
 end
 c57043986.listed_names={89631139}
 function c57043986.negtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and aux.disfilter1(chkc) and chkc:IsControler(1-tp) end
 	if chk==0 then return Duel.IsExistingTarget(aux.disfilter1,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local g=Duel.SelectTarget(tp,aux.disfilter1,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE,g,1,0,0)
 end
 function c57043986.negop(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		local e1=Effect.CreateEffect(e:GetHandler())
+	if aux.disfilter1(tc) and tc:IsRelateToEffect(e) then
+		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
 		e1:SetReset(RESET_EVENT+0x1fe0000)
 		tc:RegisterEffect(e1)
-		local e2=Effect.CreateEffect(e:GetHandler())
+		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		e2:SetReset(RESET_EVENT+0x1fe0000)
@@ -58,8 +59,10 @@ function c57043986.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
 function c57043986.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToDeck() and Duel.IsExistingMatchingCard(c57043986.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.GetMZoneCount(tp,c)>0 and c:IsAbleToDeck()
+		and Duel.IsExistingMatchingCard(c57043986.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,c,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function c57043986.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -73,4 +76,3 @@ function c57043986.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
