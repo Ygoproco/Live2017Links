@@ -51,8 +51,8 @@ end
 function c101006054.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0x221)
 end
-function c101006054.atkcon1(e,tp)
-	return e:GetHandler():GetFlagEffect(101006054)~=0 and Duel.IsExistingMatchingCard(c101006054.filter,tp,LOCATION_MZONE,0,1,nil)
+function c101006054.atkcon1(e)
+	return e:GetHandler():GetFlagEffect(101006054)~=0 and Duel.IsExistingMatchingCard(c101006054.filter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function c101006054.atktg1(e,c)
 	return c:GetFieldID()~=e:GetLabel()
