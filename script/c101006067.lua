@@ -83,7 +83,7 @@ function c101006067.drop1(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101006067.lkfilter(c)
-	return c:IsSetCard(0x220) and c:IsType(TYPE_LINK) and c:GetMaterial():IsExists(Card.IsLinkCode,1,nil,c:GetCode())
+	return c:IsSetCard(0x220) and c:IsType(TYPE_LINK) and c:GetFlagEffect(101006040)~=0--c:GetMaterial():IsExists(Card.IsLinkCode,1,nil,c:GetCode())
 end
 function c101006067.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c101006067.lkfilter,tp,LOCATION_MZONE,0,1,nil)
