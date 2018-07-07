@@ -23,13 +23,14 @@ function c101006100.condition(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101006100.filter1(c,e,tp)
 	local rk=c:GetRank()
-	return c:IsFaceup() and c:IsType(TYPE_XYZ)
-		and Duel.IsExistingMatchingCard(c101006100.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+4)
+	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
+	return pg:GetCount()<=1 and c:IsFaceup() and c:IsType(TYPE_XYZ)
+		and Duel.IsExistingMatchingCard(c101006100.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+4,pg)
 		and Duel.GetLocationCountFromEx(tp,tp,c)>0
-		and aux.MustMaterialCheck(c,tp,EFFECT_MUST_BE_XMATERIAL)
 end
-function c101006100.filter2(c,e,tp,mc,rk)
-	return c:IsRank(rk) and (c:IsSetCard(0x55) or c:IsSetCard(0x7b)) and mc:IsCanBeXyzMaterial(c)
+function c101006100.filter2(c,e,tp,mc,rk,pg)
+	if c.rum_limit and not c.rum_limit(mc,e) then return false end
+	return (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsRank(rk) and (c:IsSetCard(0x55) or c:IsSetCard(0x7b)) and mc:IsCanBeXyzMaterial(c)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c101006100.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -41,10 +42,11 @@ function c101006100.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c101006100.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if Duel.GetLocationCountFromEx(tp,tp,tc)<=0 or not aux.MustMaterialCheck(tc,tp,EFFECT_MUST_BE_XMATERIAL) then return end
-	if tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsControler(1-tp) or tc:IsImmuneToEffect(e) then return end
+	if Duel.GetLocationCountFromEx(tp,tp,tc)<=0 or tc:IsFacedown()
+		or not tc:IsRelateToEffect(e) or tc:IsControler(1-tp) or tc:IsImmuneToEffect(e) then return end
+	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(tc),tp,nil,nil,REASON_XYZ)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c101006100.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,tc,tc:GetRank()+4)
+	local g=Duel.SelectMatchingCard(tp,c101006100.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,tc,tc:GetRank()+4,pg)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=tc:GetOverlayGroup()
