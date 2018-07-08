@@ -38,7 +38,7 @@ function c43147039.initial_effect(c)
 end
 c43147039.listed_names={93717133}
 function c43147039.cfilter(c)
-	return (c:IsSetCard(0x55) or c:IsSetCard(0x7b))  and c:IsType(TYPE_MONSTER)
+	return c:IsFaceup() and (c:IsSetCard(0x55) or c:IsSetCard(0x7b))  and c:IsType(TYPE_MONSTER)
 end
 function c43147039.spcon(e,c)
 	if c==nil then return true end
