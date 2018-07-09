@@ -39,6 +39,7 @@ function c86750474.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Damage(p,d,REASON_EFFECT)
 end
 function c86750474.damcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0 and c:IsSummonType(SUMMON_TYPE_LINK)
 end
 function c86750474.damfilter(c,e,tp)
