@@ -30,7 +30,8 @@ function c101006029.indtg(e,c)
 	return c:GetSequence()<5 and c:IsFacedown()
 end
 function c101006029.filter(c,tp)
-	return c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN) and c:GetPreviousControler()==tp
+	return c:IsPreviousLocation(LOCATION_SZONE) and c:IsPreviousPosition(POS_FACEDOWN)
+		and c:GetPreviousControler()==tp and c:GetPreviousSequence()<5
 end
 function c101006029.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c101006029.filter,1,nil,tp) and rp~=tp
