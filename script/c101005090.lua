@@ -20,7 +20,7 @@ function c101005090.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(c101005090.desfilter,tp,LOCATION_SZONE,0,1,nil,e:GetHandler():GetEquipGroup())
 		and Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectTarget(tp,c101005090.desfilter,tp,LOCATION_SZONE,0,1,1,nil)
+	local g1=Duel.SelectTarget(tp,c101005090.desfilter,tp,LOCATION_SZONE,0,1,1,nil,e:GetHandler():GetEquipGroup())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g2=Duel.SelectTarget(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,1,nil)
 	g1:Merge(g2)
