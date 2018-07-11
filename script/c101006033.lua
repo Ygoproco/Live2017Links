@@ -22,13 +22,19 @@ function c101006033.initial_effect(c)
 	e2:SetCost(c101006033.atcost)
 	e2:SetOperation(c101006033.atop)
 	c:RegisterEffect(e2)
+	--check material
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_MATERIAL_CHECK)
+	e3:SetValue(c101006033.valcheck)
+	c:RegisterEffect(e3)
 end
 function c101006033.cfilter(c,fc,sumtype,tp)
 	return c:IsType(TYPE_LINK) and c:IsSetCard(0x220) 
 end
 function c101006033.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c101006033.cfilter,1,false,nil,nil)
-	and e:GetHandler():GetFlagEffect(101006033)==0  end
+	and e:GetHandler():GetFlagEffect(101006033)==0	end
 	local g=Duel.SelectReleaseGroupCost(tp,c101006033.cfilter,1,1,false,nil,nil)
 	Duel.Release(g,REASON_COST)
 end
@@ -55,13 +61,9 @@ function c101006033.desop2(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.Destroy(tc,REASON_EFFECT)==0 then return end
 	Duel.Damage(1-tp,tc:GetBaseAttack(),REASON_EFFECT)
 end
-function c101006033.mfilter(c)
-	return c:IsCode(101006033) and c:IsPreviousLocation(LOCATION_MZONE)	 
-end
 function c101006033.descon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local mg=c:GetMaterial()
-	return c:IsSummonType(SUMMON_TYPE_RITUAL) and #mg>0 and mg:IsExists(c101006033.mfilter,1,nil)
+	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetFlagEffect(101006032)~=0
 end
 function c101006033.desfilter(c)
 	return c:IsSummonType(SUMMON_TYPE_SPECIAL)
@@ -74,4 +76,13 @@ end
 function c101006033.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c101006033.desfilter,tp,0,LOCATION_MZONE,nil)
 	Duel.Destroy(g,REASON_EFFECT)
+end
+function c101006033.mfilter(c,tp)
+	return c:IsCode(101006033) and c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
+end
+function c101006033.valcheck(e,c)
+	local g=c:GetMaterial()
+	if g:IsExists(c101006033.mfilter,1,nil,tp) then
+		c:RegisterFlagEffect(101006032,RESET_EVENT+0x6e0000,0,1)
+	end
 end
