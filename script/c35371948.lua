@@ -153,7 +153,7 @@ function c35371948.rstop2(e,tp,eg,ep,ev,re,r,rp)
 	if te then te:Reset() end
 end
 function c35371948.damcon1(e,tp,eg,ep,ev,re,r,rp)
-	return ep~=tp and eg:GetFirst():IsSetCard(0xfb) and not Duel.GetLP(1-tp)==0
+	return ep~=tp and eg:GetFirst():IsSetCard(0xfb) and Duel.GetLP(1-tp)>0
 end
 function c35371948.damcon2(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and r&REASON_BATTLE==0 and re and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0xfb)
