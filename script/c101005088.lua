@@ -28,13 +28,12 @@ function c101005088.spcon(e,c)
 		and Duel.IsExistingMatchingCard(c101005088.filter,c:GetControler(),LOCATION_ONFIELD,0,1,nil)
 end
 function c101005088.mtcon(e,tp,eg,ep,ev,re,r,rp)
-	return r & (REASON_SYNCHRO | REASON_XYZ | REASON_LINK) ~=0 and e:GetHandler():IsPreviousLocation(LOCATION_MZONE)
+	return r & (REASON_SYNCHRO+REASON_XYZ+REASON_LINK)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_MZONE)
 end
 function c101005088.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=eg:Filter(Card.IsSetCard,nil,0x107a)
-	local rc=g:GetFirst()
-	if not rc then return end
+	local rc=c:GetReasonCard()
+	if not rc:IsSetCard(0x107a) then return end
 	--reg eff
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
