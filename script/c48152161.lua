@@ -50,10 +50,10 @@ function c48152161.activate(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(RESET_TURN_SET)
 		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e2)
+		Duel.AdjustInstantly(tc)
 		local atk=tc:GetAttack()
-		if atk>0 then
+		if not tc:IsImmuneToEffect(e1) and not tc:IsImmuneToEffect(e2) and atk>0 then
 			Duel.Recover(tp,atk,REASON_EFFECT)
 		end
 	end
 end
-
