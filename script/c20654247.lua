@@ -35,13 +35,19 @@ function c20654247.initial_effect(c)
 	e4:SetTarget(c20654247.postg)
 	e4:SetOperation(c20654247.posop)
 	c:RegisterEffect(e4)
+	--check material
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_SINGLE)
+	e5:SetCode(EFFECT_MATERIAL_CHECK)
+	e5:SetValue(c20654247.valcheck)
+	c:RegisterEffect(e5)
 end
 function c20654247.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
 end
 function c20654247.poscon(e)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetMaterial():IsExists(Card.IsCode,1,nil,89631139)
+	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetFlagEffect(20654247)~=0
 end
 function c20654247.postg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,1,nil) end
@@ -77,4 +83,9 @@ function c20654247.posop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterEffect(e3)
 	end
 end
-
+function c20654247.valcheck(e,c)
+	local g=c:GetMaterial()
+	if g:IsExists(Card.IsCode,1,nil,89631139) then
+		c:RegisterFlagEffect(20654247,RESET_EVENT+0x6e0000,0,1)
+	end
+end
