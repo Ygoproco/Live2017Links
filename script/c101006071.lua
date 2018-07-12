@@ -50,7 +50,7 @@ function c101006071.filter(c)
 	return c:IsFaceup() and (c:IsSetCard(0x225) or c:IsSetCard(0xfe)) and not c:IsCode(101006071)
 end
 function c101006071.immcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():GetFlagEffect(101006071)~=0
+	if chk==0 then return e:GetHandler():GetFlagEffect(101006071)==0
 		and Duel.IsExistingMatchingCard(c101006071.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,tp) end
 	e:GetHandler():RegisterFlagEffect(101006071,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 	local g=Duel.SelectMatchingCard(tp,c101006071.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,tp)
