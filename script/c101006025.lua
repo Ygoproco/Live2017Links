@@ -18,6 +18,7 @@ function c101006025.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e2:SetCondition(c101006025.condition)
 	e2:SetCost(c101006025.cost)
 	e2:SetTarget(c101006025.target)
 	c:RegisterEffect(e2)
@@ -48,6 +49,9 @@ function c101006025.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 end
 function c101006025.spfilter(c,e,tp)
 	return c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
+end
+function c101006025.condition(e)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_SPECIAL+1)
 end
 function c101006025.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetAttackAnnouncedCount()==0 end
