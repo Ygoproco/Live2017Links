@@ -38,5 +38,5 @@ function c101006016.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c101006016.splimit(e,c,sump,sumtype,sumpos,targetp)
-	return not ( c:IsRace(RACE_MACHINE) and c:IsAttribute(ATTRIBUTE_DARK) )
+	return not c:IsAttribute(ATTRIBUTE_DARK)
 end
