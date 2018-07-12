@@ -6,7 +6,7 @@ function c80794697.initial_effect(c)
 	e1:SetCategory(CATEGORY_DRAW+CATEGORY_HANDES)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_LEAVE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
+	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL+EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,80794697)
 	e1:SetCondition(c80794697.condition)
 	e1:SetTarget(c80794697.target)
@@ -30,4 +30,3 @@ function c80794697.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Draw(tp,2,REASON_EFFECT)
 	end
 end
-
