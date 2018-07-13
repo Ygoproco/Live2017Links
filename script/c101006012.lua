@@ -26,7 +26,7 @@ function c101006012.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c101006012.filter(c,e,tp)
-	return c:IsSetCard(0x2e) and (c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x2e) and c:IsLevel(4) and (c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		or c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEDOWN_DEFENSE))
 end
 function c101006012.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
