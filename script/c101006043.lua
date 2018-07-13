@@ -56,6 +56,6 @@ function c101006043.tdop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.BreakEffect()
 		local sg=g:Select(tp,1,1,nil)
 		Duel.SSet(tp,sg)
-		Duel.ConfirmCards(1-tp,g)
+		Duel.ConfirmCards(1-tp,sg)
 	end
 end
