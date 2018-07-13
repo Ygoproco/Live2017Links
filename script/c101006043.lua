@@ -52,7 +52,7 @@ function c101006043.tdop(e,tp,eg,ep,ev,re,r,rp)
 	if #og==0 then return end
 	if og:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then Duel.ShuffleDeck(tp) end
 	local g=Duel.GetMatchingGroup(c101006043.filter,tp,LOCATION_DECK,0,nil)
-	if #g>0 and Duel.SelectYesNo(aux.Stringid(101006043,1)) then
+	if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(101006043,1)) then
 		Duel.BreakEffect()
 		local sg=g:Select(tp,1,1,nil)
 		Duel.SSet(tp,sg)
