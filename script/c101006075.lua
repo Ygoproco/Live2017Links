@@ -11,25 +11,18 @@ function c101006075.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c101006075.filter0(c)
-	return c:IsOnField() and c:IsAbleToRemove()
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and aux.SpElimFilter(c,true,false)
 end
 function c101006075.filter1(c,e)
-	return c:IsOnField() and c:IsAbleToRemove() and not c:IsImmuneToEffect(e)
+	return c101006075.filter0(c) and not c:IsImmuneToEffect(e)
 end
 function c101006075.filter2(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
-function c101006075.filter3(c)
-	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
-end
 function c101006075.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local mg1=Duel.GetFusionMaterial(tp):Filter(c101006075.filter0,nil)
-		if not Duel.IsPlayerAffectedByEffect(tp,69832741) then
-			local mg2=Duel.GetMatchingGroup(c101006075.filter3,tp,LOCATION_GRAVE,0,nil)
-			mg1:Merge(mg2)
-		end
+		local mg1=Duel.GetMatchingGroup(c101006075.filter0,tp,LOCATION_GRAVE+LOCATION_ONFIELD,0,nil)
 		local res=Duel.IsExistingMatchingCard(c101006075.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
@@ -45,11 +38,7 @@ function c101006075.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function c101006075.activate(e,tp,eg,ep,ev,re,r,rp)
-	local mg1=Duel.GetFusionMaterial(tp):Filter(c101006075.filter1,nil,e)
-	if not Duel.IsPlayerAffectedByEffect(tp,69832741) then
-		local mg2=Duel.GetMatchingGroup(c101006075.filter3,tp,LOCATION_GRAVE,0,nil)
-		mg1:Merge(mg2)
-	end
+	local mg1=Duel.GetMatchingGroup(c101006075.filter1,tp,LOCATION_GRAVE+LOCATION_ONFIELD,0,nil,e)
 	local sg1=Duel.GetMatchingGroup(c101006075.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	local mg3=nil
 	local sg2=nil
@@ -78,5 +67,10 @@ function c101006075.activate(e,tp,eg,ep,ev,re,r,rp)
 			fop(ce,e,tp,tc,mat2)
 		end
 		tc:CompleteProcedure()
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_CANNOT_ATTACK)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		tc:RegisterEffect(e1)
 	end
 end
