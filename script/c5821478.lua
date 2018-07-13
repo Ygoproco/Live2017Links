@@ -35,7 +35,7 @@ end
 function c5821478.descon(e,tp,eg,ep,ev,re,r,rp)
     if eg:IsContains(e:GetHandler()) then return false end
     for tc in aux.Next(Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_MZONE,LOCATION_MZONE,nil,TYPE_LINK)) do
-        if eg:IsExists(c5821478.cfilter,1,tc,e:GetHandler()) then return true end
+        if eg:IsExists(c5821478.cfilter,1,nil,tc) then return true end
     end
     return false
 end
