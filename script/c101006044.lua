@@ -39,6 +39,12 @@ function c101006044.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectTarget(tp,c101006044.tdfilter,tp,LOCATION_REMOVED,0,2,2,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_CANNOT_ATTACK)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_OATH)
+	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+	e:GetHandler():RegisterEffect(e1)
 end
 function c101006044.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -48,17 +54,11 @@ function c101006044.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local og=Duel.GetOperatedGroup()
 	if #og==0 then return end
 	if og:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then Duel.ShuffleDeck(tp) end
-	local g=c:GetLinkedGroup()
+	local g=Duel.GetMatchingGroup(Card.IsLinkState,tp,0,LOCATION_MZONE,nil)
 	if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(101006044,1)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local sg=g:Select(tp,1,1,nil)
 		Duel.SendtoGrave(sg,REASON_EFFECT)
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_CANNOT_ATTACK)
-		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_OATH)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-		e:GetHandler():RegisterEffect(e1)
 	end
 end
