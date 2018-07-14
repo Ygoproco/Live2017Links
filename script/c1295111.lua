@@ -1,0 +1,112 @@
+--転生炎獣の聖域
+--Salamangreat Sanctuary
+--Script by nekrozar
+function c1295111.initial_effect(c)
+	--Activate
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	c:RegisterEffect(e1)
+	--extra material
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(1295111,0))
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_IGNORE_IMMUNE)
+	e2:SetCode(EFFECT_SPSUMMON_PROC)
+	e2:SetRange(LOCATION_EXTRA)
+	e2:SetCondition(c1295111.linkcon)
+	e2:SetTarget(c1295111.linktg)
+	e2:SetOperation(c1295111.linkop)
+	e2:SetValue(SUMMON_TYPE_LINK)
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
+	e3:SetRange(LOCATION_FZONE)
+	e3:SetTargetRange(LOCATION_EXTRA,0)
+	e3:SetTarget(c1295111.mattg)
+	e3:SetLabelObject(e2)
+	c:RegisterEffect(e3)
+	--recover
+	local e4=Effect.CreateEffect(c)
+	e4:SetDescription(aux.Stringid(1295111,1))
+	e4:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_RECOVER)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e4:SetRange(LOCATION_FZONE)
+	e4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+	e4:SetCountLimit(1,1295111)
+	e4:SetCondition(c1295111.atkcon)
+	e4:SetCost(c1295111.atkcost)
+	e4:SetTarget(c1295111.atktg)
+	e4:SetOperation(c1295111.atkop)
+	c:RegisterEffect(e4)
+end
+function c1295111.lmfilter(c,lc,tp)
+	return c:IsFaceup() and c:IsCode(lc:GetCode()) and c:IsCanBeLinkMaterial(lc,tp)
+end
+function c1295111.linkcon(e,c)
+	if c==nil then return true end
+	local tp=c:GetControler()
+	local g=Duel.GetMatchingGroup(c1295111.lmfilter,tp,LOCATION_MZONE,0,nil,c,tp)
+	local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,g,REASON_LINK)
+	return ((#mustg==1 and c1295111.lmfilter(mustg:GetFirst(),c,tp)) or (#mustg==0 and #g>0))
+		and Duel.GetFlagEffect(tp,1295111)==0
+end
+function c1295111.linktg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.GetMatchingGroup(c1295111.lmfilter,tp,LOCATION_MZONE,0,nil,c,tp)
+	local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,g,REASON_LINK)
+	if #mustg>0 then
+		mustg:KeepAlive()
+		e:SetLabelObject(mustg)
+		return true
+	end
+	local tc=g:SelectUnselect(Group.CreateGroup(),tp,true,true)
+	if tc then
+		local sg=Group.FromCards(tc)
+		sg:KeepAlive()
+		e:SetLabelObject(sg)
+		return true
+	else return false end
+end
+function c1295111.linkop(e,tp,eg,ep,ev,re,r,rp,c)
+	local mg=e:GetLabelObject()
+	c:SetMaterial(mg)
+	Duel.SendtoGrave(mg,REASON_MATERIAL+REASON_LINK)
+	Duel.RegisterFlagEffect(tp,1295111,RESET_PHASE+PHASE_END,0,1)
+end
+function c1295111.mattg(e,c)
+	return c:IsSetCard(0x119) and c:IsType(TYPE_LINK)
+end
+function c1295111.atkcon(e,tp,eg,ep,ev,re,r,rp)
+	local a=Duel.GetAttacker()
+	if a:IsControler(1-tp) then a=Duel.GetAttackTarget() end
+	return a
+end
+function c1295111.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.CheckLPCost(tp,1000) end
+	Duel.PayLPCost(tp,1000)
+end
+function c1295111.atkfilter(c)
+	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:GetAttack()~=0
+end
+function c1295111.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c1295111.atkfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c1295111.atkfilter,tp,LOCATION_MZONE,0,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
+	local g=Duel.SelectTarget(tp,c1295111.atkfilter,tp,LOCATION_MZONE,0,1,1,nil)
+	local rec=g:GetFirst():GetBaseAttack()
+	Duel.SetTargetParam(rec)
+	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,rec)
+end
+function c1295111.atkop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
+		e1:SetValue(0)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(e1)
+		Duel.Recover(tp,tc:GetBaseAttack(),REASON_EFFECT)
+	end
+end
+
