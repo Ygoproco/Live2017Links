@@ -20,15 +20,27 @@ function c101006043.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,101006043)
+	e2:SetCondition(c101006043.tdcon1)
 	e2:SetTarget(c101006043.tdtg)
 	e2:SetOperation(c101006043.tdop)
 	c:RegisterEffect(e2)
+	local e3=e2:Clone()
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_FREE_CHAIN)
+	e3:SetCondition(c101006043.tdcon2)
+	c:RegisterEffect(e3)
 end
 function c101006043.matcheck(g,lc,tp)
 	return g:IsExists(Card.IsLinkSetCard,1,nil,0x225)
 end
 function c101006043.indcon(e)
 	return e:GetHandler():IsLinkState()
+end
+function c101006043.tdcon1(e,tp,eg,ep,ev,re,r,rp)
+	return not Duel.IsPlayerAffectedByEffect(tp,CARD_ORPHEGEL_BABEL)
+end
+function c101006043.tdcon2(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsPlayerAffectedByEffect(tp,CARD_ORPHEGEL_BABEL)
 end
 function c101006043.tdfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_MACHINE) and c:IsAbleToDeck()
