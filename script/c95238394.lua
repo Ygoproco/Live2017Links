@@ -54,7 +54,7 @@ function c95238394.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c95238394.activate(e,tp,eg,ep,ev,re,r,rp)
 	local chkf=tp
-	local mg=Duel.GetMatchingGroup(c95238394.filter1,tp,LOCATION_REMOVED+LOCATION_GRAVE+LOCATION_MZONE,0,nil,e)
+	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c95238394.filter1),tp,LOCATION_REMOVED+LOCATION_GRAVE+LOCATION_MZONE,0,nil,e)
 	local sg1=Duel.GetMatchingGroup(c95238394.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg,nil,chkf)
 	local mg3=nil
 	local sg2=nil
@@ -100,4 +100,3 @@ function c95238394.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
