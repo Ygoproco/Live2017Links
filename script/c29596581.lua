@@ -41,7 +41,7 @@ function c29596581.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE+LOCATION_REMOVED)   
 end
 function c29596581.thop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.SelectMatchingCard(tp,c29596581.thfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,1,nil)
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c29596581.thfilter),tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,1,nil)
 	if #tc>0 then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tc)
