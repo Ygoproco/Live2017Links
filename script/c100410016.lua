@@ -9,7 +9,7 @@ function c100410016.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,100410016)
 	e1:SetCondition(c100410016.reccon)
-	e1:SetTarget(c100410016.retg)
+	e1:SetTarget(c100410016.rectg)
 	e1:SetOperation(c100410016.recop)
 	c:RegisterEffect(e1)
 end
@@ -31,7 +31,7 @@ end
 function c100410016.recop(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Recover(p,d,REASON_EFFECT)
-	local g=Duel.GetMatchingGroup(c100410016.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
+	local g=Duel.GetMatchingGroup(c100410016.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,nil,e,tp)
 	if #g>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(100410016,1)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
