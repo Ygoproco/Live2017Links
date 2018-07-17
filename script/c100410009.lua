@@ -61,14 +61,14 @@ function c100410009.activate(e,tp,eg,ep,ev,re,r,rp)
 		tc:SetMaterial(mat)
 		Duel.ReleaseRitualMaterial(mat)
 		Duel.BreakEffect()
-		Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
+			Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
 		tc:CompleteProcedure()
 		Duel.BreakEffect()
 		local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
-		if mat:IsExists(c100410009.mfilter,1,nil) and #g>0 and Duel.SelectYesNo(tp,aux.Stringid(100410009,0)) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-		local sg=g:Select(tp,1,1,e:GetHandler())
-		Duel.Destroy(sg,REASON_EFFECT)
+			if mat:IsExists(c100410009.mfilter,1,nil) and #g>0 and Duel.SelectYesNo(tp,aux.Stringid(100410009,0)) then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local sg=g:Select(tp,1,1,e:GetHandler())
+			Duel.Destroy(sg,REASON_EFFECT)
 	end
 	end
 end
