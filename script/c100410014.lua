@@ -32,7 +32,7 @@ end
 function c100410014.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c100410014.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	local g2=Duel.GetMatchingGroup(c100410014.spfilter,tp,LOCATION_DECK,0,g:GetFirst(),e,tp)
+	local g2=Duel.GetMatchingGroup(c100410014.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,g:GetFirst(),e,tp)
 	if #g>0 and Duel.SendtoGrave(g,REASON_EFFECT)~=0 and g:GetFirst():IsLocation(LOCATION_GRAVE)
 		and #g2>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
 		and Duel.SelectYesNo(tp,aux.Stringid(100410014,1)) then
