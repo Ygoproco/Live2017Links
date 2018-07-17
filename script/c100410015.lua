@@ -9,7 +9,7 @@ function c100410015.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,100410015)
 	e1:SetCondition(c100410015.reccon)
-	e1:SetTarget(c100410015.retg)
+	e1:SetTarget(c100410015.rectg)
 	e1:SetOperation(c100410015.recop)
 	c:RegisterEffect(e1)
 end
@@ -27,9 +27,9 @@ function c100410015.spfilter(c,e,tp)
 	return c:IsSetCard(0x226) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)  and not c:IsCode(100410015)
 end
 function c100410015.recop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(c100410015.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
-	if Duel.Damage(1-tp,500,REASON_EFFECT)~=500 and #g>0 
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(100410015,1)) then
+	local g=Duel.GetMatchingGroup(c100410015.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,nil,e,tp)
+	Debug.Message(#g)
+	if Duel.Damage(1-tp,500,REASON_EFFECT)~=0 and #g>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(100410015,1)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg=g:Select(tp,1,1,nil)
