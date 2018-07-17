@@ -6,6 +6,7 @@ function c56773577.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetTarget(c56773577.target)
 	c:RegisterEffect(e1)
 	--atk down
 	local e2=Effect.CreateEffect(c)
@@ -26,7 +27,7 @@ function c56773577.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetCode(EVENT_FREE_CHAIN)
-	e4:SetCountLimit(1)
+	e4:SetCost(c56773577.accost)
 	e4:SetCondition(c56773577.accon)
 	e4:SetOperation(c56773577.acop)
 	c:RegisterEffect(e4)
@@ -48,8 +49,23 @@ function c56773577.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c56773577.cfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 		and Duel.IsEnvironment(47355498)
 end
+function c56773577.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	if c56773577.accost(e,tp,eg,ep,ev,re,r,rp,0) and c56773577.accon(e,tp,eg,ep,ev,re,r,rp)
+		and Duel.SelectYesNo(tp,aux.Stringid(56773577,0)) then
+		c56773577.accost(e,tp,eg,ep,ev,re,r,rp,1)
+		e:SetOperation(c56773577.acop)
+	else
+		e:SetOperation(nil)
+	end
+end
+function c56773577.accost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():GetFlagEffect(56773577)==0 end
+	e:GetHandler():RegisterFlagEffect(56773577,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+end
 function c56773577.accon(e,tp,eg,ep,ev,re,r,rp)
 	return (Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2)
+		and Duel.IsExistingMatchingCard(c56773577.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil)
 		and not Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_FZONE,0,1,nil)
 end
 function c56773577.filter(c)
