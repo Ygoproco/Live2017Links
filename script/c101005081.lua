@@ -44,7 +44,7 @@ function c101005081.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	if Duel.Draw(p,d,REASON_EFFECT)~=0 then
-		e:GetHandler():RegisterFlagEffect(101005081,RESET_PHASE+PHASE_END,0,1)
+		e:GetHandler():RegisterFlagEffect(101005081,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DRAW,0,1)
 	end
 end
 function c101005081.tgcon(e)
