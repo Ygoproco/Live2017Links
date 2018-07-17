@@ -28,7 +28,6 @@ function c100410015.spfilter(c,e,tp)
 end
 function c100410015.recop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c100410015.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,nil,e,tp)
-	Debug.Message(#g)
 	if Duel.Damage(1-tp,500,REASON_EFFECT)~=0 and #g>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(100410015,1)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
