@@ -1,5 +1,5 @@
 --守護神-ネフティス
---Sacred Guardian - Nephthys
+--Nephthys the Palladium Deity
 --Scripted by Eerie Code
 function c100410007.initial_effect(c)
 	c:EnableReviveLimit()
@@ -7,8 +7,8 @@ function c100410007.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(100410007,0))
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetRange(LOCATION_MZONE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCountLimit(1,100410007)
 	e1:SetCondition(c100410007.condition)
@@ -72,6 +72,7 @@ function c100410007.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c100410007.desop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	local lg=e:GetHandler():GetLinkedGroup()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local dc=Duel.SelectMatchingCard(tp,c100410007.desfilter,tp,LOCATION_MZONE,0,1,1,nil,e,tp,lg,true):GetFirst()
