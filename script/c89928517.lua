@@ -27,16 +27,17 @@ function c89928517.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_CONFIRM)
 	local tc2=hg2:Select(1-tp,1,1,nil):GetFirst()
 	local tg={tc1,tc2}
-	if tc2:IsControler(0) then tc={tc2,tc1} end
+	if tc2:IsControler(0) then tg={tc2,tc1} end
 	if tc1:IsType(TYPE_MONSTER) and tc2:IsType(TYPE_MONSTER) then
-		for p=0,1 do
-			local tc=tg[p]
-			if Duel.GetLocationCount(p,LOCATION_MZONE)>0 
-				and tc:IsCanBeSpecialSummoned(e,0,p,false,false)
-				and Duel.SelectYesNo(p,aux.Stringid(89928517,1)) then
-				Duel.SpecialSummon(tc,0,p,p,false,false,POS_FACEUP)
-			end
+		local ask1=Duel.SelectYesNo(tp,aux.Stringid(89928517,1))
+		local ask2=Duel.SelectYesNo(1-tp,aux.Stringid(89928517,1))
+		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and tc1:IsCanBeSpecialSummoned(e,0,tp,false,false) and ask1 then
+			Duel.SpecialSummonStep(tc1,0,tp,tp,false,false,POS_FACEUP)
 		end
+		if Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 and tc2:IsCanBeSpecialSummoned(e,0,1-tp,false,false) and ask2 then
+			Duel.SpecialSummonStep(tc2,0,1-tp,1-tp,false,false,POS_FACEUP)
+		end
+		Duel.SpecialSummonComplete()
 	elseif tc1:IsType(TYPE_SPELL) and tc2:IsType(TYPE_SPELL)
 		and Duel.IsPlayerCanDraw(tp,2) and Duel.IsPlayerCanDraw(1-tp,2) then
 		Duel.Draw(tp,2,REASON_EFFECT)
@@ -51,4 +52,3 @@ function c89928517.operation(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
