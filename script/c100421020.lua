@@ -47,7 +47,7 @@ function c100421020.initial_effect(c)
 	local e5=Effect.CreateEffect(c)
 	e5:SetDescription(aux.Stringid(100421020,1))
 	e5:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
-	e5:SetType(EFFECT_TYPE_ACTIVATE)
+	e5:SetType(EFFECT_TYPE_QUICK_O)
 	e5:SetCode(EVENT_CHAINING)
 	e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e5:SetRange(LOCATION_MZONE)
@@ -82,11 +82,8 @@ function c100421020.discon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return ep==1-tp and re:IsActiveType(TYPE_MONSTER) and Duel.IsChainNegatable(ev)
 end
-function c100421020.discfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x107) and c:IsAbleToGraveAsCost()
-end
 function c100421020.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1000,1,REASON_COST) end
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x100,1,REASON_COST) end
 	Duel.RemoveCounter(tp,1,1,0x100,1,REASON_COST)
 end
 function c100421020.distg(e,tp,eg,ep,ev,re,r,rp,chk)
