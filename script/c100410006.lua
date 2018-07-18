@@ -63,7 +63,7 @@ function c100410006.spr(e,tp,eg,ep,ev,re,r,rp)
 end
 function c100410006.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return e:GetLabelObject():GetLabel()~=Duel.GetTurnCount() and tp==Duel.GetTurnPlayer() and c:GetFlagEffect(100410006)>0
+	return c:IsCanBeSpecialSummoned(e,0,tp,false,false) and e:GetLabelObject():GetLabel()~=Duel.GetTurnCount() and tp==Duel.GetTurnPlayer() and c:GetFlagEffect(100410006)>0
 end
 function c100410006.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
