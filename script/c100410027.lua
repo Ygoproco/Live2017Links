@@ -17,7 +17,7 @@ function c100410027.initial_effect(c)
 	Duel.AddCustomActivityCounter(100410027,ACTIVITY_SPSUMMON,c100410027.counterfilter)
 end
 function c100410027.counterfilter(c)
-	return c:GetSummonLocation()~=LOCATION_EXTRA or not c:IsSetCard(0x227)
+	return c:GetSummonLocation()~=LOCATION_EXTRA or c:IsSetCard(0x227)
 end
 function c100410027.cfilter(c,tp)
 	return c:IsSetCard(0x227) and c:GetSummonLocation()==LOCATION_EXTRA and c:IsControler(tp)
