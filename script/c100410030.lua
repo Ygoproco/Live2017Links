@@ -1,7 +1,6 @@
 --轍の魔妖-俥夫　
 -- Rickshaw Mayakashi – Shafu
 function c100410030.initial_effect(c)
-	c:SetUniqueOnField(1,0,100410030)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(100410030,1))
