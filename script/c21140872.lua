@@ -59,9 +59,11 @@ end
 function c21140872.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c21140872.eqfilter(chkc,tp) end
 	if chk==0 then return Duel.IsExistingTarget(c21140872.eqfilter,tp,LOCATION_GRAVE,0,1,nil,tp)
-		and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and not Duel.IsEnvironment(47355498) end
+		and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectTarget(tp,c21140872.eqfilter,tp,LOCATION_GRAVE,0,1,1,nil,tp)
+	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
 end
 function c21140872.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
