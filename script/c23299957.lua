@@ -98,5 +98,5 @@ end
 function c23299957.effectfilter(e,ct)
 	local te=Duel.GetChainInfo(ct,CHAININFO_TRIGGERING_EFFECT)
 	local tc=te:GetHandler()
-	return tc:IsSummonType(SUMMON_TYPE_SPECIAL) and tc:IsLocation(LOCATION_MZONE) and not (tc:IsPreviousPosition(POS_FACEDOWN)) and tc:GetReasonEffect():GetHandler():IsCode(23299957)
+	return tc:IsSummonType(SUMMON_TYPE_SPECIAL) and tc:IsLocation(LOCATION_MZONE) and not (tc:GetFlagEffect(23299957)==0) and tc:GetReasonEffect() and tc:GetReasonEffect():GetHandler():IsCode(23299957)
 end
