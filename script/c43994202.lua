@@ -36,7 +36,7 @@ function c43994202.thcheck(sg,e,tp,mg)
 end
 function c43994202.activate(e,tp,eg,ep,ev,re,r,rp)
 	local dg=Duel.GetMatchingGroup(c43994202.filter,tp,LOCATION_DECK,0,1,nil)
-	local g=aux.SelectUnselectGroup(dg,e,tp,3,3,c43994202.thcheck,tp,HINTMSG_ATOHAND)
+	local g=aux.SelectUnselectGroup(dg,e,tp,3,3,c43994202.thcheck,1,tp,HINTMSG_ATOHAND)
 	if #g==3 and Duel.SendtoHand(g,nil,REASON_EFFECT)==3 then
 		local tc=g:GetFirst()
 		local e0=Effect.CreateEffect(e:GetHandler())
