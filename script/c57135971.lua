@@ -73,42 +73,44 @@ function c57135971.desfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_EFFECT)
 end
 function c57135971.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local tc=e:GetLabelObject()
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c57135971.desfilter(chkc) and chkc~=tc end
+	local ec=e:GetLabelObject()
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c57135971.desfilter(chkc) and chkc~=ec end
 	if chk==0 then return Duel.IsExistingTarget(c57135971.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler():GetEquipTarget()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,c57135971.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,tc)
+	local g=Duel.SelectTarget(tp,c57135971.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,ec)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,1,0,0)
 end
 function c57135971.desop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	local c=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc and tc:IsLocation(LOCATION_MZONE) and tc:IsFaceup() then
-		Duel.Equip(tp,c,tc)
-		--Atk
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_EQUIP)
-		e1:SetCode(EFFECT_SET_ATTACK)
-		e1:SetValue(c:GetAttack())
-		e1:SetReset(RESET_EVENT+0x1fe0000)
-		c:RegisterEffect(e1)
-		--Def
-		local e2=Effect.CreateEffect(c)
-		e2:SetType(EFFECT_TYPE_EQUIP)
-		e2:SetCode(EFFECT_SET_DEFENSE)
-		e2:SetValue(c:GetDefense())
-		e2:SetReset(RESET_EVENT+0x1fe0000)
-		c:RegisterEffect(e2)
-		--Equip limit
-		local e3=Effect.CreateEffect(c)
-		e3:SetType(EFFECT_TYPE_SINGLE)
-		e3:SetCode(EFFECT_EQUIP_LIMIT)
-		e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e3:SetValue(c57135971.eqlimit2)
-		e3:SetReset(RESET_EVENT+0x1fe0000)
-		e3:SetLabelObject(tc)
-		c:RegisterEffect(e3)
-	else Duel.SendtoGrave(c,REASON_RULE)
+	local ec=e:GetLabelObject()
+	local tc=Duel.GetFirstTarget()
+	if tc and tc:IsRelateToEffect(e) then
+		if ec and ec:IsLocation(LOCATION_MZONE) and ec:IsFaceup() then
+			Duel.Equip(tp,tc,ec)
+			--Atk
+			local e1=Effect.CreateEffect(tc)
+			e1:SetType(EFFECT_TYPE_EQUIP)
+			e1:SetCode(EFFECT_SET_ATTACK)
+			e1:SetValue(tc:GetAttack())
+			e1:SetReset(RESET_EVENT+0x1fe0000)
+			tc:RegisterEffect(e1)
+			--Def
+			local e2=Effect.CreateEffect(tc)
+			e2:SetType(EFFECT_TYPE_EQUIP)
+			e2:SetCode(EFFECT_SET_DEFENSE)
+			e2:SetValue(tc:GetDefense())
+			e2:SetReset(RESET_EVENT+0x1fe0000)
+			tc:RegisterEffect(e2)
+			--Equip limit
+			local e3=Effect.CreateEffect(tc)
+			e3:SetType(EFFECT_TYPE_SINGLE)
+			e3:SetCode(EFFECT_EQUIP_LIMIT)
+			e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+			e3:SetValue(c57135971.eqlimit2)
+			e3:SetReset(RESET_EVENT+0x1fe0000)
+			e3:SetLabelObject(ec)
+			tc:RegisterEffect(e3)
+		else Duel.SendtoGrave(tc,REASON_RULE)
+		end
 	end
 end
 function c57135971.eqlimit2(e,c)
