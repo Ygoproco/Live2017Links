@@ -26,7 +26,7 @@ function c98905.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local sg=eg:Filter(c98905.cfilter,nil)
 	local tc=sg:GetFirst()
 	while tc do
-		tc:RegisterFlagEffect(98905,RESET_EVENT+0x1fe0000-RESET_TOGRAVE,0,1)
+		tc:RegisterFlagEffect(98905,RESET_EVENT+0x1fe0000&~(RESET_TOGRAVE|RESET_LEAVE),0,1)
 		tc=sg:GetNext()
 	end
 end
