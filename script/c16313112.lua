@@ -63,7 +63,7 @@ function c16313112.desop2(e,tp,eg,ep,ev,re,r,rp)
 end
 function c16313112.descon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetFlagEffect(89928517)~=0
+	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetFlagEffect(16313112)~=0
 end
 function c16313112.desfilter(c)
 	return c:IsSummonType(SUMMON_TYPE_SPECIAL)
@@ -83,7 +83,7 @@ end
 function c16313112.valcheck(e,c)
 	local g=c:GetMaterial()
 	if g:IsExists(c16313112.mfilter,1,nil,tp) then
-		c:RegisterFlagEffect(89928517,RESET_EVENT+0x6e0000,0,1)
+		c:RegisterFlagEffect(16313112,RESET_EVENT+0x6e0000,0,1)
 	end
 end
 
