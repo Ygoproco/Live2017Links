@@ -65,7 +65,8 @@ function c77967790.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetTargetRange(0,LOCATION_MZONE)
 		e1:SetCondition(c77967790.atkcon2)
 		e1:SetTarget(c77967790.atktg2)
-		e1:SetReset(RESET_PHASE+PHASE_END)
+		e1:SetLabelObject(tc)
+		e1:SetReset(RESET_PHASE+PHASE_BATTLE)
 		Duel.RegisterEffect(e1,tp)
 		local e2=Effect.CreateEffect(c)
 		e2:SetDescription(aux.Stringid(77967790,1))
@@ -75,11 +76,15 @@ function c77967790.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetLabelObject(tc)
 		e2:SetCondition(c77967790.descon)
 		e2:SetOperation(c77967790.desop)
-		e2:SetReset(RESET_PHASE+PHASE_END)
+		e2:SetReset(RESET_PHASE+PHASE_BATTLE)
 		Duel.RegisterEffect(e2,tp)
 	end
 end
 function c77967790.descon(e)
+	local tc=e:GetLabelObject()
+	return tc:GetFlagEffect(77967790)~=0 and tc:GetAttackAnnouncedCount()==0
+end
+function c77967790.atkcon2(e)
 	local tc=e:GetLabelObject()
 	return tc:GetFlagEffect(77967790)~=0 and tc:GetAttackAnnouncedCount()==0
 end
@@ -95,4 +100,3 @@ function c77967790.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,77967790)
 	Duel.Destroy(tc,REASON_EFFECT)
 end
-
