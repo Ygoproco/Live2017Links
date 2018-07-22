@@ -239,6 +239,118 @@ function Card.IsColumn(c,seq,tp,loc)
 	end
 end
 
+function Card.UpdateAttack(c,amt,reset,rc)
+	rc=rc and rc or c
+	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
+	reset=reset and reset or RESET_EVENT+r
+    local atk=c:GetAttack()
+    if atk>=-amt then --If amt is positive, it would become negative and always be lower than or equal to atk, if amt is negative, it would become postive and if it is too much it would be higher than atk
+    	local e1=Effect.CreateEffect(rc)
+    	e1:SetType(EFFECT_TYPE_SINGLE)
+    	e1:SetCode(EFFECT_UPDATE_ATTACK)
+    	if c==rc then
+    		e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
+    	end
+    	e1:SetValue(amt)
+    	e1:SetReset(reset)
+    	c:RegisterEffect(e1)
+    	return c:GetAttack()-atk
+    end
+    return 0
+end
+
+function Card.UpdateDefense(c,amt,reset,rc)
+	rc=rc and rc or c
+	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
+	reset=reset and reset or RESET_EVENT+r
+    local def=c:GetDefense()
+    if def and def>=-amt then --See Card.UpdateAttack
+    	local e1=Effect.CreateEffect(rc)
+    	e1:SetType(EFFECT_TYPE_SINGLE)
+    	e1:SetCode(EFFECT_UPDATE_DEFENSE)
+    	if c==rc then
+    		e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
+    	end
+    	e1:SetValue(amt)
+    	e1:SetReset(reset)
+    	c:RegisterEffect(e1)
+    	return c:GetDefense()-def
+    end
+    return 0
+end
+
+function Card.UpdateLevel(c,amt,reset,rc)
+	rc=rc and rc or c
+	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
+	reset=reset and reset or RESET_EVENT+r
+    local lv=c:GetLevel()
+    if c:IsLevelBelow(2147483647) and lv>=-amt then --See Card.UpdateAttack
+    	local e1=Effect.CreateEffect(rc)
+    	e1:SetType(EFFECT_TYPE_SINGLE)
+    	e1:SetCode(EFFECT_UPDATE_LEVEL)
+    	e1:SetValue(amt)
+    	e1:SetReset(reset)
+    	c:RegisterEffect(e1)
+    	return c:GetLevel()-lv
+    end
+    return 0
+end
+
+function Card.UpdateRank(c,amt,reset,rc)
+	rc=rc and rc or c
+	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
+	reset=reset and reset or RESET_EVENT+r
+    local rk=c:GetRank()
+    if c:IsRankBelow(2147483647) and rk>=-amt then --See Card.UpdateAttack
+    	local e1=Effect.CreateEffect(rc)
+    	e1:SetType(EFFECT_TYPE_SINGLE)
+    	e1:SetCode(EFFECT_UPDATE_RANK)
+    	e1:SetValue(amt)
+    	e1:SetReset(reset)
+    	c:RegisterEffect(e1)
+    	return c:GetRank()-rk
+    end
+    return 0
+end
+
+function Card.UpdateLink(c,amt,reset,rc)
+	rc=rc and rc or c
+	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
+	reset=reset and reset or RESET_EVENT+r
+    local lk=c:GetLink()
+    if c:IsLinkBelow(2147483647) and lk>=-amt then --See Card.UpdateAttack
+    	local e1=Effect.CreateEffect(rc)
+    	e1:SetType(EFFECT_TYPE_SINGLE)
+    	e1:SetCode(EFFECT_UPDATE_LINK)
+    	e1:SetValue(amt)
+    	e1:SetReset(reset)
+    	c:RegisterEffect(e1)
+    	return c:GetLink()-lk
+    end
+    return 0
+end
+
+function Card.UpdateScale(c,amt,reset,rc)
+	rc=rc and rc or c
+	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
+	reset=reset and reset or RESET_EVENT+r
+	local scl=c:c:GetLeftScale()
+	if scl>=-amt then --See Card.UpdateAttack
+		if scl==2 then amt=-1 end
+		local e1=Effect.CreateEffect(rc)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_UPDATE_LSCALE)
+		e1:SetValue(amt)
+		e1:SetReset(reset)
+		c:RegisterEffect(e1)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_UPDATE_RSCALE)
+		c:RegisterEffect(e2)
+		return c:GetLeftScale()-scl
+	end
+	return 0
+end
+
 function Auxiliary.Stringid(code,id)
 	return code*16+id
 end
