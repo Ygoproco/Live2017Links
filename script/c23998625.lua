@@ -32,6 +32,7 @@ function c23998625.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 c23998625.xyz_number=53
+c23998625.listed_names={97403510}
 function c23998625.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetTargetCard(Duel.GetAttacker())

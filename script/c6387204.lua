@@ -26,6 +26,7 @@ function c6387204.initial_effect(c)
 	c:RegisterEffect(e2,false,1)
 end
 c6387204.xyz_number=6
+c6387204.listed_names={9161357}
 function c6387204.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and chkc:IsAbleToChangeControler() end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0

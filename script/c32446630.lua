@@ -26,6 +26,7 @@ function c32446630.initial_effect(c)
 	c:RegisterEffect(e2,false,1)
 end
 c32446630.xyz_number=43
+c32446630.listed_names={56051086}
 function c32446630.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,56051086)
 end
