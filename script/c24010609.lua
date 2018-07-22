@@ -43,6 +43,7 @@ function c24010609.initial_effect(c)
 	c:RegisterEffect(e5)
 	local e6=e4:Clone()
 	e6:SetCode(EVENT_PHASE_START+PHASE_DRAW)
+	e6:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e6:SetOperation(c24010609.clearop)
 	c:RegisterEffect(e6)
 end
