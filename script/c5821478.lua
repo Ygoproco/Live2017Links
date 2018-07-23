@@ -63,7 +63,7 @@ function c5821478.ftarget(e,c)
 	return e:GetLabel()~=c:GetFieldID()
 end
 function c5821478.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.GetAttacker()==e:GetHandler() and Duel.GetAttackTarget()
+	return Duel.GetAttacker()==e:GetHandler() and Duel.GetAttackTarget()
 end
 function c5821478.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
