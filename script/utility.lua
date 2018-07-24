@@ -284,7 +284,8 @@ function Card.UpdateLevel(c,amt,reset,rc)
 	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
 	reset=reset and reset or RESET_EVENT+r
     local lv=c:GetLevel()
-    if c:IsLevelBelow(2147483647) and lv>=-amt then --See Card.UpdateAttack
+    if c:IsLevelBelow(2147483647) then
+    	if lv+amt<=0 then amt=-(lv-1) end --Unlike ATK, if amt is too much should reduce as much as possible
     	local e1=Effect.CreateEffect(rc)
     	e1:SetType(EFFECT_TYPE_SINGLE)
     	e1:SetCode(EFFECT_UPDATE_LEVEL)
@@ -301,7 +302,8 @@ function Card.UpdateRank(c,amt,reset,rc)
 	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
 	reset=reset and reset or RESET_EVENT+r
     local rk=c:GetRank()
-    if c:IsRankBelow(2147483647) and rk>=-amt then --See Card.UpdateAttack
+    if c:IsRankBelow(2147483647) then
+    	if rk+amt<=0 then amt=-(rk-1) end --See Card.UpdateLevel
     	local e1=Effect.CreateEffect(rc)
     	e1:SetType(EFFECT_TYPE_SINGLE)
     	e1:SetCode(EFFECT_UPDATE_RANK)
@@ -318,7 +320,8 @@ function Card.UpdateLink(c,amt,reset,rc)
 	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
 	reset=reset and reset or RESET_EVENT+r
     local lk=c:GetLink()
-    if c:IsLinkBelow(2147483647) and lk>=-amt then --See Card.UpdateAttack
+    if c:IsLinkBelow(2147483647) then
+    	if lk+amt<=0 then amt=-(lk-1) end --See Card.UpdateLevel
     	local e1=Effect.CreateEffect(rc)
     	e1:SetType(EFFECT_TYPE_SINGLE)
     	e1:SetCode(EFFECT_UPDATE_LINK)
@@ -334,9 +337,9 @@ function Card.UpdateScale(c,amt,reset,rc)
 	rc=rc and rc or c
 	local r=(c==rc) and RESETS_STANDARD_DISABLE or RESETS_STANDARD
 	reset=reset and reset or RESET_EVENT+r
-	local scl=c:c:GetLeftScale()
-	if scl>=-amt then --See Card.UpdateAttack
-		if scl==2 then amt=-1 end
+	local scl=c:GetLeftScale()
+	if scl then
+		if scl+amt<=0 then amt = -(scl-1) end --See Card.UpdateLevel
 		local e1=Effect.CreateEffect(rc)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_LSCALE)
