@@ -54,7 +54,7 @@ end
 function c3752422.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lv=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
-	if c:IsFaceup() and c:IsRelateToEffect(e) and c:UpdateLevel(-lv,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)==-lv then
+	if c:IsFaceup() and c:IsRelateToEffect(e) and c:UpdateLevel(-lv,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)~=0 then
 		local tc=Duel.GetFirstTarget()
 		if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) then
 			tc:UpdateLevel(lv,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,c)

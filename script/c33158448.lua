@@ -71,7 +71,7 @@ function c33158448.negcon(e,tp,eg,ep,ev,re,r,rp)
 		and ep~=tp and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and Duel.IsChainNegatable(ev)
 end
 function c33158448.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return e:GetHandler():GetLevel()>2 end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
@@ -79,7 +79,7 @@ function c33158448.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c33158448.negop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsFacedown() and c:IsRelateToEffect(e) and not c:IsImmuneToEffect(e) and c:UpdateLevel(-2)==-2 
+	if not c:IsFacedown() and c:IsRelateToEffect(e) and not c:IsImmuneToEffect(e) and c:UpdateLevel(-2)~=0 
 		and Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 		Duel.Destroy(eg,REASON_EFFECT)
 	end
