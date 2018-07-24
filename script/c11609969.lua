@@ -57,7 +57,7 @@ function c11609969.scop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:GetLeftScale()==1 then return end
 	local g=Duel.GetMatchingGroup(c11609969.filter,tp,LOCATION_MZONE,0,nil,c:GetLeftScale())
-	if g:UpdateScale(-2)~=0 and g:GetCount()>0 then
+	if g:GetCount()>0 and g:GetFirst():UpdateScale(-2)~=0 then
 		Duel.BreakEffect()
 		Duel.Destroy(g,REASON_EFFECT)
 	end
