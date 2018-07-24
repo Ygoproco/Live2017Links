@@ -26,17 +26,17 @@ function c17257342.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c17257342.spfilter(c)
-	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsAbleToRemoveAsCost()
+	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true,false)
 end
 function c17257342.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c17257342.spfilter,tp,LOCATION_GRAVE,0,1,nil)
+		and Duel.IsExistingMatchingCard(c17257342.spfilter,tp,LOCATION_GRAVE+LOCATION_ONFIELD,0,1,nil)
 end
 function c17257342.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c17257342.spfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c17257342.spfilter,tp,LOCATION_GRAVE+LOCATION_ONFIELD,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c17257342.reccon(e,tp,eg,ep,ev,re,r,rp)
