@@ -25,18 +25,20 @@ function c17257342.initial_effect(c)
 	e2:SetOperation(c17257342.recop)
 	c:RegisterEffect(e2)
 end
-function c17257342.spfilter(c)
-	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsAbleToRemoveAsCost()
+function c17257342.spfilter(c,ft)
+	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true,false)
+		and (ft>0 or c:IsLocation(LOCATION_MZONE))
 end
 function c17257342.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c17257342.spfilter,tp,LOCATION_GRAVE,0,1,nil)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	return Duel.IsExistingMatchingCard(c17257342.spfilter,tp,LOCATION_GRAVE,0,1,nil,ft)
 end
 function c17257342.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c17257342.spfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	local g=Duel.SelectMatchingCard(tp,c17257342.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,ft)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c17257342.reccon(e,tp,eg,ep,ev,re,r,rp)
