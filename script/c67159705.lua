@@ -26,19 +26,11 @@ function c67159705.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function c67159705.desop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
-	local ec=c:GetEquipTarget()
-	local atk=ec:GetAttack()
-	if atk<1000 then return end
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetValue(-1000)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
-	ec:RegisterEffect(e1)
-	local tc=Duel.GetFirstTarget()
-	if atk-ec:GetAttack()==1000 and tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
-		Duel.Destroy(tc,REASON_EFFECT)
-	end
+    local c=e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    local ec=c:GetEquipTarget()
+    local tc=Duel.GetFirstTarget()
+    if ec:UpdateAttack(-1000,nil,c)==-1000 and tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+        Duel.Destroy(tc,REASON_EFFECT)
+    end
 end
