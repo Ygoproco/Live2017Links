@@ -28,8 +28,6 @@ function c89928517.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc2=hg2:Select(1-tp,1,1,nil):GetFirst()
 	Duel.ConfirmCards(1-tp,tc1)
 	Duel.ConfirmCards(tp,tc2)
-	local tg={tc1,tc2}
-	if tc2:IsControler(0) then tg={tc2,tc1} end
 	if tc1:IsType(TYPE_MONSTER) and tc2:IsType(TYPE_MONSTER) then
 		local ask1=Duel.SelectYesNo(tp,aux.Stringid(89928517,1))
 		local ask2=Duel.SelectYesNo(1-tp,aux.Stringid(89928517,1))
