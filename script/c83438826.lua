@@ -49,7 +49,7 @@ function c83438826.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	local eq=c:GetEquipTarget()
-	if c:IsRelateToEffect(e) and not eq:IsImmuneToEffect(e) and eq:IsAttackAbove(500) and eq:UpdateAttack(-500,nil,c) 
+	if c:IsRelateToEffect(e) and not eq:IsImmuneToEffect(e) and eq:IsAttackAbove(500) and eq:UpdateAttack(-500,nil,c)==-500 
 		and tc:IsRelateToEffect(e) and tc:IsControler(1-tp) and tc:IsFacedown() then
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
