@@ -82,7 +82,7 @@ function c16313112.mfilter(c,tp)
 end
 function c16313112.valcheck(e,c)
 	local g=c:GetMaterial()
-	if g:IsExists(c16313112.mfilter,1,nil,tp) then
+	if g:IsExists(c16313112.mfilter,1,nil,c:GetControler()) then
 		c:RegisterFlagEffect(16313112,RESET_EVENT+0x6e0000,0,1)
 	end
 end
