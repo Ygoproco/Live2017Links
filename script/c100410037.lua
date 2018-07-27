@@ -36,7 +36,7 @@ function c100410037.imcon(e)
 end
 function c100410037.atkfilter(c,tp)
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsType(TYPE_SYNCHRO)
-		and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp and rp~=tp
+		and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp and rp==1-tp
 end
 function c100410037.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c100410037.atkfilter,1,nil,tp)

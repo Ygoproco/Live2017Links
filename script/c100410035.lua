@@ -47,12 +47,12 @@ function c100410035.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(g,REASON_EFFECT)
 	end
 end
-function c100410035.spfilter(c,tp,rp)
-	return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and c:GetPreviousTypeOnField()&TYPE_SYNCHRO~=0
-		and c:GetOriginalLevel()==11
+function c100410035.spfilter(c,tp)
+	return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and (c:GetPreviousTypeOnField()&TYPE_SYNCHRO)~=0
+		and c:GetOriginalLevel()==11 and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()==1-tp)
 end
 function c100410035.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c100410035.spfilter,1,nil)
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c100410035.spfilter,1,nil,tp)
 end
 function c100410035.rmfilter(c)
 	return c:IsAbleToRemove() and c:IsRace(RACE_ZOMBIE)
