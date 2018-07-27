@@ -25,6 +25,7 @@ function c99011763.matcheck(e,c)
 		e1:SetCost(c99011763.addcost)
 		e1:SetTarget(c99011763.addtg)
 		e1:SetOperation(c99011763.addop)
+		e1:SetReset(RESET_EVENT+0xfe0000)
 		c:RegisterEffect(e1)
 	end
 end

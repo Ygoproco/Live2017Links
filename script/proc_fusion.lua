@@ -162,8 +162,8 @@ end
 function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 	local res
 	if (Auxiliary.FCheckExact and (Auxiliary.FCheckExact~=#{...} or mustg:GetCount()>Auxiliary.FCheckExact)) or mustg:GetCount()>#{...} then return false end
-	local rg=Group.CreateGroup()
-	local mg2=mg
+	-- local rg=Group.CreateGroup()
+	local mg2=mg:Clone()
 	--c has the fusion limit
 	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
@@ -172,7 +172,7 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 				return false
 			end
 			local sg2=mg2:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
-			rg:Merge(sg2)
+			-- rg:Merge(sg2)
 			mg2:Sub(sg2)
 			if mustg:GetCount()>0 and not mg2:Includes(mustg) then
 				return false
@@ -191,16 +191,16 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 			end
 		end
 	end
-	mg:Sub(rg)
+	-- mg2:Sub(rg)
 	sg:AddCard(c)
 	if sg:GetCount()<#{...} then
-		res=mg:IsExists(Auxiliary.FSelectMix,1,sg,tp,mg,sg,mustg-sg,fc,sub,sub2,contact,chkf,...)
+		res=mg2:IsExists(Auxiliary.FSelectMix,1,sg,tp,mg2,sg,mustg-sg,fc,sub,sub2,contact,chkf,...)
 	else
 		res=Auxiliary.FCheckMixGoal(tp,sg,fc,sub,sub2,contact,chkf,...)
 	end
 	res = res and sg:Includes(mustg)
 	sg:RemoveCard(c)
-	mg:Merge(rg)
+	-- mg2:Merge(rg)
 	return res
 end
 --Fusion monster, mixed material * minc to maxc + material + ...
@@ -404,7 +404,8 @@ function Auxiliary.FCheckSelectMixRepM(c,tp,...)
 		and Auxiliary.FCheckMixRepTemplate(c,Auxiliary.FCheckSelectMixRep,tp,...)
 end
 function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,minc,maxc,...)
-	local rg=Group.CreateGroup()
+	local mg2=mg:Clone()
+	-- local rg=Group.CreateGroup()
 	if Auxiliary.FCheckExact then
 		if Auxiliary.FCheckExact<minc + #{...} or mustg:GetCount()>Auxiliary.FCheckExact then return false end
 		maxc=Auxiliary.FCheckExact-#{...}
@@ -415,12 +416,15 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
-				mg:Merge(rg)
+				-- mg:Merge(rg)
 				return false
 			end
-			local sg2=mg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
-			rg:Merge(sg2)
-			mg:Sub(sg2)
+			local sg2=mg2:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			-- rg:Merge(sg2)
+			mg2:Sub(sg2)
+			if mustg:GetCount()>0 and not mg2:Includes(mustg) then
+				return false
+			end
 		end
 	end
 	--A card in the selected group has the fusion lmit
@@ -430,7 +434,7 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
 			for i,f in ipairs(eff) do
 				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
-					mg:Merge(rg)
+					-- mg:Merge(rg)
 					return false
 				end
 			end
@@ -444,10 +448,10 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 		res=true
 	else
 		local g=Group.CreateGroup()
-		res=sg:IsExists(Auxiliary.FCheckMixRepSelected,1,nil,tp,mg,sg,mustg,g,fc,sub,sub2,contact,chkf,fun1,minc,maxc,...)
+		res=sg:IsExists(Auxiliary.FCheckMixRepSelected,1,nil,tp,mg2,sg,mustg,g,fc,sub,sub2,contact,chkf,fun1,minc,maxc,...)
 	end
 	sg:RemoveCard(c)
-	mg:Merge(rg)
+	-- mg:Merge(rg)
 	return res
 end
 
@@ -642,10 +646,33 @@ function Auxiliary.FCheckSelectMixRepUnfix(tp,mg,sg,mustg,g,fc,sub,sub2,chkf,min
 end
 function Auxiliary.FCheckSelectMixRepUnfixAll(c,tp,mg,sg,mustg,g,fc,sub,sub2,chkf,minc,maxc,...)
 	if maxc==0 then return false end
+	--Second layer check for harmonizing magician, checking teh possible selected group for the fusion summon
+	local mg2=mg:Clone()
+	if not contact then
+		if c:IsHasEffect(73941492+TYPE_FUSION) then
+			local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
+			for _,fun in ipairs(eff) do
+				if (sg+g):IsExists(Auxiliary.TuneMagFilter,1,c,fun,fun:GetValue()) then
+					return false
+				end
+				local sg2=mg2:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,fun,fun:GetValue()) end,nil)
+				mg2:Sub(sg2)
+			end
+		end
+		local g2=(sg+g):Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		for tc in aux.Next(g2) do
+			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+			for _,fun in ipairs(eff) do
+				if Auxiliary.TuneMagFilter(c,fun,fun:GetValue()) then
+					return false
+				end
+			end
+		end
+	end
 	for i,f in ipairs({...}) do
-		if f[1](c,fc,sub,sub2,mg,sg,tp) then
+		if f[1](c,fc,sub,sub2,mg2,sg,tp) then
 			g:AddCard(c)
-			local sub=sub and f[1](c,fc,false,sub2,mg,sg,tp)
+			local sub=sub and f[1](c,fc,false,sub2,mg2,sg,tp)
 			local t={...}
 			local min=f[2]-1
 			local max=f[3]-1
@@ -658,12 +685,12 @@ function Auxiliary.FCheckSelectMixRepUnfixAll(c,tp,mg,sg,mustg,g,fc,sub,sub2,chk
 			if min>=0 then
 				mina=mina-1
 			end
-			local res=Auxiliary.FCheckSelectMixRepUnfix(tp,mg,sg,mustg,g,fc,sub,sub2,chkf,mina,maxc-1,table.unpack(t))
+			local res=Auxiliary.FCheckSelectMixRepUnfix(tp,mg2,sg,mustg,g,fc,sub,sub2,chkf,mina,maxc-1,table.unpack(t))
 			if not res and min<1 then
 				if max<1 then
 					table.remove(t,i)
 				end
-				res=Auxiliary.FCheckSelectMixRepUnfix(tp,mg,sg,mustg,g,fc,sub,sub2,chkf,mina,maxc-1,table.unpack(t))
+				res=Auxiliary.FCheckSelectMixRepUnfix(tp,mg2,sg,mustg,g,fc,sub,sub2,chkf,mina,maxc-1,table.unpack(t))
 			end
 			g:RemoveCard(c)
 			if res then return true end
@@ -682,6 +709,7 @@ function Auxiliary.FSelectMixRepUnfix(c,tp,mg,sg,mustg,fc,sub,sub2,minc,maxc,chk
 		maxc=Auxiliary.FCheckExact
 		minc=Auxiliary.FCheckExact
 	end
+	--First layer check for harmonizing magician, checking only the selected group given when the function is called
 	--c has the fusion limit
 	if c:IsHasEffect(73941492+TYPE_FUSION) then
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
@@ -910,17 +938,15 @@ function Auxiliary.ShaddollExFilter(c,g,fc,tp,f1,f2,eff)
 end
 function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 	local res
-	local rg=Group.CreateGroup()
+	local mg2=mg:Clone()
 	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
 		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
-				mg:Merge(rg)
 				return false
 			end
-			local sg2=mg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
-			rg:Merge(sg2)
-			mg:Sub(sg2)
+			local sg2=mg2:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			mg2:Sub(sg2)
 		end
 	end
 	if not contact then
@@ -931,7 +957,6 @@ function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 				local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
 				for i,f in ipairs(eff) do
 					if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
-						mg:Merge(rg)
 						return false
 					end
 				end
@@ -942,15 +967,13 @@ function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 	sg:AddCard(c)
 	if sg:GetCount()<2 then
 		if exg:IsContains(c) then
-			mg:Sub(exg)
-			rg:Merge(exg)
+			mg2:Sub(exg)
 		end
-		res=mg:IsExists(Auxiliary.ShaddollRecursion,1,sg,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
+		res=mg2:IsExists(Auxiliary.ShaddollRecursion,1,sg,tp,mg2,sg,exg,mustg,fc,chkf,f1,f2)
 	else
 		res=sg:Includes(mustg) and Auxiliary.FCheckMixGoal(tp,sg,fc,true,true,false,chkf,f1,f2)
 	end
 	sg:RemoveCard(c)
-	mg:Merge(rg)
 	return res
 end
 function Auxiliary.ShaddollFCondition(insf,f1,f2)
