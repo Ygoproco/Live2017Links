@@ -38,10 +38,13 @@ function c100410036.operation(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_IMMUNE_EFFECT)
-		e1:SetValue(c89474727.efilter)
+		e1:SetValue(c100410036.efilter)
 		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	end
+end
+function c100410036.efilter(e,re)
+	return re:GetOwner()~=e:GetOwner()
 end
 function c100410036.spfilter(c,tp)
 	return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and c:GetPreviousTypeOnField()&TYPE_LINK~=0
