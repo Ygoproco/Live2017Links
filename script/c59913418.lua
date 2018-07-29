@@ -62,10 +62,13 @@ function c59913418.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,ct*200)
 end
+function c59913418.desfilter(c,tp)
+	return c:GetPreviousControler()==tp
+end
 function c59913418.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
 	Duel.Destroy(g,REASON_EFFECT)
-	local ct=Duel.GetOperatedGroup():FilterCount(Card.IsControler,nil,1-tp)
+	local ct=Duel.GetOperatedGroup():FilterCount(c59913418.desfilter,nil,1-tp)
 	if ct>0 then
 		Duel.Damage(1-tp,ct*200,REASON_EFFECT)
 	end
