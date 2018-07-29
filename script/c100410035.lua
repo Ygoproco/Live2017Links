@@ -32,7 +32,7 @@ function c100410035.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c100410035.condition(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetPreviousLocation()==LOCATION_GRAVE and e:GetHandler():GetPreviousControler()==tp
+	return e:GetHandler():GetPreviousLocation()==LOCATION_GRAVE
 end
 function c100410035.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(Card.IsDestructable,tp,0,LOCATION_MZONE,nil)
