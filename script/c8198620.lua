@@ -36,7 +36,7 @@ function c8198620.splimit(e,se,sp,st)
 end
 function c8198620.attg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local bc=e:GetHandler():GetBattleTarget()
-	if chk==0 then return bc and bc:IsRelateToBattle() end
+	if chk==0 then return bc and bc:IsRelateToBattle() and bc:GetOriginalLevel()>0 end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
