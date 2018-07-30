@@ -47,7 +47,7 @@ function c47754278.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 			Duel.RegisterFlagEffect(tp,47754278,RESET_CHAIN,0,1)
 			c47754278[tp]=1
 		end
-		return Duel.CheckReleaseGroupCost(tp,c47754278.cfilter,c47754278[tp],false,nil,nil,ft,tp)
+		return Duel.CheckReleaseGroupCost(tp,c47754278.cfilter,c47754278[tp],false,aux.ChkfMMZ(1),nil,ft,tp)
 	end
 	local g=Duel.SelectReleaseGroupCost(tp,c47754278.cfilter,1,1,false,aux.ChkfMMZ(1),nil,ft,tp)
 	Duel.Release(g,REASON_COST)
