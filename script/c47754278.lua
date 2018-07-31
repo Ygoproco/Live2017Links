@@ -42,21 +42,18 @@ function c47754278.cfilter(c,ft,tp)
 end
 function c47754278.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local ct=Duel.GetReleaseGroup(tp):FilterCount(c47754278.cfilter,nil,ft,tp)
 	if chk==0 then
 		if Duel.GetFlagEffect(tp,47754278)==0 then
 			Duel.RegisterFlagEffect(tp,47754278,RESET_CHAIN,0,1)
-			c47754278[0]=ct
-			c47754278[1]=0
+			c47754278[tp]=1
 		end
-		return c47754278[0]-c47754278[1]>=1
+		return Duel.CheckReleaseGroupCost(tp,c47754278.cfilter,c47754278[tp],false,aux.ChkfMMZ(1),nil,ft,tp)
 	end
-	local g=Duel.SelectReleaseGroupCost(tp,c47754278.cfilter,1,1,false,nil,nil,ft,tp)
+	local g=Duel.SelectReleaseGroupCost(tp,c47754278.cfilter,1,1,false,aux.ChkfMMZ(1),nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c47754278.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
-		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
+	if chk==0 then return e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
 function c47754278.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -65,5 +62,5 @@ function c47754278.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c47754278.valcheck(e)
-	c47754278[1]=c47754278[1]+1
+	c47754278[e:GetHandlerPlayer()]=c47754278[e:GetHandlerPlayer()]+1
 end
