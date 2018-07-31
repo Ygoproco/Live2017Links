@@ -3,7 +3,7 @@
 function c82315403.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMixN(c,true,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x1093),1,aux.FilterBoolFunction(Card.IsRace,RACE_MACHINE),2)
+	aux.AddFusionProcMixN(c,true,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x1093),1,aux.FilterBoolFunctionEx(Card.IsRace,RACE_MACHINE),2)
 	--cannot be target
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE)
