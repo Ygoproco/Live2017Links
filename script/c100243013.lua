@@ -39,6 +39,7 @@ function c100243013.filter(c,e)
 end
 function c100243013.costfilter(c,dg)
 	local a=0
+	local eg=Duel.GetMatchingGroup(c100243013.cfilter,tp,LOCATION_ONFIELD+LOCATION_HAND,0,nil)
 	if dg:IsContains(c) then a=1 end
 	local tc=eg:GetFirst()
 	while tc do
