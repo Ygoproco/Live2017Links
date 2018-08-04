@@ -25,12 +25,12 @@ function c100243003.initial_effect(c)
 	e2:SetOperation(c100243003.rmop)
 	c:RegisterEffect(e2)
 end
-c100243003.listed_names={100243003}
+c100243003.listed_names={511001133}
 function c100243003.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return re and re:GetHandler():IsActiveType(TYPE_SPELL) and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
 end
 function c100243003.thfilter(c)
-	return c:IsCode(100243003) and c:IsAbleToHand()
+	return c:IsCode(511001133) and c:IsAbleToHand()
 end
 function c100243003.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c100243003.thfilter(chkc) end
