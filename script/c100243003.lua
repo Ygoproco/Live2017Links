@@ -27,7 +27,7 @@ function c100243003.initial_effect(c)
 end
 c100243003.listed_names={100243003}
 function c100243003.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return re and re:GetHandler():IsActiveType(TYPE_SPELL) and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
+	return re and re:GetHandler():IsType(TYPE_SPELL) and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
 end
 function c100243003.thfilter(c)
 	return c:IsCode(100243003) and c:IsAbleToHand()
@@ -51,11 +51,11 @@ end
 function c100243003.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c100243003.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
-function c100243003.rmcon(e,tp,eg,ep,ev,re,r,rp,chk)
+function c100243003.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsCanRemove,tp,0,LOCATION_GRAVE,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,0,0)
 end
-function c100243003.rmcon(e,tp,eg,ep,ev,re,r,rp)
+function c100243003.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=Duel.SelectMatchingCard(Card.IsCanRemove,tp,0,LOCATION_GRAVE,1,1,nil):GetFirst()
 	if rc then
