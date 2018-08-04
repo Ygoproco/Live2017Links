@@ -23,12 +23,12 @@ function c100243005.initial_effect(c)
 	e3:SetOperation(c100243005.rdop)
 	c:RegisterEffect(e3)
 end
-function c53701457.rdcon(e,tp,eg,ep,ev,re,r,rp)
+function c100243005.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and Duel.GetAttackTarget()==nil
 		and e:GetHandler():IsHasEffect(EFFECT_DIRECT_ATTACK)
 		and Duel.IsExistingMatchingCard(aux.NOT(Card.IsHasEffect),tp,0,LOCATION_MZONE,1,nil,EFFECT_IGNORE_BATTLE_TARGET)
 end
-function c53701457.rdop(e,tp,eg,ep,ev,re,r,rp)
+function c100243005.rdop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local effs={c:GetCardEffect(EFFECT_DIRECT_ATTACK)}
 	local eg=Group.CreateGroup()
