@@ -13,6 +13,7 @@ function c12965761.initial_effect(c)
 	e1:SetOperation(c12965761.tkop)
 	c:RegisterEffect(e1)
 end
+c12965761.listed_names={46571052}
 function c12965761.tkcon(e,tp,eg,ep,ev,re,r,rp)
 	return aux.IsUnionState(e) and eg:GetFirst()==e:GetHandler():GetEquipTarget()
 end

@@ -26,3 +26,4 @@ function c42940404.sop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
+c42940404.listed_names={42940404}

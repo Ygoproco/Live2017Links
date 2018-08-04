@@ -14,6 +14,7 @@ function c67159705.initial_effect(c)
 	e1:SetOperation(c67159705.desop)
 	c:RegisterEffect(e1)
 end
+c67159705.listed_names={70095154}
 function c67159705.unfilter(c)
 	return c:IsCode(70095154) or aux.IsMaterialListCode(c,70095154)
 end
