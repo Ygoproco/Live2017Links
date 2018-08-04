@@ -6,7 +6,7 @@ function c100243014.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
-	--salvage
+	--to hand
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(100243014,0))
 	e2:SetCategory(CATEGORY_TOHAND)
@@ -33,6 +33,7 @@ function c100243014.initial_effect(c)
 	e5:SetCountLimit(1,100243014+100)
 	e5:SetTarget(c100243014.reptg)
 	e5:SetValue(c100243014.repval)
+	e5:SetOperation(c100243014.repop)
 	c:RegisterEffect(e5)
 end
 function c100243014.thcfilter(c,tp)
@@ -75,20 +76,29 @@ end
 function c100243014.repfilter(c,tp)
 	return c:IsFaceup() and ((c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2b)) or c:IsSetCard(0x61))
 		and c:IsOnField() and c:IsControler(tp)
-		and not c:IsReason(REASON_REPLACE) and c:IsReason(REASON_BATTLE+REASON_EFFECT)
+		and not c:IsReason(REASON_REPLACE) and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()==1-tp)
 end
 function c100243014.rmfilter(c)
 	return c:IsSetCard(0x2b) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
-function c100243014.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c100243014.rmfilter,tp,LOCATION_GRAVE,0,1,eg) end
-	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
-		local tg=Duel.SelectMatchingCard(tp,c100243014.rmfilter,tp,LOCATION_GRAVE,0,1,1,eg)
-		Duel.Remove(g:GetFirst(),POS_FACEUP,REASON_EFFECT)
-		return true
-	else return false end
-end
 function c100243014.repval(e,c)
 	return c100243014.repfilter(c,e:GetHandlerPlayer())
 end
+function c100243014.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return eg:IsExists(c100243014.repfilter,1,nil,tp) and
+		Duel.IsExistingMatchingCard(c100243014.rmfilter,tp,LOCATION_GRAVE,0,1,eg) end
+	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
+		local tg=Duel.SelectMatchingCard(tp,c100243014.rmfilter,tp,LOCATION_GRAVE,0,1,1,eg)
+		e:SetLabelObject(tg:GetFirst())
+		return true
+	end
+	return false
+end
+function c100243014.repop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_CARD,1-tp,100243014)
+	local tc=e:GetLabelObject()
+	Debug.Message(tc)
+	Duel.Remove(tc,POS_FACEUP,REASON_EFFECT+REASON_REPLACE)
+end
+
