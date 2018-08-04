@@ -13,7 +13,7 @@ function c19086954.initial_effect(c)
 	e1:SetOperation(c19086954.posop)
 	c:RegisterEffect(e1)
 end
-c19086954.listed_names={84173492}
+c19086954.listed_names={73698349}
 function c19086954.postg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
