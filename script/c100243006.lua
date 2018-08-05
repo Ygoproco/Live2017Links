@@ -20,7 +20,7 @@ function c100243006.initial_effect(c)
 	e2:SetOperation(c100243006.thop)
 	c:RegisterEffect(e2)
 end
-c100243006.listed_names={100243003}
+c100243006.listed_names={100243007}
 function c100243006.filter(c,e,tp)
 	return c:IsSetCard(0x228) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
@@ -67,7 +67,7 @@ function c100243006.tdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(g,tp,2,REASON_EFFECT)
 end
 function c100243006.thfilter(c)
-	return c:IsCode(100243003) and c:IsAbleToHand()
+	return c:IsCode(100243007) and c:IsAbleToHand()
 end
 function c100243006.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c100243006.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -75,7 +75,7 @@ function c100243006.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c100243006.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.GetFirstMatchingCard(tp,c100243006.thfilter,tp,LOCATION_DECK,0,nil)
+	local g=Duel.GetFirstMatchingCard(c100243006.thfilter,tp,LOCATION_DECK,0,nil)
 	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)

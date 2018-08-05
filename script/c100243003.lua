@@ -12,6 +12,7 @@ function c100243003.initial_effect(c)
 	e1:SetCondition(c100243003.thcon)
 	e1:SetTarget(c100243003.thtg)
 	e1:SetOperation(c100243003.thop)
+	e1:SetCountLimit(1,100243003)
 	c:RegisterEffect(e1)
 	--remove
 	local e2=Effect.CreateEffect(c)
@@ -23,14 +24,15 @@ function c100243003.initial_effect(c)
 	e2:SetCondition(c100243003.rmcon)
 	e2:SetTarget(c100243003.rmtg)
 	e2:SetOperation(c100243003.rmop)
+	e2:SetCountLimit(1,100243003+1000)
 	c:RegisterEffect(e2)
 end
-c100243003.listed_names={100243003}
+c100243003.listed_names={100243007}
 function c100243003.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return re and re:GetHandler():IsType(TYPE_SPELL) and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
 end
 function c100243003.thfilter(c)
-	return c:IsCode(100243003) and c:IsAbleToHand()
+	return c:IsCode(100243007) and c:IsAbleToHand()
 end
 function c100243003.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c100243003.thfilter(chkc) end
@@ -57,7 +59,7 @@ function c100243003.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c100243003.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local rc=Duel.SelectMatchingCard(Card.IsCanRemove,tp,0,LOCATION_GRAVE,1,1,nil):GetFirst()
+	local rc=Duel.SelectMatchingCard(tp,Card.IsCanRemove,tp,0,LOCATION_GRAVE,1,1,nil):GetFirst()
 	if rc then
 		if Duel.Remove(rc,POS_FACEUP,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) and c:IsFaceup() then
 			Duel.BreakEffect()
