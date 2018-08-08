@@ -54,6 +54,6 @@ end
 function c100243002.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then 
-		Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 and tc:IsLocation(LOCATION_HAND)
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
