@@ -35,13 +35,11 @@ function c77092311.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetPreviousLocation()==LOCATION_GRAVE and e:GetHandler():GetPreviousControler()==tp
 end
 function c77092311.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDiscardDeck(tp,2) and Duel.IsPlayerCanDiscardDeck(1-tp,2) end
+	if chk==0 then return Duel.IsPlayerCanDiscardDeck(tp,3) and Duel.IsPlayerCanDiscardDeck(1-tp,3) end
 end
 function c77092311.operation(e,tp,eg,ep,ev,re,r,rp)
-	local g1=Duel.GetDecktopGroup(tp,3)
-	local g2=Duel.GetDecktopGroup(1-tp,3)
-	g1:Merge(g2)
-	Duel.SendtoGrave(g1,REASON_EFFECT)
+	Duel.DiscardDeck(tp,3,REASON_EFFECT)
+	Duel.DiscardDeck(1-tp,3,REASON_EFFECT)
 end
 function c77092311.spfilter(c,tp)
 	return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and c:GetPreviousTypeOnField()&TYPE_SYNCHRO~=0
