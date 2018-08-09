@@ -34,20 +34,22 @@ end
 function c51782995.spfilter(c,e,tp)
 	return c:IsSetCard(0x11f) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsCode(51782995)
 end
-function c51782995.filter(c,e,tp)
-	return Duel.IsExistingMatchingCard(c51782995.spfilter,tp,LOCATION_HAND,0,1,c,e,tp)
+function c51782995.filter(c,e,tp,chk,sp)
+	return ((chk==0 or sp) and Duel.IsExistingMatchingCard(c51782995.spfilter,tp,LOCATION_HAND,0,1,c,e,tp))
+		or (chk==1 and not sp)
 end
 function c51782995.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c51782995.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(c51782995.filter,tp,LOCATION_HAND,0,1,nil,e,tp,0) end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,1,tp,LOCATION_HAND)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
 function c51782995.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectMatchingCard(tp,c51782995.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
+	local sp=Duel.GetMatchingGroupCount(aux.TRUE,tp,LOCATION_HAND,0,nil)>1 and Duel.IsExistingMatchingCard(c51782995.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
+	local g=Duel.SelectMatchingCard(tp,c51782995.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp,1,sp)
 	if #g==0 then return end
-	if Duel.Destroy(g,REASON_EFFECT)~=0 then
+	if Duel.Destroy(g,REASON_EFFECT)~=0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g2=Duel.SelectMatchingCard(tp,c51782995.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
 		if g2:GetCount()>0 then
