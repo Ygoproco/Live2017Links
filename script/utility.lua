@@ -131,13 +131,7 @@ function Group.Includes(g1,g2)
 end
 function Auxiliary.ExtraLinked(c,emc,card,eg)
 	eg:AddCard(c)
-	local res
-	if c==emc then
-		res=eg:IsContains(card)
-	else
-		local g=c:GetMutualLinkedGroup()
-		res=g and g:IsExists(Auxiliary.ExtraLinked,1,eg,emc,card,eg)
-	end
+	local res=(c==emc) or (c:GetMutualLinkedGroup():IsExists(Auxiliary.ExtraLinked,1,eg,emc,card,eg))
 	eg:RemoveCard(c)
 	return res
 end
@@ -145,8 +139,12 @@ function Card.IsExtraLinked(c)
 	local card5=Duel.GetFieldCard(0,LOCATION_MZONE,5) and Duel.GetFieldCard(0,LOCATION_MZONE,5) or Duel.GetFieldCard(1,LOCATION_MZONE,6)
 	local card6=Duel.GetFieldCard(0,LOCATION_MZONE,6) and Duel.GetFieldCard(0,LOCATION_MZONE,6) or Duel.GetFieldCard(1,LOCATION_MZONE,5)
 	if card5 and card6 then
-		local mg=card5:GetMutualLinkedGroup()
-		return mg and mg:IsExists(Auxiliary.ExtraLinked,1,nil,card6,c,Group.FromCards(card5))
+		local mg=c:GetMutualLinkedGroup()
+		local emg=(Group.FromCards(card5,card6)-c)
+		for card in aux.Next(emg) do
+			if not mg:IsExists(Auxiliary.ExtraLinked,1,nil,card,c,Group.FromCards(c)) then return false end
+		end
+		return true
 	end
 	return false
 end
