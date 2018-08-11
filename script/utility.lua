@@ -129,9 +129,9 @@ end
 function Group.Includes(g1,g2)
 	return #(g1-g2)+#g2==#g1
 end
-function Auxiliary.ExtraLinked(c,emc,card,eg)
+function Auxiliary.ExtraLinked(c,emc,eg)
 	eg:AddCard(c)
-	local res=(c==emc) or (c:GetMutualLinkedGroup():IsExists(Auxiliary.ExtraLinked,1,eg,emc,card,eg))
+	local res=(c==emc) or (c:GetMutualLinkedGroup():IsExists(Auxiliary.ExtraLinked,1,eg,emc,eg))
 	eg:RemoveCard(c)
 	return res
 end
@@ -142,7 +142,7 @@ function Card.IsExtraLinked(c)
 		local mg=c:GetMutualLinkedGroup()
 		local emg=(Group.FromCards(card5,card6)-c)
 		for card in aux.Next(emg) do
-			if not mg:IsExists(Auxiliary.ExtraLinked,1,nil,card,c,Group.FromCards(c)) then return false end
+			if not mg:IsExists(Auxiliary.ExtraLinked,1,nil,card,Group.FromCards(c)) then return false end
 		end
 		return true
 	end
