@@ -15,6 +15,8 @@ end
 function c11801343.thfilter(c,e,tp)
 	return c:IsFaceup() and c:IsRace(RACE_CYBERSE)
 		and Duel.GetMZoneCount(tp,c)>0
+		and c:IsAbleToHandAsCost()
+		and c:GetOriginalType()&TYPE_MONSTER>0
 		and Duel.IsExistingMatchingCard(c11801343.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c)
 end
 function c11801343.spfilter(c,e,tp,tc)
