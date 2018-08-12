@@ -75,9 +75,9 @@ function c100243006.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c100243006.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.GetFirstMatchingCard(c100243006.thfilter,tp,LOCATION_DECK,0,nil)
-	if #g>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+	local tc=Duel.GetFirstMatchingCard(c100243006.thfilter,tp,LOCATION_DECK,0,nil)
+	if tc then
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,tc)
 	end
 end
