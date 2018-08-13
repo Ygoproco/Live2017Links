@@ -1,6 +1,5 @@
 --アクションマジック－フルターン
 --Action Magic - Full Turn
---Script by nekrozar
 function c99004583.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -41,8 +40,7 @@ function c99004583.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttackTarget()
 end
 function c99004583.dop(e,tp,eg,ep,ev,re,r,rp)
-	local dam=Duel.GetBattleDamage(ep)
-	Duel.ChangeBattleDamage(ep,dam*2)
+	Duel.DoubleBattleDamage(ep)
 end
 function c99004583.costfilter(c)
 	return c:IsType(TYPE_SPELL) and c:IsDiscardable()
@@ -62,4 +60,3 @@ function c99004583.setop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,c)
 	end
 end
-
