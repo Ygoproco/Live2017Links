@@ -1,4 +1,4 @@
--- utility about function about changing damage that don't stack with themself
+-- Utilities for functions to handle damage change that don't stack with each other
 
 function Duel.DoubleBattleDamage(ep)
 	if Duel.GetFlagEffect(ep,199004583)==0 then
