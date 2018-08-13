@@ -64,7 +64,7 @@ function c2948263.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
 function c2948263.rdop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(ep,ev/2)
+	Duel.HalfBattleDamage(ep)
 end
 function c2948263.discon(e,tp,eg,ep,ev,re,r,rp)
 	local tgp,loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_CONTROLER,CHAININFO_TRIGGERING_LOCATION)
@@ -77,7 +77,15 @@ function c2948263.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c2948263.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsFacedown() and c:IsRelateToEffect(e) and not Duel.GetCurrentChain()~=ev+1 and not c:IsStatus(STATUS_BATTLE_DESTROYED) and c:UpdateAttack(-1500)==-1500 then
-		Duel.NegateEffect(ev)
+	if c:IsFacedown() or c:GetAttack()<1500 or not c:IsRelateToEffect(e) or Duel.GetCurrentChain()~=ev+1 or c:IsStatus(STATUS_BATTLE_DESTROYED) then
+		return
 	end
+	Duel.NegateEffect(ev)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
+	e1:SetReset(RESET_EVENT+0x1ff0000)
+	e1:SetCode(EFFECT_UPDATE_ATTACK)
+	e1:SetValue(-1500)
+	c:RegisterEffect(e1)
 end
