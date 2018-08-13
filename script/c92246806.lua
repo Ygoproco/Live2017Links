@@ -31,6 +31,7 @@ function c92246806.initial_effect(c)
 	e4:SetOperation(c92246806.regop)
 	c:RegisterEffect(e4)
 end
+c92246806.listed_names={92246806}
 function c92246806.filter(c)
 	return c:IsSetCard(0xb3) and not c:IsCode(92246806) and c:IsSummonable(true,nil)
 end
@@ -60,7 +61,7 @@ function c92246806.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
 	local ec = #eg==1 and eg:GetFirst() or eg:Select(tp,1,1,nil):GetFirst()
 	if c==ec then
-		Duel.ChangeBattleDamage(ep,Duel.GetBattleDamage(ep)/2)
+		Duel.HalfBattleDamage(ep)
 	end
 end
 function c92246806.regop(e,tp,eg,ep,ev,re,r,rp)
