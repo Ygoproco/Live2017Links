@@ -74,6 +74,6 @@ function c52977572.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
 	local ec = #eg==1 and eg:GetFirst() or eg:Select(tp,1,1,nil):GetFirst()
 	if c==ec then
-		Duel.ChangeBattleDamage(ep,Duel.GetBattleDamage(ep)/2)
+		Duel.HalfBattleDamage(ep)
 	end
 end
