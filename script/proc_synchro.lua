@@ -711,9 +711,17 @@ function Auxiliary.SynTarget(f1,min1,max1,f2,min2,max2,sub1,sub2,req1,req2,reqm)
 			end
 end
 Auxiliary.SynchroSend=0
+function Auxiliary.TatsunecroFilter(c)
+	return c:GetFlagEffect(100307000)~=0
+end
 function Auxiliary.SynOperation(e,tp,eg,ep,ev,re,r,rp,c,smat,mg)
 	local g=e:GetLabelObject()
 	c:SetMaterial(g)
+	local tg=g:Filter(Auxiliary.TatsunecroFilter,nil)
+	if #tg>0 then
+		Auxiliary.SynchroSend=2
+		for tc in aux.Next(tg) do tc:ResetFlagEffect(100307000) end
+	end
 	if Auxiliary.SynchroSend==1 then
 		Duel.SendtoGrave(g,REASON_MATERIAL+REASON_SYNCHRO+REASON_RETURN)
 	elseif Auxiliary.SynchroSend==2 then
