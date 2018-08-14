@@ -29,7 +29,7 @@ end
 function c100307001.disrmcon(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
 	local c=re:GetHandler()
-	return c:IsRace(RACE_ZOMBIE) and not c:IsCode(100307001)
+	return c:IsRace(RACE_ZOMBIE) and c:IsType(TYPE_MONSTER) and not c:IsCode(100307001)
 end
 function c100307001.disrmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsChainDisablable(ev) and Duel.GetFlagEffect(tp,100307001)==0
