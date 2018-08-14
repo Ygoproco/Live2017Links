@@ -51,7 +51,7 @@ function c85008676.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function c85008676.dop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ChangeBattleDamage(tp,math.ceil(ev/2))
+	Duel.HalfBattleDamage(ep)
 end
 function c85008676.operation(e,tp,eg,ep,ev,re,r,rp)
 	local cid=Duel.GetChainInfo(ev,CHAININFO_CHAIN_ID)
@@ -89,4 +89,3 @@ function c85008676.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
