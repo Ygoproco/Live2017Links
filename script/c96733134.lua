@@ -43,6 +43,7 @@ function c96733134.initial_effect(c)
 	e4:SetOperation(c96733134.spop)
 	c:RegisterEffect(e4)
 end
+c96733134.listed_names={96733134}
 function c96733134.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsSetCard,1,false,nil,nil,0x20f8) end
 	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsSetCard,1,1,false,nil,nil,0x20f8)
@@ -87,8 +88,7 @@ function c96733134.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and tc:IsType(TYPE_PENDULUM) and tc:GetBattleTarget()~=nil
 end
 function c96733134.damop(e,tp,eg,ep,ev,re,r,rp)
-	local dam=Duel.GetBattleDamage(ep)
-	Duel.ChangeBattleDamage(ep,dam*2)
+	Duel.DoubleBattleDamage(ep)
 end
 function c96733134.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE
