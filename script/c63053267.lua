@@ -1,4 +1,4 @@
---ナーゲルの守護天
+-- ナーゲルの守護天
 --Protected Sky of Nagel
 function c63053267.initial_effect(c)
 	--activate
@@ -19,14 +19,13 @@ function c63053267.initial_effect(c)
 	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e3:SetValue(c63053267.indval)
 	c:RegisterEffect(e3)
-	--double damage
+	--damage double
 	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD)
-	e4:SetCode(EFFECT_CHANGE_DAMAGE)
-	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e4:SetTargetRange(0,1)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e4:SetRange(LOCATION_SZONE)
-	e4:SetValue(c63053267.damval)
+	e4:SetCode(EVENT_PRE_BATTLE_DAMAGE)
+	e4:SetCondition(c63053267.damcon)
+	e4:SetOperation(c63053267.damop)
 	c:RegisterEffect(e4)
 	--search
 	local e5=Effect.CreateEffect(c)
@@ -39,18 +38,19 @@ function c63053267.initial_effect(c)
 	e5:SetOperation(c63053267.thop)
 	c:RegisterEffect(e5)
 end
+c63053267.listed_names={63053267}
 function c63053267.indtg(e,c)
 	return c:IsSetCard(0x10b) and c:GetSequence()<5
 end
 function c63053267.indval(e,re,rp)
 	return rp==1-e:GetHandlerPlayer()
 end
-function c63053267.damval(e,re,val,r,rp,rc)
-	local tp=e:GetHandlerPlayer()
-	if e:GetHandler():GetFlagEffect(63053267)~=0 or r&REASON_BATTLE==0
-		or not rc:IsSetCard(0x10b) or not rc:IsControler(tp) then return val end
+function c63053267.damcon(e,tp,eg,ep,ev,re,r,rp)
+	return ep~=tp and tc:IsSetCard(0x10b) and e:GetHandler():GetFlagEffect(63053267)==0
+end
+function c63053267.damop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.DoubleBattleDamage(ep)
 	e:GetHandler():RegisterFlagEffect(63053267,RESET_PHASE+PHASE_END,0,1)
-	return val*2
 end
 function c63053267.cfilter(c)
 	return c:IsSetCard(0x10b) and c:IsDiscardable()
