@@ -9,7 +9,7 @@ function c95825679.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetCode(EFFECT_CHANGE_CODE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(70781052)
+	e1:SetValue(CARD_SUMMONED_SKULL)
 	c:RegisterEffect(e1)
 	--indes
 	local e2=Effect.CreateEffect(c)
@@ -46,7 +46,7 @@ function c95825679.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and rp~=tp and c:GetPreviousControler()==tp
 end
 function c95825679.spfilter(c,e,tp)
-	return c:IsCode(70781052) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
+	return c:IsCode(CARD_SUMMONED_SKULL) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
 function c95825679.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
