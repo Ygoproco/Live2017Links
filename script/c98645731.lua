@@ -144,5 +144,7 @@ end
 function c98645731.clear(e,tp,eg,ep,ev,re,r,rp)
 	c98645731[0]=false
 	c98645731[1]=false
+	c98645731[2]={}
+	c98645731[3]={}
 	c98645731[4]=0
 end
