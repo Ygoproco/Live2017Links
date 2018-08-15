@@ -74,7 +74,7 @@ end
 function c39064822.sumval(e,c)
 	local c=e:GetLabelObject()
 	local sumzone=c:GetLinkedZone()
-	local relzone=-bit.lshift(1,c:GetSequence())
+	local relzone=0x7f&~(1<<c:GetSequence())
 	return 0,sumzone,relzone
 end
 function c39064822.tgtg(e,c)
