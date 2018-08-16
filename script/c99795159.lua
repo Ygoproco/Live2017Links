@@ -42,7 +42,7 @@ function c99795159.dirtg(e,c)
 	return not Duel.IsExistingMatchingCard(Card.IsFaceup,c:GetControler(),0,LOCATION_MZONE,1,nil)
 end
 function c99795159.val(e,re,dam,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 then
+	if r&REASON_EFFECT~=0 then
 		return dam/2
 	else return dam end
 end
