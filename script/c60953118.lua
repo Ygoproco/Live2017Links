@@ -64,8 +64,8 @@ function c60953118.arcanareg(c,coin)
 	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e1:SetCondition(c24731391.rdcon1)
-	e1:SetOperation(c24731391.rdop)
+	e1:SetCondition(c60953118.rdcon1)
+	e1:SetOperation(c60953118.rdop)
 	e1:SetReset(RESET_EVENT+0x1fe0000)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
@@ -79,6 +79,6 @@ end
 function c60953118.rdcon2(e)
 	return ep~=tp and e:GetHandler():GetFlagEffectLabel(36690018)==0
 end
-function c24731391.rdop(e,tp,eg,ep,ev,re,r,rp)
+function c60953118.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end
