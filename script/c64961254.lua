@@ -1,52 +1,52 @@
 --女神ヴェルダンディの導き
 --Goddess Verdande's Guidance
 --Scripted by Eerie Code and AlphaKretin
-function c100243009.initial_effect(c)
+function c64961254.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,100243009+EFFECT_COUNT_CODE_OATH)
-	e1:SetOperation(c100243009.activate)
+	e1:SetCountLimit(1,64961254+EFFECT_COUNT_CODE_OATH)
+	e1:SetOperation(c64961254.activate)
 	c:RegisterEffect(e1)
 	--see top
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(100243009,1))
+	e3:SetDescription(aux.Stringid(64961254,1))
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetCountLimit(1)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetTarget(c100243009.target)
-	e3:SetOperation(c100243009.operation)
+	e3:SetTarget(c64961254.target)
+	e3:SetOperation(c64961254.operation)
 	c:RegisterEffect(e3)
 end
-function c100243009.thcfilter(c)
-	return c:IsFacedown() or not c:IsSetCard(0x228)
+function c64961254.thcfilter(c)
+	return c:IsFacedown() or not c:IsSetCard(0x122)
 end
-function c100243009.thcon(e,tp,eg,ep,ev,re,r,rp)
+function c64961254.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)>0
-		and not Duel.IsExistingMatchingCard(c100243009.thcfilter,tp,LOCATION_MZONE,0,1,nil) 
+		and not Duel.IsExistingMatchingCard(c64961254.thcfilter,tp,LOCATION_MZONE,0,1,nil) 
 end
-function c100243009.thfilter(c)
-	return c:IsCode(100243010) and c:IsAbleToHand()
+function c64961254.thfilter(c)
+	return c:IsCode(91969909) and c:IsAbleToHand()
 end
-function c100243009.activate(e,tp,eg,ep,ev,re,r,rp)
+function c64961254.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local g=Duel.GetMatchingGroup(c100243009.thfilter,tp,LOCATION_DECK,0,nil)
-	if #g>0 and c100243009.thcon(e,tp,eg,ep,ev,re,r,rp) and
-		Duel.SelectYesNo(tp,aux.Stringid(100243009,0)) then
+	local g=Duel.GetMatchingGroup(c64961254.thfilter,tp,LOCATION_DECK,0,nil)
+	if #g>0 and c64961254.thcon(e,tp,eg,ep,ev,re,r,rp) and
+		Duel.SelectYesNo(tp,aux.Stringid(64961254,0)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local sg=g:Select(tp,1,1,nil)
 		Duel.SendtoHand(sg,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,sg)
 	end
 end
-function c100243009.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function c64961254.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDiscardDeck(1-tp,1) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CARDTYPE)
 	Duel.SetTargetParam(Duel.SelectOption(tp,70,71,72))
 end
-function c100243009.operation(e,tp,eg,ep,ev,re,r,rp)
+function c64961254.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetFieldGroupCount(1-tp,0,LOCATION_DECK)<=0
 		or not e:GetHandler():IsRelateToEffect(e)then return end
 	Duel.DisableShuffleCheck()
@@ -70,3 +70,4 @@ function c100243009.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ShuffleHand(1-tp)
 	end
 end
+
