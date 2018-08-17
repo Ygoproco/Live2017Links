@@ -737,6 +737,7 @@ function Auxiliary.SynOperation(e,tp,eg,ep,ev,re,r,rp,c,smat,mg)
 	else
 		Duel.SendtoGrave(g,REASON_MATERIAL+REASON_SYNCHRO)
 	end
+	Auxiliary.SynchroSend=0
 	g:DeleteGroup()
 end
 
