@@ -40,7 +40,7 @@ function c100242301.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and rp~=tp and c:GetPreviousControler()==tp
 end
 function c100242301.spfilter(c,e,tp)
-	return c:IsCode(CARD_SUMMONED_SKULL) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
+	return c:IsCode(CARD_SUMMONED_SKULL) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c100242301.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -54,6 +54,6 @@ function c100242301.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c100242301.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
 	if tc then 
-		Duel.SpecialSummon(tc,0,tp,tp,true,true,POS_FACEUP)
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
