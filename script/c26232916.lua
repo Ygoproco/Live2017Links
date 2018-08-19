@@ -73,7 +73,7 @@ function c26232916.aclimit(e,re,tp)
 	local tc=e:GetLabelObject()
 	return re:GetHandler():IsCode(tc:GetCode()) and not re:GetHandler():IsImmuneToEffect(e)
 end
-function c26232916.repfilter(c,tp)
+function c26232916.repfilter(c,tp,rp)
 	return c:IsFaceup() and ((c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2b)) or c:IsSetCard(0x61))
 		and c:IsOnField() and c:IsControler(tp)
 		and not c:IsReason(REASON_REPLACE) and (c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and rp~=tp))
