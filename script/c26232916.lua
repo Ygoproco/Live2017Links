@@ -85,7 +85,7 @@ function c26232916.repval(e,c)
 	return c26232916.repfilter(c,e:GetHandlerPlayer())
 end
 function c26232916.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return eg:IsExists(c26232916.repfilter,1,nil,tp) and
+	if chk==0 then return eg:IsExists(c26232916.repfilter,1,nil,tp) and rp~=tp and
 		Duel.IsExistingMatchingCard(c26232916.rmfilter,tp,LOCATION_GRAVE,0,1,eg) end
 	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
