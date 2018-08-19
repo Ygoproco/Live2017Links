@@ -49,9 +49,9 @@ function c75253697.desop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-function c36076683.dcon(e,tp,eg,ep,ev,re,r,rp)
+function c75253697.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
-function c36076683.dop(e,tp,eg,ep,ev,re,r,rp)
+function c75253697.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end
