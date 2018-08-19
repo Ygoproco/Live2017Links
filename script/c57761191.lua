@@ -173,7 +173,7 @@ function c57761191.efilter(e,te)
 end
 function c57761191.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return rp==1-tp and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
+	return ((rp==1-tp) or (r&REASON_BATTLE)>0) and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
 		and c:IsSummonType(SUMMON_TYPE_ADVANCE)
 end
 function c57761191.spfilter(c,e,tp)
