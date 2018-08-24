@@ -18,10 +18,11 @@ function c30241314.initial_effect(c)
 	e2:SetValue(LOCATION_REMOVED)
 	e2:SetTarget(c30241314.rmtg)
 	c:RegisterEffect(e2)
+	if not AshBlossomTable then AshBlossomTable={} end
+	table.insert(AshBlossomTable,e1)
 end
 function c30241314.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,0,tp,LOCATION_DECK)
 end
 function c30241314.filter(c,e,sp)
 	return c:IsCode(54493213) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
