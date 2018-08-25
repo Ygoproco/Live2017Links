@@ -2,7 +2,7 @@
 --Scripted by Cybercatman and AlphaKretin
 function c100244002.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,c100244002.tfilter,1,1,aux.NonTuner(nil),1,99)
+	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x1017),1,1,aux.NonTuner(nil),1,99)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -73,15 +73,13 @@ function c100244002.rescon(sg,e,tp,mg)
 	return aux.ChkfMMZ(#sg)(sg,e,tp,mg) and sg:GetClassCount(Card.GetLevel)==#sg
 end
 function c100244002.spop(e,tp,eg,ep,ev,re,r,rp)
-	local ct=Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD)
+	local g=Duel.GetMatchingGroup(c100244002.filter,tp,LOCATION_DECK,0,nil,e,tp)
+	local ct=math.min(Duel.GetLocationCount(tp,LOCATION_MZONE),g:GetClassCount(Card.GetLevel))
 	if ct<=0 then return end
 	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ct=1 end
-	local g=Duel.GetMatchingGroup(c100244002.filter,tp,LOCATION_DECK,0,nil,e,tp)
-	if #g>0 then
-		 local sg=aux.SelectUnselectGroup(g,e,tp,1,ct,c100244002.rescon,1,tp,HINTMSG_SPSUMMON)
-		 if #sg>0 then
-			Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
-		 end
+	local sg=aux.SelectUnselectGroup(g,e,tp,ct,ct,c100244002.rescon,1,tp,HINTMSG_SPSUMMON)
+	if #sg>0 then
+		Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end
 function c100244002.regop(e,tp,eg,ep,ev,re,r,rp)
