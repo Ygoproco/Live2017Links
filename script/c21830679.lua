@@ -4,6 +4,7 @@
 function c21830679.initial_effect(c)
 	--token
 	local e1=Effect.CreateEffect(c)
+	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetDescription(aux.Stringid(21830679,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN+CATEGORY_ATKCHANGE)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
