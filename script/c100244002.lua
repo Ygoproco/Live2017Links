@@ -36,9 +36,6 @@ function c100244002.initial_effect(c)
 	Duel.AddCustomActivityCounter(100244002,ACTIVITY_SPSUMMON,c100244002.counterfilter)
 end
 c100244002.material_setcode=0x1017
-function c100244002.tfilter(c)
-	return c:IsSetCard(0x1017) or c:IsHasEffect(20932152)
-end
 function c100244002.counterfilter(c)
 	return c:GetSummonLocation()~=LOCATION_EXTRA or c:IsType(TYPE_SYNCHRO)
 end
