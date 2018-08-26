@@ -86,7 +86,7 @@ function c41546.desop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e2,tp)
 end
-function c41546.damcon(e,tp,eg,ep,ev,re,r,rp)
+function c41546.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
 function c41546.dop(e,tp,eg,ep,ev,re,r,rp)
