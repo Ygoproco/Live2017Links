@@ -37,7 +37,7 @@ function c94259633.eqfilter(c)
 	return c:GetFlagEffect(94259633)~=0 
 end
 function c94259633.eqfilter2(c,e,tp,lg)
-	return c:IsFaceup() and c:IsAbleToChangeControler() and lg:IsContains(c)
+	return c:IsFaceup() and (c:IsControler(tp) or c:IsAbleToChangeControler()) and lg:IsContains(c)
 end
 function c94259633.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lg=e:GetHandler():GetLinkedGroup()
