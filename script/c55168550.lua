@@ -71,19 +71,19 @@ function c55168550.atkop(e,tp,eg,ep,ev,re,r,rp)
 	if not tc or not tc:IsRelateToEffect(e) then return end
 	local atk=tc:GetAttack()
 	local def=tc:GetDefense()
-	if atk>0 and c:IsRelateToEffect(e) and c:IsFaceup() then
+	if (atk>0 or def>0) and c:IsRelateToEffect(e) and c:IsFaceup() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
 		e1:SetValue(atk)
 		e1:SetReset(RESET_EVENT+0x1ff0000)
 		c:RegisterEffect(e1)
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_SET_DEFENSE_FINAL)
-		e1:SetValue(def)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
-		c:RegisterEffect(e1)
+		local e2=Effect.CreateEffect(c)
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
+		e2:SetValue(def)
+		e2:SetReset(RESET_EVENT+0x1ff0000)
+		c:RegisterEffect(e2)
 	end
 end
 
