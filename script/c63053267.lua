@@ -46,7 +46,8 @@ function c63053267.indval(e,re,rp)
 	return rp==1-e:GetHandlerPlayer()
 end
 function c63053267.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return ep~=tp and tc:IsSetCard(0x10b) and e:GetHandler():GetFlagEffect(63053267)==0
+	local c,tc=e:GetHandler(),eg:GetFirst()
+	return ep~=tp and tc:IsSetCard(0x10b) and c:GetFlagEffect(63053267)==0
 end
 function c63053267.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DoubleBattleDamage(ep)
