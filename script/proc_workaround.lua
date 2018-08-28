@@ -19,6 +19,17 @@ Card.IsLinkState = function(c)
     return ils(c) or Duel.IsExistingMatchingCard(function(c,tc)return c:IsFaceup() and c:GetLinkedGroup():IsContains(tc) end,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,c)
 end
 
+--discard temp fix
+function Duel.DiscardHand(player,filter,min,max,reason,excluded,...)
+    local desc = reason & REASON_DISCARD and 501 or 504
+    Duel.Hint(HINT_SELECTMSG, player, desc)
+    local g=Duel.SelectMatchingCard(player,filter,player,LOCATION_HAND,0,min,max,excluded,...)
+    if(#g==0) then
+        return 0
+    end
+    return Duel.SendtoGrave(g,reason)
+end
+
 --things needed for steelswarm origin
 local iscan=Duel.IsCanBeSpecialSummoned
 Duel.IsCanBeSpecialSummoned=function(c,...)
