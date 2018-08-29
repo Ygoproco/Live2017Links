@@ -30,6 +30,8 @@ function c20788863.initial_effect(c)
 end
 function c20788863.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
+	e:SetCategory(0)
+	e:SetOperation(nil)
 	if not c20788863.cost(e,tp,eg,ep,ev,re,r,rp,0) then return end
 	local b1=c20788863.drtg1(e,tp,eg,ep,ev,re,r,rp,0)
 	local b2=c20788863.drcon(e,tp,eg,ep,ev,re,r,rp) and c20788863.drtg2(e,tp,eg,ep,ev,re,r,rp,0)
