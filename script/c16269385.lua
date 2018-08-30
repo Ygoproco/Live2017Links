@@ -20,6 +20,7 @@ function c16269385.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetCountLimit(1)
 	e2:SetCondition(c16269385.atkcon)
+	e2:SetTarget(c16269385.atktg)
 	e2:SetOperation(c16269385.atkop)
 	c:RegisterEffect(e2)
 	--atkdown
@@ -32,6 +33,7 @@ function c16269385.initial_effect(c)
 	e3:SetRange(LOCATION_FZONE)
 	e3:SetCountLimit(1)
 	e3:SetCondition(c16269385.atkcon2)
+	e3:SetTarget(c16269385.atktg2)
 	e3:SetOperation(c16269385.atkop2)
 	c:RegisterEffect(e3)
 end
@@ -54,6 +56,9 @@ end
 function c16269385.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c16269385.cfilter,1,nil,tp,SUMMON_TYPE_FUSION)
 end
+function c16269385.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil) end
+end
 function c16269385.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
@@ -69,6 +74,9 @@ function c16269385.atkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c16269385.atkcon2(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c16269385.cfilter,1,nil,tp,SUMMON_TYPE_LINK)
+end
+function c16269385.atktg2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
 end
 function c16269385.atkop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
