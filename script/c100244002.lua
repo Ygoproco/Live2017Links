@@ -84,7 +84,7 @@ function c100244002.regop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c100244002.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetFlagEffect(100244002)~=0 and ((c==Duel.GetAttacker() and Duel.GetAttackTarget()~=nil) or c==Duel.GetAttackTarget())
+	return c:GetFlagEffect(100244002)~=0 and ((c==Duel.GetAttacker() and Duel.GetAttackTarget()) or c==Duel.GetAttackTarget())
 end
 function c100244002.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
