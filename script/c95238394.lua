@@ -1,6 +1,6 @@
 --雷龍融合
 --Thunder Dragon Fusion
---AlphaKretin
+--Scripted by AlphaKretin
 function c95238394.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -11,6 +11,8 @@ function c95238394.initial_effect(c)
 	e1:SetTarget(c95238394.target)
 	e1:SetOperation(c95238394.activate)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 	--to hand
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(95238394,0))

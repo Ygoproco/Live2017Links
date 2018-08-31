@@ -1,4 +1,5 @@
 --ダーク・コーリング
+--Dark Calling
 function c12071500.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -8,6 +9,8 @@ function c12071500.initial_effect(c)
 	e1:SetTarget(c12071500.target)
 	e1:SetOperation(c12071500.activate)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 end
 function c12071500.filter0(c)
 	return c:IsLocation(LOCATION_HAND) and c:IsAbleToRemove()

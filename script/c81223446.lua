@@ -9,6 +9,8 @@ function c81223446.initial_effect(c)
 	e1:SetTarget(c81223446.target)
 	e1:SetOperation(c81223446.activate)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 end
 function c81223446.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and aux.SpElimFilter(c,true,false)
@@ -74,4 +76,3 @@ function c81223446.activate(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 end
-

@@ -1,4 +1,5 @@
 --サイバーダーク・インパクト！
+--Cyberdark Impact!
 function c80033124.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -8,6 +9,8 @@ function c80033124.initial_effect(c)
 	e1:SetTarget(c80033124.target)
 	e1:SetOperation(c80033124.activate)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 end
 function c80033124.ffilter(c,e)
 	return c:IsFusionCode(41230939,77625948,3019642) and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
