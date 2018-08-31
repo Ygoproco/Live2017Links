@@ -73,7 +73,7 @@ function c51782995.descon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetLabelObject():GetLabel()~=Duel.GetTurnCount() and tp==Duel.GetTurnPlayer() and c:GetFlagEffect(51782995)>0
 end
 function c51782995.desfilter(c)
-	return c:IsSetCard(0x11f) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0x11f) and c:IsType(TYPE_MONSTER) and not c:IsCode(51782995)
 end
 function c51782995.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
