@@ -10,6 +10,8 @@ function c65801012.initial_effect(c)
 	e1:SetTarget(c65801012.target)
 	e1:SetOperation(c65801012.activate)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 end
 function c65801012.exmfilter(c)
 	return c:GetSequence()>=5
@@ -107,4 +109,3 @@ function c65801012.activate(e,tp,eg,ep,ev,re,r,rp)
 		tc:CompleteProcedure()
 	end
 end
-

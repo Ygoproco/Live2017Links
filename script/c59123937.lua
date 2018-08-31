@@ -1,4 +1,5 @@
 --DDヴァイス・テュポーン
+--D/D Vice Typhon
 function c59123937.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -52,6 +53,8 @@ function c59123937.regop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetOperation(c59123937.operation)
 	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 end
 function c59123937.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()

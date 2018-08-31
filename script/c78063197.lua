@@ -10,6 +10,8 @@ function c78063197.initial_effect(c)
 	e1:SetTarget(c78063197.target)
 	e1:SetOperation(c78063197.activate)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 	--equip
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(78063197,0))
@@ -118,4 +120,3 @@ function c78063197.eqop(e,tp,eg,ep,ev,re,r,rp)
 		te:GetOperation()(tc2,te:GetLabelObject(),tp,tc1)
 	end
 end
-

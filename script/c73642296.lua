@@ -1,5 +1,5 @@
 --屋敷わらし
---Yashiki Warashi
+--Ghost Belle & Haunted Mansion
 function c73642296.initial_effect(c)
 	--negate
 	local e1=Effect.CreateEffect(c)
@@ -15,8 +15,7 @@ function c73642296.initial_effect(c)
 	e1:SetTarget(c73642296.distg)
 	e1:SetOperation(c73642296.disop)
 	c:RegisterEffect(e1)
-	--to be modified when TCG name is released
-	--if not AshBlossomTable then AshBlossomTable={} end
+	if not GhostBelleTable then GhostBelleTable={} end
 end
 function c73642296.discon(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsChainNegatable(ev) then return false end
@@ -24,10 +23,16 @@ function c73642296.discon(e,tp,eg,ep,ev,re,r,rp)
 	local ex2,g2,gc2,dp2,loc2=Duel.GetOperationInfo(ev,CATEGORY_TODECK)
 	local ex3,g3,gc3,dp3,loc3=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
 	local ex4,g4,gc4,dp4,loc4=Duel.GetOperationInfo(ev,CATEGORY_REMOVE)
-	return (ex1 and loc1&LOCATION_GRAVE==LOCATION_GRAVE) or (ex2 and loc2&LOCATION_GRAVE==LOCATION_GRAVE) 
+	if (ex1 and loc1&LOCATION_GRAVE==LOCATION_GRAVE) or (ex2 and loc2&LOCATION_GRAVE==LOCATION_GRAVE) 
 		or (ex3 and loc3&LOCATION_GRAVE==LOCATION_GRAVE) or (ex4 and loc4&LOCATION_GRAVE==LOCATION_GRAVE) 
 		or (ex1 and g1 and g1:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)) or (ex2 and g2 and g2:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)) 
 		or (ex3 and g3 and g3:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)) or (ex4 and g4 and g4:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE))
+		then return true
+	end
+	for i,eff in ipairs(GhostBelleTable) do
+		if eff==re then return true end
+	end
+	return false
 end
 function c73642296.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsDiscardable() end

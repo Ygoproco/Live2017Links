@@ -1,5 +1,5 @@
 --ジェムナイト・ファントムルーツ
---Gem-Knight Phantom Roots
+--Gem-Knight Phantom Quartz
 --Script by nekrozar
 function c24484270.initial_effect(c)
 	--link summon
@@ -28,6 +28,8 @@ function c24484270.initial_effect(c)
 	e2:SetTarget(c24484270.sptg)
 	e2:SetOperation(c24484270.spop)
 	c:RegisterEffect(e2)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e2)
 end
 function c24484270.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
@@ -119,4 +121,3 @@ function c24484270.spop(e,tp,eg,ep,ev,re,r,rp)
 		tc:CompleteProcedure()
 	end
 end
-
