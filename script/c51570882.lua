@@ -32,6 +32,8 @@ function c51570882.initial_effect(c)
 	e3:SetTarget(c51570882.sptg)
 	e3:SetOperation(c51570882.spop)
 	c:RegisterEffect(e3)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e3)
 end
 c51570882.material_setcode={0xf3,0x10f3}
 function c51570882.ffilter2(c,fc,sumtype,tp)
