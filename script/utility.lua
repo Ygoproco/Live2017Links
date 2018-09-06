@@ -852,6 +852,7 @@ function Auxiliary.ComposeNumberDigitByDigit(tp,min,max)
 end
 function Card.GetZone(c,tc,tp,clink)
 	local zone=0
+	if not tc:IsLocation(LOCATION_MZONE) then return zone end
 	local seq=tc:GetSequence()
 	if tc:IsControler(tp) then
 		if c:IsLinkMarker(LINK_MARKER_LEFT) and seq < 4 and (not clink or tc:IsLinkMarker(LINK_MARKER_RIGHT)) then zone=zone|(1<<seq+1) end
