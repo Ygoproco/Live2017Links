@@ -850,7 +850,7 @@ function Auxiliary.ComposeNumberDigitByDigit(tp,min,max)
 	end
 	return number
 end
-function Card.GetZone(c,tc,tp,clink)
+function Card.GetToBeLinkedZone(tc,c,tp,clink)
 	local zone=0
 	if not tc:IsLocation(LOCATION_MZONE) then return zone end
 	local seq=tc:GetSequence()
