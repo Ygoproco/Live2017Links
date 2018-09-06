@@ -35,7 +35,7 @@ function c10158145.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c10158145.spfilter(c,e,tp,ec)
-	local zone=c:GetZone(ec,tp)
+	local zone=ec:GetToBeLinkedZone(c,tp)
 	return zone~=0 and c:IsType(TYPE_LINK) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 end
 function c10158145.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -50,7 +50,7 @@ function c10158145.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsControler(tp) then
-		local zone=tc:GetZone(c,tp)
+		local zone=c:GetToBeLinkedZone(tc,tp)
 		if zone~=0 and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP,zone) then
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
