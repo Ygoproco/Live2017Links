@@ -49,7 +49,7 @@ end
 function c10158145.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsControler(tp) then
+	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
 		local zone=c:GetToBeLinkedZone(tc,tp)
 		if zone~=0 and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP,zone) then
 			local e1=Effect.CreateEffect(c)
