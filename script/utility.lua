@@ -887,10 +887,10 @@ function Card.GetToBeLinkedZone(tc,c,tp,clink,emz)
 	end
 	return zone
 end
-function Group.GetToBeLinkedZone(g,c,tp,clink)
+function Group.GetToBeLinkedZone(g,c,tp,clink,emz)
 	local zone=0
 	for tc in aux.Next(g) do
-		zone=zone|tc:GetToBeLinkedZone(c,tp,clink)
+		zone=zone|tc:GetToBeLinkedZone(c,tp,clink,emz)
 	end
 	return zone
 end
