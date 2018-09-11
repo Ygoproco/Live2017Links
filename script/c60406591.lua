@@ -37,7 +37,7 @@ function c60406591.clear(e,tp,eg,ep,ev,re,r,rp)
 	c60406591[2]=nil
 end
 function c60406591.condition(e,tp,eg,ep,ev,re,r,rp)
-	return c60406591[0]==tp and eg:GetCount()==1 and eg:GetFirst()==c60406591[2]
+	return c60406591[0]==tp and eg:GetCount()==1 and eg:GetFirst()==c60406591[2]  and eg:GetFirst():GetBattlePosition()==POS_FACEUP_ATTACK
 end
 function c60406591.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=c60406591[1]
