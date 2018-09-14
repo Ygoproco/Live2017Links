@@ -57,10 +57,10 @@ function c95448692.activate2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e2,tp)
 	Duel.RegisterFlagEffect(tp,95448692,RESET_PHASE+PHASE_END,0,1)
 end
-function c60312997.rdcon(e,tp,eg,ep,ev,re,r,rp)
+function c95448692.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep==tp
 end
-function c60312997.rdop(e,tp,eg,ep,ev,re,r,rp)
+function c95448692.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end
 function c95448692.val(e,re,dam,r,rp,rc)
