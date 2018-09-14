@@ -33,7 +33,7 @@ function c100307001.disrmcon(e,tp,eg,ep,ev,re,r,rp)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	if loc==LOCATION_HAND then race=c:GetOriginalRace() end
 	if loc==LOCATION_MZONE and not c:IsLocation(LOCATION_MZONE) then race=c:GetPreviousRaceOnField() end
-	return race==RACE_ZOMBIE and not c:IsCode(100307001)
+	return race==RACE_ZOMBIE and not c:IsCode(100307001) and re:IsActiveType(TYPE_MONSTER)
 end
 function c100307001.disrmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsChainDisablable(ev) and Duel.GetFlagEffect(tp,100307001)==0
