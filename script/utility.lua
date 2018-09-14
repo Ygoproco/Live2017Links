@@ -987,7 +987,9 @@ end
 function Auxiliary.RemainFieldDisabled(e,tp,eg,ep,ev,re,r,rp)
 	local cid=Duel.GetChainInfo(ev,CHAININFO_CHAIN_ID)
 	if cid~=e:GetLabel() then return end
-	e:GetOwner():CancelToGrave(false)
+	if e:GetOwner():IsLocation(LOCATION_ONFIELD) then
+		e:GetOwner():CancelToGrave(false)
+	end
 end
 --autocheck for Summoning a Group containing Extra Deck/non-Extra Deck monsters to avoid zone issues
 function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,nolimit,pos,mmz,emz)
