@@ -20,7 +20,6 @@ function c89448140.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e1:SetRange(LOCATION_SZONE)
 	e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e1:SetCondition(c89448140.condition)
 	e1:SetCondition(c89448140.dcon)
 	e1:SetOperation(c89448140.dop)
 	c:RegisterEffect(e1)
@@ -42,7 +41,7 @@ function c89448140.condition(e)
 	return Duel.IsExistingMatchingCard(c89448140.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function c89448140.val(e,re,dam,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 then
+	if bit.band(r,REASON_EFFECT)~=0 and Duel.IsExistingMatchingCard(c89448140.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil) then
 		return dam/2
 	else return dam end
 end
