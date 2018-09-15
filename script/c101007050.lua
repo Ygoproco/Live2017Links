@@ -63,4 +63,15 @@ function c101007050.spop(e,tp,eg,ep,ev,re,r,rp)
 	if sg:GetCount()==0 then return end
 	local rg=aux.SelectUnselectGroup(sg,e,tp,3,3,c101007050.spcheck,1,tp,HINTMSG_SPSUMMON)
 	Duel.SpecialSummon(rg,0,tp,tp,true,false,POS_FACEUP,zone)
+	local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_FIELD)
+		e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+		e1:SetTargetRange(1,0)
+		e1:SetTarget(c101007050.splimit)
+		e1:SetReset(RESET_PHASE+PHASE_END)
+		Duel.RegisterEffect(e1,tp)
+end
+function c101007050.splimit(e,c)
+	return not c:IsSetCard(0x27)
 end
