@@ -43,11 +43,15 @@ function c101007041.operation(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 		if tc:IsAttribute(ATTRIBUTE_FIRE) and #b2>0 and Duel.SelectYesNo(tp,aux.Stringid(101007041,2)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 			local t2=b2:Select(tp,1,1,nil)
 			Duel.HintSelection(t2)
 			Duel.Destroy(t2,REASON_EFFECT)
 		end
 		if tc:IsType(TYPE_SYNCHRO) and #b3>0  and Duel.SelectYesNo(tp,aux.Stringid(101007041,3)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 			local t3=b3:Select(tp,1,1,nil)
 			Duel.HintSelection(t3)
 			Duel.Destroy(t3,REASON_EFFECT)
