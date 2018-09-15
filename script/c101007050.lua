@@ -50,7 +50,7 @@ function c101007050.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		local ct=Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)
 		local g=Duel.GetMatchingGroup(c101007050.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp,zone)
 		return ct>2 and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
-			and aux.SelectUnselectGroup(g,e,tp,nil,c101007050.spcheck,3)
+			and aux.SelectUnselectGroup(g,e,tp,3,3,c101007050.spcheck,0)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,3,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
@@ -61,6 +61,6 @@ function c101007050.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)
 	local sg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c101007050.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp,zone)
 	if sg:GetCount()==0 then return end
-	local rg=aux.SelectUnselectGroup(sg,e,tp,nil,ft,c101007050.spcheck,1,tp,HINTMSG_SPSUMMON)
+	local rg=aux.SelectUnselectGroup(sg,e,tp,3,3,c101007050.spcheck,1,tp,HINTMSG_SPSUMMON)
 	Duel.SpecialSummon(rg,0,tp,tp,true,false,POS_FACEUP,zone)
 end
