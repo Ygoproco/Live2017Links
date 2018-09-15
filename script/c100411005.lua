@@ -23,6 +23,7 @@ function c100411005.initial_effect(c)
 	e2:SetOperation(c100411005.thop)
 	c:RegisterEffect(e2)
 end
+c100411005.listed_names={CARD_HARPIE_LADY_SISTERS}
 function c100411005.tdfilter(c,e,tp,g)
 	return c:IsCode(CARD_HARPIE_LADY_SISTERS) and c:IsAbleToDeck() 
 		and Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_TOFIELD)>=3 and aux.SelectUnselectGroup(g,e,tp,3,3,c100411005.spcheck,0)
