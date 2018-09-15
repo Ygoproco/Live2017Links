@@ -35,7 +35,7 @@ function c100307024.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc,race)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c100307024.filter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(c100307024.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(c100307024.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
+	Duel.SelectTarget(tp,c100307024.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 end
 function c100307024.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
