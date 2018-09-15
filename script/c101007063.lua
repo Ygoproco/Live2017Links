@@ -28,7 +28,7 @@ end
 function c101007063.spfilter(c,e,tp,code)
 	return c:IsSetCard(0xd9) and c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsCode(code)
 end
-function c101007063.target(c)
+function c101007063.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
