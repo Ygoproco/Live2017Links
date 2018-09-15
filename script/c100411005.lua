@@ -45,7 +45,7 @@ function c100411005.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c100411005.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local dg=Duel.SelectMatchingCard(tp,c100411005.tdfilter,tp,LOCATION_MZONE,0,1,1,nil,e,tp,g)
-	if #dg>0 and Duel.SendtoDeck(g,nil,2,REASON_EFFECT)>0 then
+	if #dg>0 and Duel.SendtoDeck(dg,nil,2,REASON_EFFECT)>0 then
 		Duel.BreakEffect()
 		local sg=aux.SelectUnselectGroup(g,e,tp,3,3,c100411005.spcheck,1,tp,HINTMSG_SPSUMMON)
 		Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
@@ -64,7 +64,7 @@ function c100411005.splimit(e,c)
 end
 function c100411005.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsPreviousLocation(LOCATION_ONFIELD) and (rp~=tp or (rp==tp and re:IsSetCard(0x64)) and c:GetPreviousControler()==tp
+	return c:IsPreviousLocation(LOCATION_ONFIELD) and (rp~=tp or (rp==tp and re:GetHandler():IsSetCard(0x64))) and c:GetPreviousControler()==tp
 end
 function c100411005.thfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x64) and c:IsAbleToHand()
