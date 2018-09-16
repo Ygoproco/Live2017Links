@@ -18,19 +18,18 @@ function c101007074.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetCountLimit(1,101007074+100)
+	e2:SetCountLimit(1,101007074)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetCost(aux.bfgcost)
 	e2:SetTarget(c101007074.immtg)
 	e2:SetOperation(c101007074.immop)
 	c:RegisterEffect(e2)
 end
-function c101007074.spfilter(c,e,tp,race)
+function c101007074.spfilter(c,e,tp)
 	return c:IsRace(RACE_ZOMBIE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c101007074.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then 
-		return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(c101007074.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND) 
@@ -38,16 +37,17 @@ end
 function c101007074.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c101007074.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
-	if #g>0 and Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)~=0 then 
+	local tc=Duel.SelectMatchingCard(tp,c101007074.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp):GetFirst()
+	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then 
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetReset(RESET_EVENT+0x47e0000)
 		e1:SetValue(LOCATION_REMOVED)
-		g:GetFirst():RegisterEffect(e1,true)
+		tc:RegisterEffect(e1)
 	end
+	Duel.SpecialSummonComplete()
 end
 function c101007074.filter(c)
 	return c:IsFaceup() and c:IsRace(RACE_ZOMBIE)
