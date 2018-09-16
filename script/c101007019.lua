@@ -39,6 +39,18 @@ function c101007019.sumop(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
+	local c=e:GetHandler()
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(c100307019.splimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+end
+function c100307019.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return not c:IsRace(RACE_ZOMBIE)
 end
 function c101007019.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
@@ -46,7 +58,8 @@ function c101007019.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
 function c101007019.drop(e,tp,eg,ep,ev,re,r,rp,chk)
-	if Duel.Draw(tp,1,REASON_EFFECT)>0 then Duel.BreakEffect()
+	if Duel.Draw(tp,1,REASON_EFFECT)>0 then
+		Duel.BreakEffect()
 		Duel.ShuffleHand(tp)
 		Duel.DiscardHand(tp,aux.TRUE,1,1,REASON_EFFECT+REASON_DISCARD)
 	end
