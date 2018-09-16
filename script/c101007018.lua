@@ -25,14 +25,15 @@ function c101007018.initial_effect(c)
 	e2:SetOperation(c101007018.atkop)
 	c:RegisterEffect(e2)
 end
-function c101007018.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xd9) and Duel.IsExistingMatchingCard(c101007018.cfilter2,tp,LOCATION_MZONE,0,1,nil,c:GetCode())
+function c101007018.cfilter(c,tp)
+	return c:IsFaceup() and c:IsSetCard(0xd9)
+		and Duel.IsExistingMatchingCard(c101007018.cfilter2,tp,LOCATION_MZONE,0,1,nil,c:GetCode())
 end
 function c101007018.cfilter2(c,code)
 	return c:IsFaceup() and c:IsSetCard(0xd9) and not c:IsCode(code)
 end
 function c101007018.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c101007018.cfilter,tp,LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(c101007018.cfilter,tp,LOCATION_MZONE,0,1,nil,tp)
 end
 function c101007018.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -40,7 +41,6 @@ function c101007018.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
 function c101007018.operation(e,tp,eg,ep,ev,re,r,rp)
-	if not Duel.IsExistingMatchingCard(c101007018.cfilter,tp,LOCATION_MZONE,0,1,nil) then return end
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)>0 then
 		local e1=Effect.CreateEffect(c)
