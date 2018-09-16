@@ -125,9 +125,9 @@ function Auxiliary.LinkTarget(f,minc,maxc,specialchk)
 					if sg:GetCount()>=minc and sg:GetCount()<=maxc and Auxiliary.LCheckGoal(tp,sg,c,minc,f,specialchk,filters) then
 						cancel=true
 					else
-						cancel=false
+						cancel=not og and Duel.GetCurrentChain()<=0 and sg:GetCount()==0
 					end
-					local tc=Group.SelectUnselect(cg,sg,tp,cancel,sg:GetCount()==0 or cancel,1,1)
+					local tc=Group.SelectUnselect(cg,sg,tp,cancel,cancel,1,1)
 					if not tc then break end
 					if mustg:GetCount()==0 or not mustg:IsContains(tc) then
 						if not sg:IsContains(tc) then
