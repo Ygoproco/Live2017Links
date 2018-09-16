@@ -45,11 +45,11 @@ function c101007019.sumop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetTargetRange(1,0)
-	e1:SetTarget(c100307019.splimit)
+	e1:SetTarget(c101007019.splimit)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-function c100307019.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function c101007019.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return not c:IsRace(RACE_ZOMBIE)
 end
 function c101007019.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
