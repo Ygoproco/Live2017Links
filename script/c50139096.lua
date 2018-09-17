@@ -66,10 +66,26 @@ function c50139096.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetCondition(c50139096.actcon)
 		e1:SetOperation(c50139096.actop)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetLabelObject(tc)
 		Duel.RegisterEffect(e1,tp)
 		tc:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(50139096,2))
+		--reset
+		local reset=Effect.CreateEffect(c)
+		reset:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		reset:SetCode(EVENT_ADJUST)
+		reset:SetCondition(c50139096.resco)
+		reset:SetOperation(c50139096.resop)
+		reset:SetLabelObject(e1)
+		Duel.RegisterEffect(reset,tp)
 	end
+end
+function c50139096.resco(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject():GetLabelObject()
+	return not tc:IsLocation(LOCATION_MZONE) or tc:GetFlagEffect(0)==0
+end
+function c50139096.resop(e,tp,eg,ep,ev,re,r,rp)
+	e:GetLabelObject():Reset()
+	e:Reset()
 end
 function c50139096.actcon(e,tp,eg,ep,ev,re,r,rp)
 	local ac=Duel.GetAttacker()
@@ -90,4 +106,3 @@ end
 function c50139096.actlimit(e,re,tp)
 	return not re:GetHandler():IsImmuneToEffect(e)
 end
-
