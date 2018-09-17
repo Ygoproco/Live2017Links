@@ -76,10 +76,10 @@ function c28692962.thop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCountLimit(1)
 		e1:SetCondition(c28692962.retcon)
 		e1:SetOperation(c28692962.retop)
-		e1:SetValue(val)
+		e1:SetLabel(val)
 		e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,ct)
 		Duel.RegisterEffect(e1,tp)
-		tc:RegisterFlagEffect(28692962,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,ct)
+		tc:CreateEffectRelation(e1)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,c28692962.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 		if g:GetCount()>0 then
@@ -89,11 +89,11 @@ function c28692962.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c28692962.retcon(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetTurnPlayer()~=tp or Duel.GetTurnCount()==e:GetValue() then return false end
-	return e:GetLabelObject():GetFlagEffect(28692962)~=0
+	if Duel.GetTurnPlayer()~=tp or Duel.GetTurnCount()==e:GetLabel() then return false end
+	local tc=e:GetLabelObject()
+	return tc:IsRelateToEffect(e)
 end
 function c28692962.retop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	tc:ResetFlagEffect(28692962)
 	Duel.ReturnToField(tc)
 end
