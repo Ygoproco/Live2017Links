@@ -238,3 +238,13 @@ function Duel.SelectReleaseGroupCost(tp,f,minc,maxc,use_hand,specialchk,ex,...)
 	end
 	return sg
 end
+
+--Witch's Strike
+local ns=Duel.NegateSummon
+Duel.NegateSummon=function(g)   
+	ns(g)
+	local ng = g:Filter(Card.IsStatus,nil,STATUS_SUMMON_DISABLED)
+	if #ng>0 then
+		Duel.RaiseEvent(ng,EVENT_CUSTOM+101007179,Effect.GlobalEffect(),0,0,0,0)
+	end
+end
