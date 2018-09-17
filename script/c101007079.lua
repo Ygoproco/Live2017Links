@@ -9,12 +9,13 @@ function c101007079.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_CUSTOM+101007079)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
+	e1:SetCondition(c101007079.condition1)
 	e1:SetTarget(c101007079.target)
 	e1:SetOperation(c101007079.activate)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EVENT_CUSTOM+101007179)
-	e2:SetCondition(c101007079.condition)
+	e2:SetCondition(c101007079.condition2)
 	c:RegisterEffect(e2)
 	if not c101007079.global_check then
 		c101007079.global_check=true
@@ -27,14 +28,17 @@ function c101007079.initial_effect(c)
 end
 function c101007079.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local de,dp=Duel.GetChainInfo(ev,CHAININFO_DISABLE_REASON,CHAININFO_DISABLE_PLAYER)
-	if de and dp~=tp then
+	if de then
 		Duel.RaiseEvent(e:GetHandler(),EVENT_CUSTOM+101007079,e,0,dp,0,0)
 	end
 end
 function c101007079.cfilter(c,p)
 	return c:GetReasonPlayer()~=p and (c:IsSummonType(SUMMON_TYPE_NORMAL) or c:IsSummonType(SUMMON_TYPE_SPECIAL))
 end
-function c101007079.condition(e,tp,eg,ep,ev,re,r,rp)
+function c101007079.condition1(e,tp,eg,ep,ev,re,r,rp)
+	return rp~=tp
+end
+function c101007079.condition2(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c101007079.cfilter,1,nil,tp)
 end
 function c101007079.target(e,tp,eg,ep,ev,re,r,rp,chk)
