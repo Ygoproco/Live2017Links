@@ -69,7 +69,7 @@ function c66719533.atkfilter(c)
 	return c:IsFaceup() and not c:IsSetCard(0x105)
 end
 function c66719533.posfilter(c)
-	return c:IsCanChangePosition() and not c:IsSetCard(0x105)
+	return c:IsCanChangePosition() and not (c:IsFaceup() and c:IsSetCard(0x105))
 end
 function c66719533.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
