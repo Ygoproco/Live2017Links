@@ -43,6 +43,7 @@ function c41578483.initial_effect(c)
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e5:SetCode(EVENT_CHAIN_SOLVING)
+	e5:SetCondition(c41578483.discon)
 	e5:SetOperation(c41578483.disop)
 	e5:SetRange(LOCATION_MZONE)
 	c:RegisterEffect(e5)
@@ -114,11 +115,15 @@ function c41578483.disfilter(c)
 end
 function c41578483.distg(e,c)
 	local g=e:GetHandler():GetEquipGroup():Filter(c41578483.disfilter,nil)
-	return c:IsFaceup() and g:IsExists(Card.IsCode,1,nil,c:GetCode())
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and g:IsExists(Card.IsCode,1,nil,c:GetCode())
+end
+function c41578483.disfilter2(c,typ)
+	return c:GetOriginalType()&typ==typ
+end
+function c41578483.discon(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetHandler():GetEquipGroup():Filter(aux.AND(c41578483.disfilter,c41578483.disfilter2),nil,(TYPE_MONSTER|TYPE_EFFECT))
+	return re:IsActiveType(TYPE_MONSTER) and g:IsExists(Card.IsCode,1,nil,re:GetHandler():GetCode())
 end
 function c41578483.disop(e,tp,eg,ep,ev,re,r,rp)
-	local g=e:GetHandler():GetEquipGroup():Filter(aux.AND(c41578483.disfilter,Card.IsActiveType),nil,TYPE_MONSTER+TYPE_EFFECT)
-	if g and re and g:IsContains(re:GetOwner()) then
-		Duel.NegateEffect(ev)
-	end
+	Duel.NegateEffect(ev)
 end
