@@ -1,5 +1,5 @@
 --エレメントセイバー・ウィラード
---Elementsaber Willard
+--Elementsaber Lapauila Mana
 --Scripted by Eerie Code
 function c71797713.initial_effect(c)
 	--special summon
@@ -17,6 +17,7 @@ function c71797713.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetCondition(c71797713.regcon)
 	e2:SetOperation(c71797713.regop)
 	c:RegisterEffect(e2)
