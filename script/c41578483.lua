@@ -111,19 +111,19 @@ function c41578483.defval(e,c)
 	return atk
 end
 function c41578483.disfilter(c)
-    return c:IsFaceup() and c:GetFlagEffect(41578483)~=0
+	return c:IsFaceup() and c:GetFlagEffect(41578483)~=0
 end
 function c41578483.distg(e,c)
-    local g=e:GetHandler():GetEquipGroup():Filter(c41578483.disfilter,nil)
-    return c:IsFaceup() and c:IsType(TYPE_MONSTER) and g:IsExists(Card.IsCode,1,nil,c:GetCode())
+	local g=e:GetHandler():GetEquipGroup():Filter(c41578483.disfilter,nil)
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and g:IsExists(Card.IsCode,1,nil,c:GetCode())
 end
 function c41578483.disfilter2(c,typ)
-    return c:GetOriginalType()&typ==typ
+	return c:GetOriginalType()&typ==typ
 end
 function c41578483.discon(e,tp,eg,ep,ev,re,r,rp)
-    local g=e:GetHandler():GetEquipGroup():Filter(aux.AND(c41578483.disfilter,c41578483.disfilter2),nil,(TYPE_MONSTER|TYPE_EFFECT))
-    return re:IsActiveType(TYPE_MONSTER) and g:IsExists(Card.IsCode,1,nil,re:GetHandler():GetCode())
+	local g=e:GetHandler():GetEquipGroup():Filter(aux.AND(c41578483.disfilter,c41578483.disfilter2),nil,(TYPE_MONSTER|TYPE_EFFECT))
+	return re:IsActiveType(TYPE_MONSTER) and g:IsExists(Card.IsCode,1,nil,re:GetHandler():GetCode())
 end
 function c41578483.disop(e,tp,eg,ep,ev,re,r,rp)
-    Duel.NegateEffect(ev)
+	Duel.NegateEffect(ev)
 end
