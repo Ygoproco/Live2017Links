@@ -24,6 +24,29 @@ function c64178424.initial_effect(c)
 	e3:SetTarget(c64178424.sptg2)
 	e3:SetOperation(c64178424.spop2)
 	c:RegisterEffect(e3)
+	--recarnation check
+	if not c64178424.g_chk then
+		c64178424.g_chk=true
+		local e1=Effect.GlobalEffect()
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_MATERIAL_CHECK)
+		e1:SetValue(c64178424.val)
+		local ge1=Effect.GlobalEffect()
+		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
+		ge1:SetLabelObject(e1)
+		ge1:SetTargetRange(0xff,0xff)
+		ge1:SetTarget(c64178424.gtg)
+		Duel.RegisterEffect(ge1,0)
+	end
+end
+function c64178424.gtg(e,c)
+	return c:IsType(TYPE_LINK) and c:IsSetCard(0x119)
+end
+function c64178424.val(e,c)
+	local g=c:GetMaterial()
+	if g:IsExists(Card.IsLinkCode,1,nil,c:GetCode()) and c:IsSummonType(SUMMON_TYPE_LINK) then
+		c:RegisterFlagEffect(41463181,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
+	end
 end
 function c64178424.spfilter(c,e,tp,pos)
 	return c:IsSetCard(0x119) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,pos)
@@ -70,4 +93,3 @@ function c64178424.spop2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end
-
