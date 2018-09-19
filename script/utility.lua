@@ -469,7 +469,11 @@ function Auxiliary.SpiritReturnReg(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCode(EVENT_PHASE+PHASE_END)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
-	e1:SetReset(RESET_EVENT+0x1ee0000+RESET_PHASE+PHASE_END)
+	if e:GetCode() == EVENT_FLIP_SUMMON_SUCCESS or e:GetCode() == EVENT_FLIP then
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+	else
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TEMP_REMOVE-RESET_LEAVE+RESET_PHASE+PHASE_END)
+	end
 	e1:SetCondition(Auxiliary.SpiritReturnCondition)
 	e1:SetTarget(Auxiliary.SpiritReturnTarget)
 	e1:SetOperation(Auxiliary.SpiritReturnOperation)
@@ -598,7 +602,7 @@ end
 --flag effect for spell counter
 function Auxiliary.chainreg(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():GetFlagEffect(1)==0 then
-		e:GetHandler():RegisterFlagEffect(1,RESET_EVENT+0x1fc0000+RESET_CHAIN,0,1)
+		e:GetHandler():RegisterFlagEffect(1,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_CHAIN,0,1)
 	end
 end
 --default filter for EFFECT_CANNOT_BE_BATTLE_TARGET
