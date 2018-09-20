@@ -20,8 +20,6 @@ function c5309481.operation(e,tp,eg,ep,ev,re,r,rp)
 	if a:GetControler()==p and a:IsRace(RACE_ZOMBIE) and d:IsStatus(STATUS_BATTLE_DESTROYED) then tc=d
 	elseif d:GetControler()==p and d:IsRace(RACE_ZOMBIE) and a:IsStatus(STATUS_BATTLE_DESTROYED) then tc=a end
 	if not tc then return end
-	Debug.Message("here")
-	Debug.Message(tc:GetLocation())
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_DISABLE)
