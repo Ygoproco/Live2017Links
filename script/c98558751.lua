@@ -78,7 +78,7 @@ function c98558751.sctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetFlagEffect(98558751)==0
 		and Duel.IsExistingMatchingCard(Card.IsSynchroSummonable,tp,LOCATION_EXTRA,0,1,nil,e:GetHandler()) end
-	c:RegisterFlagEffect(98558751,RESET_CHAIN,1,1)
+	c:RegisterFlagEffect(98558751,RESET_CHAIN,0,1)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function c98558751.scop(e,tp,eg,ep,ev,re,r,rp)
