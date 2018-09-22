@@ -1,5 +1,5 @@
 --無限泡影
---Infinite Transience
+--Infinite Impermanence
 function c10045474.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -45,26 +45,20 @@ function c10045474.activate(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(RESET_TURN_SET)
 		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e2)
-		local e3
-		if tc:IsType(TYPE_TRAPMONSTER) then
-			e3=Effect.CreateEffect(c)
-			e3:SetType(EFFECT_TYPE_SINGLE)
-			e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-			e3:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-			tc:RegisterEffect(e3)
-		end
-		if not tc:IsImmuneToEffect(e1) and not tc:IsImmuneToEffect(e2) and (not e3 or not tc:IsImmuneToEffect(e3)) 
+		if not tc:IsImmuneToEffect(e1) and not tc:IsImmuneToEffect(e2)
 			and c:IsRelateToEffect(e) and pos&POS_FACEDOWN>0 then
 			Duel.BreakEffect()
 			c:RegisterFlagEffect(10045474,RESET_CHAIN,0,0)
-			local e4=Effect.CreateEffect(c)
-			e4:SetType(EFFECT_TYPE_FIELD)
-			e4:SetCode(EFFECT_DISABLE)
-			e4:SetTargetRange(LOCATION_SZONE,LOCATION_SZONE)
-			e4:SetTarget(c10045474.distg)
-			e4:SetReset(RESET_PHASE+PHASE_END)
-			e4:SetLabel(c:GetSequence())
+			local e3=Effect.CreateEffect(c)
+			e3:SetType(EFFECT_TYPE_FIELD)
+			e3:SetCode(EFFECT_DISABLE)
+			e3:SetTargetRange(LOCATION_SZONE,LOCATION_SZONE)
+			e3:SetTarget(c10045474.distg)
+			e3:SetReset(RESET_PHASE+PHASE_END)
+			e3:SetLabel(c:GetSequence())
+			Duel.RegisterEffect(e3,tp)
+			local e4=e3:Clone()
+			e4:SetCode(EFFECT_DISABLE_TRAPMONSTER)
 			Duel.RegisterEffect(e4,tp)
 			local e5=Effect.CreateEffect(c)
 			e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
