@@ -4,23 +4,7 @@ function c49352945.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddFusionProcMix(c,true,true,89943723,17955766,54959865)
 	aux.AddContactFusion(c,c49352945.contactfil,c49352945.contactop,c49352945.splimit)
-	--return
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(49352945,0))
-	e2:SetCategory(CATEGORY_TODECK)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e2:SetCode(EVENT_PHASE+PHASE_END)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetCountLimit(1)
-	e2:SetCondition(c49352945.retcon1)
-	e2:SetTarget(c49352945.rettg)
-	e2:SetOperation(c49352945.retop)
-	c:RegisterEffect(e2)
-	local e3=e2:Clone()
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetProperty(0)
-	e3:SetCondition(c49352945.retcon2)
-	c:RegisterEffect(e3)
+	aux.EnableNeosReturn(c)
 	--destroy
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(49352945,1))
@@ -52,24 +36,6 @@ function c49352945.contactop(g,tp)
 end
 function c49352945.splimit(e,se,sp,st)
 	return not e:GetHandler():IsLocation(LOCATION_EXTRA)
-end
-function c49352945.retcon1(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsHasEffect(42015635)
-end
-function c49352945.retcon2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsHasEffect(42015635)
-end
-function c49352945.rettg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToExtra() end
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
-end
-function c49352945.retop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
-	Duel.SendtoDeck(c,nil,2,REASON_EFFECT)
-	if c:IsLocation(LOCATION_EXTRA) then
-		Duel.RaiseSingleEvent(c,EVENT_CUSTOM+49352945,e,0,0,0,0)
-	end
 end
 function c49352945.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil,TYPE_SPELL+TYPE_TRAP) end

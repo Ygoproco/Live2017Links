@@ -4,6 +4,7 @@ function c11502550.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddFusionProcMix(c,true,true,89943723,54959865)
 	aux.AddContactFusion(c,c11502550.contactfil,c11502550.contactop,c11502550.splimit)
+	aux.EnableNeosReturn(c)
 	--return
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(11502550,0))
@@ -41,20 +42,6 @@ function c11502550.contactop(g,tp)
 end
 function c11502550.splimit(e,se,sp,st)
 	return not e:GetHandler():IsLocation(LOCATION_EXTRA)
-end
-function c11502550.retcon1(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsHasEffect(42015635)
-end
-function c11502550.retcon2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsHasEffect(42015635)
-end
-function c11502550.rettg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToExtra() end
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
-end
-function c11502550.retop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) or e:GetHandler():IsFacedown() then return end
-	Duel.SendtoDeck(e:GetHandler(),nil,2,REASON_EFFECT)
 end
 function c11502550.atkval(e,c)
 	local lps=Duel.GetLP(c:GetControler())
