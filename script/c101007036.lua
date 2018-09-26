@@ -25,7 +25,7 @@ function c101007036.ffilter(c,fc,sumtype,tp,sub,mg,sg)
 	return c:IsFusionSetCard(0x1f)  and c:GetAttribute(fc,sumtype,tp)~=0 and (not sg or not sg:IsExists(c101007036.fusfilter,1,c,c:GetAttribute(fc,sumtype,tp),fc,sumtype,tp))
 end
 function c101007036.fusfilter(c,attr,fc,sumtype,tp)
-	return c:IsAttribute(attr,fc,sumtype,tp) and not c:IsHasEffect(511002961)
+	return c:IsFusionSetCard(0x1f) and c:IsAttribute(attr,fc,sumtype,tp) and not c:IsHasEffect(511002961)
 end
 function c101007036.contactfil(tp)
 	return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost,tp,LOCATION_ONFIELD,0,nil)
