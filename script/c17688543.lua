@@ -1,5 +1,5 @@
 --深すぎた墓穴
---Excessively Deep Grave
+--The Deep Grave
 --Script by nekrozar
 function c17688543.initial_effect(c)
 	--Activate
@@ -44,7 +44,7 @@ function c17688543.spcon(e,tp)
 end
 function c17688543.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	if tc then
+	if tc and tc:IsLocation(LOCATION_GRAVE) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
