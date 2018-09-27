@@ -19,7 +19,8 @@ function c9576193.filter2(c,lv)
 end
 function c9576193.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) and Duel.IsPlayerCanSpecialSummon(tp) 
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsPlayerCanDraw(tp,1) and Duel.IsPlayerCanSpecialSummon(tp) 
 		and Duel.IsExistingTarget(c9576193.filter1,tp,LOCATION_MZONE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local g1=Duel.SelectTarget(tp,c9576193.filter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
