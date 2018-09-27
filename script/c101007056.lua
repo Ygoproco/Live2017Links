@@ -47,8 +47,10 @@ function c101007056.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lg=c:GetLinkedGroup()
 	local zone=c:GetFreeLinkedZone()&0x1f
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(1-tp) and c101007056.spfilter(chkc,e,tp,zone) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsExistingTarget(c101007056.spfilter,tp,0,LOCATION_GRAVE,1,nil,e,tp,zone) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectTarget(tp,c101007056.spfilter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp,c:GetFreeLinkedZone()&0x1f)
+	local g=Duel.SelectTarget(tp,c101007056.spfilter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp,zone)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,tp,LOCATION_GRAVE)
 end
 function c101007056.spop(e,tp,eg,ep,ev,re,r,rp)
