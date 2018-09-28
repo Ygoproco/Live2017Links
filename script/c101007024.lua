@@ -35,6 +35,9 @@ end
 function c101007024.con(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r & REASON_SYNCHRO == REASON_SYNCHRO 
 end
+function c101007024.filter(c,rc)
+	return c:IsFaceup() and c:GetAttack()<rc:GetAttack()
+end
 function c101007024.tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local rc=e:GetHandler():GetReasonCard()
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c101007024.filter(chkc,rc) end
