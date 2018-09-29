@@ -46,7 +46,7 @@ function c89448140.val(e,re,dam,r,rp,rc)
 	else return dam end
 end
 function c89448140.dcon(e,tp,eg,ep,ev,re,r,rp)
-	return ep==tp
+	return ep==tp and Duel.IsExistingMatchingCard(c89448140.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c89448140.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
