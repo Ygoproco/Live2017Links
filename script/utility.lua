@@ -675,7 +675,7 @@ end
 function Auxiliary.qlifilter(e,te)
 	if te:IsActiveType(TYPE_MONSTER) and te:IsActivated() then
 		local lv=e:GetHandler():GetLevel()
-		local ec=te:GetHandler()
+		local ec=te:GetOwner()
 		if ec:IsType(TYPE_LINK) then
 			return false
 		elseif ec:IsType(TYPE_XYZ) then
