@@ -27,6 +27,9 @@ end
 function c77754169.eqfilter(c,tp)
 	return c:IsRace(RACE_INSECT) and Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_GRAVE,0,2,c,c:GetCode())
 end
+function c77754169.eqfilter2(c,code)
+	return  c:IsRace(RACE_INSECT) and c:IsCode(code)
+end
 function c77754169.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c77754169.eqfilter(chkc,tp) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -34,7 +37,10 @@ function c77754169.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	local ct=math.min((Duel.GetLocationCount(tp,LOCATION_SZONE)),3)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	local g=Duel.SelectTarget(tp,c77754169.eqfilter,tp,LOCATION_GRAVE,0,1,ct,nil,tp)
+	local g=Duel.SelectTarget(tp,c77754169.eqfilter,tp,LOCATION_GRAVE,0,1,1,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g2=Duel.SelectTarget(tp,c77754169.eqfilter2,tp,LOCATION_GRAVE,0,1,ct,g:GetFirst(),g:GetFirst():GetCode())
+	g:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,g:GetCount(),0,0)
 end
 function c77754169.spop(e,tp,eg,ep,ev,re,r,rp)
