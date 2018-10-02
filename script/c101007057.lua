@@ -24,11 +24,11 @@ function c101007057.ffilter(c,e,tp,m,f)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
 function c101007057.mfilter(c,e,opp)
-	return c:IsOnField() and (not e or not c:IsImmuneToEffect(e)) and (not opp or c:IsFaceup())
+	return (c:IsOnField() or not opp) and (not e or not c:IsImmuneToEffect(e)) and (not opp or c:IsFaceup())
 end
 function c101007057.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local mg1=Duel.GetFusionMaterial(tp):Filter(Card.IsOnField,nil)
+		local mg1=Duel.GetFusionMaterial(tp)
 		local mg2=Duel.GetFusionMaterial(1-tp):Filter(c101007057.mfilter,nil,nil,true)
 		mg1:Merge(mg2)
 		local res=Duel.IsExistingMatchingCard(c101007057.ffilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
