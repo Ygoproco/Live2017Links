@@ -37,7 +37,7 @@ function c77754169.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	local ct=math.min((Duel.GetLocationCount(tp,LOCATION_SZONE)),3)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	local g=Duel.SelectTarget(tp,c77754169.eqfilter,tp,LOCATION_GRAVE,0,1,1,tp)
+	local g=Duel.SelectTarget(tp,c77754169.eqfilter,tp,LOCATION_GRAVE,0,1,1,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g2=Duel.SelectTarget(tp,c77754169.eqfilter2,tp,LOCATION_GRAVE,0,1,ct,g:GetFirst(),g:GetFirst():GetCode())
 	g:Merge(g2)
