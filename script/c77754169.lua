@@ -39,7 +39,7 @@ function c77754169.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectTarget(tp,c77754169.eqfilter,tp,LOCATION_GRAVE,0,1,1,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g2=Duel.SelectTarget(tp,c77754169.eqfilter2,tp,LOCATION_GRAVE,0,1,ct,g:GetFirst(),g:GetFirst():GetCode())
+	local g2=Duel.SelectTarget(tp,c77754169.eqfilter2,tp,LOCATION_GRAVE,0,1,ct-1,g:GetFirst(),g:GetFirst():GetCode())
 	g:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,g:GetCount(),0,0)
 end
