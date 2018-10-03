@@ -68,7 +68,7 @@ function c101007034.valcheck(e,c)
 	local g=c:GetMaterial()
 	local atk=g:GetSum(Card.GetBaseAttack)
 	e:GetLabelObject():SetLabel(atk)
-	if g:IsExists(Card.IsCode,1,nil,101007034) then
+	if g:IsExists(Card.IsFusionCode,1,nil,101007034) then
 		c:RegisterFlagEffect(101007034,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
 	end
 end
