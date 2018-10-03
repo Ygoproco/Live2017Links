@@ -68,7 +68,7 @@ function c101007034.valcheck(e,c)
 	local g=c:GetMaterial()
 	local atk=g:GetSum(Card.GetBaseAttack)
 	e:GetLabelObject():SetLabel(atk)
-	if g:IsExists(Card.IsCode,1,nil,101007034) then
+	if g:IsExists(Card.IsFusionCode,1,nil,101007034) then
 		c:RegisterFlagEffect(101007034,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
 	end
 end
@@ -97,7 +97,7 @@ function c101007034.atkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101007034.atkcon2(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
-	return e:GetHandler():GetFlagEffect(101007034)~=0 and ph==PHASE_DAMAGE_CAL
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) and e:GetHandler():GetFlagEffect(101007034)~=0 and ph==PHASE_DAMAGE_CAL
 end
 function c101007034.atktg2(e,c)
 	return c==e:GetHandler():GetBattleTarget()
