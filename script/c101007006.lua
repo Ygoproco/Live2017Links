@@ -49,14 +49,14 @@ end
 function c101007006.thfilter(c)
 	return c:IsSetCard(0x102) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
-function c101007006.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function c101007006.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local g=Duel.GetMatchingGroup(c101007006.thfilter,tp,LOCATION_DECK,0,nil)
 		return g:GetClassCount(Card.GetCode)>=2
 	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,2,tp,LOCATION_DECK)
 end
-function c101007006.activate(e,tp,eg,ep,ev,re,r,rp)
+function c101007006.thop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c101007006.thfilter,tp,LOCATION_DECK,0,nil)
 	if g:GetClassCount(Card.GetCode)>=2 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
