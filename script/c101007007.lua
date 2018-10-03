@@ -9,8 +9,8 @@ function c101007007.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c63977008.sumtg)
-	e1:SetOperation(c63977008.sumop)
+	e1:SetTarget(c101007007.sumtg)
+	e1:SetOperation(c101007007.sumop)
 	c:RegisterEffect(e1)
 end
 function c101007007.filter(c,e,tp)
@@ -73,5 +73,5 @@ function c101007007.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(tc,REASON_EFFECT)
 end
 function c101007007.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return c:IsLocation(LOCATION_EXTRA) and not (c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_DARK))
+	return c:IsLocation(LOCATION_EXTRA) and and c:IsAttribute(ATTRIBUTE_DARK))
 end
