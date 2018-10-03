@@ -97,7 +97,7 @@ function c101007034.atkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101007034.atkcon2(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
-	return e:GetHandler():GetFlagEffect(101007034)~=0 and ph==PHASE_DAMAGE_CAL
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) and e:GetHandler():GetFlagEffect(101007034)~=0 and ph==PHASE_DAMAGE_CAL
 end
 function c101007034.atktg2(e,c)
 	return c==e:GetHandler():GetBattleTarget()
