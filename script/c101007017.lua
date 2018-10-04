@@ -19,7 +19,7 @@ function c101007017.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function c101007017.rescon(sg,e,tp,mg)
-	return aux.ChkfMMZ(2)(sg,e,tp,mg) and sg:IsExists(Card.IsSetCard,1,nil,0xd9)
+	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:IsExists(Card.IsSetCard,1,nil,0xd9)
 end
 function c101007017.filter(c,e,tp)
 	return c:IsRace(RACE_ZOMBIE) and not c:IsCode(101007017) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
