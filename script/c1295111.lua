@@ -49,7 +49,7 @@ function c1295111.linkcon(e,c)
 	local g=Duel.GetMatchingGroup(c1295111.lmfilter,tp,LOCATION_MZONE,0,nil,c,tp)
 	local mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,g,REASON_LINK)
 	return ((#mustg==1 and c1295111.lmfilter(mustg:GetFirst(),c,tp)) or (#mustg==0 and #g>0))
-		and Duel.GetFlagEffect(tp,1295111)==0
+		and Duel.GetFlagEffect(tp,1295111)==0 and Duel.GetLocationCountFromEx(tp,tp,g,c)>0
 end
 function c1295111.linktg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	local g=Duel.GetMatchingGroup(c1295111.lmfilter,tp,LOCATION_MZONE,0,nil,c,tp)
