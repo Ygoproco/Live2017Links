@@ -50,7 +50,7 @@ end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return not c:IsSetCard(0x107a)
 end
-function s.indcon(e)
+function s.atkcon(e)
 	local c=e:GetHandler()
 	local eg=c:GetEquipGroup()
 	return #eg>0 and eg:IsExists(Card.IsSetCard,1,nil,0x207a)
