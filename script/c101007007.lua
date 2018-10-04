@@ -61,7 +61,7 @@ function c101007007.sumop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101007007.descon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	if tc:GetFlagEffect(1845204)~=0 then
+	if tc:GetFlagEffect(101007007)~=0 then
 		return true
 	else
 		e:Reset()
