@@ -73,5 +73,5 @@ function c101007007.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(tc,REASON_EFFECT)
 end
 function c101007007.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return c:IsLocation(LOCATION_EXTRA) and c:IsAttribute(ATTRIBUTE_DARK))
+	return c:IsLocation(LOCATION_EXTRA) and c:IsAttribute(ATTRIBUTE_DARK)
 end
