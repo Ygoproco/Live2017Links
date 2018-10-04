@@ -61,7 +61,7 @@ function c101007007.sumop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101007007.descon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	if tc:GetFlagEffect(1845204)~=0 then
+	if tc:GetFlagEffect(101007007)~=0 then
 		return true
 	else
 		e:Reset()
@@ -73,5 +73,5 @@ function c101007007.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(tc,REASON_EFFECT)
 end
 function c101007007.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return c:IsLocation(LOCATION_EXTRA) and c:IsAttribute(ATTRIBUTE_DARK)
+	return c:IsLocation(LOCATION_EXTRA) and not c:IsAttribute(ATTRIBUTE_DARK)
 end
