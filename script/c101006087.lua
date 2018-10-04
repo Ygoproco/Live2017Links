@@ -32,6 +32,7 @@ function c101006087.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_GRAVE)
 	e3:SetCountLimit(1,101006087)
+	e3:SetCost(c101006087.tdcost)
 	e3:SetTarget(c101006087.tdtg)
 	e3:SetOperation(c101006087.tdop)
 	c:RegisterEffect(e3)
@@ -98,7 +99,13 @@ function c101006087.atkop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e2)
 	end
 end
-
+function c101006087.costfilter(c)
+	return c:IsSetCard(0x11e) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
+end
+function c101006087.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(c101006087.costfilter,tp,LOCATION_HAND,0,1,nil) end
+	Duel.DiscardHand(tp,c101006087.costfilter,1,1,REASON_COST+REASON_DISCARD,nil)
+end
 function c101006087.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToDeck() and Duel.IsPlayerCanDraw(tp,1) end
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
