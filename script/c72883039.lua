@@ -24,7 +24,7 @@ function c72883039.initial_effect(c)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetTargetRange(LOCATION_MZONE,0)
 	e3:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x4a))
-	e3:SetValue(aux.tgoval)
+	e3:SetValue(1)
 	c:RegisterEffect(e3)
 	--cannot to deck
 	local e4=Effect.CreateEffect(c)
