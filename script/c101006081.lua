@@ -13,7 +13,7 @@ function c101006081.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c101006081.filter(c,e,tp,g)
-	return c:IsCanBeSpecialSummoned(e,0,tp,false,false) and (not g or g:IsContains(c))
+	return c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:IsPreviousLocation(LOCATION_HAND) and (not g or g:IsContains(c))
 end
 function c101006081.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c101006081.filter(chkc,e,tp) end
