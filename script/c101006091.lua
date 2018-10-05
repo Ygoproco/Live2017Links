@@ -31,8 +31,6 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return ct>0 and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=ct end
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ShuffleDeck(tp)
-	Duel.BreakEffect()
 	local ct=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_ONFIELD,0,nil)
 	if ct==0 then return end
 	Duel.ConfirmDecktop(tp,ct)
@@ -40,6 +38,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if #g==0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local sg=g:Select(tp,1,1,nil)
+	Duel.DisableShuffleCheck()
 	if Duel.SendtoHand(sg,nil,REASON_EFFECT)~=0 then ct=ct-1 end
 	if ct>0 then Duel.SortDecktop(tp,tp,ct) end
 end
