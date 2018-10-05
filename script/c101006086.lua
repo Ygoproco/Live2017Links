@@ -23,21 +23,18 @@ function c101006086.initial_effect(c)
 	e2:SetOperation(c101006086.tdop)
 	c:RegisterEffect(e2)
 end
-function c101006086.filter2(c)
-	return c:IsFaceup() and c:IsAbleToHand()
-end
-function c101006086.filter1(c)
+function c101006086.filter1(c,tp)
 	return c:IsFaceup() and c:IsSetCard(0x11e) and c:IsAbleToHand()
+	and Duel.IsExistingTarget(c101006086.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,c)
 end
 function c101006086.filter2(c)
 	return c:IsFaceup() and c:IsAbleToHand()
 end
 function c101006086.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c101006086.filter1,tp,LOCATION_MZONE,0,1,nil)
-		and Duel.IsExistingTarget(c101006086.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(c101006086.filter1,tp,LOCATION_MZONE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
-	local g1=Duel.SelectTarget(tp,c101006086.filter1,tp,LOCATION_MZONE,0,1,1,nil)
+	local g1=Duel.SelectTarget(tp,c101006086.filter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
 	local g2=Duel.SelectTarget(tp,c101006086.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,g1:GetFirst())
 	g1:Merge(g2)
