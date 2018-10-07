@@ -19,7 +19,7 @@ function c101007041.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c101007041.filter(c)
-	return c:IsAbleToRemove() and c:IsType(TYPE_MONSTER)
+	return c:IsAbleToRemove() and c:IsType(TYPE_MONSTER) and (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
 end
 function c101007041.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c101007041.filter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil) end

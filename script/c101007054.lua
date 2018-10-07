@@ -32,6 +32,7 @@ function c101007054.initial_effect(c)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,101007054)
+	e3:SetHintTiming(0,TIMING_END_PHASE)
 	e3:SetCondition(c101007054.condition)
 	e3:SetTarget(c101007054.target)
 	e3:SetOperation(c101007054.operation)
@@ -41,7 +42,7 @@ function c101007054.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 	end
 function c101007054.filter(c,e,tp,zone)
-	return c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_ZOMBIE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
+	return c:IsFaceup() and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_ZOMBIE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 end
 function c101007054.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local zone=e:GetHandler():GetLinkedZone(tp)&0x1f

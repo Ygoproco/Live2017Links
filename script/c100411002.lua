@@ -34,7 +34,7 @@ function c100411002.initial_effect(c)
 	e4:SetOperation(c100411002.ssop)
 	c:RegisterEffect(e4)
 end
-c100411002.listed_names={76812113,12206212}
+c100411002.listed_names={CARD_HARPIE_LADY,CARD_HARPIE_LADY_SISTERS }
 function c100411002.regop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -45,7 +45,6 @@ function c100411002.regop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-c100411002.listed_names={CARD_HARPIE_LADY,CARD_HARPIE_LADY_SISTERS }
 function c100411002.thfilter(c)
 	return aux.IsCodeListed(c,12206212) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
 end
