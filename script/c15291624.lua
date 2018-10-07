@@ -19,6 +19,7 @@ function c15291624.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetRange(LOCATION_EXTRA)
 	e2:SetCondition(c15291624.hspcon)
+	e2:SetTarget(c15291624.hsptg)
 	e2:SetOperation(c15291624.hspop)
 	c:RegisterEffect(e2)
 	--disable search
@@ -44,16 +45,27 @@ function c15291624.chainfilter(re,tp,cid)
 end
 function c15291624.hspfilter(c,tp,sc)
 	return c:IsRace(RACE_THUNDER) and not c:IsType(TYPE_FUSION,sc,SUMMON_TYPE_FUSION,tp) 
-		and c:IsType(TYPE_EFFECT,sc,SUMMON_TYPE_FUSION,tp) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0 
-		and Duel.GetCustomActivityCount(15291624,tp,ACTIVITY_CHAIN)~=0
+		and c:IsType(TYPE_EFFECT,sc,SUMMON_TYPE_FUSION,tp) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
 function c15291624.hspcon(e,c)
 	if c==nil then return true end
-	return Duel.CheckReleaseGroup(c:GetControler(),c15291624.hspfilter,1,nil,c:GetControler(),c)
+	local tp=c:GetControler()
+	return Duel.CheckReleaseGroup(tp,c15291624.hspfilter,1,nil,tp,c) and Duel.GetCustomActivityCount(15291624,tp,ACTIVITY_CHAIN)~=0
+end
+function c15291624.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.SelectReleaseGroup(tp,c15291624.hspfilter,0,1,nil,tp,c)
+	if #g>0 then
+		g:KeepAlive()
+		e:SetLabelObject(g)
+		return true
+	else
+		return false
+	end
 end
 function c15291624.hspop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c15291624.hspfilter,1,1,nil,tp,c)
+	local g=e:GetLabelObject()
 	Duel.Release(g,REASON_COST+REASON_MATERIAL)
+	g:DeleteGroup()
 end
 function c15291624.repfilter(c)
 	return c:IsRace(RACE_THUNDER) and c:IsAbleToRemove() and aux.SpElimFilter(c,true)
@@ -70,4 +82,3 @@ function c15291624.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		return true
 	else return false end
 end
-
