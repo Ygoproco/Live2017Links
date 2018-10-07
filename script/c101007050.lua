@@ -39,7 +39,7 @@ function c101007050.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function c101007050.spfilter(c,e,tp,zone)
-	return c:IsSetCard(0x27) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
+	return c:IsSetCard(0x27) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,tp,zone)
 end
 function c101007050.spcheck(sg,e,tp,mg)
 	return sg:GetClassCount(Card.GetLocation)==#sg
