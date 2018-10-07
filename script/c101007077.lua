@@ -24,9 +24,11 @@ function c101007077.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 		end
 		e:SetLabel(opt+1)
 	elseif c101007077.thtg1(e,tp,eg,ep,ev,re,r,rp,0) then
+		Duel.SelectOption(tp,aux.Stringid(101007077,0))
 		c101007077.thtg1(e,tp,eg,ep,ev,re,r,rp,chk) 
 		e:SetLabel(1)
-	else --if c101007077.thtg2(e,tp,eg,ep,ev,re,r,rp,0) then
+	else
+		Duel.SelectOption(tp,aux.Stringid(101007077,1))
 		c101007077.thtg2(e,tp,eg,ep,ev,re,r,rp,chk)
 		e:SetLabel(2)
 	end
@@ -38,32 +40,34 @@ function c101007077.thop(e,tp,eg,ep,ev,re,r,rp)
 		c101007077.thop2(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
-	--Check for monster from hand or field to send to GY
+--Check for monster from hand or field to send to GY
 function c101007077.tgfilter1(c)
+	local code = c:GetCode()
 	return (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and c:IsType(TYPE_MONSTER) and c:IsAbleToGrave() 
-	and Duel.IsExistingMatchingCard(c101007077.thfilter1,tp,LOCATION_DECK,0,1,nil,c)
+	and Duel.IsExistingMatchingCard(c101007077.thfilter1,tp,LOCATION_DECK,0,1,nil,c,code)
 end
-	--Check for flip monster
-function c101007077.thfilter1(c,tc)
+--Check for flip monster
+function c101007077.thfilter1(c,tc,code)
 	return c:IsType(TYPE_FLIP) and c:IsAbleToHand() and not c:IsCode(code)
 	and c:GetOriginalAttribute()==tc:GetOriginalAttribute()
 end
-	--Activation legality
+--Activation legality
 function c101007077.thtg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return 
 		Duel.IsExistingMatchingCard(c101007077.tgfilter1,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND+LOCATION_MZONE)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
-	--Performing the effect of adding to hand
+--Performing the effect of adding to hand
 function c101007077.thop1(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local tg=Duel.SelectMatchingCard(tp,c101007077.tgfilter1,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil)
 	local tc=tg:GetFirst()
+	local code = tc:GetCode()
 	if tc and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_GRAVE) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		local g=Duel.SelectMatchingCard(tp,c101007077.thfilter1,tp,LOCATION_DECK,0,1,1,nil,tc)
+		local g=Duel.SelectMatchingCard(tp,c101007077.thfilter1,tp,LOCATION_DECK,0,1,1,nil,tc,code)
 		if g:GetCount()>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
@@ -76,19 +80,18 @@ function c101007077.thop1(e,tp,eg,ep,ev,re,r,rp)
 		Duel.RaiseEvent(c,EVENT_SSET,e,REASON_EFFECT,tp,tp,0)
 	end
 end
-	--Check for monster from hand or field to send to GY
+--Check for monster from hand or field to send to GY
 function c101007077.tgfilter2(c)
 	return (c:IsLocation(LOCATION_HAND) and c:GetOriginalLevel()>0 or c:IsFaceup()) and c:IsType(TYPE_FLIP) and c:IsAbleToGrave() 
 	and Duel.IsExistingMatchingCard(c101007077.thfilter2,tp,LOCATION_DECK,0,1,nil,c)
 end
-	--Check for monster with same attribute but lower level
+--Check for monster with same attribute but lower level
 function c101007077.thfilter2(c,tc)
 	return c:IsAbleToHand() 
 	and c:GetOriginalLevel()<tc:GetOriginalLevel()
 	and c:GetOriginalAttribute()==tc:GetOriginalAttribute()
 end
-
-	--Activation legality
+--Activation legality
 function c101007077.thtg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return 
 		Duel.IsExistingMatchingCard(c101007077.tgfilter2,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil) end
