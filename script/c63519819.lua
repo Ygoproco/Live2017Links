@@ -68,7 +68,7 @@ function c63519819.equipop(c,e,tp,tc)
  	e2:SetType(EFFECT_TYPE_EQUIP)
  	e2:SetCode(EFFECT_DESTROY_SUBSTITUTE)
  	e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_IGNORE_IMMUNE)
- 	e2:SetReset(RESET_EVENT+0x1fe0000)
+ 	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
  	e2:SetValue(c63519819.repval)
  	tc:RegisterEffect(e2)		
 end
