@@ -1,11 +1,12 @@
 --無限械アイン・ソフ
---Endless Emptiness
+--Infinite Machine
 --Scripted by Eerie Code
 function c36894320.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetHintTiming(0,TIMING_END_PHASE)
 	e1:SetCost(c36894320.actcost)
 	e1:SetTarget(c36894320.acttg)
 	c:RegisterEffect(e1)
@@ -15,6 +16,7 @@ function c36894320.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetCode(EFFECT_DESTROY_REPLACE)
 	e2:SetRange(LOCATION_SZONE)
+	e2:SetHintTiming(0,TIMING_END_PHASE)
 	e2:SetTarget(c36894320.reptg)
 	c:RegisterEffect(e2)
 	--spsummon

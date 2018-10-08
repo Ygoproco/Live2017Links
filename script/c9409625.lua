@@ -1,11 +1,12 @@
 --虚無械アイン
---Nonexistence
+--Empty Machine
 --Scripted by Eerie Code
 function c9409625.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetHintTiming(0,TIMING_END_PHASE)
 	e1:SetTarget(c9409625.target)
 	c:RegisterEffect(e1)
 	--insd via destroy replace (workaround)
@@ -14,6 +15,7 @@ function c9409625.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetCode(EFFECT_DESTROY_REPLACE)
 	e2:SetRange(LOCATION_SZONE)
+	e2:SetHintTiming(0,TIMING_END_PHASE)
 	e2:SetTarget(c9409625.reptg)
 	c:RegisterEffect(e2)
 	--draw
