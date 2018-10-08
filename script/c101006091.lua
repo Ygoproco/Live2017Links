@@ -40,6 +40,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local sg=g:Select(tp,1,1,nil)
 	Duel.DisableShuffleCheck()
 	if Duel.SendtoHand(sg,nil,REASON_EFFECT)~=0 then ct=ct-1 end
+	Duel.ShuffleHand(tp)
 	if ct>0 then Duel.SortDecktop(tp,tp,ct) end
 end
 function s.eqfilter(c,cd)
