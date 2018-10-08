@@ -62,13 +62,14 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp)
 	if #g>0 then
-		if Duel.SpecialSummonStep(g,0,tp,tp,false,false,POS_FACEUP) then
+		local tc=g:GetFirst()
+		if Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UPDATE_LEVEL)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			e1:SetValue(-1)
-			g:RegisterEffect(e1)
+			tc:RegisterEffect(e1)
 		end
 		Duel.SpecialSummonComplete()
 	end
