@@ -29,6 +29,7 @@ function c101007007.sumop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE) then
+		local fid=c:GetFieldID()
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
@@ -39,11 +40,13 @@ function c101007007.sumop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e2)
+		tc:RegisterFlagEffect(101007007,RESET_EVENT+RESETS_STANDARD,0,1,fid)
 		local e3=Effect.CreateEffect(e:GetHandler())
 		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e3:SetCode(EVENT_PHASE+PHASE_END)
 		e3:SetCountLimit(1)
 		e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+		e3:SetLabel(fid)
 		e3:SetLabelObject(tc)
 		e3:SetCondition(c101007007.descon)
 		e3:SetOperation(c101007007.desop)
@@ -61,7 +64,7 @@ function c101007007.sumop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c101007007.descon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	if tc:GetFlagEffect(101007007)~=0 then
+	if tc:GetFlagEffectLabel(101007007)==e:GetLabel() then
 		return true
 	else
 		e:Reset()
