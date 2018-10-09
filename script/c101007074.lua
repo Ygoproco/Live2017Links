@@ -68,6 +68,6 @@ function c101007074.immop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 end
-function c101007074.efilter(e,te)
-	return te:GetOwner()~=e:GetOwner()
+function c101007074.efilter(e,re)
+	return e:GetHandler()~=re:GetOwner()
 end
