@@ -37,7 +37,7 @@ function c101006082.spfilter(c,e,tp)
 end
 function c101006082.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c101006082.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) and Duel.IsPlayerCanDraw(tp) end
+		and Duel.IsExistingMatchingCard(c101006082.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,tp,1)
 end
 function c101006082.spop(e,tp,eg,ep,ev,re,r,rp)
