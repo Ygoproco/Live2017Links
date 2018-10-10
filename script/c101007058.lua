@@ -38,7 +38,7 @@ function s.counterfilter(c)
 end
 	--Check for "Trickstar" monster
 function s.thfilter(c)
-	return c:IsSetCard(0xfb) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xfb) and c:IsAbleToHand()
 end
 	--Performing the recycle effect
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
