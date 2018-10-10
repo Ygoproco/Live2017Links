@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--Special summon a "Trickstar" if opponent controls S/T, ignition effect
-	local e3=e2.Clone(c)
+	local e3=e2:Clone()
 	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCondition(s.spcon2)
 	e3:SetCountLimit(1,id+100)
