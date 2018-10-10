@@ -82,7 +82,7 @@ function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
 end
 --Check for level 4 plant monster
 function s.tgfilter(c)
-	return c:IsRace(RACE_PLANT) and c:IsAbleToGrave() and c:IsLevelBelow(4)
+	return c:IsRace(RACE_PLANT) and c:IsAbleToGrave() and c:IsLevelAbove(4)
 end
 --Activation legality
 function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
