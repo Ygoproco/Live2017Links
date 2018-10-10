@@ -9,7 +9,7 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCategory(CATEGORY_TOHAND)
-	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	--Special summon a "Trickstar" token if you control a "Trickstar" link, ignition effect
@@ -38,7 +38,7 @@ function s.counterfilter(c)
 end
 	--Check for "Trickstar" monster
 function s.thfilter(c)
-	return c:IsSetCard(0xfb) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xfb) and c:IsAbleToHand()
 end
 	--Performing the recycle effect
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
