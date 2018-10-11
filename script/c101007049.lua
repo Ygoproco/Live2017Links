@@ -19,6 +19,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DELAY)
 	e1:SetTarget(s.sstg)
 	e1:SetOperation(s.ssop)
+	c:RegisterEffect(e1)
 	--Effect damage for normal summon, continuous effect
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
