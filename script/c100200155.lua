@@ -82,14 +82,14 @@ function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
 end
 --Check for level 4 plant monster
 function s.tgfilter(c)
-	return c:IsRace(RACE_PLANT) and c:IsAbleToGrave() and c:IsLevelBelow(4)
+	return c:IsRace(RACE_PLANT) and c:IsAbleToGrave() and c:IsLevelAbove(4)
 end
 --Activation legality
 function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.tgfilter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
 end
---Performing the effect of sending level 4 or lower plant monster from deck to GY
+--Performing the effect of sending level 4 or above plant monster from deck to GY
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,s.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
