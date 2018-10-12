@@ -17,7 +17,7 @@ function c31706048.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		if Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)<5 then return false end
 		local g=Duel.GetDecktopGroup(tp,5)
 		local result=g:FilterCount(Card.IsAbleToHand,nil)>0
-		return result and Duel.IsPlayerCanDiscardDeck(tp,5) end
+		return result and Duel.IsPlayerCanDiscardDeck(tp,5)
 	end
 end
 function c31706048.filter(c)
