@@ -265,3 +265,12 @@ Card.IsNotTuner=function (c,sc,tp)
         return val(c,sc,tp) or not c:IsType(TYPE_TUNER,sc,SUMMON_TYPE_SYNCHRO,tp)
     end
 end
+
+function Card.IsRitualMonster(c)
+	local tp=TYPE_RITUAL+TYPE_MONSTER
+	return c:GetType() & tp == tp
+end
+function Card.IsRitualSpell(c)
+	local tp=TYPE_RITUAL+TYPE_SPELL
+	return c:GetType() & tp == tp
+end
