@@ -30,7 +30,7 @@ function c74094021.spcon(e,c)
 		Duel.IsExistingMatchingCard(c74094021.spfilter,c:GetControler(),LOCATION_ONFIELD,0,1,nil)
 end
 function c74094021.cfilter(c)
-	return c:IsSetCard(0x3d)
+	return c:IsSetCard(0x3d) and c:IsFaceup()
 end
 function c74094021.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local dg=Duel.GetMatchingGroup(Card.IsCanBeEffectTarget,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,e)
