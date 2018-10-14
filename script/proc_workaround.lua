@@ -250,7 +250,7 @@ Duel.NegateSummon=function(g)
 		ng = g:Filter(Card.IsStatus,nil,STATUS_SUMMON_DISABLED)
 	end
 	if #ng>0 then
-		Duel.RaiseEvent(ng,EVENT_CUSTOM+101007179,Effect.GlobalEffect(),0,0,0,0)
+		Duel.RaiseEvent(ng,EVENT_CUSTOM+36458063,Effect.GlobalEffect(),0,0,0,0)
 	end
 end
 

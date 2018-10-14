@@ -1163,14 +1163,14 @@ function Auxiliary.NeosReturnTarget(c,extrainfo)
 	end
 end
 function Auxiliary.NeosReturnSubstituteFilter(c)
-	return c:IsCode(101007060) and c:IsAbleToRemoveAsCost()
+	return c:IsCode(14088859) and c:IsAbleToRemoveAsCost()
 end
 function Auxiliary.NeosReturnOperation(c,extraop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
 		if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 		local sc=Duel.GetFirstMatchingCard(Auxiliary.NecroValleyFilter(Auxiliary.NeosReturnSubstituteFilter),tp,LOCATION_GRAVE,0,nil)
-		if sc and Duel.SelectYesNo(tp,aux.Stringid(101007060,0)) then
+		if sc and Duel.SelectYesNo(tp,aux.Stringid(14088859,0)) then
 			Duel.Remove(sc,POS_FACEUP,REASON_COST)
 		else
 			Duel.SendtoDeck(c,nil,2,REASON_EFFECT)
