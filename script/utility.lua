@@ -85,6 +85,13 @@ function Card.MoveAdjacent(c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,~flag),2))
 end
+function Group.ForEach(g,f,...)
+	local tc=g:GetFirst()
+	while tc do
+		f(tc,...)
+		tc=g:GetNext()
+	end
+end
 function Auxiliary.GetExtraMaterials(tp,mustg,sc,summon_type)
 	local tg=Group.CreateGroup()
 	mustg = mustg or Group.CreateGroup()
