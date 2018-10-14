@@ -1,5 +1,5 @@
 --星遺物の醒存
---World Legacy Survival
+--World Legacy Survivor
 --Scripted by AlphaKretin
 function c31706048.initial_effect(c)
 	--Activate
@@ -21,7 +21,7 @@ function c31706048.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function c31706048.filter(c)
-	return c:IsAbleToHand() and (c:IsType(TYPE_MONSTER) and c:IsSetCard(0x104)) or c:IsSetCard(0xfe)
+	return (c:IsType(TYPE_MONSTER) and c:IsSetCard(0x104)) or c:IsSetCard(0xfe)
 end
 function c31706048.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanDiscardDeck(tp,5) then return end
@@ -32,7 +32,7 @@ function c31706048.activate(e,tp,eg,ep,ev,re,r,rp)
 		if g:IsExists(c31706048.filter,1,nil) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 			local sg=g:FilterSelect(tp,c31706048.filter,1,1,nil)
-			if sg:IsAbleToHand() then 
+			if sg:GetFirst():IsAbleToHand() then 
 				Duel.SendtoHand(sg,nil,REASON_EFFECT)
 				Duel.ConfirmCards(1-tp,sg)
 				Duel.ShuffleHand(tp)
