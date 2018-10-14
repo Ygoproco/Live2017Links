@@ -73,10 +73,10 @@ function c60953118.arcanareg(c,coin)
 	c:RegisterEffect(e2)
 	c:RegisterFlagEffect(36690018,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,coin,63-coin)
 end
-function c60953118.rdcon1(e)
+function c60953118.rdcon1(e,tp,eg,ep,ev,re,r,rp)
 	return ep==tp and e:GetHandler():GetFlagEffectLabel(36690018)==1
 end
-function c60953118.rdcon2(e)
+function c60953118.rdcon2(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and e:GetHandler():GetFlagEffectLabel(36690018)==0
 end
 function c60953118.rdop(e,tp,eg,ep,ev,re,r,rp)
