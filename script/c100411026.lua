@@ -19,15 +19,16 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	s.check=true
 	if chk==0 then return true end
 end
-function s.cfilter(c,chk)
-	return c:IsFaceup() and c:IsRace(RACE_PLANT)==chk and c:IsAbleToGraveAsCost()
+function s.cfilter(c,chk,p,chk1,chk2)
+	return c:IsFaceup() and c:IsAbleToGraveAsCost() and ((chk == 0 and c:IsRace(RACE_PLANT)==p)
+		or ((c:IsRace(RACE_PLANT) and chk1) or (not c:IsRace(RACE_PLANT) and chk2)))
 end
 function s.thfilter(c)
 	return c:IsRace(RACE_PLANT) and c:IsLevelBelow(4) and c:IsAbleToHand()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local chk1 = Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil,true)
-	local chk2 = Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil,false)
+	local chk1 = Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil,0,true)
+	local chk2 = Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil,0,false)
 		and Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil)
 	if chk==0 then
 		if not s.check then return false end
@@ -36,14 +37,10 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	e:SetLabel(0)
 	e:SetCategory(0)
-	local opt
-	if chk1 and chk2 then
-		opt = Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1))
-	elseif chk1 then
-		opt = Duel.SelectOption(tp,aux.Stringid(id,0))
-	else
-		opt = Duel.SelectOption(tp,aux.Stringid(id,1))+1
-	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_MZONE,0,1,1,nil,1,nil,chk1,chk2)
+	local opt=g:GetFirst():IsRace(RACE_PLANT) and 0 or 1
+	Duel.SendtoGrave(g,REASON_COST)
 	if opt == 0 then
 		e:SetLabel(1)
 		e:SetCategory(CATEGORY_DRAW)
