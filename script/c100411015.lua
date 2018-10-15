@@ -1,5 +1,5 @@
 --応身の機械天使
---Machne Angel Manifestation
+--Machine Angel Manifestation
 --Scripted by ahtelel
 local s, id=GetID()
 function s.initial_effect(c)
@@ -22,6 +22,7 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCategory(CATEGORY_DAMAGE)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
 	e3:SetCode(EVENT_DAMAGE)
 	e3:SetCountLimit(1,id)
 	e3:SetCost(s.spcost)
