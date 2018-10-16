@@ -1,5 +1,5 @@
 --応身の機械天使
---Machne Angel Manifestation
+--Machine Angel Manifestation
 --Scripted by ahtelel
 local s, id=GetID()
 function s.initial_effect(c)
@@ -22,8 +22,10 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCategory(CATEGORY_DAMAGE)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
 	e3:SetCode(EVENT_DAMAGE)
 	e3:SetCountLimit(1,id)
+	e3:SetCondition(s.spcondition)
 	e3:SetCost(s.spcost)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
@@ -31,6 +33,9 @@ function s.initial_effect(c)
 end
 function s.indfilter(e,c)
 	return c:IsRitualMonster() and c:IsSetCard(0x2093)
+end
+function s.spcondition(e,tp,eg,ep,ev,re,r,rp)
+	return tp==ep and (r==REASON_BATTLE or tp~=rp)
 end
 function s.infilter(c,e,tp)
 	return c:IsRitualMonster() and c:IsSetCard(0x2093) and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,c,e,tp)
