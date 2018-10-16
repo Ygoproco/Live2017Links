@@ -34,9 +34,9 @@ function s.dfilter(c,rc)
 	return c:IsRace(rc) and c:IsAbleToRemove()
 end
 function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_HAND,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_HAND,0,1,1,nil,tp)
 	e:SetLabel(g:GetFirst():GetRace())
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
