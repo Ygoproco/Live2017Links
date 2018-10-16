@@ -274,3 +274,13 @@ function Card.IsRitualSpell(c)
 	local tp=TYPE_RITUAL+TYPE_SPELL
 	return c:GetType() & tp == tp
 end
+
+--Checks whether the card is located at any of the sequences passed as arguments.
+function Card.IsSequence(c,...)
+	local arg={...}
+	local seq=c:GetSequence()
+	for _,v in ipairs(arg) do
+		if seq==v then return true end
+	end
+	return false
+end
