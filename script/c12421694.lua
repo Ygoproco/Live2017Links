@@ -39,7 +39,7 @@ function s.naop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CANNOT_ATTACK)
 		e1:SetReset(RESET_PHASE+PHASE_END+RESET_SELF_TURN,1)
-		tc:RegisterEffect(e1,true)
+		tc:RegisterEffect(e1)
 	end
 end
 function s.lpop(e,tp,eg,ep,ev,re,r,rp)
