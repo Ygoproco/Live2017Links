@@ -59,7 +59,7 @@ function s.ssop(e,tp,eg,ep,ev,re,r,rp)
 end
 --Check for "Rose Dragon" monster
 function s.filter(c,e,tp)
-	return c:IsSetCard(0x223) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and not c:IsCode(id)
+	return c:IsSetCard(0x123) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and not c:IsCode(id)
 end
 --Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
