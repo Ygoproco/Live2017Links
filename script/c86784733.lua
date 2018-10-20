@@ -1,10 +1,8 @@
 --サイバース・シンクロン
 --Cyberse Synchron
---Logical Nonsense
-
+--scripted by Logical Nonsense
 --Substitute ID
 local s,id=GetID()
-
 function s.initial_effect(c)
 	--Increase level
 	local e1=Effect.CreateEffect(c)
@@ -52,7 +50,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 	--Check for your monster in EMZ
 function s.repfilter(c,tp)
-	return c:GetSequence()>=5 and c:IsControler(tp)
+	return  c:IsLocation(LOCATION_MZONE)  and c:GetSequence()>=5 and c:IsControler(tp)
 		and c:IsReason(REASON_EFFECT+REASON_BATTLE) and not c:IsReason(REASON_REPLACE)
 end
 	--Activation legality
