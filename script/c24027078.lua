@@ -42,3 +42,4 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.NegateActivation(ev)
 	end
 end
+

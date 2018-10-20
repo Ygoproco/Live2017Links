@@ -58,3 +58,4 @@ end
 function s.atktg(e,c)
 	return c:IsSetCard(0x107a) and c~=e:GetHandler()
 end
+

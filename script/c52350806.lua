@@ -1,4 +1,4 @@
---Danger!? Tsuchinoko?
+--Danger! Mothman!
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -13,17 +13,17 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--special summon
+	--draw and discard
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2:SetCategory(CATEGORY_HANDES+CATEGORY_DRAW)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetCountLimit(1,id)
-	e2:SetCondition(s.spcon2)
-	e2:SetTarget(s.sptg2)
-	e2:SetOperation(s.spop2)
+	e2:SetCondition(s.drcon)
+	e2:SetTarget(s.drtg)
+	e2:SetOperation(s.drop)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
 	e3:SetCode(EVENT_REMOVE)
@@ -59,18 +59,25 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function s.spcon2(e,tp,eg,ep,ev,re,r,rp)
+function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetPreviousLocation()==LOCATION_HAND and (r&REASON_DISCARD)~=0
 end
-function s.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
+function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) and Duel.IsPlayerCanDraw(1-tp,1) end
+	Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,0,PLAYER_ALL,1)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,PLAYER_ALL,1)
 end
-function s.spop2(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) then 
-		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+function s.drop(e,tp,eg,ep,ev,re,r,rp)
+	local h1=Duel.Draw(tp,1,REASON_EFFECT)
+	local h2=Duel.Draw(1-tp,1,REASON_EFFECT)
+	if h1>0 or h2>0 then Duel.BreakEffect() end
+	if h1>0 then
+		Duel.ShuffleHand(tp)
+		Duel.DiscardHand(tp,aux.TRUE,1,1,REASON_EFFECT+REASON_DISCARD)
+	end
+	if h2>0 then 
+		Duel.ShuffleHand(1-tp)
+		Duel.DiscardHand(1-tp,aux.TRUE,1,1,REASON_EFFECT+REASON_DISCARD)
 	end
 end
+
