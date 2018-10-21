@@ -27,7 +27,8 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_TOGRAVE)
-	e3:SetType(EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,id+1)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
@@ -77,7 +78,7 @@ function s.edfilter(c,tp)
 end
 	--If this ever happened and monster was normal summoned
 function s.dkcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.edfilter,1,nil,1-tp) and e:GetHandler():IsSummonType(SUMMON_NORMAL) and rp~=tp
+	return eg:IsExists(s.edfilter,1,nil,1-tp) and e:GetHandler():IsSummonType(SUMMON_TYPE_NORMAL) and rp~=tp
 end
 	--Check for a monster
 function s.dkfilter(c)
