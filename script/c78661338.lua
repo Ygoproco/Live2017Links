@@ -40,7 +40,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     local ct=Duel.GetMatchingGroupCount(Card.IsType,tp,0,LOCATION_MZONE,nil,TYPE_LINK)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
         and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-        and ct>0 and Duel.IsPlayerCanDraw(tp,ct) end
+        and ct>0 and Duel.IsPlayerCanDraw(tp,ct+1) end
     Duel.SetTargetPlayer(tp)
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
     Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,ct+1)

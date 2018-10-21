@@ -80,7 +80,7 @@ function c90207654.spop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetTargetRange(1,0)
 	Duel.RegisterEffect(e2,tp)
 	local e3=e2:Clone()
-	e3:SetCode(EFFECT_CANNOT_SET)
+	e3:SetCode(EFFECT_CANNOT_MSET)
 	Duel.RegisterEffect(e3,tp)
 end
 function c90207654.splimit(e,c)
