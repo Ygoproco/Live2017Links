@@ -33,7 +33,7 @@ function c17535764.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,tc)
 		if tc:IsType(TYPE_NORMAL) and tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.SelectYesNo(tp,aux.Stringid(17535764,1)) then
 			local ct=Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
-			local dg=Duel.GetMatchingGroup(c17535764.desfilter,tp,0,LOCATION_MZONE,nil,tc:GetAttack())
+			local dg=Duel.GetMatchingGroup(c17535764.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,tc:GetAttack())
 			if ct>0 and #dg>0 then
 				Duel.BreakEffect()
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
