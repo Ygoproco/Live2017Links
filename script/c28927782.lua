@@ -44,7 +44,7 @@ function c28927782.select(e,tp,b1,b2)
 	e:GetHandler():RegisterFlagEffect(28927782,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
 function c28927782.spfilter(c,e,tp)
-	return c:IsFaceup() and c:IsSetCard(0x29) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsFaceup() and c:IsSetCard(0x29) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function c28927782.eqfilter1(c,tp)
 	return c:IsFaceup() and c:IsSetCard(0x29) and Duel.IsExistingMatchingCard(c28927782.eqfilter2,tp,LOCATION_GRAVE,0,1,nil,c,tp)
