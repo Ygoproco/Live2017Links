@@ -1,4 +1,4 @@
---生炎獣ウルヴィー
+--転生炎獣ウルヴィー
 --Salamangreat Wolvie
 --Logical Nonsense
 

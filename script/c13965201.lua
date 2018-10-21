@@ -32,7 +32,8 @@ function c13965201.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		if e:GetLabel()~=100 then return false end
 		e:SetLabel(0)
-		return Duel.IsExistingMatchingCard(c13965201.costfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
+		return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+			and Duel.IsExistingMatchingCard(c13965201.costfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
 	end
 	local g=Duel.SelectMatchingCard(tp,c13965201.costfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
 	e:SetLabelObject(g:GetFirst())
