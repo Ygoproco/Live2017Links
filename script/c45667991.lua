@@ -1,4 +1,5 @@
 --降竜の魔術師
+--Dragoncaller Magician
 function c45667991.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
@@ -73,7 +74,7 @@ function c45667991.efop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=c:GetReasonCard()
 	local e1=Effect.CreateEffect(rc)
-	e1:SetDescription(aux.Stringid(45667991,2))
+	e1:SetDescription(aux.Stringid(45667991,1))
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_CLIENT_HINT)
 	e1:SetCode(EFFECT_SET_ATTACK_FINAL)
