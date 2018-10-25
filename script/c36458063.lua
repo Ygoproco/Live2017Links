@@ -2,6 +2,7 @@
 --Witch's Strike
 --Scripted by Eerie Code, credits to Larry126 and andré for the workaround
 function c36458063.initial_effect(c)
+	local EVENT_SUMMON_NEGATED = EVENT_CUSTOM+36458064
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(36458063,0))
@@ -14,7 +15,7 @@ function c36458063.initial_effect(c)
 	e1:SetOperation(c36458063.activate)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
-	e2:SetCode(EVENT_CUSTOM+36458064)
+	e2:SetCode(EVENT_SUMMON_NEGATED)
 	e2:SetCondition(c36458063.condition2)
 	c:RegisterEffect(e2)
 	if not c36458063.global_check then
