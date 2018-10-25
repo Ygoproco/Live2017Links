@@ -262,7 +262,7 @@ end
 
 --Witch's Strike
 local ns=Duel.NegateSummon
-Duel.NegateSummon=function(g)   
+Duel.NegateSummon=function(g)
 	ns(g)
 	local ng = Group.CreateGroup()
 	if userdatatype(g) == "Card" then
@@ -271,7 +271,8 @@ Duel.NegateSummon=function(g)
 		ng = g:Filter(Card.IsStatus,nil,STATUS_SUMMON_DISABLED)
 	end
 	if #ng>0 then
-		Duel.RaiseEvent(ng,EVENT_CUSTOM+36458063,Effect.GlobalEffect(),0,0,0,0)
+		local EVENT_SUMMON_NEGATED = EVENT_CUSTOM+36458064
+		Duel.RaiseEvent(ng,EVENT_SUMMON_NEGATED,Effect.GlobalEffect(),0,0,0,0)
 	end
 end
 
