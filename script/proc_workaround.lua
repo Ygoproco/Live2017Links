@@ -13,6 +13,27 @@ function GetID()
     return scard,s_id
 end
 
+local chkoverlay=Duel.CheckRemoveOverlayCard
+Duel.CheckRemoveOverlayCard=function(player, self, opponent, count, reason, group)
+	if not group then
+		return chkoverlay(player, self, opponent, count, reason)
+	end
+	local dg=Group.CreateGroup()
+	group:ForEach(function(c)dg:Merge(c:GetOverlayGroup())end)
+	return #dg>=count
+end
+
+local removerlay=Duel.RemoveOverlayCard
+Duel.RemoveOverlayCard=function(player, self, opponent, min, max, reason, group)
+	if not group then
+		return removerlay(player, self, opponent, min, max, reason)
+	end
+	local dg=Group.CreateGroup()
+	group:ForEach(function(c)dg:Merge(c:GetOverlayGroup())end)
+	local sg=dg:Select(tp, min, max, nil)
+	return Duel.SendtoGrave(sg,reason)
+end
+
 --workaround for gryphon while update not happen and fix that (credits to cc/l)
 local ils = Card.IsLinkState
 Card.IsLinkState = function(c)

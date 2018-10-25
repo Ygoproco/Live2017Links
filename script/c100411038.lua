@@ -55,18 +55,24 @@ function s.rmfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_MACHINE) and c:IsType(TYPE_XYZ)
 end
 function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local dg=Group.CreateGroup()
-	Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_MZONE,0,nil):ForEach(function(c)dg:Merge(c:GetOverlayGroup())end)
-	if chk==0 then return #dg>0 end
-	local cg=dg:Select(tp,1,Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,LOCATION_ONFIELD)-(e:GetHandler():IsOnField() and 1 or 0), nil)
-	e:SetLabel(Duel.SendtoGrave(cg,REASON_COST))
+	e:SetLabel(100)
+	return true
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_ONFIELD) end
-	if chk==0 then return e:GetHandler():GetFlagEffect(id)==0 
-		and Duel.IsExistingTarget(nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler()) end
+	if chkc then return chkc:IsOnField() end
+	local dg=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_MZONE,0,nil)
+	if chk==0 then
+		if e:GetLabel()==100 then
+			e:SetLabel(0)
+			return Duel.CheckRemoveOverlayCard(tp,0,0,1,REASON_COST,dg)
+				and Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler())
+		else return false end
+	end
+	local rt=Duel.GetTargetCount(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
+	Duel.RemoveOverlayCard(tp,0,0,1,rt,REASON_COST,dg)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetLabel(),e:GetLabel(),e:GetHandler())
+	local count=#Duel.GetOperatedGroup()
+	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,count,count,e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 	e:GetHandler():RegisterFlagEffect(id,RESET_PHASE+PHASE_END,0,1)
 end
