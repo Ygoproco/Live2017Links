@@ -32,6 +32,8 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local rc=e:GetHandler():GetReasonCard()
 	if rc and (rc:IsCode(73580471) or (rc:IsRace(RACE_PLANT) and rc:IsType(TYPE_SYNCHRO))) then
 		e:SetLabel(1)
+	else
+		e:SetLabel(0)
 	end
 end
 function s.thfilter(c)
