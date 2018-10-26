@@ -34,7 +34,7 @@ function c16313112.cfilter(c,fc,sumtype,tp)
 end
 function c16313112.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c16313112.cfilter,1,false,nil,nil)
-	and e:GetHandler():GetFlagEffect(16313113)==0	end
+		and e:GetHandler():GetFlagEffect(16313113)==0 end
 	local g=Duel.SelectReleaseGroupCost(tp,c16313112.cfilter,1,1,false,nil,nil)
 	Duel.Release(g,REASON_COST)
 end
