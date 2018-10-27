@@ -34,21 +34,21 @@ function c16313112.cfilter(c,fc,sumtype,tp)
 end
 function c16313112.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c16313112.cfilter,1,false,nil,nil)
-	and e:GetHandler():GetFlagEffect(16313112)==0	end
+		and e:GetHandler():GetFlagEffect(16313113)==0 end
 	local g=Duel.SelectReleaseGroupCost(tp,c16313112.cfilter,1,1,false,nil,nil)
 	Duel.Release(g,REASON_COST)
 end
 function c16313112.atop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsFaceup() and c:IsRelateToEffect(e) and c:GetFlagEffect(16313112)==0 then
-			c:RegisterFlagEffect(16313112,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+			c:RegisterFlagEffect(16313113,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 			e1:SetCode(EVENT_BATTLE_START)
 			e1:SetOwnerPlayer(tp)
 			e1:SetCondition(c16313112.descon2)
 			e1:SetOperation(c16313112.desop2)
-			e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 			c:RegisterEffect(e1,true)
 	end
 end
