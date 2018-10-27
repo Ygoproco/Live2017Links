@@ -16,7 +16,6 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCode(EVENT_FREE_CHAIN)
-	e2:SetLabel(1)
 	e2:SetHintTiming(0,TIMING_END_PHASE)
 	e2:SetCost(s.rmcost)
 	e2:SetTarget(s.rmtg)
@@ -40,14 +39,12 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return true end
 	if s.rmcost(e,tp,eg,ep,ev,re,r,rp,0) and s.rmtg(e,tp,eg,ep,ev,re,r,rp,0) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 		e:SetProperty(EFFECT_FLAG_CARD_TARGET)
-		e:SetLabel(1)
 		s.rmcost(e,tp,eg,ep,ev,re,r,rp,1)
 		s.rmtg(e,tp,eg,ep,ev,re,r,rp,1)
 		e:SetOperation(s.rmop)
 		e:GetHandler():RegisterFlagEffect(id,RESET_PHASE+PHASE_END,0,1)
 	else
 		e:SetProperty(0)
-		e:SetLabel(0)
 		e:SetOperation(nil)
 	end
 end
@@ -64,7 +61,7 @@ function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then
 		if e:GetLabel()==100 then
 			e:SetLabel(0)
-			return Duel.CheckRemoveOverlayCard(tp,0,0,1,REASON_COST,dg)
+			return Duel.CheckRemoveOverlayCard(tp,0,0,1,REASON_COST,dg) and e:GetHandler():GetFlagEffect(id)==0
 				and Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler())
 		else return false end
 	end
