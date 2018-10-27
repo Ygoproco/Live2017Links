@@ -22,6 +22,7 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_DOUBLE_TRIBUTE)
+	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	--Send 1 monster from your deck to GY
 	local e3=Effect.CreateEffect(c)
