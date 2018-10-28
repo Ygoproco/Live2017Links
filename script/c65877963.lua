@@ -6,7 +6,7 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--Special summon from deck
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(7152333,0))
+	e1:SetDescription(aux.Stringid(65877963,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
