@@ -39,8 +39,14 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local sg=g:Select(tp,1,1,nil)
 	Duel.DisableShuffleCheck()
-	if Duel.SendtoHand(sg,nil,REASON_EFFECT)~=0 then ct=ct-1 end
-	Duel.ShuffleHand(tp)
+	if sg:GetFirst():IsAbleToHand() then
+		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,sg)
+		Duel.ShuffleHand(tp)
+	else
+		Duel.SendtoGrave(sg,REASON_RULE)
+	end
+	ct=ct-1
 	if ct>0 then Duel.SortDecktop(tp,tp,ct) end
 end
 function s.eqfilter(c,cd)
