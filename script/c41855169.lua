@@ -24,7 +24,7 @@ function c41855169.cfilter(c)
 end
 function c41855169.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
-	if chk==0 then return g:FilterCount(c41855169.cfilter,nil)==g:GetCount() end
+	if chk==0 then return #g>0 and g:FilterCount(c41855169.cfilter,nil)==#g end
 	local sg=g:RandomSelect(tp,1)
 	Duel.SendtoGrave(sg,REASON_COST+REASON_DISCARD)
 end
