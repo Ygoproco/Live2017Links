@@ -28,7 +28,11 @@ function s.filter(c)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_ONFIELD,0,nil)
-	if chk==0 then return ct>0 and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=ct end
+	if ct>0 then
+		local g=Duel.GetDecktopGroup(tp,ct)
+		local result=g:FilterCount(Card.IsAbleToHand,nil)>0
+	end
+	if chk==0 then return ct>0 and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=ct and result end
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_ONFIELD,0,nil)
@@ -39,8 +43,14 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local sg=g:Select(tp,1,1,nil)
 	Duel.DisableShuffleCheck()
-	if Duel.SendtoHand(sg,nil,REASON_EFFECT)~=0 then ct=ct-1 end
-	Duel.ShuffleHand(tp)
+	if sg:GetFirst():IsAbleToHand() then
+		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,sg)
+		Duel.ShuffleHand(tp)
+	else
+		Duel.SendtoGrave(sg,REASON_RULE)
+	end
+	ct=ct-1
 	if ct>0 then Duel.SortDecktop(tp,tp,ct) end
 end
 function s.eqfilter(c,cd)
