@@ -50,7 +50,7 @@ end
 function c15291624.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c15291624.hspfilter,1,nil,tp,c) and (Duel.GetCustomActivityCount(15291624,tp,ACTIVITY_CHAIN)~=0 or Duel.GetCustomActivityCount(15291624,tp-1,ACTIVITY_CHAIN)~=0)
+	return Duel.CheckReleaseGroup(tp,c15291624.hspfilter,1,nil,tp,c) and (Duel.GetCustomActivityCount(15291624,tp,ACTIVITY_CHAIN)~=0 or Duel.GetCustomActivityCount(15291624,1-tp,ACTIVITY_CHAIN)~=0)
 end
 function c15291624.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	local g=Duel.SelectReleaseGroup(tp,c15291624.hspfilter,0,1,nil,tp,c)
