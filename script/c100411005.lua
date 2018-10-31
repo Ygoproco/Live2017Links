@@ -25,7 +25,7 @@ function c100411005.initial_effect(c)
 end
 c100411005.listed_names={CARD_HARPIE_LADY_SISTERS}
 function c100411005.tdfilter(c,e,tp,g)
-	return c:IsCode(CARD_HARPIE_LADY_SISTERS) and c:IsAbleToDeck() 
+	return c:IsCode(CARD_HARPIE_LADY_SISTERS) and c:IsFaceup() and c:IsAbleToDeck() 
 		and Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_TOFIELD)>=3 and aux.SelectUnselectGroup(g,e,tp,3,3,c100411005.spcheck,0)
 end
 function c100411005.spfilter(c,e,tp)
