@@ -27,12 +27,13 @@ function s.filter(c)
 	return c:IsFaceup() and c:IsType(TYPE_EQUIP) and c:IsSetCard(0x207a)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then
 	local ct=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_ONFIELD,0,nil)
 	if ct>0 then
 		local g=Duel.GetDecktopGroup(tp,ct)
 		local result=g:FilterCount(Card.IsAbleToHand,nil)>0
+	return ct>0 and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=ct and result end
 	end
-	if chk==0 then return ct>0 and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=ct and result end
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_ONFIELD,0,nil)
