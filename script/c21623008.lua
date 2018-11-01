@@ -1,5 +1,5 @@
 --閃刀術式－ベクタードブラスト 
---Sky Striker Maneuver - Vectored Blast!
+--Sky Striker Maneuver - Vector Blast
 --scripted by andré
 function c21623008.initial_effect(c)
 	--activate
@@ -25,10 +25,8 @@ function c21623008.filter(c)
 	return c:GetSequence()>=5
 end
 function c21623008.operation(e,tp,eg,ep,ev,re,r,rp)
-	local g1=Duel.GetDecktopGroup(tp,2)
-	local g2=Duel.GetDecktopGroup(1-tp,2)
-	g1:Merge(g2)
-	Duel.SendtoGrave(g1,REASON_EFFECT)
+	Duel.DiscardDeck(tp,2,REASON_EFFECT)
+	Duel.DiscardDeck(1-tp,2,REASON_EFFECT)
 	if Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_GRAVE,0,3,nil,TYPE_SPELL) 
 		and Duel.IsExistingMatchingCard(c21623008.filter,tp,0,LOCATION_MZONE,1,nil)
 		and Duel.SelectYesNo(tp,aux.Stringid(21623008,0)) then
