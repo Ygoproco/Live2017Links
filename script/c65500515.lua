@@ -10,6 +10,7 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_BE_BATTLE_TARGET)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetTarget(s.tktg)
+	e1:SetCountLimit(1)
 	e1:SetOperation(s.tkop)
 	c:RegisterEffect(e1)
 	--cannot be battle target
