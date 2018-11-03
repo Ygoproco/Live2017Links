@@ -75,7 +75,7 @@ function s.discon(e)
 end
 	--Negate the battling monster's effect during battle phase
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetBattleTarget()
+	local tc=Duel.GetAttackTarget()
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_DISABLE)
