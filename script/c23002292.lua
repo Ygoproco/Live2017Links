@@ -36,7 +36,7 @@ function c23002292.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c23002292.activate(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
-	if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) then
+	if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) and rc:IsSSetable(true) then
 		rc:CancelToGrave()
 		Duel.ChangePosition(rc,POS_FACEDOWN)
 		rc:SetStatus(STATUS_ACTIVATE_DISABLED,false)
