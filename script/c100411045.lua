@@ -28,7 +28,7 @@ function s.initial_effect(c)
 	e3:SetCondition(aux.exccon)
 	e3:SetCost(aux.bfgcost)
 	e3:SetTarget(s.atktg)
-	e3:SetTarget(s.atkop)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3)
 end
 s.material_setcode=0xdf
