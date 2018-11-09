@@ -3,41 +3,45 @@
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
-	aux.AddFusionProcMixN(c,true,true,s.ffilter,3)
-	--atk up
+	--fusion material
+	c:EnableReviveLimit()
+	aux.AddFusionProcMixN(c,true,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0xdf),3)
+	--spsummon condition
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(s.atkval)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_SPSUMMON_CONDITION)
+	e1:SetValue(aux.fuslimit)
 	c:RegisterEffect(e1)
-	--cannot be target
+	--atk up
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetCode(EFFECT_UPDATE_ATTACK)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetValue(aux.tgoval)
+	e2:SetValue(s.atkval)
 	c:RegisterEffect(e2)
-	--atk up
+	--cannot be target
 	local e3=Effect.CreateEffect(c)
-	e3:SetCategory(CATEGORY_ATKCHANGE)
-	e3:SetType(EFFECT_TYPE_IGNITION)
-	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetRange(LOCATION_GRAVE)
-	e3:SetCondition(aux.exccon)
-	e3:SetCost(aux.bfgcost)
-	e3:SetTarget(s.atktg)
-	e3:SetOperation(s.atkop)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetValue(aux.tgoval)
 	c:RegisterEffect(e3)
+	--atk up
+	local e4=Effect.CreateEffect(c)
+	e4:SetCategory(CATEGORY_ATKCHANGE)
+	e4:SetType(EFFECT_TYPE_IGNITION)
+	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e4:SetRange(LOCATION_GRAVE)
+	e4:SetCondition(aux.exccon)
+	e4:SetCost(aux.bfgcost)
+	e4:SetTarget(s.atktg)
+	e4:SetOperation(s.atkop)
+	c:RegisterEffect(e4)
 end
 s.material_setcode=0xdf
-function s.ffilter(c,fc,sumtype,tp,sub,mg,sg)
-	return c:IsFusionSetCard(0xdf) and (not sg or not sg:IsExists(s.fusfilter,1,c,c:GetFusionCode()))
-end
-function s.fusfilter(c,code)
-	return c:IsFusionCode(code) and not c:IsHasEffect(511002961)
-end
 function s.atkfilter(c)
 	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsRace(RACE_BEASTWARRIOR)
 end
