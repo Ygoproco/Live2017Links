@@ -62,11 +62,12 @@ end
 	--Performing the effect of ATK gain and token special summoned to opponent's field
 function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
+	local atk=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)*500
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
-		e1:SetValue(s.value)
+		e1:SetValue(atk)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
@@ -75,10 +76,6 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 		local token=Duel.CreateToken(tp,id+1)
 		Duel.SpecialSummon(token,0,tp,1-tp,false,false,POS_FACEUP)
 	end
-end
-
-function s.value(e,c)
-	return Duel.GetFieldGroupCount(c:GetControler(),0,LOCATION_MZONE)*500
 end
 	--Check if current phase is main phase
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -110,4 +107,3 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-
