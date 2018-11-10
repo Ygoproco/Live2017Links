@@ -88,3 +88,4 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
     	e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
     	tc:RegisterEffect(e2)
 end
+

@@ -51,7 +51,7 @@ function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return eg:IsContains(chkc) and s.cfilter(chkc,e,1-tp) end
 	if chk==0 then return eg:IsExists(s.cfilter,1,nil,e,1-tp) 
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0xdf,0x4011,2000,2000,1,RACE_BEASTWARRIOR,ATTRIBUTE_DARK,POS_FACEUP,1-tp) 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0xdf,0x4011,2000,2000,1,RACE_BEASTWARRIOR,ATTRIBUTE_DARK,POS_FACEUP,1-tp) 
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	local g=eg:FilterSelect(tp,s.cfilter,1,1,nil,e,1-tp)
@@ -71,8 +71,8 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 	if Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0xdf,0x4011,2000,2000,1,RACE_BEASTWARRIOR,ATTRIBUTE_DARK,POS_FACEUP,1-tp) then
-		local token=Duel.CreateToken(tp,id+100)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0xdf,0x4011,2000,2000,1,RACE_BEASTWARRIOR,ATTRIBUTE_DARK,POS_FACEUP,1-tp) then
+		local token=Duel.CreateToken(tp,id+1)
 		Duel.SpecialSummon(token,0,tp,1-tp,false,false,POS_FACEUP)
 	end
 end
@@ -110,3 +110,4 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+

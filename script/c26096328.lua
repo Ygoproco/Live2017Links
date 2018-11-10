@@ -66,3 +66,4 @@ function s.raval(e,c)
     local oc=e:GetHandler():GetOverlayCount()
     return math.max(0,oc)
 end
+

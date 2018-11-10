@@ -16,10 +16,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 	--This card lists names in its text
-s.listed_names={76812113,12206212}
+s.listed_names={CARD_HARPIE_LADY,CARD_HARPIE_LADY_SISTERS}
 	--Check for "Harpie Lady" or "Harpie Sisters"
 function s.drfilter(c)
-	return c:IsCode(76812113,12206212) and c:IsAbleToDeck()
+	return c:IsCode(CARD_HARPIE_LADY,CARD_HARPIE_LADY_SISTERS) and c:IsAbleToDeck()
 end
 	--Activation legality
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -65,3 +65,4 @@ end
 function s.splimit(e,c)
 	return not c:IsAttribute(ATTRIBUTE_WIND)
 end
+
