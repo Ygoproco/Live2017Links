@@ -1,5 +1,6 @@
 --ハーピィ・オラクル
 --Harpie Oracle
+local s,id=GetID()
 function s.initial_effect(c)
 	--to hand
 	local e1=Effect.CreateEffect(c)
