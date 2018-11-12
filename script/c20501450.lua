@@ -12,39 +12,65 @@ function c20501450.initial_effect(c)
 	e1:SetTarget(c20501450.target)
 	e1:SetOperation(c20501450.activate)
 	c:RegisterEffect(e1)
+	if not c20501450.global_check then
+		c20501450.global_check=true
+		c20501450[0]=0
+		c20501450[1]=0
+		local ge1=Effect.CreateEffect(c)
+		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge1:SetCode(EVENT_ATTACK_ANNOUNCE)
+		ge1:SetOperation(c20501450.checkop)
+		Duel.RegisterEffect(ge1,0)
+		local ge2=Effect.CreateEffect(c)
+		ge2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge2:SetCode(EVENT_ADJUST)
+		ge2:SetCountLimit(1)
+		ge2:SetOperation(c20501450.clear)
+		Duel.RegisterEffect(ge2,0)
+	end
+end
+function c20501450.checkop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=eg:GetFirst()
+	if tc:GetFlagEffect(20501450)==0 then
+		c20501450[ep]=c20501450[ep]+1
+		tc:RegisterFlagEffect(20501450,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+	end
+end
+function c20501450.clear(e,tp,eg,ep,ev,re,r,rp)
+	c20501450[0]=0
+	c20501450[1]=0
 end
 function c20501450.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
 function c20501450.filter(c)
-	return c:IsFaceup() and aux.nzdef(c)
+	return c:IsFaceup() and aux.nzdef(c) and (c20501450[tp]==0 or c:GetFlagEffect(20501450)~=0)
 end
 function c20501450.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local costchk=e:GetLabel()==1
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c20501450.filter(chkc) and chkc:IsControler(tp) end
 	if chk==0 then
-		if costchk and Duel.GetActivityCount(tp,ACTIVITY_ATTACK)>0 then return false end
+		if costchk and c20501450[tp]>=2 then return false end
 		e:SetLabel(0)
 		return Duel.IsExistingTarget(c20501450.filter,tp,LOCATION_MZONE,0,1,nil)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local tc=Duel.SelectTarget(tp,c20501450.filter,tp,LOCATION_MZONE,0,1,1,nil)
+	local g=Duel.SelectTarget(tp,c20501450.filter,tp,LOCATION_MZONE,0,1,1,nil)
 	if costchk then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_FIELD)
-		e1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-		e1:SetProperty(EFFECT_FLAG_OATH+EFFECT_FLAG_IGNORE_IMMUNE)
-		e1:SetLabelObject(tc:GetFirst())
-		e1:SetLabel(tc:GetFirst():GetFieldID())
-		e1:SetTarget(c20501450.cafilter)
+		e1:SetCode(EFFECT_CANNOT_ATTACK)
+		e1:SetProperty(EFFECT_FLAG_OATH)
 		e1:SetTargetRange(LOCATION_MZONE,0)
+		e1:SetTarget(c20501450.ftarget)
+		e1:SetLabel(g:GetFirst():GetFieldID())
 		e1:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e1,tp)
 	end
 end
-function c20501450.cafilter(e,c)
-	return c~=e:GetLabelObject() or c:GetFieldID()~=e:GetLabel()
+function c20501450.ftarget(e,c)
+	return e:GetLabel()~=c:GetFieldID()
 end
 function c20501450.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
