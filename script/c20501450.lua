@@ -44,19 +44,19 @@ function c20501450.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
-function c20501450.filter(c)
-	return c:IsFaceup() and aux.nzdef(c) and (c20501450[tp]==0 or c:GetFlagEffect(20501450)~=0)
+function c20501450.filter(c,costchk)
+	return c:IsFaceup() and aux.nzdef(c) and (not costchk or c20501450[tp]==0 or c:GetFlagEffect(20501450)~=0)
 end
 function c20501450.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local costchk=e:GetLabel()==1
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c20501450.filter(chkc) and chkc:IsControler(tp) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c20501450.filter(chkc,costchk) and chkc:IsControler(tp) end
 	if chk==0 then
 		if costchk and c20501450[tp]>=2 then return false end
 		e:SetLabel(0)
-		return Duel.IsExistingTarget(c20501450.filter,tp,LOCATION_MZONE,0,1,nil)
+		return Duel.IsExistingTarget(c20501450.filter,tp,LOCATION_MZONE,0,1,nil,costchk)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local g=Duel.SelectTarget(tp,c20501450.filter,tp,LOCATION_MZONE,0,1,1,nil)
+	local g=Duel.SelectTarget(tp,c20501450.filter,tp,LOCATION_MZONE,0,1,1,nil,costchk)
 	if costchk then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_FIELD)
