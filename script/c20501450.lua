@@ -8,6 +8,7 @@ function c20501450.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetHintTiming(TIMING_DAMAGE_STEP)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetCondition(c20501450.condition)
 	e1:SetCost(c20501450.cost)
 	e1:SetTarget(c20501450.target)
 	e1:SetOperation(c20501450.activate)
@@ -39,6 +40,9 @@ end
 function c20501450.clear(e,tp,eg,ep,ev,re,r,rp)
 	c20501450[0]=0
 	c20501450[1]=0
+end
+function c20501450.condition(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
 end
 function c20501450.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
