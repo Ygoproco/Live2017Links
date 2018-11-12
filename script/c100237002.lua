@@ -24,8 +24,8 @@ function s.thfilter(c)
 	return c:IsType(TYPE_NORMAL) and (c:IsAbleToHand() or c:IsAbleToRemove())
 end
 function s.rescon(sg,e,tp,mg)
-	return sg:FilterCount(Card.IsAbleToHand)>0 
-		and sg:FilterCount(Card.IsAbleToRemove)>3
+	return sg:FilterCount(Card.IsAbleToHand,nil)>0 
+		and sg:FilterCount(Card.IsAbleToRemove,nil)>3
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(s.thfilter,tp,LOCATION_DECK,0,nil)
