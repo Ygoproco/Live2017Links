@@ -2,8 +2,6 @@
 --Red Rose Dragon
 --Scripted by AlphaKretin
 local s,id=GetID()
-local CODE_FROZEN_ROAR =100411026
-local CODE_BLOOMING_ROSE =100411027
 function s.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -17,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 end
-s.listed_names={CODE_FROZEN_ROAR,CODE_BLOOMING_ROSE }
+s.listed_names={53503015,99092624,73580471}
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsLocation(LOCATION_GRAVE) and r==REASON_SYNCHRO
@@ -37,7 +35,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function s.thfilter(c)
-	return c:IsCode(CODE_FROZEN_ROAR,CODE_BLOOMING_ROSE) and c:IsAbleToHand()
+	return c:IsCode(53503015,99092624) and c:IsAbleToHand()
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
@@ -52,3 +50,4 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+

@@ -16,10 +16,10 @@ function s.filter1(c,e)
     return c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
 end
 function s.exfilter0(c)
-    return c:IsSetCard(0xdf) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
+    return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xdf) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end
 function s.exfilter1(c,e)
-    return c:IsSetCard(0xdf) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
+    return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xdf) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
 end
 function s.filter2(c,e,tp,m,f,chkf)
     return c:IsType(TYPE_FUSION) and c:IsSetCard(0xdf) and (not f or f(c))
@@ -103,3 +103,4 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
         tc:CompleteProcedure()
     end
 end
+

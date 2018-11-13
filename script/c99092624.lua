@@ -105,3 +105,4 @@ function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	Duel.ReturnToField(tc)
 end
+

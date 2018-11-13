@@ -24,7 +24,7 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,id+100)
+	e3:SetCountLimit(1,id+1)
 	e3:SetCost(s.lvcost)
 	e3:SetTarget(s.lvtg)
 	e3:SetOperation(s.lvop)
@@ -104,3 +104,4 @@ function s.lvop(e,tp,eg,ep,ev,re,r,rp)
 		oc:RegisterEffect(e1)
 	end
 end
+
