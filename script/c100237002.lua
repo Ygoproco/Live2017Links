@@ -39,7 +39,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local sg=aux.SelectUnselectGroup(g,e,tp,5,5,s.rescon,1,tp,HINTMSG_TOHAND)
 	local sc
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOHAND)
-	if sg:FilterCount(Card.IsAbleToHand)>0 then
+	if sg:FilterCount(Card.IsAbleToHand,nil)>0 then
 		sc=sg:FilterSelect(tp,Card.IsAbleToHand,1,1,nil)
 	else
 		sc=sg:Select(tp,1,1,nil)
