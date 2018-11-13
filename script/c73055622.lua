@@ -1,5 +1,5 @@
---カオス・フォーム
---Chaos Form
+--霊魂の降神
+--Shinobird's Calling
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -13,33 +13,34 @@ function s.initial_effect(c)
 	if not GhostBelleTable then GhostBelleTable={} end
 	table.insert(GhostBelleTable,e1)
 end
-s.listed_names={CARD_DARK_MAGICIAN,CARD_BLUEEYES_W_DRAGON}
+s.fit_monster={25415052,52900000} --should be removed in hardcode overhaul
+s.listed_names={25415052,52900000}
 function s.filter(c,e,tp,m1,m2,ft)
-	if (not c:IsSetCard(0xcf) and not c:IsSetCard(0x1048)) or not c:IsRitualMonster()
+	if not c:IsCode(25415052,52900000) or not c:IsRitualMonster()
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m1:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2)
 	if ft>0 then
-		return mg:CheckWithSumEqual(Card.GetRitualLevel,c:GetLevel(),1,99,c)
+		return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel(),c)
 	else
-		return ft>-1 and mg:IsExists(s.mfilterf,1,nil,tp,mg,c)
+		return mg:IsExists(s.mfilterf,1,nil,tp,mg,c)
 	end
 end
 function s.mfilterf(c,tp,mg,rc)
 	if c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 then
 		Duel.SetSelectedCard(c)
-		return mg:CheckWithSumEqual(Card.GetRitualLevel,rc:GetLevel(),0,99,rc)
+		return mg:CheckWithSumGreater(Card.GetRitualLevel,rc:GetLevel(),rc)
 	else return false end
 end
 function s.mfilter(c)
-	return not Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) and c:IsCode(46986414,89631139) and c:IsAbleToRemove()
+	return not Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) and c:GetLevel()>0 and c:IsType(TYPE_SPIRIT) and c:IsAbleToRemove()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg1=Duel.GetRitualMaterial(tp)
 		local mg2=Duel.GetMatchingGroup(s.mfilter,tp,LOCATION_GRAVE,0,nil)
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-		return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil,e,tp,mg1,mg2,ft)
+		return ft>-1 and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil,e,tp,mg1,mg2,ft)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
@@ -48,21 +49,21 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg2=Duel.GetMatchingGroup(s.mfilter,tp,LOCATION_GRAVE,0,nil)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg1,mg2,ft)
-	local tc=g:GetFirst()
+	local tg=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg1,mg2,ft)
+	local tc=tg:GetFirst()
 	if tc then
 		local mg=mg1:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 		mg:Merge(mg2)
 		local mat=nil
 		if ft>0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-			mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,tc:GetLevel(),1,99,tc)
+			mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetLevel(),tc)
 		else
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 			mat=mg:FilterSelect(tp,s.mfilterf,1,1,nil,tp,mg,tc)
 			Duel.SetSelectedCard(mat)
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-			local mat2=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,tc:GetLevel(),0,99,tc)
+			local mat2=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetLevel(),tc)
 			mat:Merge(mat2)
 		end
 		tc:SetMaterial(mat)
