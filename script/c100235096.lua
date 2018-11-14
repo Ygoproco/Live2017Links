@@ -11,6 +11,7 @@ function s.initial_effect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.thcon)
@@ -63,7 +64,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)
 	local g=Duel.GetMatchingGroup(s.thfilter,tp,LOCATION_DECK,0,nil)
 	if not (ct>0 and #g>0) then return end
-	local sg=aux.SelectUnselectGroup(g,e,tp,1,ct,s.threscon,1,tp,HINTMSG_TOHAND)
+	local sg=aux.SelectUnselectGroup(g,e,tp,1,ct,s.threscon,1,tp,HINTMSG_ATOHAND)
 	if #sg>0 then
 		Duel.SendtoHand(sg,tp,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,sg)
@@ -76,13 +77,13 @@ function s.sprescon(sg,e,tp,mg)
 	return aux.ChkfMMZ(#sg) and sg:GetClassCount(Card.GetCode)==#sg
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)
+	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_SZONE)
 	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
 	if chk==0 then return ct>0 and aux.SelectUnselectGroup(g,e,tp,1,ct,s.sprescon,0) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)
+	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_SZONE)
 	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
 	if not (ct>0 and #g>0) then return end
 	local sg=aux.SelectUnselectGroup(g,e,tp,1,ct,s.sprescon,1,tp,HINTMSG_SPSUMMON)
