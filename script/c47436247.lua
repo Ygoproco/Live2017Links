@@ -1,5 +1,6 @@
 --紫炎の道場
 --Shien's Dojo
+local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableCounterPermit(0x3)
 	--Activate
