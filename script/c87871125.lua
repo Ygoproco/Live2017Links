@@ -1,61 +1,62 @@
 --転生炎獣サンライトウルフ
 --Salamangreat Sunlight Wolf
 --Scripted by Eerie Code
-function c87871125.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,c87871125.matfilter,2,2)
+	aux.AddLinkProcedure(c,s.matfilter,2,2)
 	--recover
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(87871125,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOHAND)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1,87871125)
-	e1:SetCondition(c87871125.thcon1)
-	e1:SetTarget(c87871125.thtg1)
-	e1:SetOperation(c87871125.thop1)
+	e1:SetCountLimit(1,id)
+	e1:SetCondition(s.thcon1)
+	e1:SetTarget(s.thtg1)
+	e1:SetOperation(s.thop1)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e2)
 	--search
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(87871125,1))
-	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
+	e3:SetDescription(aux.Stringid(id,1))
+	e3:SetCategory(CATEGORY_TOHAND)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,87871126)
-	e3:SetCondition(c87871125.thcon2)
-	e3:SetTarget(c87871125.thtg2)
-	e3:SetOperation(c87871125.thop2)
+	e3:SetCountLimit(1,id)
+	e3:SetCondition(s.thcon2)
+	e3:SetTarget(s.thtg2)
+	e3:SetOperation(s.thop2)
 	c:RegisterEffect(e3)
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE)
 	e4:SetCode(EFFECT_MATERIAL_CHECK)
-	e4:SetValue(c87871125.valcheck)
+	e4:SetValue(s.valcheck)
 	c:RegisterEffect(e4)
 end
-function c87871125.matfilter(c,scard,sumtype,tp)
+function s.matfilter(c,scard,sumtype,tp)
 	return c:IsType(TYPE_EFFECT,scard,sumtype,tp) and c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
 end
-function c87871125.thcfilter(c,g)
+function s.thcfilter(c,g)
 	return g:IsContains(c)
 end
-function c87871125.thcon1(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c87871125.thcfilter,1,nil,e:GetHandler():GetLinkedGroup())
+function s.thcon1(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.thcfilter,1,nil,e:GetHandler():GetLinkedGroup())
 end
-function c87871125.thfilter1(c)
+function s.thfilter1(c)
 	return c:IsAttribute(ATTRIBUTE_FIRE) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
-function c87871125.thtg1(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c87871125.thfilter1,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_GRAVE)
+function s.thtg1(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter1,tp,LOCATION_GRAVE,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
 end
-function c87871125.thop1(e,tp,eg,ep,ev,re,r,rp)
+function s.thop1(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c87871125.thfilter1),tp,LOCATION_GRAVE,0,1,1,nil):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.thfilter1),tp,LOCATION_GRAVE,0,1,1,nil):GetFirst()
 	if tc and Duel.SendtoHand(tc,nil,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_HAND) then
 		Duel.ConfirmCards(1-tp,tc)
 		local e1=Effect.CreateEffect(e:GetHandler())
@@ -63,7 +64,7 @@ function c87871125.thop1(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_CANNOT_SUMMON)
 		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 		e1:SetTargetRange(1,0)
-		e1:SetTarget(c87871125.sumlimit)
+		e1:SetTarget(s.sumlimit)
 		e1:SetLabel(tc:GetCode())
 		e1:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e1,tp)
@@ -75,31 +76,30 @@ function c87871125.thop1(e,tp,eg,ep,ev,re,r,rp)
 		Duel.RegisterEffect(e3,tp)
 	end
 end
-function c87871125.sumlimit(e,c)
+function s.sumlimit(e,c)
 	return c:IsCode(e:GetLabel())
 end
-function c87871125.thcon2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) and e:GetHandler():GetFlagEffect(87871125)~=0
+function s.thcon2(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) and e:GetHandler():GetFlagEffect(id)~=0
 end
-function c87871125.thfilter2(c)
+function s.thfilter2(c)
 	return c:IsSetCard(0x119) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
 end
-function c87871125.thtg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c87871125.thfilter2,tp,LOCATION_GRAVE,0,1,nil) end
+function s.thtg2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter2,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
 end
-function c87871125.thop2(e,tp,eg,ep,ev,re,r,rp)
+function s.thop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c87871125.thfilter2,tp,LOCATION_GRAVE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.thfilter2,tp,LOCATION_GRAVE,0,1,1,nil)
 	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-function c87871125.valcheck(e,c)
+function s.valcheck(e,c)
 	local g=c:GetMaterial()
-	if g:IsExists(Card.IsLinkCode,1,nil,87871125) and c:IsSummonType(SUMMON_TYPE_LINK) then
-		c:RegisterFlagEffect(87871125,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
+	if g:IsExists(Card.IsLinkCode,1,nil,id) and c:IsSummonType(SUMMON_TYPE_LINK) then
+		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
 	end
 end
-
