@@ -626,6 +626,14 @@ end
 function Auxiliary.tgoval(e,re,rp)
 	return rp~=e:GetHandlerPlayer()
 end
+--filter for EFFECT_INDESTRUCTABLE_EFFECT + self
+function Auxiliary.indsval(e,re,rp)
+    return rp==e:GetHandlerPlayer()
+end
+--filter for EFFECT_INDESTRUCTABLE_EFFECT + opponent
+function Auxiliary.indoval(e,re,rp)
+    return rp==1-e:GetHandlerPlayer()
+end
 --filter for non-zero ATK 
 function Auxiliary.nzatk(c)
 	return c:IsFaceup() and c:GetAttack()>0
