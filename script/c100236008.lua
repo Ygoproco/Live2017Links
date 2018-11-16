@@ -97,6 +97,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(s.bttg)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1,true)
+		Duel.SpecialSummonComplete()
 	end
 end
 function s.bttg(e,c)
