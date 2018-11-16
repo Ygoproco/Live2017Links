@@ -82,7 +82,7 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,nil)
 	local sg=aux.SelectUnselectGroup(g,e,tp,2,2,s.rescon(e:GetLabel()),1,tp,HINTMSG_SELECT)
-	if #sg==2 then return end
+	if #sg~=2 then return end
 	Duel.ConfirmCards(1-tp,sg)
 	Duel.ShuffleDeck(tp)
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_ATOHAND)
