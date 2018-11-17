@@ -38,7 +38,7 @@ function s.spfilter(c,tp)
 	return c:IsSetCard(0x119) and c:IsControler(tp) and not c:IsCode(id)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.spfilter,1,nil)
+	return eg:IsExists(s.spfilter,1,nil,tp)
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
