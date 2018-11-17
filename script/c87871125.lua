@@ -5,6 +5,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,s.matfilter,2,2)
+	aux.EnableCheckReincarnation(c)
 	--recover
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
@@ -32,11 +33,6 @@ function s.initial_effect(c)
 	e3:SetTarget(s.thtg2)
 	e3:SetOperation(s.thop2)
 	c:RegisterEffect(e3)
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_SINGLE)
-	e4:SetCode(EFFECT_MATERIAL_CHECK)
-	e4:SetValue(s.valcheck)
-	c:RegisterEffect(e4)
 end
 function s.matfilter(c,scard,sumtype,tp)
 	return c:IsType(TYPE_EFFECT,scard,sumtype,tp) and c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
@@ -80,7 +76,7 @@ function s.sumlimit(e,c)
 	return c:IsCode(e:GetLabel())
 end
 function s.thcon2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) and e:GetHandler():GetFlagEffect(id)~=0
+	return e:GetHandler():IsReincarnationSummoned()
 end
 function s.thfilter2(c)
 	return c:IsSetCard(0x119) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
@@ -95,11 +91,5 @@ function s.thop2(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
-	end
-end
-function s.valcheck(e,c)
-	local g=c:GetMaterial()
-	if g:IsExists(Card.IsLinkCode,1,nil,id) and c:IsSummonType(SUMMON_TYPE_LINK) then
-		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
 	end
 end

@@ -4,6 +4,7 @@
 --Substitute ID
 local s,id=GetID()
 function s.initial_effect(c)
+	aux.EnableCheckReincarnation(c)
 	--Activate (sending a "Salamangreat" monster to GY)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
@@ -56,9 +57,7 @@ function s.activate1(e,tp,eg,ep,ev,re,r,rp)
 end
 	--Check if "Salamangreat" link monster was summoned using its own name
 function s.lkfilter(c)
-	if not c:IsSummonType(SUMMON_TYPE_LINK) then return false end
-	local mat=c:GetMaterial()
-	return c:IsFaceup() and c:IsSetCard(0x119) and mat:IsExists(Card.IsLinkCode,1,nil,c:GetCode())
+	return c:IsFaceup() and c:IsSetCard(0x119) and c:IsType(TYPE_LINK) and c:IsReincarnationSummoned()
 end
 	--Activation legality
 function s.target2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
