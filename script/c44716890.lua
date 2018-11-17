@@ -21,14 +21,15 @@ function s.initial_effect(c)
 	--accumulate
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetCode(0x10000000+82003859)
+	e3:SetCode(0x10000000+id)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetTargetRange(1,1)
 	c:RegisterEffect(e3)
 end
 function s.atcost(e,c,tp)
-	return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost,tp,LOCATION_HAND,0,1,nil)
+	local ct=Duel.GetFlagEffect(tp,id)
+	return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost,tp,LOCATION_HAND,0,ct,nil)
 end
 function s.atop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.IsAttackCostPaid()~=2 and e:GetHandler():IsLocation(LOCATION_SZONE) then
