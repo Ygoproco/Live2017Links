@@ -90,12 +90,12 @@ function s.recfilter(c)
 end
 function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local ct=Duel.GetMatchingGroupCount(s.recfilter,tp,LOCATION_MZONE,0,nil)
+	local ct=Duel.GetMatchingGroupCount(s.recfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(ct*500)
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,ct*500)
 end
 function s.recop(e,tp,eg,ep,ev,re,r,rp)
-	local ct=Duel.GetMatchingGroupCount(s.recfilter,tp,LOCATION_MZONE,0,nil)
+	local ct=Duel.GetMatchingGroupCount(s.recfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	Duel.Recover(tp,ct*500,REASON_EFFECT)
 end
