@@ -1,3 +1,4 @@
+--転生炎獣スピニー
 --Salamangreat Spinny
 --Logical Nonsense
 
@@ -34,7 +35,7 @@ end
 function s.atkfilter2(c)
 	return c:IsFaceup() and c:IsSetCard(0x119)
 end
-function s.atkcon(e,c)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.atkfilter2,tp,LOCATION_ONFIELD,0,1,nil)
 end
 	--Cost of discarding itself
