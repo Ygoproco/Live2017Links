@@ -97,7 +97,7 @@ end
 	--If your "Traptrix" monster effect activates, except this card
 function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 	return rp==tp and re:IsActiveType(TYPE_MONSTER)
-		and re:GetHandler():IsSetCard(0x108a) and e:GetHandler()
+		and re:GetHandler():IsSetCard(0x108a) and re:GetHandler()~=e:GetHandler()
 end
 	--Check for "Trap Hole" normal trap
 function s.setfilter(c)
