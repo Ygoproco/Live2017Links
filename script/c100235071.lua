@@ -69,8 +69,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummonComplete()
 end
 function s.setcon(e,tp,eg,ep,ev,re,r,rp)
+	local rc=re:GetHandler()
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) 
-		and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0xba) and re:GetHandler():IsType(TYPE_XYZ)
+		and re:IsActiveType(TYPE_MONSTER) and rc:IsSetCard(0xba) and rc:IsType(TYPE_XYZ) and rc:GetControler()==tp
 end
 function s.setfilter(c)
 	return c:IsType(TYPE_SPELL) and c:IsSetCard(0x95) and c:IsSSetable()
