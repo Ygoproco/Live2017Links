@@ -1,3 +1,4 @@
+--転生炎獣ガゼル
 --Salamangreat Gazelle
 --Logical Nonsense
 
@@ -35,12 +36,12 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 	--If a "Salamangreat" monster, besides itself, is sent to GY
-function s.cfilter(c)
-	return c:IsSetCard(0x119) and c:IsType(TYPE_MONSTER) and not c:IsCode(id)
+function s.cfilter(c,tp)
+	return c:IsSetCard(0x119) and c:IsType(TYPE_MONSTER) and not c:IsCode(id) and c:IsControler(tp)
 end
 	--If it ever happened
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil)
+	return eg:IsExists(s.cfilter,1,nil,tp)
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
