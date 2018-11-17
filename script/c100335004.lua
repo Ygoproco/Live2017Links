@@ -5,15 +5,13 @@
 local s,id=GetID()
 
 function s.initial_effect(c)
-	--ATK gain, (assuming) quick-play effect
+	--ATK gain
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_ATKCHANGE)
-	e1:SetType(EFFECT_TYPE_QUICK_O)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
-	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetHintTiming(TIMING_DAMAGE_STEP)
 	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.atkcon)
 	e1:SetCost(s.atkcost)
@@ -34,10 +32,9 @@ function s.initial_effect(c)
 end
 	--Check for "Salamangreat" card
 function s.atkfilter2(c)
-	return c:IsFaceup() and c:IsSetCard(0x119) and Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
+	return c:IsFaceup() and c:IsSetCard(0x119)
 end
 function s.atkcon(e,c)
-	if c==nil then return true end
 	return Duel.IsExistingMatchingCard(s.atkfilter2,tp,LOCATION_ONFIELD,0,1,nil)
 end
 	--Cost of discarding itself
