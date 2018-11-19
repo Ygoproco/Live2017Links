@@ -23,7 +23,7 @@ function s.initial_effect(c)
 	local e4=e1:Clone()
 	e4:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
 	e4:SetCondition(s.macon)
-	e4:SetValue(function(e,c) return c:GetLink() end)
+	e4:SetValue(function(e,c) return c:GetLink()-1 end)
 	c:RegisterEffect(e4)
 end
 function s.macon(e)
