@@ -23,13 +23,13 @@ function c32841045.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
-	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_SET_AVAILABLE)
+	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetOperation(c32841045.regop)
 	c:RegisterEffect(e3)
 	local e4=Effect.CreateEffect(c)
 	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
-	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_CUSTOM+32841045)
 	e4:SetProperty(EFFECT_FLAG_DELAY)
 	e4:SetCountLimit(1,32841045)
@@ -54,11 +54,19 @@ function c32841045.thfilter(c,g)
 end
 function c32841045.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not re or re==e:GetLabelObject() end
+	if eg:GetCount()>1 then
+		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(68246154,1))
+		local g=eg:Select(tp,1,1,nil)
+		Duel.SetTargetCard(g)
+	else
+		Duel.SetTargetCard(eg)
+	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c32841045.thop(e,tp,eg,ep,ev,re,r,rp)
+	local tg=Group.FromCards(Duel.GetFirstTarget())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c32841045.thfilter,tp,LOCATION_DECK,0,1,1,nil,eg)
+	local g=Duel.SelectMatchingCard(tp,c32841045.thfilter,tp,LOCATION_DECK,0,1,1,nil,tg)
 	if g:GetCount()>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
@@ -95,7 +103,7 @@ function c32841045.regop2(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if c:GetFlagEffect(32841046)==0 and e:GetLabel()==1 then
 		e:SetLabel(0)
-		if SameColumnChain[te] and Duel.IsExistingMatchingCard(c32841045.thfilter,tp,LOCATION_DECK,0,1,nil,SameColumnChain[te]) and Duel.SelectEffectYesNo(tp,c) then
+		if SameColumnChain[te] and Duel.IsExistingMatchingCard(c32841045.thfilter,tp,LOCATION_DECK,0,1,nil,SameColumnChain[te]) then
 			Duel.RaiseEvent(SameColumnChain[te],EVENT_CUSTOM+32841045,e,REASON_EFFECT,rp,ep,ev)
 		end
 		SameColumnChain[te]=nil
