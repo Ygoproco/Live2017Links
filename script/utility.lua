@@ -1265,7 +1265,7 @@ function Auxiliary.ReincarnationCheckValue(e,c)
 	elseif c:IsType(TYPE_FUSION) then
 		rc=g:IsExists(Card.IsFusionCode,1,nil,id)
 	elseif c:IsType(TYPE_RITUAL) then
-		rc=g:IsExists(Aux.ReincarnationRitualFilter,1,nil,id,c:GetControler())
+		rc=g:IsExists(aux.ReincarnationRitualFilter,1,nil,id,c:GetControler())
 	end
 	if rc then
 		c:RegisterFlagEffect(CARD_SALAMANGREAT_SANCTUARY,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
