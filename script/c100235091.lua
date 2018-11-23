@@ -50,7 +50,7 @@ function s.otcon(e,c,minc)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	return minc<=2 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.rmfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,2,nil)
+		and Duel.IsExistingMatchingCard(s.rmfilter,tp,LOCATION_GRAVE,0,2,nil)
 end
 function s.ottg(e,c)
 	local mi,ma=c:GetTributeRequirement()
@@ -58,7 +58,7 @@ function s.ottg(e,c)
 end
 function s.otop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.rmfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,2,2,nil)
+	local g=Duel.SelectMatchingCard(tp,s.rmfilter,tp,LOCATION_GRAVE,0,2,2,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
