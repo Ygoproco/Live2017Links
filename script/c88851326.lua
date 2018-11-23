@@ -65,22 +65,19 @@ function c88851326.checkop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c88851326.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==tp
-end
-function c88851326.atkfilter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP)
+	return Duel.GetAttacker():IsControler(tp)
 end
 function c88851326.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_ONFIELD) and chkc:IsControler(1-tp) and c88851326.atkfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c88851326.atkfilter,tp,0,LOCATION_ONFIELD,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_ONFIELD) and chkc:IsControler(1-tp) and chkc:IsType(TYPE_SPELL+TYPE_TRAP) end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsType,tp,0,LOCATION_ONFIELD,1,nil,TYPE_SPELL+TYPE_TRAP) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,c88851326.atkfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
+	local g=Duel.SelectTarget(tp,Card.IsType,tp,0,LOCATION_ONFIELD,1,1,nil,TYPE_SPELL+TYPE_TRAP)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function c88851326.atkop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
-	if Duel.NegateAttack() and tc:IsRelateToEffect(e) then
+	if Duel.NegateAttack() and tc and tc:IsRelateToEffect(e) then
 		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
@@ -109,7 +106,7 @@ function c88851326.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c88851326.thop(e,tp,eg,ep,ev,re,r,rp)
 	local dt=Duel.GetDrawCount(tp)
-	if dt==0 then return false end
+	if dt==0 or not e:GetHandler():IsRelateToEffect(e) then return end
 	_replace_count=1
 	_replace_max=dt
 	local e1=Effect.CreateEffect(e:GetHandler())
@@ -120,7 +117,7 @@ function c88851326.thop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE+PHASE_DRAW)
 	e1:SetValue(0)
 	Duel.RegisterEffect(e1,tp)
-	if _replace_count>_replace_max or not e:GetHandler():IsRelateToEffect(e) then return end
+	if _replace_count>_replace_max then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c88851326.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 	if g:GetCount()>0 then
