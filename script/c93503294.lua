@@ -40,8 +40,8 @@ end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local zone=c:GetLinkedZone(tp)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,s.spcfilter,1,c,tp,zone) end
-	local g=Duel.SelectReleaseGroup(tp,s.spcfilter,1,1,c,tp,zone)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.spcfilter,1,false,nil,c,tp,zone) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.spcfilter,1,1,false,nil,c,tp,zone)
 	Duel.Release(g,REASON_COST)
 end
 function s.spfilter(c,e,tp)
