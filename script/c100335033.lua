@@ -52,16 +52,12 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 	--Check if "Salamangreat" is reborn link summoned
-function s.lkfilter(c)
-	return c:IsSetCard(0x119) and c:IsType(TYPE_LINK) and c:IsReincarnationSummoned()
-end
-	--If the said monster is on your field
-function s.setfilter(c,tp)
-	return c:GetControler()==tp
+function s.lkfilter(c,tp)
+	return c:IsSetCard(0x119) and c:IsType(TYPE_LINK) and c:IsReincarnationSummoned() and c:GetControler()==tp
 end
 	--If it ever happened
 function s.setcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(s.lkfilter,tp,LOCATION_MZONE,0,1,nil) and eg:IsExists(s.setfilter,1,nil,tp)
+	return eg:IsExists(s.lkfilter,1,nil,tp)
 end
 	--Activation legality
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
