@@ -65,7 +65,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 			return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		else return nc end
 	end
-	if nc and not (Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) and Duel.SelectYesNo(tp,aux.Stringid(CARD_FIRE_FIST_EAGLE,0)) then
+	if nc and not (Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) and Duel.SelectYesNo(tp,aux.Stringid(CARD_FIRE_FIST_EAGLE,0))) then
 		local sg=aux.SelectUnselectGroup(g,e,tp,2,2,aux.ChkfMMZ(1),1,tp,HINTMSG_TOGRAVE)
 		Duel.SendtoGrave(sg,REASON_COST)
 	end
