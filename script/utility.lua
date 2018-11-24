@@ -190,7 +190,7 @@ function Card.RegisterEffect(c,e,forced,...)
 		elseif val==2 then
 			e2:SetCode(511001692)
 		elseif val==4 then
-			e2:SetCode(100235011)
+			e2:SetCode(12081875)
 		end
 		e2:SetLabelObject(e)
 		e2:SetLabel(c:GetOriginalCode())
