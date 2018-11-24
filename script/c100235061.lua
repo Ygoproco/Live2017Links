@@ -65,7 +65,7 @@ function s.immcon(e)
 end
 	--Unaffected by trap effects
 function s.efilter(e,te)
-	if te:IsActiveType(TYPE_TRAP) then return true end
+	return te:IsActiveType(TYPE_TRAP)
 end
 	--If a normal trap card is activated
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -101,7 +101,7 @@ function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 end
 	--Check for "Trap Hole" normal trap
 function s.setfilter(c)
-	return (c:IsSetCard(0x4c) or c:IsSetCard(0x89)) and c:IsType(TYPE_TRAP) and c:IsSSetable()
+	return (c:IsSetCard(0x4c) or c:IsSetCard(0x89)) and c:GetType()==TYPE_TRAP and c:IsSSetable()
 end
 	--Activation legality
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
