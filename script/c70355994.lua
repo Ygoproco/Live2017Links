@@ -49,11 +49,13 @@ function s.filter1(c)
 		and Duel.IsExistingTarget(s.filter2,0,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c)
 end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_ONFIELD,0,1,nil) or Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) end
-	if Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,s.filter1,tp,LOCATION_ONFIELD,0,1,1,nil)
-	Duel.SendtoGrave(g,REASON_COST)
+	local nc=Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_ONFIELD,0,1,nil)
+	if chk==0 then return nc or Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) end
+	if nc and not (Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) and Duel.SelectYesNo(tp,aux.Stringid(CARD_FIRE_FIST_EAGLE,0)) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+		local g=Duel.SelectMatchingCard(tp,s.filter1,tp,LOCATION_ONFIELD,0,1,1,nil)
+		Duel.SendtoGrave(g,REASON_COST)
+	end
 end
 function s.filter2(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)

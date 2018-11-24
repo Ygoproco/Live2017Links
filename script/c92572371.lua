@@ -23,25 +23,28 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
 	local sg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,nil)
+	local nc=sg:GetCount()>=2 and (ft>0 or (ct<3 and sg:IsExists(s.mzfilter,ct,nil)))
 	if chk==0 then 
-		if Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
-		return sg:GetCount()>=2 and (ft>0 or (ct<3 and sg:IsExists(s.mzfilter,ct,nil))) 
+		if Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) then 
+			return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		else return nc end
 	end
-	if Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) then return end
-	local g=nil
-	if ft<=0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		g=sg:FilterSelect(tp,s.mzfilter,ct,ct,nil)
-		if ct<2 then
+	if nc and not (Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) and Duel.SelectYesNo(tp,aux.Stringid(CARD_FIRE_FIST_EAGLE,0)) then
+		local g=nil
+		if ft<=0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-			local g1=sg:Select(tp,2-ct,2-ct,g)
-			g:Merge(g1)
+			g=sg:FilterSelect(tp,s.mzfilter,ct,ct,nil)
+			if ct<2 then
+				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+				local g1=sg:Select(tp,2-ct,2-ct,g)
+				g:Merge(g1)
+			end
+		else
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+			g=sg:Select(tp,2,2,nil)
 		end
-	else
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		g=sg:Select(tp,2,2,nil)
+		Duel.SendtoGrave(g,REASON_COST)
 	end
-	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
