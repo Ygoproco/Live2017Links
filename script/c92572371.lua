@@ -29,7 +29,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 			return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
 		else return nc end
 	end
-	if nc and not (Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) and Duel.SelectYesNo(tp,aux.Stringid(CARD_FIRE_FIST_EAGLE,0)) then
+	if nc and not (Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) and Duel.SelectYesNo(tp,aux.Stringid(CARD_FIRE_FIST_EAGLE,0))) then
 		local g=nil
 		if ft<=0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
