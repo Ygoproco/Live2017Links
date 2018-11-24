@@ -109,3 +109,4 @@ function s.atcon(e,tp)
 	local c=e:GetHandler()
 	return Duel.GetTurnCount()>e:GetLabel()
 end
+

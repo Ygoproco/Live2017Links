@@ -49,7 +49,7 @@ function s.initial_effect(c)
 	e5:SetCode(EVENT_CHAIN_SOLVING)
 	e5:SetProperty(EFFECT_FLAG_DELAY)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetCountLimit(1,id+100)
+	e5:SetCountLimit(1,id+1)
 	e5:SetCondition(s.setcon)
 	e5:SetTarget(s.settg)
 	e5:SetOperation(s.setop)
@@ -116,3 +116,4 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
+

@@ -83,3 +83,4 @@ end
 function s.atkval(e,c)
 	return Duel.GetCounter(c:GetControler(),1,0,0x3)*100
 end
+
