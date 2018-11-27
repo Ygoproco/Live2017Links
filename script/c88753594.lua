@@ -39,6 +39,7 @@ function s.initial_effect(c)
 	e4:SetCost(aux.bfgcost)
 	e4:SetTarget(s.atktg)
 	e4:SetOperation(s.atkop)
+	e4:SetCountLimit(1,id)
 	c:RegisterEffect(e4)
 end
 s.material_setcode=0xdf
