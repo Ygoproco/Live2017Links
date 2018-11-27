@@ -1,6 +1,7 @@
 --リターン・オブ・アンデット
 --Return of the Zombies
 --Scripted by Eerie Code
+local s,id=GetID()
 function s.initial_effect(c)
 	--banish and summon
 	local e1=Effect.CreateEffect(c)
