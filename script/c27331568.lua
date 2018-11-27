@@ -8,7 +8,7 @@ function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_ATKCHANGE)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(TIMING_DAMAGE_STEP)
 	e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
@@ -61,7 +61,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	local e3=Effect.CreateEffect(e:GetHandler())
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_BE_BATTLE_TARGET)
+	e3:SetCode(EVENT_BATTLE_START)
 	e3:SetCondition(s.discon)
 	e3:SetOperation(s.disop)
 	e3:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
@@ -71,7 +71,7 @@ end
 function s.discon(e)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
-	return bc and bc:GetSummonLocation()==LOCATION_EXTRA
+	return (c==Duel.GetAttacker() or c==Duel.GetAttackTarget()) and bc:GetSummonLocation()==LOCATION_EXTRA
 end
 	--Negate the battling monster's effect during battle phase
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
@@ -88,4 +88,3 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
     	e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
     	tc:RegisterEffect(e2)
 end
-
