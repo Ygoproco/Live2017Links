@@ -44,23 +44,23 @@ function c50005218.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmDecktop(tp,3)
 	local g=Duel.GetDecktopGroup(tp,3)
 	if g:GetCount()>0 then
+		local g1=g:Filter(Card.IsSetCard,nil,0x115)
 		if g:IsExists(Card.IsSetCard,1,nil,0x115) then
-			if Duel.SelectYesNo(tp,aux.Stringid(50005218,1)) then
-				Duel.Hint(HINT_SELECTMSG,p,HINTMSG_ATOHAND)
-				local sg=g:FilterSelect(tp,Card.IsSetCard,1,1,nil,0x115)
-				if sg:GetFirst():IsAbleToHand() then
+			if g1:IsExists(Card.IsAbleToHand,1,nil) then
+				if Duel.SelectYesNo(tp,aux.Stringid(50005218,1)) then
+					Duel.Hint(HINT_SELECTMSG,p,HINTMSG_ATOHAND)
+					local sg=g1:FilterSelect(tp,Card.IsAbleToHand,1,1,nil)
 					Duel.SendtoHand(sg,nil,REASON_EFFECT)
 					Duel.ConfirmCards(1-tp,sg)
 					Duel.ShuffleHand(tp)
-				else
-					Duel.SendtoGrave(sg,REASON_RULE)
 				end
-			end
-			if tc:IsRelateToEffect(e) then
-				Duel.SendtoGrave(tc,REASON_EFFECT)
 			end
 		end
 		Duel.ShuffleDeck(tp)
+		if g:IsExists(Card.IsSetCard,1,nil,0x115) and tc:IsRelateToEffect(e) then
+				Duel.BreakEffect()
+				Duel.SendtoGrave(tc,REASON_EFFECT)
+		end
 	end
 end
 function c50005218.spcon(e,tp,eg,ep,ev,re,r,rp)
