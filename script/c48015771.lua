@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e3:SetRange(LOCATION_FZONE)
     e3:SetCondition(s.incon)
-    e:SetValue(1)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
     --check
     local e4=Effect.CreateEffect(c)
