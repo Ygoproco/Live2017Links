@@ -37,7 +37,7 @@ function c63630268.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
 		e1:SetCondition(c63630268.rdcon)
-		e1:SetOperation(c63630268.dop)
+		e1:SetOperation(c63630268.rdop)
 		e1:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e1,tp)
 	end
