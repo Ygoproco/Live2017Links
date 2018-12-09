@@ -1,39 +1,40 @@
 --BF - 毒風のシムーン
---Blackwing – Simoom the Poison Winds
+--Blackwing – Simoon the Poison Wind
 --Scripted by ahtelel
-function c81470373.initial_effect(c)
-	--place
+local s,id=GetID()
+function s.initial_effect(c)
+	--place Black Whirlwind
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(81470373,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCountLimit(1,81470373)
-	e1:SetCondition(c81470373.tfcon)
-	e1:SetCost(c81470373.tfcost)
-	e1:SetTarget(c81470373.tftg)
-	e1:SetOperation(c81470373.tfop)
+	e1:SetCountLimit(1,id)
+	e1:SetCondition(s.tfcon)
+	e1:SetCost(s.tfcost)
+	e1:SetTarget(s.tftg)
+	e1:SetOperation(s.tfop)
 	c:RegisterEffect(e1)
 end
-function c81470373.tfcon(e,tp,eg,ep,ev,re,r,rp)
+function s.tfcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
 end
-function c81470373.filter(c)
+function s.filter(c)
 	return c:IsSetCard(0x33) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost()
 end
-function c81470373.tfcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c81470373.filter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+function s.tfcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c81470373.filter,tp,LOCATION_HAND,0,1,1,e:GetHandler())
+	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,e:GetHandler())
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
-function c81470373.tffilter(c,tp)
+function s.tffilter(c,tp)
 	return c:IsCode(91351370) and not c:IsForbidden() and c:CheckUniqueOnField(tp)
 end
-function c81470373.tftg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.tftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		and Duel.IsExistingMatchingCard(c81470373.tffilter,tp,LOCATION_DECK,0,1,nil,tp) end
+		and Duel.IsExistingMatchingCard(s.tffilter,tp,LOCATION_DECK,0,1,nil,tp) end
 end
-function c81470373.tfop(e,tp,eg,ep,ev,re,r,rp)
+function s.tfop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_FIELD)
@@ -41,11 +42,11 @@ function c81470373.tfop(e,tp,eg,ep,ev,re,r,rp)
 	e0:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e0:SetReset(RESET_PHASE+PHASE_END)
 	e0:SetTargetRange(1,0)
-	e0:SetTarget(c81470373.splimit)
+	e0:SetTarget(s.splimit)
 	Duel.RegisterEffect(e0,tp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-	local tc=Duel.GetFirstMatchingCard(c81470373.tffilter,tp,LOCATION_DECK,0,nil)
+	local tc=Duel.GetFirstMatchingCard(s.tffilter,tp,LOCATION_DECK,0,nil)
 	if tc and Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true) and c:IsLocation(LOCATION_HAND)
 		and (c:IsSummonableCard() or c:IsAbleToGrave()) then
 		Duel.BreakEffect()
@@ -53,15 +54,15 @@ function c81470373.tfop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SUMMON_PROC)
-		e1:SetCondition(c81470373.ntcon)
+		e1:SetCondition(s.ntcon)
 		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 		if c:IsSummonable(true,nil) and c:IsAbleToGrave() then
-			op=Duel.SelectOption(tp,aux.Stringid(81470373,1),aux.Stringid(81470373,2))
+			op=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2))
 		elseif c:IsAbleToGrave() then
-			op=Duel.SelectOption(tp,aux.Stringid(81470373,1))
+			op=Duel.SelectOption(tp,aux.Stringid(id,2))+1
 		else
-			op=Duel.SelectOption(tp,aux.Stringid(81470373,2))+1
+			op=Duel.SelectOption(tp,aux.Stringid(id,2))+1
 		end
 		e:SetLabel(op)
 		if op==0 then
@@ -76,19 +77,19 @@ function c81470373.tfop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetRange(LOCATION_ONFIELD)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 	e2:SetCountLimit(1)
-	e2:SetOperation(c81470373.gyop)
+	e2:SetOperation(s.gyop)
 	e2:SetReset(RESET_EVENT+0x1fe0000)
 	tc:RegisterEffect(e2)
 end
-function c81470373.ntcon(e,c,minc)
+function s.ntcon(e,c,minc)
 	if c==nil then return true end
 	return minc==0 and c:GetLevel()>4 and Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 end
-function c81470373.gyop(e,tp,eg,ep,ev,re,r,rp)
+function s.gyop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
 	Duel.Damage(tp,1000,REASON_EFFECT)
 end
-function c81470373.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return c:IsLocation(LOCATION_EXTRA) and not c:IsAttribute(ATTRIBUTE_DARK)
 end
 
