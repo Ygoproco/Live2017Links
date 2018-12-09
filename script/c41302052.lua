@@ -11,7 +11,7 @@ function c41302052.initial_effect(c)
 	e1:SetCode(EFFECT_IMMUNE_EFFECT)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCondition(c41302052.imcon)
+	--e1:SetCondition(c41302052.imcon) --handled in value for mid-resolution updating
 	e1:SetValue(c41302052.immval)
 	c:RegisterEffect(e1)
 	--damage
@@ -31,7 +31,7 @@ function c41302052.imcon(e)
 	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetLinkedGroupCount()==0
 end
 function c41302052.immval(e,te)
-	return te:GetOwner()~=e:GetHandler() and te:IsActivated()
+	return te:GetOwner()~=e:GetHandler() and te:IsActivated() and c41302052.imcon(e) --condition handling for mid-resolution updating
 end
 function c41302052.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetLinkedGroupCount()==0
