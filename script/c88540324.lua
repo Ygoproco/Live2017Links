@@ -30,3 +30,4 @@ function s.macon(e)
 	local c=e:GetHandler():GetEquipTarget()
 	return c:IsSetCard(0x119) and c:IsType(TYPE_LINK) and c:IsReincarnationSummoned()
 end
+

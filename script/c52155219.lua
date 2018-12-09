@@ -89,3 +89,4 @@ end
 function s.efilter(e,te)
     return te:IsActiveType(TYPE_MONSTER) and te:GetOwner()~=e:GetOwner()
 end
+

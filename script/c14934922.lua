@@ -81,3 +81,4 @@ function s.activate2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(sg,REASON_EFFECT)
 	end
 end
+
