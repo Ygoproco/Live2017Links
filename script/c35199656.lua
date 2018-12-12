@@ -22,19 +22,12 @@ function s.initial_effect(c)
 	e3:SetCondition(s.damcon)
 	e3:SetOperation(s.damop)
 	c:RegisterEffect(e3)
-	local gettp=Effect.CreateEffect(c)
-	gettp:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	gettp:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_NO_TURN_RESET)
-	gettp:SetCode(EVENT_ADJUST)
-	gettp:SetOperation(function(e)
-		local ge1=Effect.CreateEffect(e:GetHandler())
-		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		ge1:SetCode(EVENT_TO_HAND)
-		ge1:SetOperation(s.checkop)
-		Duel.RegisterEffect(ge1,e:GetHandler():GetControler())
-	end)
-	gettp:SetCountLimit(1)
-	Duel.RegisterEffect(gettp,0)
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_TO_HAND)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetOperation(s.checkop)
+	c:RegisterEffect(e4)
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -66,23 +59,23 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetFlagEffect(tp,id)>0
+	return e:GetHandler():GetFlagEffect(id+1)>0
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,id)
-	Duel.Damage(1-tp,Duel.GetFlagEffect(tp,id)*200,REASON_EFFECT)
-	Duel.RegisterFlagEffect(tp,id+1,RESET_CHAIN,0,1)
+	Duel.Damage(1-tp,e:GetHandler():GetFlagEffect(id+1)*200,REASON_EFFECT)
+	e:GetHandler():ResetFlagEffect(id+1)
 end
 
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsLocation(LOCATION_MZONE) then return end
-	if Duel.GetFlagEffect(tp,id+1)>0 then Duel.ResetFlagEffect(tp,id+1) Duel.ResetFlagEffect(tp,id) end
 	local ct=eg:FilterCount(Card.IsControler,nil,1-tp)
-	if ct>0 then for i=1,ct do Duel.RegisterFlagEffect(tp,id,RESET_CHAIN,0,1) end end
-	if Duel.GetCurrentChain()==0 and Duel.GetFlagEffect(tp,id)>0 then
-		Duel.Hint(HINT_CARD,0,id)
-		Duel.Damage(1-tp,Duel.GetFlagEffect(tp,id)*200,REASON_EFFECT)
-		Duel.ResetFlagEffect(tp,id)
+	if ct>0 then
+		for i=1,ct do c:RegisterFlagEffect(id+1,RESET_CHAIN,0,1) end
+	end
+	if Duel.GetCurrentChain()==0 and c:GetFlagEffect(id+1)>0 then
+		Duel.Hint(HINT_CARD,0,id+1)
+		Duel.Damage(1-tp,c:GetFlagEffect(id+1)*200,REASON_EFFECT)
+		c:ResetFlagEffect(id+1)
 	end
 end
