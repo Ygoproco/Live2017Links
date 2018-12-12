@@ -69,7 +69,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 				end
 				sc:SetMaterial(Group.FromCards(c))
 				Duel.Overlay(sc,Group.FromCards(c))
-				Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
+				Duel.SpecialSummon(sc,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
 				local e1=Effect.CreateEffect(c)
 				e1:SetType(EFFECT_TYPE_SINGLE)
 				e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
