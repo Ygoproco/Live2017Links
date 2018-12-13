@@ -41,8 +41,18 @@ function s.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function s.atkval(e,c)
-	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-	return g:GetClassCount(Card.GetAttribute)*300
+	local tp=e:GetHandlerPlayer()
+	local att=0
+	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
+	for tc in aux.Next(g) do
+		att=(att|tc:GetAttribute())
+	end
+	local ct=0
+	while att~=0 do
+		if (att&0x1)~=0 then ct=ct+1 end
+		att=(att>>1)
+	end
+	return ct*300
 end
 function s.indtg(e,c)
 	return c:IsFaceup() and (c:IsSetCard(0xbf) or c:IsSetCard(0xc0))
