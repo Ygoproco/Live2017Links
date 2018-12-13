@@ -74,7 +74,7 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 		for i=1,ct do c:RegisterFlagEffect(id+1,RESET_CHAIN,0,1) end
 	end
 	if Duel.GetCurrentChain()==0 and c:GetFlagEffect(id+1)>0 then
-		Duel.Hint(HINT_CARD,0,id+1)
+		Duel.Hint(HINT_CARD,0,id)
 		Duel.Damage(1-tp,c:GetFlagEffect(id+1)*200,REASON_EFFECT)
 		c:ResetFlagEffect(id+1)
 	end
