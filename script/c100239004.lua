@@ -41,7 +41,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function s.atkval(e,c)
-	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+	local g=Duel.GetMatchingGroup(Card.IsFaceup,c:GetControler(),LOCATION_MZONE,0,nil)
 	return g:GetClassCount(Card.GetAttribute)*300
 end
 function s.indtg(e,c)
