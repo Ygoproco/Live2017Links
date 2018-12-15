@@ -47,7 +47,7 @@ function s.ffilter(c)
 	return c:IsFaceup() and c:IsCode(90011152)
 end
 function s.atkcon(e)
-	local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
+	local fc=Duel.GetFieldCard(e:GetHandlerPlayer(),LOCATION_SZONE,5)
 	return fc and s.ffilter(fc)
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
