@@ -47,8 +47,7 @@ function s.ffilter(c)
 	return c:IsFaceup() and c:IsCode(90011152)
 end
 function s.atkcon(e)
-	local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
-	return fc and s.ffilter(fc)
+	return Duel.IsExistingMatchingCard(s.ffilter,e:GetHandlerPlayer(),LOCATION_FZONE,LOCATION_FZONE,1,nil)
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	local dam=Duel.GetBattleDamage(tp)
