@@ -1,5 +1,5 @@
--- フュージョン・デステニー
--- Fusion DEstiny
+--フュージョン・デステニー
+--Fusion Destiny
 local s,id=GetID()
 function s.initial_effect(c)
 	--activate
@@ -75,7 +75,6 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		tc:RegisterFlagEffect(id,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,2)
 		tc:CompleteProcedure()
-		
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_FIELD)
 		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -84,7 +83,6 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetTarget(s.splimit)
 		e1:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e1,tp)
-		
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e2:SetCode(EVENT_PHASE+PHASE_END)
@@ -100,7 +98,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.splimit(e,c)
-	return c:IsSetCard(0x8) and c:IsAttribute(ATTRIBUTE_DARK)
+	return not (c:IsSetCard(0x8) and c:IsAttribute(ATTRIBUTE_DARK))
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
