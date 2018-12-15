@@ -30,7 +30,7 @@ function s.initial_effect(c)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCondition(s.discon2)
 	e3:SetOperation(s.disop2)
-	e3:SetReset(RESET_PHASE+PHASE_END)
+	e3:SetReset(RESETS_STANDARD)
 	c:RegisterEffect(e3)
 	--to hand
     local e4=Effect.CreateEffect(c)
