@@ -43,7 +43,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function s.atkfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xc008)
+	return c:IsFaceup() and c:IsSetCard(0x8)
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_ONFIELD,0,1,nil) end
