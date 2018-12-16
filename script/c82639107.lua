@@ -34,6 +34,8 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		local sg2=g2:Select(tp,1,1,nil)
 		sg1:Merge(sg2)
 		if Duel.SendtoGrave(sg1,REASON_EFFECT)==2 then
+			local g=Duel.GetOperatedGroup()
+			if g:FilterCount(Card.IsLocation,nil,LOCATION_GRAVE)<2 then return end
 			Duel.ShuffleDeck(tp)
 			Duel.BreakEffect()
 			Duel.Draw(tp,2,REASON_EFFECT)
