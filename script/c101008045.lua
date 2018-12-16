@@ -1,5 +1,5 @@
--- X・HERO クロスガイ
--- Xtra HERO Crossguy
+--X・HERO クロスガイ
+--Xtra HERO Crossguy
 local s,id=GetID()
 function s.initial_effect(c)
 	--link summon
@@ -70,13 +70,13 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function s.cfilter(c)
+function s.cfilter(c,tp)
 	return c:IsSetCard(0xc008) 
 	and Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil,c:GetCode())
 end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetCustomActivityCount(id,tp,ACTIVITY_SPSUMMON)==0 and Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,nil,nil) end
-	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,false,nil,nil)
+	if chk==0 then return Duel.GetCustomActivityCount(id,tp,ACTIVITY_SPSUMMON)==0 and Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,nil,nil,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,false,nil,nil,tp)
 	Duel.Release(g,REASON_COST)
 	e:SetLabel(g:GetFirst():GetCode())
 	local e1=Effect.CreateEffect(e:GetHandler())
