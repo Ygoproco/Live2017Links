@@ -40,6 +40,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
         e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
         e1:SetRange(LOCATION_MZONE)
         e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+        e1:SetValue(1)
         tc:RegisterEffect(e1)
     end
 end
