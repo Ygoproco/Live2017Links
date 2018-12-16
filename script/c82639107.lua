@@ -33,7 +33,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local sg2=g2:Select(tp,1,1,nil)
 		sg1:Merge(sg2)
-		if Duel.SendtoGrave(sg1,REASON_EFFECT)>0 then
+		if Duel.SendtoGrave(sg1,REASON_EFFECT)==2 then
 			Duel.ShuffleDeck(tp)
 			Duel.BreakEffect()
 			Duel.Draw(tp,2,REASON_EFFECT)
