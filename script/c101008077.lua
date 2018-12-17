@@ -37,7 +37,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if rc==0 and #hg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-		local sg=hg:g:RandomSelect(tp,1)
+		local sg=hg:RandomSelect(tp,1)
 		Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
 	end
 end
