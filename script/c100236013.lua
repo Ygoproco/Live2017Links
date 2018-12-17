@@ -44,7 +44,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 	--draw
 	local e5=Effect.CreateEffect(c)
-	e5:SetCategory(CATEGORY_DRAW)	
+	e5:SetCategory(CATEGORY_DRAW)   
 	e5:SetDescription(aux.Stringid(id,2))
 	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e5:SetType(EFFECT_TYPE_IGNITION)
@@ -71,19 +71,19 @@ function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_FZONE,LOCATION_FZONE)
 	if c:IsRelateToEffect(e) then g:AddCard(c) end
 	for tc in aux.Next(g) do
-		if tc:IsCanAddCounter(0x1149,1) then
-			tc:AddCounter(0x1149,1)
+		if tc:IsCanAddCounter(0x1148,1) then
+			tc:AddCounter(0x1148,1)
 		end
 	end
 end
 function s.incon(e)
-	return e:GetHandler():GetCounter(0x1149)>0
+	return e:GetHandler():GetCounter(0x1148)>0
 end
 function s.ctcost(ct)
 	return function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1149,ct,REASON_COST) end
+		if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1148,ct,REASON_COST) end
 		Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-		Duel.RemoveCounter(tp,1,1,0x1149,ct,REASON_COST)
+		Duel.RemoveCounter(tp,1,1,0x1148,ct,REASON_COST)
 	end
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
