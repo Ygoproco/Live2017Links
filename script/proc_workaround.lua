@@ -30,7 +30,7 @@ Duel.RemoveOverlayCard=function(player, self, opponent, min, max, reason, group)
 	end
 	local dg=Group.CreateGroup()
 	group:ForEach(function(c)dg:Merge(c:GetOverlayGroup())end)
-	local sg=dg:Select(tp, min, max, nil)
+	local sg=dg:Select(player, min, max, nil)
 	return Duel.SendtoGrave(sg,reason)
 end
 
