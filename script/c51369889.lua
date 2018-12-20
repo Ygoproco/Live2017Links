@@ -65,11 +65,12 @@ function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 				and Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler())
 		else return false end
 	end
+	Duel.Hint(HINT_SELECTMSG,tp,519)
 	local rt=Duel.GetTargetCount(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
 	Duel.RemoveOverlayCard(tp,0,0,1,rt,REASON_COST,dg)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local count=#Duel.GetOperatedGroup()
-	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,count,count,e:GetHandler())
+	Duel.Hint(HINT_SELECTMSG,tp,551)
+	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,count,count,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 	e:GetHandler():RegisterFlagEffect(id,RESET_PHASE+PHASE_END,0,1)
 end
