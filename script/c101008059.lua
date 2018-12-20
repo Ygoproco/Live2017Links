@@ -80,6 +80,7 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.spfilter3,tp,LOCATION_DECK,0,nil,e,tp,tc)
 	local sg=aux.SelectUnselectGroup(g,e,tp,2,2,s.spcheck,1,tp,HINTMSG_SPSUMMON)
 	if sg and #sg==2 then
+		local fid=c:GetFieldID()
 		for sc in aux.Next(sg) do
 			Duel.SpecialSummonStep(sc,0,tp,tp,false,false,POS_FACEUP)
 			local e1=Effect.CreateEffect(c)
@@ -87,7 +88,7 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			sc:RegisterEffect(e1,true)
-			sc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
+			sc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1,fid)
 			Duel.SpecialSummonComplete()
 		end
 		sg:KeepAlive()

@@ -8,7 +8,7 @@ function s.initial_effect(c)
 	aux.EnablePendulumAttribute(c)
 	--Special summon this card from pendulum zone
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_DAMAGE)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_DESTROYED)
 	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
@@ -50,7 +50,6 @@ function s.filter(c)
 end
 	--Check if monster(s) with ATK higher than base ATK were destroyed
 function s.cfilter(c,tp)
-Debug.Message(c:GetPreviousAttackOnField()>c:GetBaseAttack())
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:GetPreviousAttackOnField()>c:GetBaseAttack()
 		and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp
 end

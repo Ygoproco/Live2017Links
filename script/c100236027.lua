@@ -60,6 +60,7 @@ function s.getscale(c)
 end
 function s.cpsoperation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	tg=tg:Filter(Card.IsRelateToEffect,nil,e)
 	for tc in aux.Next(tg) do

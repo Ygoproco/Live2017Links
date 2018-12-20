@@ -58,11 +58,11 @@ end
 function s.indtg(e,c)
 	return c:IsFaceup() and (c:IsSetCard(0xbf) or c:IsSetCard(0xc0))
 end
-function s.cfilter(c)
-	return c:IsFaceup() and c:GetBaseAttack()==1850
+function s.cfilter(c,tp)
+	return c:IsFaceup() and c:IsControler(tp) and c:GetBaseAttack()==1850
 end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil)
+	return eg:IsExists(s.cfilter,1,nil,tp)
 end
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

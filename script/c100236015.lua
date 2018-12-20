@@ -35,7 +35,7 @@ function s.initial_effect(c)
 	e4:SetValue(1)
 	c:RegisterEffect(e4)
 end
-function s.filter(c,e,tp)
+function s.filter(c,e,tp,re)
 	local re=c:GetReasonEffect()
 	local rc=re:GetHandler()
 	return c:IsSetCard(0xa3) and c:IsType(TYPE_SYNCHRO) and c:GetPreviousControler()==tp
@@ -43,16 +43,14 @@ function s.filter(c,e,tp)
 		and c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.filter,1,nil,e,tp)
+	return eg:IsExists(s.filter,1,nil,e,tp,re)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return eg:IsContains(chkc) and s.filter(chkc,e,tp) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.SetTargetCard(eg)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,eg,#eg,0,0)
-	if e:IsHasType(EFFECT_TYPE_ACTIVATE) then
-		Duel.SetChainLimit(s.chainlm)
-	end
+	Duel.SetChainLimit(s.chainlm)
 end
 function s.chainlm(e,rp,tp)
 	return tp==rp

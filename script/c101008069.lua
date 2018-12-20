@@ -33,8 +33,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--to hand
 	local e3=Effect.CreateEffect(c)
+	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e3:SetCode(EVENT_TO_GRAVE)
+	e3:SetCode(EVENT_DESTROYED)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetCountLimit(1,id+200)
 	e3:SetCondition(s.thcon)
@@ -46,7 +47,7 @@ function s.atkfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x8)
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_ONFIELD,0,1,nil) end
+	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 end
 function s.atktg2(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -65,7 +66,7 @@ function s.atktg2(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local tg=Duel.GetMatchingGroup(s.atkfilter,tp,LOCATION_ONFIELD,0,nil)
+	local tg=Duel.GetMatchingGroup(s.atkfilter,tp,LOCATION_MZONE,0,nil)
 	if #tg>0 then
 		local sc=tg:GetFirst()
 		while sc do
@@ -94,6 +95,7 @@ function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local loc=LOCATION_ONFIELD+LOCATION_GRAVE+LOCATION_HAND
 	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,0,loc,1,1,nil)
@@ -104,7 +106,7 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DESTROY) and c:GetPreviousControler()==tp
+	return c:IsReason(REASON_EFFECT) and c:GetPreviousControler()==tp
 		and c:IsPreviousLocation(LOCATION_SZONE)
 end
 function s.thfilter(c)

@@ -26,7 +26,7 @@ function s.initial_effect(c)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)
-	if chk==0 then return Duel.IsPlayerCanDiscardDeck(1-tp,g) end
+	if chk==0 then return g>0 and Duel.IsPlayerCanDiscardDeck(1-tp,g) end
 	Duel.SetOperationInfo(0,CATEGORY_DECKDES,nil,0,1-tp,g)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
@@ -34,7 +34,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)
-	if chk==0 then return Duel.IsPlayerCanDiscardDeck(tp,g) end
+	if chk==0 then return g>0 and Duel.IsPlayerCanDiscardDeck(tp,g) end
 	Duel.SetOperationInfo(0,CATEGORY_DECKDES,nil,0,tp,g)
 end
 function s.operation2(e,tp,eg,ep,ev,re,r,rp)
