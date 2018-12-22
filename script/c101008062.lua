@@ -17,7 +17,7 @@ function s.initial_effect(c)
 	e2:SetCategory(CATEGORY_DESTROY)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetCountLimit(1)
 	e2:SetCondition(s.descon)
@@ -44,6 +44,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,2,2,nil,e,tp,tc:GetCode())
 		if Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)==2 then
+			Duel.BreakEffect()
 			Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
 		end
 	end

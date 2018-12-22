@@ -12,7 +12,7 @@ function s.initial_effect(c)
     --effect gain
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,0))
-    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
@@ -39,7 +39,7 @@ function s.spfilter(c,e,tp,code)
     return c:IsSetCard(0x109) and c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsCode(code)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
         and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,e:GetHandler():GetCode()) end
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
