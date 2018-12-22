@@ -75,7 +75,7 @@ function c73575650.thop1(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 	end
-	if c:IsRelateToEffect(e) and c:IsCanTurnSet() and e:IsHasType(EFFECT_TYPE_ACTIVATE) then
+	if c:IsRelateToEffect(e) and c:IsSSetable(true) and e:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		Duel.BreakEffect()
 		c:CancelToGrave()
 		Duel.ChangePosition(c,POS_FACEDOWN)
