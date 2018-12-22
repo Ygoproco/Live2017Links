@@ -54,7 +54,7 @@ function s.aclimit(e,re,tp)
 	return re:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
 function s.actcon(e)
-	return Duel.GetAttacker()==e:GetHandler()
+	return Duel.GetAttacker()==e:GetHandler() or Duel.GetAttackTarget()==e:GetHandler()
 end
 function s.atlimit(e,c)
 	return c~=e:GetHandler()
@@ -80,7 +80,7 @@ function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsReason(REASON_EFFECT) --and c:IsPreviousLocation(LOCATION_ONFIELD)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,0,LOCATION_MZONE,1,nil) end
+	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(s.filter,tp,0,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 end

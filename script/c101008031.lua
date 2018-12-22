@@ -104,7 +104,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
         local sg=g:Select(tp,ft,ft,nil)
         Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
-        g:Sub(sg)
-        Duel.SendtoGrave(g,REASON_RULE)
     end
 end

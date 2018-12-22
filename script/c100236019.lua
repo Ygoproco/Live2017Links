@@ -52,7 +52,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if Duel.SendtoHand(g,nil,REASON_EFFECT)>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 		Duel.ShuffleHand(tp)
@@ -63,6 +63,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,c,pg)
 			local sc=g:GetFirst()
 			if sc then
+				Duel.BreakEffect()
 				local mg=c:GetOverlayGroup()
 				if #mg~=0 then
 					Duel.Overlay(sc,mg)

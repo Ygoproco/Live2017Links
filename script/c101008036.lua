@@ -11,6 +11,7 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetRange(LOCATION_MZONE)
+	e1:SetCondition(s.atkcon)
     e1:SetValue(s.atkval)
     c:RegisterEffect(e1)
     --spsummon
@@ -24,6 +25,9 @@ function s.initial_effect(c)
     e2:SetTarget(s.sptg)
     e2:SetOperation(s.spop)
     c:RegisterEffect(e2,false,1)
+end
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
 end
 function s.atkfilter(c,xc)
     return c:IsFaceup() and c:IsType(TYPE_LINK) and c:GetLinkedGroup():IsContains(xc)
