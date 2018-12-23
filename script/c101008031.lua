@@ -47,12 +47,13 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
     local b2=Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>4
     local p=0
     if b1 and b2 then
-        p=Duel.SelectOption(tp,aux.Stringid(id,3),aux.Stringid(id,3))
+        p=Duel.SelectOption(tp,aux.Stringid(id,3),aux.Stringid(id,4))
     elseif b1 then
         p=Duel.SelectOption(tp,aux.Stringid(id,3))
     else
         p=Duel.SelectOption(tp,aux.Stringid(id,4))+1
     end
+    if tp==1 then p=1-p end
     Duel.SortDecktop(tp,p,5)
 end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
