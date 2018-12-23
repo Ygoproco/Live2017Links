@@ -1,7 +1,6 @@
 --決闘竜 デュエル・リンク・ドラゴン
 --Duel Link Dragon
 --Scripted by AlphaKretin
---Currently unimplementable - needs to check token can be summoned to pointed zone
 local s,id=GetID()
 function s.initial_effect(c)
 	--link summon
@@ -50,7 +49,7 @@ function s.cfilter(c,e,tp,ft,zone)
 	local lv=c:GetLevel()
 	return (c:IsSetCard(0xc2) or ((c:GetLevel()==7 or c:GetLevel()==8) and c:IsRace(RACE_DRAGON))) 
 		and c:IsType(TYPE_SYNCHRO) and lv>0 and c:IsAbleToRemoveAsCost() and ft>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,c:GetAttack(),c:GetDefense(),lv,c:GetRace(),c:GetAttribute()) and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,c:GetAttack(),c:GetDefense(),lv,c:GetRace(),c:GetAttribute()) and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft, zone = Duel.GetLocationCount(tp,LOCATION_MZONE), e:GetHandler():GetLinkedZone()&0x1f
@@ -72,8 +71,8 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,tc:GetAttack(),tc:GetDefense(),tc:GetLevel(),tc:GetRace(),tc:GetAttribute()) and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0 then
-		local token=Duel.CreateToken(tp,id+100)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,tc:GetAttack(),tc:GetDefense(),tc:GetLevel(),tc:GetRace(),tc:GetAttribute()) and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0 then
+		local token=Duel.CreateToken(tp,id+1)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP,zone)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -101,7 +100,7 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 	end 
 end
 function s.tgfilter(c)
-	return c:IsFaceup() and c:IsCode(id+100)
+	return c:IsFaceup() and c:IsCode(id+1)
 end
 function s.tgcon(e)
 	return Duel.IsExistingMatchingCard(s.tgfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,e:GetHandler())
