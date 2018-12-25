@@ -1272,6 +1272,11 @@ function Auxiliary.ReincarnationCheckValue(e,c)
 	end
 end
 
+--Checks for cards with different names (to be used with Aux.SelectUnselectGroup)
+function Auxiliary.dncheck(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)==#sg
+end
+
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
 	local f2 = loadfile("expansions/script/"..file)
