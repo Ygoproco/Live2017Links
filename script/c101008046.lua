@@ -67,15 +67,15 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
     local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
     Duel.Draw(p,d,REASON_EFFECT)
 end
-function s.cfilter(c,tp,zone)
+function s.cfilter(c,tp,zone,rp)
     local seq=c:GetPreviousSequence()
     if c:GetPreviousControler()~=tp then seq=seq+16 end
-    return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsType(TYPE_XYZ) 
+    return ((c:IsReason(REASON_BATTLE)) or (c:IsReason(REASON_EFFECT) and rp~=tp)) and c:IsType(TYPE_XYZ) 
         and c:IsPreviousLocation(LOCATION_MZONE) and bit.extract(zone,seq)~=0
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local zone=e:GetHandler():GetLinkedZone()
-    return eg:IsExists(s.cfilter,1,nil,tp,zone)
+    return eg:IsExists(s.cfilter,1,nil,tp,zone,rp)
 end
 function s.spfilter(c,e,tp,attr)
     return c:IsSetCard(0xdc) and c:GetOriginalAttribute() & attr ~=0
