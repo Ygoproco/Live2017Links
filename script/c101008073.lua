@@ -17,7 +17,7 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.spcon)
-    e2:SetCost(aux.bfgcost)
+    e2:SetCost(s.announcecost)
     e2:SetTarget(s.sptg)
     e2:SetOperation(s.spop)
     local e3=Effect.CreateEffect(c)
@@ -37,6 +37,11 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spfilter(c,e,tp,code)
     return c:IsSetCard(0x109) and c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsCode(code)
+end
+function s.announcecost(e,tp,eg,ep,ev,re,r,rp,chk)
+    if chk==0 then return aux.bfgcost(e,tp,eg,ep,ev,re,r,rp,chk) end
+    Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
+    aux.bfgcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
