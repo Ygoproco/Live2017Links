@@ -1,5 +1,6 @@
 --曇りの天気模様
 --The Weather Cloudy Canvas
+local s,id=GetID()
 function s.initial_effect(c)
 	c:SetUniqueOnField(1,0,id)
 	--Activate
