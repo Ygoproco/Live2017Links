@@ -57,7 +57,7 @@ function s.gycon(e,tp,eg,ep,ev,re,r,rp)
     return eg:IsExists(s.gycfilter,1,nil,tp)
 end
 function s.gyfilter(c)
-    return c:IsAttribute(ATTRIBUTE_FIRE) and c:IsDefenseBelow(200) and c:IsAbleToGrave()
+    return c:IsAttribute(ATTRIBUTE_FIRE) and c:IsDefenseBelow(200) and not c:IsCode(id) and c:IsAbleToGrave()
 end
 function s.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(s.gyfilter,tp,LOCATION_DECK,0,1,nil) end
