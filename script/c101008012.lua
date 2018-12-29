@@ -44,7 +44,7 @@ end
 s.listed_names={CARD_ASSAULT_MODE,97836203}
 s.assault_mode=97836203
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
-    return Duel.GetCurrentChain()==0
+    return tp~=ep and Duel.GetCurrentChain()==0
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return true end
