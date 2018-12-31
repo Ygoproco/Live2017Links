@@ -27,14 +27,14 @@ function s.initial_effect(c)
 end
 s.counter_add_list={0x1019}
 function s.ctcfilter(c)
-    return c:IsSetCard(0x18) and c:IsLevelAbove(1) and c:IsDiscardable()
+    return c:IsSetCard(0x18) and c:IsDiscardable()
 end
 function s.ctcost(e,tp,eg,ep,ev,re,r,rp,chk)
     e:SetLabel(100)
     return true
 end
 function s.cttfilter(c,ccnt)
-    return c:IsCanAddCounter(0x1019,ccnt) and c:IsFaceup()
+    return c:IsCanAddCounter(0x1019,ccnt) and c:IsFaceup() and c:IsLevelAbove(1)
 end
 function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.cttfilter(chkc,e:GetLabel()) end
@@ -43,15 +43,13 @@ function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)
     local dc=Duel.SelectMatchingCard(tp,s.ctcfilter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
     Duel.SendtoGrave(dc,REASON_COST+REASON_DISCARD)
-    e:SetLabelObject(dc)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-    Duel.SelectTarget(tp,s.cttfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,dc:GetLevel())
+    Duel.SelectTarget(tp,s.cttfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
     local tc=Duel.GetFirstTarget()
-    local dc=e:GetLabelObject()
-    if tc:IsRelateToEffect(e) and tc:IsFaceup() and dc then
-        tc:AddCounter(0x1019,dc:GetLevel())
+    if tc:IsRelateToEffect(e) and tc:IsFaceup() then
+        tc:AddCounter(0x1019,tc:GetLevel())
     end
 end
 function s.cfilter(c)
