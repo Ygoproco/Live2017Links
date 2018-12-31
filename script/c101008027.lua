@@ -3,6 +3,7 @@
 --Scripted by ahtelel
 local s,id=GetID()
 function s.initial_effect(c)
+	c:EnableReviveLimit()
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -78,7 +79,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 end
 function s.actcon(e)
 	local ph=Duel.GetCurrentPhase()
-	return s.effcon(e) and ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
+	return ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
 end
 function s.actlimit(e,re,tp)
 	return not re:GetHandler():IsImmuneToEffect(e)
