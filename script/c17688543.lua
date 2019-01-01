@@ -13,15 +13,13 @@ function c17688543.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c17688543.filter(c,e,tp)
-	return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsType(TYPE_MONSTER) and (not c:IsHasEffect(EFFECT_REVIVE_LIMIT) or c:IsStatus(STATUS_PROC_COMPLETE))
 end
 function c17688543.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c17688543.filter(chkc,e,tp) end
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingTarget(c17688543.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingTarget(c17688543.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,c17688543.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
@@ -38,13 +36,14 @@ function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCondition(c17688543.spcon)
 	e1:SetOperation(c17688543.spop)
 	Duel.RegisterEffect(e1,tp)
+	tc:CreateEffectRelation(e1)
 end
 function c17688543.spcon(e,tp)
 	return Duel.GetTurnCount()==e:GetLabel() and Duel.GetTurnPlayer()==tp
 end
 function c17688543.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	if tc and tc:IsLocation(LOCATION_GRAVE) then
+	if tc and tc:IsLocation(LOCATION_GRAVE) and tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
