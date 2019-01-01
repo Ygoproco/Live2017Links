@@ -27,7 +27,7 @@ function s.initial_effect(c)
 end
 s.counter_add_list={0x1019}
 function s.ctcfilter(c)
-    return c:IsSetCard(0x18) and c:IsDiscardable()
+    return c:IsSetCard(0x18) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
 end
 function s.ctcost(e,tp,eg,ep,ev,re,r,rp,chk)
     e:SetLabel(100)
@@ -41,7 +41,7 @@ function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chk==0 then return Duel.IsExistingMatchingCard(s.ctcfilter,tp,LOCATION_HAND,0,1,nil)
         and Duel.IsExistingTarget(s.cttfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,1) end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)
-    local dc=Duel.SelectMatchingCard(tp,s.ctcfilter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
+    local dc=Duel.SelectMatchingCard(tp,s.ctcfilter,tp,LOCATION_HAND,0,1,1,nil)
     Duel.SendtoGrave(dc,REASON_COST+REASON_DISCARD)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
     Duel.SelectTarget(tp,s.cttfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
