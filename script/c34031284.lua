@@ -50,6 +50,7 @@ function s.atkcon(e)
 	return Duel.IsExistingMatchingCard(s.ffilter,e:GetHandlerPlayer(),LOCATION_FZONE,LOCATION_FZONE,1,nil)
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
+	if not Duel.GetAttackTarget() or not (Duel.GetAttackTarget()~=e:GetHandler()) then return end
 	local dam=Duel.GetBattleDamage(tp)
 	if dam>0 then
 		Duel.ChangeBattleDamage(1-tp,Duel.GetBattleDamage(1-tp)+dam,false)
