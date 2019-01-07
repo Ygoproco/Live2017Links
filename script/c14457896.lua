@@ -45,7 +45,7 @@ function c14457896.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_EQUIP_LIMIT)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e1:SetValue(c14457896.eqlimit)
 	e1:SetLabelObject(tc)
 	c:RegisterEffect(e1)
@@ -54,14 +54,14 @@ function c14457896.eqop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetCode(EFFECT_CHANGE_RACE)
 	e2:SetValue(RACE_INSECT)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e2)
 	--cannot attack
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_EQUIP)
 	e3:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
 	e3:SetValue(c14457896.atlimit)
-	e3:SetReset(RESET_EVENT+0x1fe0000)
+	e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e3)
 	--disable
 	local e4=Effect.CreateEffect(c)
@@ -71,18 +71,29 @@ function c14457896.eqop(e,tp,eg,ep,ev,re,r,rp)
 	e4:SetLabelObject(tc)
 	e4:SetCondition(c14457896.discon)
 	e4:SetOperation(c14457896.disop)
-	e4:SetReset(RESET_EVENT+0x1fe0000)
+	e4:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e4)
 	local att=Duel.GetAttacker()
 	if att and att==tc then
 		local tg=tc:GetBattleTarget()
-		if tg and tg:IsRace(RACE_INSECT) then
+		if tg and c14457896.atlimit(nil,tg) then
 			--cannot attack workaround
 			local e5=Effect.CreateEffect(c)
 			e5:SetType(EFFECT_TYPE_EQUIP)
 			e5:SetCode(EFFECT_CANNOT_ATTACK)
-			e5:SetReset(RESET_EVENT+0x1fe0000)
+			e5:SetReset(RESET_EVENT+RESETS_STANDARD)
 			c:RegisterEffect(e5)
+			--reset after unsuccessful attack
+			local e5r=Effect.CreateEffect(c)
+			e5r:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+			e5r:SetCode(EVENT_ADJUST)
+			e5r:SetRange(0xff)
+			e5r:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+			e5r:SetLabelObject(e5)
+			e5r:SetOperation(c14457896.resop)
+			e5r:SetReset(RESET_EVENT+RESETS_STANDARD)
+			c:RegisterEffect(e5r)
+			Duel.AdjustInstantly()
 		end
 	end
 end
@@ -106,6 +117,10 @@ end
 function c14457896.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
 end
+function c14457896.resop(e,tp,eg,ep,ev,re,r,rp)
+	e:GetLabelObject():Reset()
+	e:Reset()
+end
 function c14457896.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousLocation(LOCATION_SZONE)
 end
@@ -125,4 +140,3 @@ function c14457896.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,true,false,POS_FACEUP)
 	end
 end
-
