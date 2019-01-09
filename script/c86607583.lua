@@ -1,7 +1,7 @@
 --リミット・コード
 --Limit Code
 --scripted by Larry126
-local s,id=getID()
+local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableCounterPermit(0x47)
 	--Activate
