@@ -25,8 +25,8 @@ function c70238111.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c70238111.filter(c,e,tp)
-	return c:IsRace(RACE_CYBERSE) and c:GetLink()==3 and (c:IsFaceup() or not c:IsLocation(LOCATION_MZONE)) and c:IsAbleToRemove()
-		and aux.SpElimFilter(c,true,true) and Duel.IsExistingMatchingCard(c70238111.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,c)
+	return c:IsRace(RACE_CYBERSE) and c:GetLink()==3 and c:IsAbleToRemove()	and aux.SpElimFilter(c,true,true)
+		and Duel.IsExistingMatchingCard(c70238111.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,c)
 end
 function c70238111.spfilter(c,e,tp,mc)
 	return c:IsSetCard(0x101) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0
