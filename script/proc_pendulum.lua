@@ -108,6 +108,25 @@ function Auxiliary.PendOperation()
 						ft=ft+1
 					else
 						sg:AddCard(tc)
+						if tc:IsHasEffect(511004423) then
+							local pg=sg:Filter(aux.TRUE,tc)
+							local ct0,ct3,ct4=pg:GetCount(),pg:FilterCount(Card.IsLocation,nil,LOCATION_HAND),pg:FilterCount(Card.IsLocation,nil,LOCATION_EXTRA)
+							sg:Sub(pg)
+							ft1=ft1+ct3
+							ft2=ft2+ct4
+							ft=ft+ct0
+						else
+							local pg=sg:Filter(Card.IsHasEffect,nil,511004423)
+							sg:Sub(pg)
+							if pg:GetCount()>0 then
+								if pg:GetFirst():IsLocation(LOCATION_HAND) then
+									ft1=ft1+1
+								else
+									ft2=ft2+1
+								end
+								ft=ft+1
+							end
+						end
 						if tc:IsLocation(LOCATION_HAND) then
 							ft1=ft1-1
 						else
