@@ -35,6 +35,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 	--shuffle 1 card on field to deck
 	local e4=Effect.CreateEffect(c)
+	e4:SetProperty(EFFECT_FLAG_DELAY)
 	e4:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
 	e4:SetCode(EVENT_TO_GRAVE)
 	e4:SetCondition(s.tdcondition)
