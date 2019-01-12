@@ -30,7 +30,7 @@ function s.initial_effect(c)
 end
 function s.cfilter(c,tp,rp)
 	return c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE) and
-		c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and rp~=tp)
+		(c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and rp~=tp))
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter,1,nil,tp,rp)
