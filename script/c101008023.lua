@@ -27,11 +27,11 @@ function s.initial_effect(c)
 	e2:SetOperation(s.atop)
 	c:RegisterEffect(e2)
 end
-function s.cfilter(c)
+function s.cfilter(c,tp)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsControler(tp)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil)
+	return eg:IsExists(s.cfilter,1,nil,tp)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -47,7 +47,7 @@ function s.afilter(c)
 	return c:IsType(TYPE_XYZ) and c:IsFaceup() 
 end
 function s.spcon2(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil) and aux.exccon(e) 
+	return eg:IsExists(s.cfilter,1,nil,tp) and aux.exccon(e) 
 end
 function s.attg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and s.thcfilter(chkc) end
