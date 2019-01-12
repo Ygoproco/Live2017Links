@@ -62,9 +62,10 @@ function s.filter(c,sp)
 	return c:IsFaceup() and c:IsType(TYPE_EFFECT) and c:IsLocation(LOCATION_MZONE) and c:GetSummonPlayer()==sp
 end
 function s.reccon1(e,tp,eg,ep,ev,re,r,rp)
+	local ph = Duel.GetCurrentPhase()
 	return eg:IsExists(s.filter,1,nil,1-tp)
 		and (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS))
-		and Duel.GetCurrentPhase()&PHASE_MAIN1+PHASE_MAIN2+PHASE_BATTLE>0
+		and ph >= PHASE_MAIN1 and ph <= PHASE_MAIN2
 end
 function s.recop1(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(s.filter,nil,1-tp)
@@ -76,9 +77,10 @@ function s.recop1(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.regcon(e,tp,eg,ep,ev,re,r,rp)
+	local ph = Duel.GetCurrentPhase()
 	return eg:IsExists(s.filter,1,nil,1-tp)
 		and re:IsHasType(EFFECT_TYPE_ACTIONS) and not re:IsHasType(EFFECT_TYPE_CONTINUOUS)
-		and Duel.GetCurrentPhase()&PHASE_MAIN1+PHASE_MAIN2+PHASE_BATTLE>0
+		and ph >= PHASE_MAIN1 and ph <= PHASE_MAIN2
 end
 function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(s.filter,nil,1-tp)
