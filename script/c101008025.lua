@@ -67,10 +67,10 @@ function s.reccon1(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.GetCurrentPhase()&PHASE_MAIN1+PHASE_MAIN2+PHASE_BATTLE>0
 end
 function s.recop1(e,tp,eg,ep,ev,re,r,rp)
-	local g=eg:Filter(s.filter,nil,e,tp)
+	local g=eg:Filter(s.filter,nil,1-tp)
 	if g:GetCount()>0 then
 		local sum=g:GetSum(Card.GetAttack)
-		if Duel.Recover(tp,sum,REASON_EFFECT)==0 then 
+		if Duel.Recover(tp,sum,REASON_EFFECT)~=0 then 
 			Duel.RegisterFlagEffect(tp,id+100,RESET_PHASE+PHASE_END,0,1)
 		end
 	end
@@ -91,7 +91,7 @@ end
 function s.recop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ResetFlagEffect(tp,id)
 	local rec=e:GetLabel()
-	if Duel.Recover(tp,rec,REASON_EFFECT)==0 then
+	if Duel.Recover(tp,rec,REASON_EFFECT)~=0 then
 		Duel.RegisterFlagEffect(tp,id+100,RESET_PHASE+PHASE_END,0,1)
 	end
 end
