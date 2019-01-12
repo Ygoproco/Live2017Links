@@ -4,7 +4,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x1017),1,1,aux.NonTuner(nil),1,99)
+	aux.AddSynchroProcedure(c,s.tfilter,1,1,aux.NonTuner(nil),1,99)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -39,6 +39,9 @@ function s.initial_effect(c)
 	Duel.AddCustomActivityCounter(id,ACTIVITY_SPSUMMON,s.counterfilter)
 end
 s.material_setcode=0x1017
+function s.tfilter(c)
+	return c:IsSetCard(0x1017) or c:IsHasEffect(20932152)
+end
 function s.counterfilter(c)
 	return c:GetSummonLocation()~=LOCATION_EXTRA or c:IsType(TYPE_SYNCHRO)
 end
