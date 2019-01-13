@@ -46,7 +46,7 @@ function c71344451.activate(e,tp,eg,ep,ev,re,r,rp)
 			else
 				Duel.ShuffleHand(tp)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-				local dg=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_GRAVE,0,ct2,ct2,nil)
+				local dg=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(Card.IsAbleToDeck),tp,LOCATION_GRAVE,0,ct2,ct2,nil)
 				if #dg>0 then
 					Duel.SendtoDeck(dg,nil,2,REASON_EFFECT)
 				end

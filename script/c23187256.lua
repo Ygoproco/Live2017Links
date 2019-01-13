@@ -96,7 +96,7 @@ function c23187256.operation(e,tp,eg,ep,ev,re,r,rp)
 	e4:SetTargetRange(1,0)
 	Duel.RegisterEffect(e4,tp)
 end
-function c23187256.damcon(e,tp,eg,ep,ev,re,r,rp)
+function c23187256.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
 function c23187256.dop(e,tp,eg,ep,ev,re,r,rp)

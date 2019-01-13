@@ -1,5 +1,5 @@
 --トラップトリック
---Traptrick
+--Trap Trick
 --Scripted by Eerie Code
 function c80101899.initial_effect(c)
 	--activate
@@ -7,6 +7,7 @@ function c80101899.initial_effect(c)
 	e1:SetCategory(CATEGORY_REMOVE)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+     	e1:SetHintTiming(0,TIMING_END_PHASE)
 	e1:SetCountLimit(1,80101899+EFFECT_COUNT_CODE_OATH)
 	e1:SetTarget(c80101899.target)
 	e1:SetOperation(c80101899.activate)

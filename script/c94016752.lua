@@ -28,7 +28,7 @@ function c94016752.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,1-tp,LOCATION_MZONE)
 end
 function c94016752.filter(c,rc,at)
-	return c:IsRace(rc) and c:IsAttribute(at) and c:IsAbleToGrave()
+	return c:IsFaceup() and c:IsRace(rc) and c:IsAttribute(at) and c:IsAbleToGrave()
 end
 function c94016752.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()	

@@ -42,7 +42,7 @@ function c48497555.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
-	if c:IsCanTurnSet() and e:IsHasType(EFFECT_TYPE_ACTIVATE) then
+	if c:IsSSetable(true) and e:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		Duel.BreakEffect()
 		Duel.ChangePosition(c,POS_FACEDOWN)
 		Duel.RaiseEvent(c,EVENT_SSET,e,REASON_EFFECT,tp,tp,0)

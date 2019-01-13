@@ -1,72 +1,71 @@
 --素早きは三文の徳
---The Nimble Manta Catches the Worm
+--Subsurface Stage Divers
 --Scripted by Eerie Code
-function c43994202.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,43994202+EFFECT_COUNT_CODE_OATH)
-	e1:SetCondition(c43994202.condition)
-	e1:SetTarget(c43994202.target)
-	e1:SetOperation(c43994202.activate)
+	e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
+	e1:SetCondition(s.condition)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c43994202.cfilter(c)
+function s.cfilter(c)
 	return c:IsFaceup() and not c:IsType(TYPE_TOKEN)
 end
-function c43994202.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-	return #g==3 and g:FilterCount(c43994202.cfilter,nil)==3
+	return #g==3 and g:FilterCount(s.cfilter,nil)==3
 		and g:GetClassCount(Card.GetCode)==1
 end
-function c43994202.filter(c)
+function s.filter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
-function c43994202.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local g=Duel.GetMatchingGroup(c43994202.filter,tp,LOCATION_DECK,0,1,nil)
-		return aux.SelectUnselectGroup(g,e,tp,3,3,c43994202.thcheck,0)
+		local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,1,nil)
+		return aux.SelectUnselectGroup(g,e,tp,3,3,s.thcheck,0)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,3,tp,LOCATION_DECK)
 end
-function c43994202.thcheck(sg,e,tp,mg)
+function s.thcheck(sg,e,tp,mg)
 	return sg:GetClassCount(Card.GetCode)==1
 end
-function c43994202.activate(e,tp,eg,ep,ev,re,r,rp)
-	local dg=Duel.GetMatchingGroup(c43994202.filter,tp,LOCATION_DECK,0,1,nil)
-	local g=aux.SelectUnselectGroup(dg,e,tp,3,3,c43994202.thcheck,1,tp,HINTMSG_ATOHAND)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	local dg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,1,nil)
+	local g=aux.SelectUnselectGroup(dg,e,tp,3,3,s.thcheck,1,tp,HINTMSG_ATOHAND)
 	if #g==3 and Duel.SendtoHand(g,nil,REASON_EFFECT)==3 then
+		Duel.ConfirmCards(1-tp,g)
 		local tc=g:GetFirst()
-		local e0=Effect.CreateEffect(e:GetHandler())
-		e0:SetType(EFFECT_TYPE_FIELD)
-		e0:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-		e0:SetCode(EFFECT_CANNOT_ACTIVATE)
-		e0:SetTargetRange(1,0)
-		e0:SetValue(c43994202.aclimit)
-		e0:SetLabelObject(tc)
-		e0:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e0,tp)
-		local e1=e0:Clone()
+		if not e:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_FIELD)
 		e1:SetCode(EFFECT_CANNOT_SUMMON)
-		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
-		e1:SetTarget(c43994202.splimit)
+		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+		e1:SetTargetRange(1,0)
+		e1:SetTarget(s.sumlimit)
+		e1:SetLabel(tc:GetCode())
+		e1:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e1,tp)
 		local e2=e1:Clone()
-		e2:SetCode(EFFECT_CANNOT_SET)
+		e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 		Duel.RegisterEffect(e2,tp)
 		local e3=e1:Clone()
-		e3:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+		e3:SetCode(EFFECT_CANNOT_MSET)
 		Duel.RegisterEffect(e3,tp)
-	end 
+		local e4=e1:Clone()
+		e4:SetCode(EFFECT_CANNOT_ACTIVATE)
+		e4:SetValue(s.aclimit)
+		Duel.RegisterEffect(e4,tp)
+	end
 end
-function c43994202.aclimit(e,re,tp)
-	local tc=e:GetLabelObject()
-	return re:GetHandler():IsCode(tc:GetCode()) and not re:GetHandler():IsImmuneToEffect(e)
+function s.sumlimit(e,c)
+	return c:IsCode(e:GetLabel())
 end
-function c43994202.splimit(e,c,sump,sumtype,sumpos,targetp)
-	local tc=e:GetLabelObject()
-	return not c:IsCode(tc:GetCode())
+function s.aclimit(e,re,tp)
+	return re:GetHandler():IsCode(e:GetLabel()) and re:IsActiveType(TYPE_MONSTER) and not re:GetHandler():IsImmuneToEffect(e)
 end
-

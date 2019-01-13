@@ -69,7 +69,8 @@ function c41685633.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Remove(sg,POS_FACEUP,REASON_COST)
 end
 function c41685633.descon(e,tp,eg,ep,ev,re,r,rp)
-	return re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsRace(RACE_THUNDER) and Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)==LOCATION_HAND
+	return re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetOriginalRace()==RACE_THUNDER
+	and Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)==LOCATION_HAND
 end
 function c41685633.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,LOCATION_ONFIELD)>0 end
@@ -89,7 +90,7 @@ function c41685633.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then	return not c:IsReason(REASON_REPLACE)  and c:IsReason(REASON_EFFECT)
 		and Duel.IsExistingMatchingCard(c41685633.repfilter,tp,LOCATION_GRAVE,0,2,nil) end
-	if Duel.SelectYesNo(tp,c,96) then
+	if Duel.SelectYesNo(tp,aux.Stringid(41685633,1)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
 		local g=Duel.SelectMatchingCard(tp,c41685633.repfilter,tp,LOCATION_GRAVE,0,2,2,nil)
 		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)

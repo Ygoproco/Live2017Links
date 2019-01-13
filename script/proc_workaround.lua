@@ -13,6 +13,27 @@ function GetID()
     return scard,s_id
 end
 
+local chkoverlay=Duel.CheckRemoveOverlayCard
+Duel.CheckRemoveOverlayCard=function(player, self, opponent, count, reason, group)
+	if not group then
+		return chkoverlay(player, self, opponent, count, reason)
+	end
+	local dg=Group.CreateGroup()
+	group:ForEach(function(c)dg:Merge(c:GetOverlayGroup())end)
+	return #dg>=count
+end
+
+local removerlay=Duel.RemoveOverlayCard
+Duel.RemoveOverlayCard=function(player, self, opponent, min, max, reason, group)
+	if not group then
+		return removerlay(player, self, opponent, min, max, reason)
+	end
+	local dg=Group.CreateGroup()
+	group:ForEach(function(c)dg:Merge(c:GetOverlayGroup())end)
+	local sg=dg:Select(player, min, max, nil)
+	return Duel.SendtoGrave(sg,reason)
+end
+
 --workaround for gryphon while update not happen and fix that (credits to cc/l)
 local ils = Card.IsLinkState
 Card.IsLinkState = function(c)
@@ -241,7 +262,7 @@ end
 
 --Witch's Strike
 local ns=Duel.NegateSummon
-Duel.NegateSummon=function(g)   
+Duel.NegateSummon=function(g)
 	ns(g)
 	local ng = Group.CreateGroup()
 	if userdatatype(g) == "Card" then
@@ -250,6 +271,38 @@ Duel.NegateSummon=function(g)
 		ng = g:Filter(Card.IsStatus,nil,STATUS_SUMMON_DISABLED)
 	end
 	if #ng>0 then
-		Duel.RaiseEvent(ng,EVENT_CUSTOM+101007179,Effect.GlobalEffect(),0,0,0,0)
+		local EVENT_SUMMON_NEGATED = EVENT_CUSTOM+36458064
+		Duel.RaiseEvent(ng,EVENT_SUMMON_NEGATED,Effect.GlobalEffect(),0,0,0,0)
 	end
+end
+
+--T.G. Tank Larva
+local nt=Card.IsNotTuner
+Card.IsNotTuner=function (c,sc,tp)
+    local nte = c:GetCardEffect(EFFECT_NONTUNER)
+    local val = nte and nte:GetValue() or nil
+    if not val or type(val) == 'number' then
+        return nt(c,sc,tp)
+    else
+        return val(c,sc,tp) or not c:IsType(TYPE_TUNER,sc,SUMMON_TYPE_SYNCHRO,tp)
+    end
+end
+
+function Card.IsRitualMonster(c)
+	local tp=TYPE_RITUAL+TYPE_MONSTER
+	return c:GetType() & tp == tp
+end
+function Card.IsRitualSpell(c)
+	local tp=TYPE_RITUAL+TYPE_SPELL
+	return c:GetType() & tp == tp
+end
+
+--Checks whether the card is located at any of the sequences passed as arguments.
+function Card.IsSequence(c,...)
+	local arg={...}
+	local seq=c:GetSequence()
+	for _,v in ipairs(arg) do
+		if seq==v then return true end
+	end
+	return false
 end

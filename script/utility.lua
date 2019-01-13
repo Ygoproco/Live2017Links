@@ -85,6 +85,13 @@ function Card.MoveAdjacent(c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,~flag),2))
 end
+function Group.ForEach(g,f,...)
+	local tc=g:GetFirst()
+	while tc do
+		f(tc,...)
+		tc=g:GetNext()
+	end
+end
 function Auxiliary.GetExtraMaterials(tp,mustg,sc,summon_type)
 	local tg=Group.CreateGroup()
 	mustg = mustg or Group.CreateGroup()
@@ -182,6 +189,8 @@ function Card.RegisterEffect(c,e,forced,...)
 			e2:SetCode(511002571)
 		elseif val==2 then
 			e2:SetCode(511001692)
+		elseif val==4 then
+			e2:SetCode(12081875)
 		end
 		e2:SetLabelObject(e)
 		e2:SetLabel(c:GetOriginalCode())
@@ -616,6 +625,14 @@ end
 --filter for EFFECT_CANNOT_BE_EFFECT_TARGET + opponent 
 function Auxiliary.tgoval(e,re,rp)
 	return rp~=e:GetHandlerPlayer()
+end
+--filter for EFFECT_INDESTRUCTABLE_EFFECT + self
+function Auxiliary.indsval(e,re,rp)
+    return rp==e:GetHandlerPlayer()
+end
+--filter for EFFECT_INDESTRUCTABLE_EFFECT + opponent
+function Auxiliary.indoval(e,re,rp)
+    return rp==1-e:GetHandlerPlayer()
 end
 --filter for non-zero ATK 
 function Auxiliary.nzatk(c)
@@ -1156,14 +1173,14 @@ function Auxiliary.NeosReturnTarget(c,extrainfo)
 	end
 end
 function Auxiliary.NeosReturnSubstituteFilter(c)
-	return c:IsCode(101007060) and c:IsAbleToRemoveAsCost()
+	return c:IsCode(14088859) and c:IsAbleToRemoveAsCost()
 end
 function Auxiliary.NeosReturnOperation(c,extraop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
 		if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 		local sc=Duel.GetFirstMatchingCard(Auxiliary.NecroValleyFilter(Auxiliary.NeosReturnSubstituteFilter),tp,LOCATION_GRAVE,0,nil)
-		if sc and Duel.SelectYesNo(tp,aux.Stringid(101007060,0)) then
+		if sc and Duel.SelectYesNo(tp,aux.Stringid(14088859,0)) then
 			Duel.Remove(sc,POS_FACEUP,REASON_COST)
 		else
 			Duel.SendtoDeck(c,nil,2,REASON_EFFECT)
@@ -1176,6 +1193,88 @@ function Auxiliary.NeosReturnOperation(c,extraop)
 			end
 		end
 	end
+end
+
+--Returns the zones, on the specified player's field, pointed by the specified number of Link markers. Includes Extra Monster Zones.
+function Duel.GetZoneWithLinkedCount(count,tp)
+	local g = Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_MZONE,LOCATION_MZONE,nil,TYPE_LINK)
+	local zones = {}
+	local z = {0x1,0x2,0x4,0x8,0x10,0x20,0x40}
+	for _,zone in ipairs(z) do
+		local ct = 0
+		for tc in aux.Next(g) do
+			if (zone&tc:GetLinkedZone(tp))~= 0 then
+				ct = ct + 1
+			end
+		end
+		zones[zone] = ct
+	end
+	local rzone = 0
+	for i,ct in pairs(zones) do
+		if ct >= count then
+			rzone = rzone | i
+		end
+	end
+	return rzone
+end
+
+--Checks whether a card has an effect that can add a certain type of counter
+function aux.IsCounterAdded(c,counter)
+	if not c.counter_add_list then return false end
+	for _,ccounter in ipairs(c.counter_add_list) do
+		if counter==ccounter then return true end
+	end
+	return false
+end
+
+--Help functions for the Salamangreats' effects
+function Card.IsReincarnationSummoned(c)
+	return c:GetFlagEffect(CARD_SALAMANGREAT_SANCTUARY)~=0
+end
+function Auxiliary.EnableCheckReincarnation(c)
+	local m=_G["c"..CARD_SALAMANGREAT_SANCTUARY]
+	if not m then
+		m=_G["c"..c:GetCode()]
+	end
+	if m and not m.global_check then
+		m.global_check=true
+        local e1=Effect.GlobalEffect()
+        e1:SetType(EFFECT_TYPE_SINGLE)
+        e1:SetCode(EFFECT_MATERIAL_CHECK)
+        e1:SetValue(Auxiliary.ReincarnationCheckValue)
+        local ge1=Effect.GlobalEffect()
+        ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
+        ge1:SetLabelObject(e1)
+        ge1:SetTargetRange(0xff,0xff)
+        ge1:SetTarget(Auxiliary.ReincarnationCheckTarget)
+        Duel.RegisterEffect(ge1,0)
+	end
+end
+function Auxiliary.ReincarnationCheckTarget(e,c)
+	return c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_LINK)
+end
+function Auxiliary.ReincarnationRitualFilter(c,id,tp)
+	return c:IsCode(id) and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE)
+end
+function Auxiliary.ReincarnationCheckValue(e,c)
+	local g=c:GetMaterial()
+	local id=c:GetCode()
+	local rc=false
+	if c:IsType(TYPE_LINK) then
+		rc=g:IsExists(Card.IsLinkCode,1,nil,id)
+	elseif c:IsType(TYPE_FUSION) then
+		rc=g:IsExists(Card.IsFusionCode,1,nil,id)
+	elseif c:IsType(TYPE_RITUAL) then
+		rc=g:IsExists(aux.ReincarnationRitualFilter,1,nil,id,c:GetControler())
+	end
+	if rc then
+		c:RegisterFlagEffect(CARD_SALAMANGREAT_SANCTUARY,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
+	end
+end
+
+--Checks for cards with different names (to be used with Aux.SelectUnselectGroup)
+function Auxiliary.dncheck(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)==#sg
 end
 
 function loadutility(file)
