@@ -16,7 +16,7 @@ function s.initial_effect(c)
 end
 function s.filter1(c)
 	local tp=c:GetControler()
-	return c:IsAbleToChangeControler() and not c:IsType(TYPE_LINK) and Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_CONTROL)>0
+	return c:IsAbleToChangeControler() and c:IsFaceup() and not c:IsType(TYPE_LINK) and Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_CONTROL)>0
 end
 function s.filter2(c)
 	local tp=c:GetControler()

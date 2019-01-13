@@ -38,7 +38,7 @@ function s.acop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.actop(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
-	if re:IsActiveType(TYPE_MONSTER) and rc:IsSetCard(0x116) then
+	if re:IsActiveType(TYPE_MONSTER) and rc:IsSetCard(0x116) and ep==tp then
 		Duel.SetChainLimit(s.chainlm)
 	end
 end

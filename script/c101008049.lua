@@ -5,7 +5,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,nil,2,nil,s.matcheck)
+	aux.AddLinkProcedure(c,s.mfilter,2,nil,s.matcheck)
 	--change level
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
@@ -29,6 +29,9 @@ function s.initial_effect(c)
 	e2:SetTarget(s.destg)
 	e2:SetOperation(s.desop)
 	c:RegisterEffect(e2)
+end
+function s.mfilter(c)
+	return c:IsLevelAbove(0)
 end
 function s.matcheck(g,lc,tp)
 	return g:GetClassCount(Card.GetLevel,lc,SUMMON_TYPE_LINK,tp)==#g
