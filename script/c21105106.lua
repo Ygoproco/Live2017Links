@@ -94,7 +94,7 @@ function c21105106.rmop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 end
 function c21105106.filter(c,tp)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_HAND)
+	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE)
 end
 function c21105106.ritual_custom_condition(c,mg,ft,rittype)
 	local tp=c:GetControler()
