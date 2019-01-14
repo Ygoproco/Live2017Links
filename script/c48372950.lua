@@ -33,8 +33,11 @@ function s.ntcon(e,c,minc)
 	return minc==0 and c:GetLevel()>4 and Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(s.ntfilter,c:GetControler(),LOCATION_MZONE,0,1,nil)
 end
+function s.confilter(c,tp)
+	return c:GetSummonPlayer()==1-tp
+end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return rp==1-tp and Duel.GetTurnPlayer()==tp
+	return eg:IsExists(s.confilter,1,nil,tp) and Duel.GetTurnPlayer()==tp
 end
 function s.filter(c,e,tp)
 	return c:IsSetCard(0x11a) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -56,4 +59,3 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(e:GetHandler(),tp,REASON_EFFECT)
 	end
 end
-
