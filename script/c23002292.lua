@@ -1,15 +1,16 @@
 --レッド・リブート
 --Red Reboot
-function c23002292.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_NEGATE)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_CHAINING)
-	e1:SetCondition(c23002292.condition)
-	e1:SetCost(c23002292.cost)
-	e1:SetTarget(c23002292.target)
-	e1:SetOperation(c23002292.activate)
+	e1:SetCondition(s.condition)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	--act in hand
 	local e2=Effect.CreateEffect(c)
@@ -17,24 +18,24 @@ function c23002292.initial_effect(c)
 	e2:SetCode(EFFECT_TRAP_ACT_IN_HAND)
 	c:RegisterEffect(e2)
 end
-function c23002292.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return rp~=tp and re:IsHasType(EFFECT_TYPE_ACTIVATE)
 		and re:IsActiveType(TYPE_TRAP) and Duel.IsChainNegatable(ev)
 end
-function c23002292.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	if e:GetHandler():IsStatus(STATUS_ACT_FROM_HAND) then
 		Duel.PayLPCost(tp,math.floor(Duel.GetLP(tp)/2))
 	end
 end
-function c23002292.setfilter(c)
+function s.setfilter(c)
 	return c:IsType(TYPE_TRAP) and c:IsSSetable(true)
 end
-function c23002292.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 end
-function c23002292.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) and rc:IsSSetable(true) then
 		rc:CancelToGrave()
@@ -42,8 +43,8 @@ function c23002292.activate(e,tp,eg,ep,ev,re,r,rp)
 		rc:SetStatus(STATUS_ACTIVATE_DISABLED,false)
 		rc:SetStatus(STATUS_SET_TURN,false)
 		Duel.RaiseEvent(rc,EVENT_SSET,e,REASON_EFFECT,tp,tp,0)
-		local g=Duel.GetMatchingGroup(c23002292.setfilter,tp,0,LOCATION_DECK,nil)
-		if g:GetCount()>0 and Duel.GetLocationCount(1-tp,LOCATION_SZONE)>0 and Duel.SelectYesNo(1-tp,aux.Stringid(23002292,0)) then
+		local g=Duel.GetMatchingGroup(s.setfilter,tp,0,LOCATION_DECK,nil)
+		if g:GetCount()>0 and Duel.GetLocationCount(1-tp,LOCATION_SZONE)>0 and Duel.SelectYesNo(1-tp,aux.Stringid(id,0)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 			local sg=g:Select(1-tp,1,1,nil)
 			Duel.SSet(1-tp,sg:GetFirst())
@@ -51,11 +52,14 @@ function c23002292.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_CANNOT_TRIGGER)
-	e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-	e1:SetTargetRange(0,LOCATION_SZONE+LOCATION_HAND)
-	e1:SetTarget(aux.TargetBoolFunction(Card.IsType,TYPE_TRAP))
+		e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_CANNOT_ACTIVATE)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetTargetRange(0,1)
+	e1:SetValue(s.aclimit)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+end
+function s.aclimit(e,re,tp)
+	return re:GetHandler():IsType(TYPE_TRAP) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
