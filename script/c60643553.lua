@@ -63,7 +63,11 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetLabelObject(e3)
 end
 function s.filter(c,sp)
-	return c:IsFaceup() and c:IsType(TYPE_EFFECT) and c:IsLocation(LOCATION_MZONE) and c:GetSummonPlayer()==sp
+	if c:IsLocation(LOCATION_MZONE) then
+		return c:IsFaceup() and c:IsType(TYPE_EFFECT) and c:IsLocation(LOCATION_MZONE) and c:GetSummonPlayer()==sp
+	else
+		return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousTypeOnField()&TYPE_EFFECT ~= 0 and c:IsPreviousLocation(LOCATION_MZONE) and c:GetSummonPlayer()==sp
+	end
 end
 function s.reccon1(e,tp,eg,ep,ev,re,r,rp)
 	local ph = Duel.GetCurrentPhase()
@@ -71,10 +75,17 @@ function s.reccon1(e,tp,eg,ep,ev,re,r,rp)
 		and (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS))
 		and ph >= PHASE_MAIN1 and ph <= PHASE_MAIN2
 end
+function s.sum(c)
+	if c:IsLocation(LOCATION_MZONE) then
+		return c:GetAttack()
+	else
+		return c:GetPreviousAttackOnField()
+	end
+end
 function s.recop1(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(s.filter,nil,1-tp)
 	if g:GetCount()>0 then
-		local sum=g:GetSum(Card.GetAttack)
+		local sum=g:GetSum(s.sum)
 		if Duel.Recover(tp,sum,REASON_EFFECT)~=0 then 
 			Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		end
@@ -89,7 +100,7 @@ end
 function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(s.filter,nil,1-tp)
 	Duel.RegisterFlagEffect(tp,id,RESET_CHAIN,0,1)
-	e:GetLabelObject():SetLabel(g:GetSum(Card.GetAttack))
+	e:GetLabelObject():SetLabel(g:GetSum(s.sum))
 end
 function s.reccon2(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFlagEffect(tp,id)>0 
@@ -108,4 +119,3 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	local lp=Duel.GetLP(tp)
 	Duel.SetLP(tp,lp/2)
 end
-
