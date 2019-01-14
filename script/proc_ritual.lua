@@ -1,6 +1,19 @@
-
+function Auxiliary.CheckForcedGroup(forcedgroup,e,tp,mg,mg2)
+	if forcedgroup then
+		if type(forcedgroup)=="function" then
+			mg:Sub(mg:Filter(aux.NOT(forcedgroup),nil,e,tp))
+			mg2:Sub(mg2:Filter(aux.NOT(forcedgroup),nil,e,tp))
+		else
+			local f=function(c)
+						return not forcedgroup:IsContains(c)
+					end
+			mg:Sub(mg:Filter(f,nil))
+			mg2:Sub(mg2:Filter(f,nil))
+		end
+	end
+end
 --Ritual Summon, geq fixed lv
-function Auxiliary.AddRitualProcGreater(c,filter,desc,extrafil,extraop)
+function Auxiliary.AddRitualProcGreater(c,filter,desc,extrafil,extraop,forcedgroup,stage2,location)
 	local e1=Effect.CreateEffect(c)
 	if desc then
 		e1:SetDescription(desc)
@@ -10,19 +23,20 @@ function Auxiliary.AddRitualProcGreater(c,filter,desc,extrafil,extraop)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(Auxiliary.RPGTarget(filter,extrafil,extraop))
-	e1:SetOperation(Auxiliary.RPGOperation(filter,extrafil,extraop))
+	e1:SetTarget(Auxiliary.RPGTarget(filter,extrafil,extraop,forcedgroup,stage2,location))
+	e1:SetOperation(Auxiliary.RPGOperation(filter,extrafil,extraop,forcedgroup,stage2,location))
 	c:RegisterEffect(e1)
+	return e1
 end
 function Auxiliary.RPGFilter(c,filter,e,tp,m,m2,ft)
-	if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
+	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2)
 	if c.ritual_custom_condition then
 		return c:ritual_custom_condition(mg,ft,"greater")
 	end
 	if c.mat_filter then
-		mg=mg:Filter(c.mat_filter,nil)
+		mg=mg:Filter(c.mat_filter,nil,c)
 	end
 	if ft>0 then
 		return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetOriginalLevel(),c)
@@ -36,24 +50,28 @@ function Auxiliary.RPGFilterF(c,tp,mg,rc)
 		return mg:CheckWithSumGreater(Card.GetRitualLevel,rc:GetOriginalLevel(),rc)
 	else return false end
 end
-function Auxiliary.RPGTarget(filter,extrafil,extraop)
+function Auxiliary.RPGTarget(filter,extrafil,extraop,forcedgroup,stage2,location)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
+				location = location or LOCATION_HAND
 				if chk==0 then
 					local mg=Duel.GetRitualMaterial(tp)
 					local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp,chk) or Group.CreateGroup()
+					Auxiliary.CheckForcedGroup(forcedgroup,e,tp,mg,mg2)
 					local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-					return ft>-1 and Duel.IsExistingMatchingCard(Auxiliary.RPGFilter,tp,LOCATION_HAND,0,1,nil,filter,e,tp,mg,mg2,ft)
+					return ft>-1 and Duel.IsExistingMatchingCard(Auxiliary.RPGFilter,tp,location,0,1,nil,filter,e,tp,mg,mg2,ft)
 				end
-				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
+				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,location)
 			end
 end
-function Auxiliary.RPGOperation(filter,extrafil,extraop)
+function Auxiliary.RPGOperation(filter,extrafil,extraop,forcedgroup,stage2,location)
 	return	function(e,tp,eg,ep,ev,re,r,rp)
+				location = location or LOCATION_HAND
 				local mg=Duel.GetRitualMaterial(tp)
 				local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp,chk) or Group.CreateGroup()
+				Auxiliary.CheckForcedGroup(forcedgroup,e,tp,mg,mg2)
 				local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPGFilter,tp,LOCATION_HAND,0,1,1,nil,filter,e,tp,mg,mg2,ft)
+				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPGFilter,tp,location,0,1,1,nil,filter,e,tp,mg,mg2,ft)
 				local tc=tg:GetFirst()
 				if tc then
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
@@ -84,6 +102,9 @@ function Auxiliary.RPGOperation(filter,extrafil,extraop)
 					Duel.BreakEffect()
 					Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
 					tc:CompleteProcedure()
+					if stage2 then
+						stage2(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+					end
 				end
 			end
 end
@@ -93,10 +114,10 @@ function Auxiliary.AddRitualProcGreaterCode(c,...)
 		local mt=_G["c" .. code]
 		mt.fit_monster={...}
 	end
-	Auxiliary.AddRitualProcGreater(c,Auxiliary.FilterBoolFunction(Card.IsCode,...))
+	return Auxiliary.AddRitualProcGreater(c,Auxiliary.FilterBoolFunction(Card.IsCode,...))
 end
 --Ritual Summon, equal to
-function Auxiliary.AddRitualProcEqual(c,filter,lv,desc,extrafil,extraop)
+function Auxiliary.AddRitualProcEqual(c,filter,lv,desc,extrafil,extraop,forcedgroup,stage2,location)
 	--lv can be nil, otherwise, fixed level
 	local e1=Effect.CreateEffect(c)
 	if desc then
@@ -107,12 +128,13 @@ function Auxiliary.AddRitualProcEqual(c,filter,lv,desc,extrafil,extraop)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(Auxiliary.RPETarget(filter,lv,extrafil,extraop))
-	e1:SetOperation(Auxiliary.RPEOperation(filter,lv,extrafil,extraop))
+	e1:SetTarget(Auxiliary.RPETarget(filter,lv,extrafil,extraop,forcedgroup,stage2,location))
+	e1:SetOperation(Auxiliary.RPEOperation(filter,lv,extrafil,extraop,forcedgroup,stage2,location))
 	c:RegisterEffect(e1)
+	return e1
 end
 function Auxiliary.RPEFilter(c,filter,e,tp,m,m2,ft,lv)
-	if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
+	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2)
 	if c.ritual_custom_condition then
@@ -135,24 +157,28 @@ function Auxiliary.RPEFilterF(c,tp,mg,rc,lv)
 		return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99,rc)
 	else return false end
 end
-function Auxiliary.RPETarget(filter,lv,extrafil,extraop)
+function Auxiliary.RPETarget(filter,lv,extrafil,extraop,forcedgroup,stage2,location)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
+				location = location or LOCATION_HAND
 				if chk==0 then
 					local mg=Duel.GetRitualMaterial(tp)
 					local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp,chk) or Group.CreateGroup()
+					Auxiliary.CheckForcedGroup(forcedgroup,e,tp,mg,mg2)
 					local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-					return ft>-1 and Duel.IsExistingMatchingCard(Auxiliary.RPEFilter,tp,LOCATION_HAND,0,1,nil,filter,e,tp,mg,mg2,ft,lv)
+					return ft>-1 and Duel.IsExistingMatchingCard(Auxiliary.RPEFilter,tp,location,0,1,nil,filter,e,tp,mg,mg2,ft,lv)
 				end
-				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
+				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,location)
 			end
 end
-function Auxiliary.RPEOperation(filter,lv,extrafil,extraop)
+function Auxiliary.RPEOperation(filter,lv,extrafil,extraop,forcedgroup,stage2,location)
 	return	function(e,tp,eg,ep,ev,re,r,rp)
+				location = location or LOCATION_HAND
 				local mg=Duel.GetRitualMaterial(tp)
 				local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp) or Group.CreateGroup()
+				Auxiliary.CheckForcedGroup(forcedgroup,e,tp,mg,mg2)
 				local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPEFilter,tp,LOCATION_HAND,0,1,1,nil,filter,e,tp,mg,mg2,ft,lv)
+				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPEFilter,tp,location,0,1,1,nil,filter,e,tp,mg,mg2,ft,lv)
 				local tc=tg:GetFirst()
 				if tc then
 					local mat=nil
@@ -185,6 +211,9 @@ function Auxiliary.RPEOperation(filter,lv,extrafil,extraop)
 					Duel.BreakEffect()
 					Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
 					tc:CompleteProcedure()
+					if stage2 then
+						stage2(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+					end
 				end
 			end
 end
@@ -194,5 +223,5 @@ function Auxiliary.AddRitualProcEqualCode(c,lv,desc,...)
 		local mt=_G["c" .. code]
 		mt.fit_monster={...}
 	end
-	Auxiliary.AddRitualProcEqual(c,Auxiliary.FilterBoolFunction(Card.IsCode,...),lv,desc)
+	return Auxiliary.AddRitualProcEqual(c,Auxiliary.FilterBoolFunction(Card.IsCode,...),lv,desc)
 end

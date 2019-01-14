@@ -1,14 +1,7 @@
 --エンドレス・オブ・ザ・ワールド
 --Endless of the World
 function c32828635.initial_effect(c)
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c32828635.target)
-	e1:SetOperation(c32828635.activate)
-	c:RegisterEffect(e1)
+	aux.AddRitualProcGreater(c,c32828635.ritualfil,nil,nil,nil,c32828635.forcedgroup)
 	--salvage
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(32828635,0))
@@ -22,35 +15,11 @@ function c32828635.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 c32828635.fit_monster={46427957,72426662}
-function c32828635.cfilter(c,e,tp,m)
-	if bit.band(c:GetType(),0x81)~=0x81 or not c:IsCode(46427957,72426662)
-		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
-	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
-	return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel(),c)
+function c32828635.ritualfil(c)
+	return c:IsCode(46427957,72426662) and c:IsRitualMonster()
 end
-function c32828635.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then
-		local mg1=Duel.GetRitualMaterial(tp)
-		mg1:Remove(Card.IsLocation,nil,LOCATION_HAND)
-		return Duel.IsExistingMatchingCard(c32828635.cfilter,tp,LOCATION_HAND,0,1,nil,e,tp,mg1)
-	end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
-end
-function c32828635.activate(e,tp,eg,ep,ev,re,r,rp)
-	local mg1=Duel.GetRitualMaterial(tp)
-	mg1:Remove(Card.IsLocation,nil,LOCATION_HAND)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tg=Duel.SelectMatchingCard(tp,c32828635.cfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg1)
-	local tc=tg:GetFirst()
-	if tc then
-		local mg=mg1:Filter(Card.IsCanBeRitualMaterial,tc,tc)
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		local mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetLevel(),tc)
-		tc:SetMaterial(mat)
-		Duel.ReleaseRitualMaterial(mat)
-		Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
-		tc:CompleteProcedure()
-	end
+function c16494704.forcedgroup(c,e,tp)
+	return c:IsLocation(LOCATION_ONFIELD)
 end
 function c32828635.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return aux.exccon(e)
