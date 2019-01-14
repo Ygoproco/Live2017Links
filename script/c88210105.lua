@@ -30,7 +30,7 @@ function s.ctcfilter(c)
 	return c:IsSetCard(0x18) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
 end
 function s.ctcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then Duel.IsExistingMatchingCard(s.ctcfilter,tp,LOCATION_HAND,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.ctcfilter,tp,LOCATION_HAND,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)
 	local dc=Duel.SelectMatchingCard(tp,s.ctcfilter,tp,LOCATION_HAND,0,1,1,nil)
 	Duel.SendtoGrave(dc,REASON_COST+REASON_DISCARD)
