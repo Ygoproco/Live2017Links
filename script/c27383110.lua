@@ -1,6 +1,6 @@
 --宣告者の預言
 function c27383110.initial_effect(c)
-	local e1=aux.AddRitualProcEqual(c,c27383110.ritualfil,nil,nil,nil,nil,nil,c27383110.stage2)
+	local e1=aux.AddRitualProcEqual(c,c27383110.ritualfil,6,nil,nil,nil,nil,c27383110.stage2)
 	--salvage
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_TOHAND)
