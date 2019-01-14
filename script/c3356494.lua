@@ -74,7 +74,7 @@ function c3356494.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function c3356494.filter(c)
-	return c:IsFaceup() and c:IsSummonType(SUMMON_TYPE_SPECIAL)
+	return c:IsSummonType(SUMMON_TYPE_SPECIAL)
 end
 function c3356494.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c3356494.filter(chkc) end
