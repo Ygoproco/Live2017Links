@@ -1,6 +1,6 @@
 --影霊衣の反魂術
 function c97211663.initial_effect(c)
-	aux.AddRitualProcEqual(c,s.ritualfil,nil,nil,nil,nil,nil,nil,LOCATION_HAND+LOCATION_GRAVE):SetCountLimit(1,97211663)
+	aux.AddRitualProcEqual(c,c97211663.ritualfil,nil,nil,nil,nil,nil,nil,LOCATION_HAND+LOCATION_GRAVE):SetCountLimit(1,97211663)
 	--search
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
@@ -12,7 +12,7 @@ function c97211663.initial_effect(c)
 	e2:SetOperation(c97211663.thop)
 	c:RegisterEffect(e2)
 end
-function s.ritualfil(c)
+function c97211663.ritualfil(c)
 	return c:IsSetCard(0xb4) and c:IsRitualMonster()
 end
 function c97211663.thcon(e,tp,eg,ep,ev,re,r,rp)
