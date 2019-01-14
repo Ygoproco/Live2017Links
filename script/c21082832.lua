@@ -8,7 +8,7 @@ function s.initial_effect(c)
 end
 s.listed_names={CARD_DARK_MAGICIAN,CARD_BLUEEYES_W_DRAGON}
 function s.ritualfil(c)
-	return (c:IsSetCard(0xcf) or c:IsSetCard(0x1048)) and (c:GetType()&0x81)==0x81
+	return (c:IsSetCard(0xcf) or c:IsSetCard(0x1048)) and c:IsRitualMonster()
 end
 function s.mfilter(c)
 	return not Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) and c:GetLevel()>0 and c:IsCode(46986414,89631139)

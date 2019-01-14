@@ -17,7 +17,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.ritualfil(c)
-	return c:IsSetCard(0xb4) and (c:GetType()&0x81)==0x81
+	return c:IsSetCard(0xb4) and c:IsRitualMonster()
 end
 function s.mfilter(c)
 	return not Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) and c:GetLevel()>0 and c:IsSetCard(0xb4) 

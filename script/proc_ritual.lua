@@ -29,7 +29,7 @@ function Auxiliary.AddRitualProcGreater(c,filter,desc,extrafil,extraop,forcedgro
 	return e1
 end
 function Auxiliary.RPGFilter(c,filter,e,tp,m,m2,ft)
-	if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
+	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2)
 	if c.ritual_custom_condition then
@@ -134,7 +134,7 @@ function Auxiliary.AddRitualProcEqual(c,filter,lv,desc,extrafil,extraop,forcedgr
 	return e1
 end
 function Auxiliary.RPEFilter(c,filter,e,tp,m,m2,ft,lv)
-	if (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
+	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2)
 	if c.ritual_custom_condition then

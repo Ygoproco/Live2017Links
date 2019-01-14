@@ -3,7 +3,7 @@ function c11398951.initial_effect(c)
 	aux.AddRitualProcEqual(c,c11398951.ritualfil,nil,nil,c11398951.extrafil,c11398951.extraop)
 end
 function c11398951.ritualfil(c)
-	return c:IsSetCard(0x2093) and (c:GetType()&0x81)==0x81
+	return c:IsSetCard(0x2093) and c:IsRitualMonster()
 end
 function c11398951.mfilter(c)
 	return c:GetLevel()>0 and c:IsRace(RACE_WARRIOR+RACE_FAIRY) and c:IsAbleToDeck()

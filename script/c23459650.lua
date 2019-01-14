@@ -5,7 +5,7 @@ function c23459650.initial_effect(c)
 end
 c23459650.fit_monster={88176533,24175232}
 function c23459650.ritualfil(c)
-	return c:IsSetCard(0x11f) and (c:GetType()&0x81)==0x81
+	return c:IsSetCard(0x11f) and c:IsRitualMonster()
 end
 function c23459650.stage2(mg,e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())

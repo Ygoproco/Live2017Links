@@ -16,7 +16,7 @@ function c32828635.initial_effect(c)
 end
 c32828635.fit_monster={46427957,72426662}
 function c32828635.ritualfil(c)
-	return c:IsCode(46427957,72426662) and (c:GetType()&0x81)==0x81
+	return c:IsCode(46427957,72426662) and c:IsRitualMonster()
 end
 function c16494704.forcedgroup(c,e,tp)
 	return c:IsLocation(LOCATION_ONFIELD)

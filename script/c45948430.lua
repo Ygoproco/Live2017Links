@@ -11,7 +11,7 @@ function c45948430.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c45948430.filter(c,e,tp)
-	if not c:IsSetCard(0x10cf) or bit.band(c:GetType(),0x81)~=0x81
+	if not c:IsSetCard(0x10cf) or c:IsRitualMonster()
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	return Duel.IsExistingMatchingCard(c45948430.matfilter1,tp,LOCATION_HAND+LOCATION_DECK,0,1,c,tp,c)
 end

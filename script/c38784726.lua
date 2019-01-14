@@ -17,7 +17,7 @@ function c38784726.initial_effect(c)
 end
 c38784726.fit_monster={16313112}
 function c38784726.ritualfil(c)
-	return c:IsSetCard(0x119) and (c:GetType()&0x81)==0x81
+	return c:IsSetCard(0x119) and c:IsRitualMonster()
 end
 function c38784726.mfilter(c)
 	return c:GetLevel()>0 and c:IsSetCard(0x119) and c:IsAbleToDeck()

@@ -26,7 +26,7 @@ function c27383110.initial_effect(c)
 end
 c27383110.fit_monster={44665365}
 function c27383110.ritualfil(c)
-	return c:IsCode(44665365) and (c:GetType()&0x81)==0x81
+	return c:IsCode(44665365) and c:IsRitualMonster()
 end
 function c27383110.stage2(mg,e,tp,eg,ep,ev,re,r,rp,tc)
 	e:GetLabelObject():SetLabelObject(tc)

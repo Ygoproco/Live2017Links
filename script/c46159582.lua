@@ -14,14 +14,14 @@ function c46159582.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c46159582.ritual_filter(c)
-	return c:IsSetCard(0x3a) and c:GetType()&0x81==0x81
+	return c:IsSetCard(0x3a) and c:IsRitualMonster()
 end
 function c46159582.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToDeckAsCost() end
 	Duel.SendtoDeck(e:GetHandler(),nil,2,REASON_COST)
 end
 function c46159582.thfilter(c)
-	return c:IsSetCard(0x3a) and c:GetType()&0x81==0x81 and c:IsAbleToHand()
+	return c:IsSetCard(0x3a) and c:IsRitualMonster() and c:IsAbleToHand()
 end
 function c46159582.tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c46159582.thfilter(chkc) end
