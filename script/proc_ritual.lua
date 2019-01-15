@@ -31,6 +31,7 @@ end
 function Auxiliary.RPGFilter(c,filter,e,tp,m,m2,ft)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
+	local m2=m2:Filter(aux.TRUE,c)
 	mg:Merge(m2)
 	if c.ritual_custom_condition then
 		return c:ritual_custom_condition(mg,ft,"greater")
@@ -75,6 +76,7 @@ function Auxiliary.RPGOperation(filter,extrafil,extraop,forcedgroup,stage2,locat
 				local tc=tg:GetFirst()
 				if tc then
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
+					mg2=mg2:Filter(aux.TRUE,tc)
 					mg:Merge(mg2)
 					local mat=nil
 					if tc.ritual_custom_operation then
@@ -136,6 +138,7 @@ end
 function Auxiliary.RPEFilter(c,filter,e,tp,m,m2,ft,lv)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
+	local m2=m2:Filter(aux.TRUE,c)
 	mg:Merge(m2)
 	if c.ritual_custom_condition then
 		return c:ritual_custom_condition(mg,ft,"equal")
@@ -183,6 +186,7 @@ function Auxiliary.RPEOperation(filter,lv,extrafil,extraop,forcedgroup,stage2,lo
 				if tc then
 					local mat=nil
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
+					m2=m2:Filter(aux.TRUE,c)
 					mg:Merge(mg2)
 					if tc.ritual_custom_operation then
 						tc:ritual_custom_operation(mg,"equal")
