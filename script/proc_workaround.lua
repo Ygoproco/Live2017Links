@@ -296,6 +296,22 @@ function Card.IsRitualSpell(c)
 	local tp=TYPE_RITUAL+TYPE_SPELL
 	return c:GetType() & tp == tp
 end
+function Card.IsOriginalCode(c,cd)
+	return c:GetOriginalCode()==cd
+end
+function Card.IsOriginalCodeRule(c,cd)
+    local c1,c2=c:GetOriginalCodeRule()
+    return c1==cd or c2==cd
+end
+function Card.IsSummonPlayer(c,tp)
+	return c:GetSummonPlayer()==tp
+end
+function Card.IsPreviousControler(c,tp)
+	return c:GetPreviousControler()==tp
+end
+function Card.IsHasLevel(c)
+	return c:GetLevel()>0
+end
 
 --Checks whether the card is located at any of the sequences passed as arguments.
 function Card.IsSequence(c,...)

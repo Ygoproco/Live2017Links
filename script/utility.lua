@@ -1277,6 +1277,14 @@ function Auxiliary.dncheck(sg,e,tp,mg)
 	return sg:GetClassCount(Card.GetCode)==#sg
 end
 
+--Shortcut for functions that also check whether a card is face-up
+function Auxiliary.FilterFaceupFunction(f,...)
+	local params={...}
+	return 	function(target)
+				return target:IsFaceup() and f(target,table.unpack(params))
+			end
+end
+
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
 	local f2 = loadfile("expansions/script/"..file)
