@@ -22,10 +22,13 @@ function s.matfilter1(c,tp,rc)
 		and Duel.IsExistingMatchingCard(s.matfilter2,tp,loc,0,1,nil,c,tp,rc)
 end
 function s.matfilter2(c,gc,tp,rc)
-	local mg=Group.FromCards(c,gc)
-	Duel.SetSelectedCard(mg)
-	return c:IsAttribute(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK) and ((c:GetAttribute()|gc:GetAttribute())&(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK)) == (ATTRIBUTE_LIGHT+ATTRIBUTE_DARK)
-		and c:IsAbleToGrave() and c:IsCanBeRitualMaterial(rc) and mg:CheckWithSumEqual(Card.GetRitualLevel,8,0,99999,rc) 
+	if c:IsAttribute(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK) and ((c:GetAttribute()|gc:GetAttribute())&(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK)) == (ATTRIBUTE_LIGHT+ATTRIBUTE_DARK)
+		and c:IsAbleToGrave() and c:IsCanBeRitualMaterial(rc) then
+			local mg=Group.FromCards(c,gc)
+			Duel.SetSelectedCard(mg)
+			return mg:CheckWithSumEqual(Card.GetRitualLevel,8,0,99999,rc) 
+	end
+	return false
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
