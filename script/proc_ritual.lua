@@ -186,7 +186,7 @@ function Auxiliary.RPEOperation(filter,lv,extrafil,extraop,forcedgroup,stage2,lo
 				if tc then
 					local mat=nil
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
-					m2=m2:Filter(aux.TRUE,c)
+					mg2=mg2:Filter(aux.TRUE,c)
 					mg:Merge(mg2)
 					if tc.ritual_custom_operation then
 						tc:ritual_custom_operation(mg,"equal")
