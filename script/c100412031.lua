@@ -37,6 +37,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.disop)
 	c:RegisterEffect(e3)
 end
+s.listed_names={CARD_CURSED_EYE_SELENE}
 function s.filter(c)
 	return c:IsAttackAbove(2600)
 end
