@@ -1,7 +1,8 @@
 --超雷龍ーサンダー•ドラゴン
 --Superbolt Thunder Dragon
 --Scripted by AlphaKretin
-function c15291624.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--fusion summon
 	c:EnableReviveLimit()
 	aux.AddFusionProcMixRep(c,true,true,aux.FilterBoolFunctionEx(Card.IsRace,RACE_THUNDER),1,1,31786629)
@@ -18,9 +19,9 @@ function c15291624.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetRange(LOCATION_EXTRA)
-	e2:SetCondition(c15291624.hspcon)
-	e2:SetTarget(c15291624.hsptg)
-	e2:SetOperation(c15291624.hspop)
+	e2:SetCondition(s.hspcon)
+	e2:SetTarget(s.hsptg)
+	e2:SetOperation(s.hspop)
 	c:RegisterEffect(e2)
 	--disable search
 	local e3=Effect.CreateEffect(c)
@@ -35,25 +36,25 @@ function c15291624.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e4:SetCode(EFFECT_DESTROY_REPLACE)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetTarget(c15291624.desreptg)
+	e4:SetTarget(s.desreptg)
 	c:RegisterEffect(e4)
-	Duel.AddCustomActivityCounter(15291624,ACTIVITY_CHAIN,c15291624.chainfilter)
+	Duel.AddCustomActivityCounter(id,ACTIVITY_CHAIN,s.chainfilter)
 end
-function c15291624.chainfilter(re,tp,cid)
+function s.chainfilter(re,tp,cid)
 	return not (re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsRace(RACE_THUNDER)
 		and (Duel.GetChainInfo(cid,CHAININFO_TRIGGERING_LOCATION)==LOCATION_HAND))
 end
-function c15291624.hspfilter(c,tp,sc)
+function s.hspfilter(c,tp,sc)
 	return c:IsRace(RACE_THUNDER) and not c:IsType(TYPE_FUSION,sc,SUMMON_TYPE_FUSION,tp) 
 		and c:IsType(TYPE_EFFECT,sc,SUMMON_TYPE_FUSION,tp) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
-function c15291624.hspcon(e,c)
+function s.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,c15291624.hspfilter,1,nil,tp,c) and (Duel.GetCustomActivityCount(15291624,tp,ACTIVITY_CHAIN)~=0 or Duel.GetCustomActivityCount(15291624,1-tp,ACTIVITY_CHAIN)~=0)
+	return Duel.CheckReleaseGroup(tp,s.hspfilter,1,nil,tp,c) and (Duel.GetCustomActivityCount(id,tp,ACTIVITY_CHAIN)~=0 or Duel.GetCustomActivityCount(id,1-tp,ACTIVITY_CHAIN)~=0)
 end
-function c15291624.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
-	local g=Duel.SelectReleaseGroup(tp,c15291624.hspfilter,0,1,nil,tp,c)
+function s.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.SelectReleaseGroup(tp,s.hspfilter,0,1,nil,tp,c)
 	if #g>0 then
 		g:KeepAlive()
 		e:SetLabelObject(g)
@@ -62,22 +63,23 @@ function c15291624.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 		return false
 	end
 end
-function c15291624.hspop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=e:GetLabelObject()
 	Duel.Release(g,REASON_COST+REASON_MATERIAL)
+	c:SetMaterial(g)
 	g:DeleteGroup()
 end
-function c15291624.repfilter(c)
+function s.repfilter(c)
 	return c:IsRace(RACE_THUNDER) and c:IsAbleToRemove() and aux.SpElimFilter(c,true)
 end
-function c15291624.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then
 	return not c:IsReason(REASON_REPLACE)
-		and Duel.IsExistingMatchingCard(c15291624.repfilter,tp,LOCATION_GRAVE,0,1,1,nil) end
-	if Duel.SelectYesNo(tp,aux.Stringid(15291624,2)) then
+		and Duel.IsExistingMatchingCard(s.repfilter,tp,LOCATION_MZONE|LOCATION_GRAVE,0,1,c) end
+	if Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
-		local g=Duel.SelectMatchingCard(tp,c15291624.repfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,s.repfilter,tp,LOCATION_MZONE|LOCATION_GRAVE,0,1,1,c)
 		Duel.Remove(g:GetFirst(),POS_FACEUP,REASON_EFFECT)
 		return true
 	else return false end
