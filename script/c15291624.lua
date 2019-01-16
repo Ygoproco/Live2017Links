@@ -66,7 +66,7 @@ end
 function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=e:GetLabelObject()
 	Duel.Release(g,REASON_COST+REASON_MATERIAL)
-	c:SetMaterial(sg)
+	c:SetMaterial(g)
 	g:DeleteGroup()
 end
 function s.repfilter(c)
