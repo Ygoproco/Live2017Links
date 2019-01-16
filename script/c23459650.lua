@@ -9,8 +9,12 @@ function s.ritualfil(c)
 	return c:IsSetCard(0x11f) and c:IsRitualMonster()
 end
 function s.mfilter(c)
-	local code=c:GetPreviousCodeOnField()
-	return code == 88176533 or code == 24175232
+	if c:IsPreviousLocation(LOCATION_MZONE) then
+		local code=c:GetPreviousCodeOnField()
+		return code == 88176533 or code == 24175232
+	else
+		return c:IsCode(88176533,24175232)
+	end
 end
 function s.stage2(mg,e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
