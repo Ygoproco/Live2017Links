@@ -34,21 +34,21 @@ function s.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return ft>-1 and Duel.CheckReleaseGroupCost(tp,s.hspfilter,1,true,nil,nil,ft,tp)
+	return ft>-1 and Duel.CheckReleaseGroupCost(tp,s.hspfilter,1,true,nil,c,ft,tp)
 end
 function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local g=Duel.SelectReleaseGroupCost(tp,s.hspfilter,1,1,true,nil,nil,ft,tp)
+	local g=Duel.SelectReleaseGroupCost(tp,s.hspfilter,1,1,true,nil,c,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:GetReasonPlayer()~=tp
-		and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetPreviousControler()==tp
 end
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x3b) and c:IsLevelBelow(7) and not c:IsCode(id) 
-		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and s.spfilter(chkc,e,tp) end
@@ -66,7 +66,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_SET_BASE_ATTACK)
 			e1:SetValue(tc:GetBaseAttack()*2)
-			e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
 		end
 		Duel.SpecialSummonComplete()
