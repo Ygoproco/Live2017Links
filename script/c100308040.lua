@@ -3,7 +3,7 @@
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
-	c:EnableCounterPermit(0x1)
+	c:EnableCounterPermit(COUNTER_SPELL)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_SPELLCASTER),2,2)
 	--add counter (self summon)
@@ -41,6 +41,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e4::SetCountLimit(1,id+100)
 	e4:SetCost(s.descost)
 	e4:SetTarget(s.destg)
 	e4:SetOperation(s.desop)
@@ -51,16 +52,16 @@ function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,0x1)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,COUNTER_SPELL)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
-		c:AddCounter(0x1,1)
+		c:AddCounter(COUNTER_SPELL,1)
 	end
 end
 function s.atkval(e,c)
-	return c:GetCounter(0x1)*300
+	return c:GetCounter(COUNTER_SPELL)*300
 end
 function s.cfilter(c,g)
 	return c:IsFaceup() and c:IsRace(RACE_SPELLCASTER) and g:IsContains(c)
@@ -71,8 +72,8 @@ function s.ctcon2(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return c:IsCanRemoveCounter(tp,0x1,2,REASON_COST) end
-	c:RemoveCounter(tp,0x1,2,REASON_COST)
+	if chk==0 then return c:IsCanRemoveCounter(tp,COUNTER_SPELL,2,REASON_COST) end
+	c:RemoveCounter(tp,COUNTER_SPELL,2,REASON_COST)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() end
