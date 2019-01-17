@@ -1,6 +1,7 @@
 --時械神祖ヴルガータ
 --Timelord Progenitor Vulgate
-function c67508932.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,nil,1,1,aux.NonTuner(nil),1,99)
 	c:EnableReviveLimit()
@@ -20,76 +21,76 @@ function c67508932.initial_effect(c)
 	c:RegisterEffect(e3)
 	--banish
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(67508932,0))
+	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetCategory(CATEGORY_REMOVE)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_DAMAGE_STEP_END)
-	e4:SetCondition(c67508932.rmcond)
-	e4:SetTarget(c67508932.rmtg)
-	e4:SetOperation(c67508932.rmop)
+	e4:SetCondition(s.rmcond)
+	e4:SetTarget(s.rmtg)
+	e4:SetOperation(s.rmop)
 	c:RegisterEffect(e4)
 	--special summon
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(67508932,1))
+	e5:SetDescription(aux.Stringid(id,1))
 	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e5:SetCode(EVENT_PHASE+PHASE_END)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetCountLimit(1)
-	e5:SetCondition(c67508932.spcon)
-	e5:SetTarget(c67508932.sptg)
-	e5:SetOperation(c67508932.spop)
+	e5:SetCondition(s.spcon)
+	e5:SetTarget(s.sptg)
+	e5:SetOperation(s.spop)
 	c:RegisterEffect(e5)
 end
-function c67508932.rmcond(e)
+function s.rmcond(e)
 	return e:GetHandler():GetSummonLocation()&LOCATION_EXTRA==LOCATION_EXTRA
 end
-function c67508932.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_MZONE,1,nil) end
 	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#g,LOCATION_MZONE,1-tp)
 end
-function c67508932.rmop(e,tp,eg,ep,ev,re,r,rp)
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_MZONE,nil)
 	if Duel.Remove(g,0,REASON_EFFECT)>0 then
 		local og=Duel.GetOperatedGroup()
 		for oc in aux.Next(og) do
-			oc:RegisterFlagEffect(67508932,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,c:GetFieldID())
+			oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,c:GetFieldID())
 		end
-		c:RegisterFlagEffect(67508933,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+		c:RegisterFlagEffect(id+1,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 	end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e1:SetCondition(c67508932.dcon)
-	e1:SetOperation(c67508932.dop)
+	e1:SetCondition(s.dcon)
+	e1:SetOperation(s.dop)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-function c67508932.dcon(e,tp,eg,ep,ev,re,r,rp)
+function s.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
-function c67508932.dop(e,tp,eg,ep,ev,re,r,rp)
+function s.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end
-function c67508932.spfilter(c,e,tp)
-	return c:GetFlagEffectLabel(67508932)==e:GetHandler():GetFieldID()
-		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+function s.spfilter(c,e,tp)
+	return c:GetFlagEffectLabel(id)==e:GetHandler():GetFieldID()
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,1-tp)
 end
-function c67508932.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetFlagEffect(67508933)>0
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetFlagEffect(id+1)>0
 end
-function c67508932.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local g=Duel.GetMatchingGroup(c67508932.spfilter,tp,0,LOCATION_REMOVED,nil,e,tp)
+	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_REMOVED,LOCATION_REMOVED,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,#g,tp,LOCATION_REMOVED)
 end
-function c67508932.spop(e,tp,eg,ep,ev,re,r,rp)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local tg=Duel.GetMatchingGroup(c67508932.spfilter,tp,0,LOCATION_REMOVED,nil,e,tp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
+	local ft=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
+	local tg=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_REMOVED,LOCATION_REMOVED,nil,e,tp)
 	if ft<=0 or #tg==0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=tg:Select(tp,ft,ft,nil)
 	if #g>0 then
