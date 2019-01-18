@@ -23,9 +23,9 @@ function s.initial_effect(c)
 	--search
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
-	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
+	e3:SetCategory(CATEGORY_TOHAND)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e3:SetCode(EVENT_TO_GRAVE)
 	e3:SetCondition(s.thcon)
 	e3:SetTarget(s.thtg)
@@ -76,7 +76,7 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ChangeBattleDamage(1-tp,Duel.GetBattleDamage(tp),false)
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,0x41)==0x41 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
+	return bit.band(r,0x41)==0x41 and e:GetHandler():IsPreviousLocation(LOCATION_FZONE)
 end
 function s.filter(c)
 	return c:IsSetCard(0x226) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
@@ -92,5 +92,6 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,tc)
 	end
 end
