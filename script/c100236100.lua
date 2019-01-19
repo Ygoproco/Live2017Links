@@ -46,7 +46,7 @@ function s.matfilter(c)
 end
 function s.valcheck(e,c)
 	if c:GetMaterial():IsExists(s.matfilter,1,nil) then
-		c:RegisterFlagEffect(id,RESET_EVENT|RESETS_STANDARD&~(RESET_TOFIELD|RESET_TEMP_REMOVE|RESET_LEAVE),EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
+		c:RegisterFlagEffect(id,RESET_EVENT|RESETS_STANDARD&~(RESET_TOFIELD|RESET_TEMP_REMOVE|RESET_LEAVE),EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,1))
 	end
 end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
