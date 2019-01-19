@@ -5,7 +5,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMixN(c,true,true,89631139,3)
+	aux.AddFusionProcMixN(c,true,true,CARD_BLUEEYES_W_DRAGON,3)
 	--immune
 	local e1=Effect.CreateEffect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -34,11 +34,10 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE)
 	e4:SetCode(EFFECT_MATERIAL_CHECK)
 	e4:SetValue(s.valcheck)
-	e4:SetLabelObject(e3)
 	c:RegisterEffect(e4)
 end
 s.material_setcode=0xdd
-s.listed_names={89631139,38517737}
+s.listed_names={CARD_BLUEEYES_W_DRAGON,38517737}
 function s.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
 end
@@ -47,7 +46,7 @@ function s.matfilter(c)
 end
 function s.valcheck(e,c)
 	if c:GetMaterial():IsExists(s.matfilter,1,nil) then
-		e:GetLabelObject():SetLabel(1)
+		c:RegisterFlagEffect(id,RESET_EVENT|RESETS_STANDARD&~(RESET_TOFIELD|RESET_TEMP_REMOVE|RESET_LEAVE),EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
 	end
 end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -63,7 +62,7 @@ function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) end
 	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,0,LOCATION_ONFIELD,1,nil) end
 	local mc=1
-	if e:GetLabel()==1 then mc=3 end
+	if e:GetHandler():GetFlagEffect(id) ~= 0 then mc=3 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,mc,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
