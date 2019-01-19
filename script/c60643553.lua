@@ -100,7 +100,7 @@ end
 function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(s.filter,nil,1-tp)
 	Duel.RegisterFlagEffect(tp,id,RESET_CHAIN,0,1)
-	e:GetLabelObject():SetLabel(g:GetSum(s.sum))
+	e:GetLabelObject():SetLabel(g:GetSum(s.sum)+e:GetLabelObject():GetLabel())
 end
 function s.reccon2(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFlagEffect(tp,id)>0 
