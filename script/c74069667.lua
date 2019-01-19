@@ -71,6 +71,12 @@ function c74069667.spop1(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetOperation(c74069667.dop)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+	local e2=Effect.CreateEffect(e:GetHandler())
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	e2:SetDescription(aux.Stringid(74069667,2))
+	e2:SetReset(RESET_PHASE+PHASE_END)
+	e2:SetTargetRange(1,0)
+	Duel.RegisterEffect(e2,tp)
 end
 function c74069667.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
