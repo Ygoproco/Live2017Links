@@ -108,6 +108,7 @@ end
 function s.recop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ResetFlagEffect(tp,id)
 	local rec=e:GetLabel()
+	e:SetLabel(0)
 	if Duel.Recover(tp,rec,REASON_EFFECT)~=0 then
 		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 	end
