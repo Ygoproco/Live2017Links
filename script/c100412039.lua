@@ -27,6 +27,8 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_CURSED_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil) then
 		e:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
+	else
+		e:SetProperty(0)
 	end
 	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)

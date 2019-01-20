@@ -12,6 +12,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_TO_GRAVE)
 	e1:SetCountLimit(1,id)
+	e1:SetCondition(s.matcon)
 	e1:SetTarget(s.mattg)
 	e1:SetOperation(s.matop)
 	c:RegisterEffect(e1)
@@ -27,6 +28,9 @@ function s.initial_effect(c)
 end
 function s.matfilter(c)
 	return c:IsLinkSetCard(0x227) and not c:IsType(TYPE_LINK)
+end
+function s.matcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 function s.filter(c)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)
