@@ -39,12 +39,13 @@ s.listed_names={38033121}
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	if rp==tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
 	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
+	if not tg then return false end
 	local tc=tg:GetFirst()
-	return #tg==1 and tc:IsLocation(LOCATION_MZONE) and tc:IsRace(RACE_SPELLCASTER)
+	return #tg==1 and tc:IsLocation(LOCATION_MZONE) and tc:IsRace(RACE_SPELLCASTER) and tc:IsFaceup() and tc:IsControler(tp)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE) end
+		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
