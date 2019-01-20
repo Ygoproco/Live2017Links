@@ -1,4 +1,4 @@
---Sin 真紅眼の黒竜
+--Sin スターダスト・ドラゴン
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
@@ -28,18 +28,33 @@ function s.initial_effect(c)
 	e8:SetTargetRange(LOCATION_MZONE,0)
 	e8:SetTarget(s.antarget)
 	c:RegisterEffect(e8)
+	--indes
+	local e9=Effect.CreateEffect(c)
+	e9:SetType(EFFECT_TYPE_FIELD)
+	e9:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	e9:SetRange(LOCATION_MZONE)
+	e9:SetTargetRange(LOCATION_FZONE,LOCATION_FZONE)
+	e9:SetValue(1)
+	c:RegisterEffect(e9)
+	--spson
+	local ea=Effect.CreateEffect(c)
+	ea:SetType(EFFECT_TYPE_SINGLE)
+	ea:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	ea:SetCode(EFFECT_SPSUMMON_CONDITION)
+	ea:SetValue(aux.FALSE)
+	c:RegisterEffect(ea)
 end
-s.listed_names={74677422}
+s.listed_names={44508094}
 function s.spfilter(c)
-	return c:IsCode(74677422) and c:IsAbleToRemoveAsCost()
+	return c:IsCode(44508094) and c:IsAbleToRemoveAsCost()
 end
 function s.spcon(e,c)
 	if c==nil then return true end
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.spfilter,c:GetControler(),LOCATION_DECK,0,1,nil)
+		and Duel.IsExistingMatchingCard(s.spfilter,c:GetControler(),LOCATION_EXTRA,0,1,nil)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local tc=Duel.GetFirstMatchingCard(s.spfilter,tp,LOCATION_DECK,0,nil)
+	local tc=Duel.GetFirstMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,nil)
 	Duel.Remove(tc,POS_FACEUP,REASON_COST)
 end
 function s.descon(e)

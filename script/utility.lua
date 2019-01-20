@@ -1284,6 +1284,16 @@ function Auxiliary.FilterFaceupFunction(f,...)
 				return target:IsFaceup() and f(target,table.unpack(params))
 			end
 end
+--Filter for unique on field Malefic monsters
+function aux.MaleficUniqueFilter(cc)
+	return 	function(c)
+				if Duel.IsPlayerAffectedByEffect(0,100236116) then
+					return c:GetCode()==cc:GetCode()
+				else
+					return c:IsSetCard(0x23)
+				end
+			end
+end
 
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
