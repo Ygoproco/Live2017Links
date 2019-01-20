@@ -40,6 +40,7 @@ end
 function s.bpcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
+	c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function s.bpop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -61,7 +62,6 @@ function s.bpop(e,tp,eg,ep,ev,re,r,rp,chk)
 	e2:SetOperation(s.skop)
 	e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e2,Duel.GetTurnPlayer())
-	c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function s.skop(e,tp,eg,ep,ev,re,r,rp)
 	local p=Duel.GetTurnPlayer()
