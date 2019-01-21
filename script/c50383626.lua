@@ -1,14 +1,15 @@
 --闇黒の魔王ディアボロス
 --Darkest Diabolos, Lord of the Lair
 --Scripted by Eerie Code, completed by Lyris
-function c50383626.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--cannot release
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EFFECT_UNRELEASABLE_SUM)
-	e1:SetValue(c50383626.sumlimit)
+	e1:SetValue(s.sumlimit)
 	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD)
@@ -16,7 +17,7 @@ function c50383626.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(0,1)
-	e2:SetTarget(c50383626.relval)
+	e2:SetTarget(s.relval)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	--cannot be target
@@ -34,59 +35,60 @@ function c50383626.initial_effect(c)
 	e4:SetCode(EVENT_RELEASE)
 	e4:SetProperty(EFFECT_FLAG_DELAY)
 	e4:SetRange(LOCATION_HAND+LOCATION_GRAVE)
-	e4:SetCountLimit(1,50383626)
-	e4:SetCondition(c50383626.spcon)
-	e4:SetTarget(c50383626.sptg)
-	e4:SetOperation(c50383626.spop)
+	e4:SetCountLimit(1,id)
+	e4:SetCondition(s.spcon)
+	e4:SetTarget(s.sptg)
+	e4:SetOperation(s.spop)
 	c:RegisterEffect(e4)
 	--to deck
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_IGNITION)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetCountLimit(1,50383627)
-	e5:SetCost(c50383626.tdcost)
-	e5:SetTarget(c50383626.tdtg)
-	e5:SetOperation(c50383626.tdop)
+	e5:SetCountLimit(1,id+1)
+	e5:SetCost(s.tdcost)
+	e5:SetTarget(s.tdtg)
+	e5:SetOperation(s.tdop)
 	c:RegisterEffect(e5)
 end
-function c50383626.sumlimit(e,c)
+function s.sumlimit(e,c)
 	if not c then return false end
 	return not c:IsControler(e:GetHandlerPlayer())
 end
-function c50383626.relval(e,c)
+function s.relval(e,c)
 	return c==e:GetHandler()
 end
-function c50383626.spcfilter(c,tp)
+function s.spcfilter(c,tp)
 	return c:GetPreviousControler()==tp and c:GetPreviousAttributeOnField()==ATTRIBUTE_DARK
 end
-function c50383626.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c50383626.spcfilter,1,nil,tp)
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.spcfilter,1,nil,tp)
 end
-function c50383626.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and ((c:IsLocation(LOCATION_GRAVE) and not eg:IsContains(c)) 
+		or (c:IsLocation(LOCATION_HAND))) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 end
-function c50383626.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function c50383626.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttribute,1,false,nil,nil,ATTRIBUTE_DARK) end
 	local g=Duel.SelectReleaseGroupCost(tp,Card.IsAttribute,1,1,false,nil,nil,ATTRIBUTE_DARK)
 	Duel.Release(g,REASON_COST)
 end
-function c50383626.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,0,LOCATION_HAND,1,nil) end
 end
-function c50383626.tdop(e,tp,eg,ep,ev,re,r,rp)
+function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectMatchingCard(1-tp,Card.IsAbleToDeck,1-tp,LOCATION_HAND,0,1,1,nil)
 	if g:GetCount()>0 then
-		if Duel.SelectOption(1-tp,aux.Stringid(50383626,2),aux.Stringid(50383626,3))==0 then
+		if Duel.SelectOption(1-tp,aux.Stringid(id,2),aux.Stringid(id,3))==0 then
 			Duel.SendtoDeck(g,nil,0,REASON_EFFECT)
 		else
 			Duel.SendtoDeck(g,nil,1,REASON_EFFECT)
