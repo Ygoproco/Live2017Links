@@ -1,5 +1,5 @@
 --セレンの呪眼
---Cursed Eye of Selen
+--Evil Eye of Selene
 --scripted by Naim
 local s,id=GetID()
 function s.initial_effect(c)
@@ -62,7 +62,6 @@ function s.atkupop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	local ec=c:GetEquipTarget()
 	if ec:UpdateAttack(500,nil,c)==500 and c:IsRelateToEffect(e) then
-		Duel.BreakEffect()
 		Duel.SetLP(tp,Duel.GetLP(tp)-500)
 	end
 end
