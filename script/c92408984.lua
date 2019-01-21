@@ -79,6 +79,7 @@ function s.activate(teg,tev,tre)
 				if e:GetHandler():IsRelateToEffect(e) and Duel.NegateEffect(tev) and tre:GetHandler():IsRelateToEffect(tre) then
 					Duel.Destroy(teg,REASON_EFFECT)
 				end
+				teg:DeleteGroup()
 			end
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
