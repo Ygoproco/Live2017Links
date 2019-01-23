@@ -33,6 +33,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e4:SetCountLimit(1,id)
 	e4:SetTarget(s.atktg)
 	e4:SetOperation(s.atkop)
 	c:RegisterEffect(e4)
@@ -60,7 +61,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
 	local value=tc:GetOverlayCount()*300
-	if tc:UpdateAttack(value,nil,c)==value and tc:GetOverlayGroup():IsExists(s.ownerfil,1,nil,e) then
+	if tc:UpdateAttack(value,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,c)==value and tc:GetOverlayGroup():IsExists(s.ownerfil,1,nil,e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DIRECT_ATTACK)
