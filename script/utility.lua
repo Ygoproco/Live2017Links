@@ -1285,13 +1285,49 @@ function Auxiliary.FilterFaceupFunction(f,...)
 			end
 end
 --Filter for unique on field Malefic monsters
-function aux.MaleficUniqueFilter(cc)
+function Auxiliary.MaleficUniqueFilter(cc)
 	return 	function(c)
 				if Duel.IsPlayerAffectedByEffect(0,100236116) then
 					return c:GetCode()==cc:GetCode()
 				else
 					return c:IsSetCard(0x23)
 				end
+			end
+end
+--Procedure for Malefic monsters' Special Summon (includes handling of Malefic Paradox Gear)
+function Auxiliary.AddMaleficSummonProcedure(c,code,loc)
+	--special summon
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_SPSUMMON_PROC)
+	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+	e1:SetRange(LOCATION_HAND)
+	e1:SetCondition(Auxiliary.MaleficSummonCondition(code,loc))
+	e1:SetOperation(Auxiliary.MaleficSummonOperation(code,loc))
+	c:RegisterEffect(e1)
+end
+function Auxiliary.MaleficSummonFilter(c,cd)
+	return c:IsCode(cd) and c:IsAbleToRemoveAsCost()
+end
+function Auxiliary.MaleficSummonSubstitute(c,cd)
+	return c:IsHasEffect(100236115) and c:IsAbleToRemoveAsCost()
+end
+function Auxiliary.MaleficSummonCondition(cd,loc)
+	return 	function(e,c)
+				if c==nil then return true end
+				return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
+					and (Duel.IsExistingMatchingCard(Auxiliary.MaleficSummonFilter,c:GetControler(),loc,0,1,nil,cd)
+					or Duel.IsExistingMatchingCard(Auxiliary.MaleficSummonSubstitute,c:GetControler(),LOCATION_ONFIELD+LOCATION_GRAVE,0,1,nil))
+			end
+end
+function Auxiliary.MaleficSummonOperation(cd,loc)
+	return	function(e,tp,eg,ep,ev,re,r,rp,c)
+				local g=Duel.GetMatchingGroup(Auxiliary.MaleficSummonFilter,tp,loc,0,nil,cd)
+				g:Merge(Duel.GetMatchingGroup(Auxiliary.MaleficSummonSubstitute,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,nil))
+				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+				local tc=g:Select(tp,1,1,nil):GetFirst()
+				if tc:IsHasEffect(100236115) then Duel.RegisterFlagEffect(tp,100236115,RESET_PHASE+PHASE_END,0,1) end
+				Duel.Remove(tc,POS_FACEUP,REASON_COST)
 			end
 end
 
