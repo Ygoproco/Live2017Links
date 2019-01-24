@@ -1,5 +1,5 @@
 --超弩級砲塔列車ジャガーノート・リーベ
---Super Dreadnought Railway Cannon Juggernaut Reeve
+--Superdreadnought Rail Cannon Juggernaut Liebe
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -53,6 +53,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
     local e0=Effect.CreateEffect(e:GetHandler())
     e0:SetType(EFFECT_TYPE_FIELD)
     e0:SetCode(EFFECT_CANNOT_ATTACK)
+	e0:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     e0:SetTargetRange(LOCATION_MZONE,0)
     e0:SetTarget(s.ftarget)
     e0:SetLabel(c:GetFieldID())
