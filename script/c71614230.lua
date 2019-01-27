@@ -1,6 +1,7 @@
 --Kai-Den Kendo Spirit
 --Scripted by Eerie Code
-function c71614230.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--spirit return
@@ -11,40 +12,40 @@ function c71614230.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetRange(LOCATION_PZONE)
-	e1:SetCondition(c71614230.thcon)
-	e1:SetTarget(c71614230.thtg)
-	e1:SetOperation(c71614230.thop)
+	e1:SetCondition(s.thcon)
+	e1:SetTarget(s.thtg)
+	e1:SetOperation(s.thop)
 	c:RegisterEffect(e1)
 	--gy
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_TOGRAVE)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SUMMON_SUCCESS)
-	e2:SetTarget(c71614230.gytg)
-	e2:SetOperation(c71614230.gyop)
+	e2:SetTarget(s.gytg)
+	e2:SetOperation(s.gyop)
 	c:RegisterEffect(e2)
 end
-function c71614230.thcon(e,tp,eg,ep,ev,re,r,rp)
+function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(Card.IsSummonType,1,nil,SUMMON_TYPE_PENDULUM)
 end
-function c71614230.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,e:GetHandler(),1,0,0)
 end
-function c71614230.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	Duel.SendtoHand(c,nil,REASON_EFFECT)
 end
-function c71614230.gyfilter(c,tp)
+function s.gyfilter(c,tp)
 	return c:GetColumnGroup():IsExists(Card.IsControler,1,nil,1-tp)
 end
-function c71614230.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c71614230.gyfilter,tp,LOCATION_PZONE,0,1,nil,tp) end
+function s.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.gyfilter,tp,LOCATION_PZONE,0,1,nil,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,0,1-tp,LOCATION_ONFIELD)
 end
-function c71614230.gyop(e,tp,eg,ep,ev,re,r,rp)
-	local pg=Duel.GetMatchingGroup(c71614230.gyfilter,tp,LOCATION_PZONE,0,nil,tp)
+function s.gyop(e,tp,eg,ep,ev,re,r,rp)
+	local pg=Duel.GetMatchingGroup(s.gyfilter,tp,LOCATION_PZONE,0,nil,tp)
 	if #pg==0 then return end
 	local pc=nil
 	if #pg>1 then
@@ -52,7 +53,7 @@ function c71614230.gyop(e,tp,eg,ep,ev,re,r,rp)
 	else
 		pc=pg:GetFirst()
 	end
-	Duel.HintSelection(1-tp,Group.FromCards(pc))
+	Duel.HintSelection(Group.FromCards(pc))
 	local g=pc:GetColumnGroup():Filter(Card.IsControler,nil,1-tp)
 	Duel.SendtoGrave(g,REASON_EFFECT)
 end
