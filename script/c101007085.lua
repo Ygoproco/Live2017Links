@@ -21,10 +21,9 @@ function s.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,id)
-	e2:SetCost(s.cost)
 	e2:SetTarget(s.tg)
 	e2:SetOperation(s.op)
-	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
+	c:RegisterEffect(e2)
 end
 function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return #(Duel.GetDecktopGroup(1-tp,1))==1 end
@@ -41,7 +40,7 @@ function s.rescon(sg,e,tp,mg)
 		and sg:FilterCount(Card.IsType,nil,TYPE_SPELL)<=1
 		and sg:FilterCount(Card.IsType,nil,TYPE_TRAP)<=1
 end
-function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local g=c:GetOverlayGroup()
 	local ty=0
@@ -49,26 +48,26 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if Duel.IsPlayerCanDraw(tp,1) then ty=ty | TYPE_SPELL end
 	if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsAbleToDeck),tp,0,LOCATION_ONFIELD,1,nil) then ty=ty | TYPE_TRAP end
 	if chk==0 then return ty>0 and g:IsExists(Card.IsType,1,nil,ty) end
+end
+function s.op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
+	local g=c:GetOverlayGroup()
+	local ty=0
+	if c:IsAbleToRemove() then ty=ty | TYPE_MONSTER end
+	if Duel.IsPlayerCanDraw(tp,1) then ty=ty | TYPE_SPELL end
+	if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsAbleToDeck),tp,0,LOCATION_ONFIELD,1,nil) then ty=ty | TYPE_TRAP end
+	if ty==0 then return end
 	local sg=aux.SelectUnselectGroup(g:Filter(Card.IsType,nil,ty),e,tp,1,3,s.rescon,1,tp,HINTMSG_XMATERIAL)
 	local lb=0
 	for tc in aux.Next(sg) do
 		lb=lb | tc:GetType()
 	end
-	e:SetLabel(lb & 0x7)
-	Duel.SendtoGrave(sg,REASON_COST)
+	lb=lb & 0x7
+	Duel.SendtoGrave(sg,REASON_EFFECT)
 	Duel.RaiseSingleEvent(c,EVENT_DETACH_MATERIAL,e,0,0,0,0)
-end
-function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	local ty=e:GetLabel()
-	if ty & TYPE_MONSTER ~=0 then Duel.SetOperationInfo(0,CATEGORY_REMOVE,e:GetHandler(),1,0,0) end
-	if ty & TYPE_SPELL ~=0 then Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1) end
-	if ty & TYPE_TRAP ~=0 then Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,1-tp,LOCATION_ONFIELD) end
-end
-function s.op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local ty=e:GetLabel()
-	if ty & TYPE_MONSTER ~=0 then
+	Duel.BreakEffect()
+	if lb & TYPE_MONSTER ~=0 then
 		if c:IsFaceup() and c:IsRelateToEffect(e) then
 			Duel.Remove(c,POS_FACEUP,REASON_EFFECT+REASON_TEMPORARY)
 			local e1=Effect.CreateEffect(e:GetHandler())
@@ -81,10 +80,10 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 			Duel.RegisterEffect(e1,tp)
 		end
 	end
-	if ty & TYPE_SPELL ~=0 then
+	if lb & TYPE_SPELL ~=0 then
 		Duel.Draw(tp,1,REASON_EFFECT)
 	end
-	if ty & TYPE_TRAP ~=0 then
+	if lb & TYPE_TRAP ~=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 		local g=Duel.SelectMatchingCard(tp,aux.FilterFaceupFunction(Card.IsAbleToDeck),tp,0,LOCATION_ONFIELD,1,1,nil)
 		if #g>0 then Duel.SendtoDeck(g,nil,0,REASON_EFFECT) end
