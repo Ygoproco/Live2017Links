@@ -79,7 +79,7 @@ end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct, ft=Duel.GetFieldGroupCount(tp,0,LOCATION_SZONE) , Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
-	if chk==0 then return ct>0 and aux.SelectUnselectGroup(g,e,tp,1,math.min(ct,ft),s.sprescon,0) end
+	if chk==0 then return ct>0 and ft>0 and aux.SelectUnselectGroup(g,e,tp,1,math.min(ct,ft),s.sprescon,0) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
