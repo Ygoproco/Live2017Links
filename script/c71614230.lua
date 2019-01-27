@@ -53,7 +53,7 @@ function s.gyop(e,tp,eg,ep,ev,re,r,rp)
 	else
 		pc=pg:GetFirst()
 	end
-	Duel.HintSelection(1-tp,Group.FromCards(pc))
+	Duel.HintSelection(Group.FromCards(pc))
 	local g=pc:GetColumnGroup():Filter(Card.IsControler,nil,1-tp)
 	Duel.SendtoGrave(g,REASON_EFFECT)
 end
