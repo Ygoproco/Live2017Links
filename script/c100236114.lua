@@ -41,8 +41,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
-	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)~=0 then
-		Duel.CalculateDamage(Duel.GetAttacker(),tc)
+	local at=Duel.GetAttacker()
+	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)~=0 and at and at:IsAttackable() then
+		Duel.CalculateDamage(at,tc)
 	end
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
