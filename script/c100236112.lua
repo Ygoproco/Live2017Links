@@ -14,12 +14,12 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-s.listed_names={46986414,38033121,2314238,75190122,49702428,100236109}
+s.listed_names={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL,2314238,75190122,49702428,100236109}
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,46986414),tp,LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_DARK_MAGICIAN),tp,LOCATION_MZONE,0,1,nil)
 end
 function s.filter(c,e,tp)
-	return c:IsCode(38033121) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(CARD_DARK_MAGICIAN_GIRL) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -39,6 +39,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 			Duel.BreakEffect()
 			local tc=g:Select(tp,1,1,nil)
 			Duel.SSet(tp,tc)
+			Duel.ConfirmCards(1-tp,tc)
 		end
 	end
 end
