@@ -22,10 +22,9 @@ end
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local g=Duel.GetMatchingGroup(aux.NOT(Card.IsPublic),tp,LOCATION_DECK,0,nil)
-		--if it can be revealed, aka, convulsion of nature is not there
 		return Duel.IsPlayerCanDraw(tp,1)
 			and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>2
-			and g:GetClassCount(Card.GetCode)>=3 --if at least 3 cards with different names
+			and g:GetClassCount(Card.GetCode)>=3
 	end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(1)
@@ -56,7 +55,6 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp,chk)
 		Duel.Draw(p,d,REASON_EFFECT)
 	end
 	if not e:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
-	--set limit (from Left Arm offerings)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -64,7 +62,6 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	e1:SetTargetRange(1,0)
 	Duel.RegisterEffect(e1,tp)
-	--activate limit (from trap trick)
 	local e2=Effect.CreateEffect(e:GetHandler())
 	e2:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e2:SetCode(EVENT_CHAINING)
@@ -86,6 +83,12 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp,chk)
 	e4:SetCondition(s.econ)
 	e4:SetValue(1)
 	Duel.RegisterEffect(e4,tp)
+	local e5=Effect.CreateEffect(e:GetHandler())
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT+EFFECT_FLAG_OATH)
+	e5:SetDescription(aux.Stringid(id,1))
+	e5:SetReset(RESET_PHASE+PHASE_END)
+	e5:SetTargetRange(1,0)
+	Duel.RegisterEffect(e5,tp)
 end
 function s.aclimit1(e,tp,eg,ep,ev,re,r,rp)
 	if ep~=tp then return end
