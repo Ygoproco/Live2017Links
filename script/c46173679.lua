@@ -1,17 +1,19 @@
 --終焉の焔
-function c46173679.initial_effect(c)
+--Fires of Doomsday
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,TIMING_END_PHASE)
-	e1:SetCost(c46173679.cost)
-	e1:SetTarget(c46173679.target)
-	e1:SetOperation(c46173679.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c46173679.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetActivityCount(tp,ACTIVITY_SUMMON)==0
 		and Duel.GetActivityCount(tp,ACTIVITY_FLIPSUMMON)==0 and Duel.GetActivityCount(tp,ACTIVITY_SPSUMMON)==0 end
 	local e1=Effect.CreateEffect(e:GetHandler())
@@ -21,7 +23,7 @@ function c46173679.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	e1:SetLabelObject(e)
 	e1:SetTargetRange(1,0)
-	e1:SetTarget(c46173679.sumlimit)
+	e1:SetTarget(s.sumlimit)
 	Duel.RegisterEffect(e1,tp)
 	local e2=Effect.CreateEffect(e:GetHandler())
 	e2:SetType(EFFECT_TYPE_FIELD)
@@ -33,29 +35,35 @@ function c46173679.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local e3=e2:Clone()
 	e3:SetCode(EFFECT_CANNOT_FLIP_SUMMON)
 	Duel.RegisterEffect(e3,tp)
+	local e4=Effect.CreateEffect(e:GetHandler())
+	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT+EFFECT_FLAG_OATH)
+	e4:SetDescription(aux.Stringid(id,2))
+	e4:SetReset(RESET_PHASE+PHASE_END)
+	e4:SetTargetRange(1,0)
+	Duel.RegisterEffect(e4,tp)
 end
-function c46173679.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return e:GetLabelObject()~=se
 end
-function c46173679.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,46173680,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
-function c46173679.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,46173680,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) then
 		for i=1,2 do
-			local token=Duel.CreateToken(tp,46173679+i)
+			local token=Duel.CreateToken(tp,id+i)
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UNRELEASABLE_SUM)
 			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 			e1:SetValue(aux.TargetBoolFunction(aux.NOT(Card.IsAttribute),ATTRIBUTE_DARK))
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			token:RegisterEffect(e1,true)
 		end
 		Duel.SpecialSummonComplete()
