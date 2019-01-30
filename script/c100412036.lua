@@ -1,4 +1,4 @@
--- 静冠の呪眼
+﻿-- 静冠の呪眼
 --Watchful Rule of the Evil Eye 
 local s,id=GetID()
 function s.initial_effect(c)
@@ -31,7 +31,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	if s.drcost(e,tp,eg,ep,ev,re,r,rp,0) and s.drtg(e,tp,eg,ep,ev,re,r,rp,0)
@@ -69,7 +69,7 @@ function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local bc=Duel.GetAttackTarget()
 	if not bc then return false end
 	if tc:IsControler(1-tp) then return false end
-	if tc:IsFaceup() and tc:IsSetCard(0x226) and tc:GetEquipGroup():IsExists(Card.IsCode,1,nil,CARD_CURSED_EYE_SELENE)  then
+	if tc:IsFaceup() and tc:IsSetCard(0x226) and tc:GetEquipGroup():IsExists(Card.IsCode,1,nil,CARD_EVIL_EYE_SELENE)  then
 		e:SetLabelObject(bc)
 		return true
 	else return false end

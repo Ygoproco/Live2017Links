@@ -1,4 +1,4 @@
---死配の呪眼
+﻿--死配の呪眼
 --Death Control of the Evil Eye
 local s,id = GetID()
 function s.initial_effect(c)
@@ -47,7 +47,7 @@ function s.initial_effect(c)
 	e5:SetOperation(s.desop)
 	c:RegisterEffect(e5)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.cfilter1(c)
 	return c:IsFaceup() and c:IsSetCard(0x226)
 end
@@ -78,7 +78,7 @@ function s.tg(e,c)
 	return e:GetHandlerPlayer()
 end
 function s.sccon(e)
-	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_CURSED_EYE_SELENE),e:GetHandlerPlayer(),LOCATION_SZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_EVIL_EYE_SELENE),e:GetHandlerPlayer(),LOCATION_SZONE,0,1,nil)
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

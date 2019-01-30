@@ -1,4 +1,4 @@
---喚忌の呪眼
+﻿--喚忌の呪眼
 --Wails of the Evil Eye
 --Scripted by AlphaKretin
 local s,id=GetID()
@@ -13,12 +13,12 @@ function s.initial_effect(c)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x226) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.selchk(tp)
-	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_CURSED_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_EVIL_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local loc=LOCATION_HAND+LOCATION_GRAVE

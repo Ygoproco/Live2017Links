@@ -1,4 +1,4 @@
---呪眼の王 ザラキエル
+﻿--呪眼の王 ザラキエル
 --Zerachiel, King of the Evil Eye
 --scripted by Naim
 local s,id=GetID()
@@ -37,7 +37,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.disop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.filter(c)
 	return c:IsAttackAbove(2600)
 end
@@ -57,7 +57,7 @@ end
 function s.descond(e)
 	local c=e:GetHandler()
 	local eg=c:GetEquipGroup()
-	return #eg>0 and eg:IsExists(Card.IsCode,1,nil,CARD_CURSED_EYE_SELENE)
+	return #eg>0 and eg:IsExists(Card.IsCode,1,nil,CARD_EVIL_EYE_SELENE)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsOnField() end
