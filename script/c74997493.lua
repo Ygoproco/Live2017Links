@@ -73,7 +73,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	if not lg then return end
-	local g=eg:Filter(s.cfilter,nil,lg)
+	local g=eg:Filter(aux.zptfilter(nil),nil,c)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
