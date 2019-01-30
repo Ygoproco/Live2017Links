@@ -32,11 +32,11 @@ function Auxiliary.RPGFilter(c,filter,e,tp,m,m2,ft)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2-c)
-	if c.mat_filter then
-		mg=mg:Filter(c.mat_filter,c,tp)
-	end
 	if c.ritual_custom_condition then
 		return c:ritual_custom_condition(mg,ft,"greater")
+	end
+	if c.mat_filter then
+		mg=mg:Filter(c.mat_filter,c,tp)
 	end
 	if ft>0 then
 		return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetOriginalLevel(),c)
@@ -77,13 +77,13 @@ function Auxiliary.RPGOperation(filter,extrafil,extraop,forcedgroup,stage2,locat
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					mg:Merge(mg2-tc)
 					local mat=nil
-					if tc.mat_filter then
-						mg=mg:Filter(tc.mat_filter,tc,tp)
-					end
 					if tc.ritual_custom_operation then
 						tc:ritual_custom_operation(mg,"greater")
 						mat=tc:GetMaterial()
 					else
+						if tc.mat_filter then
+							mg=mg:Filter(tc.mat_filter,tc,tp)
+						end
 						if ft>0 then
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetOriginalLevel(),tc)
@@ -140,11 +140,11 @@ function Auxiliary.RPEFilter(c,filter,e,tp,m,m2,ft,lv)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2-c)
-	if c.mat_filter then
-		mg=mg:Filter(c.mat_filter,c,tp)
-	end
 	if c.ritual_custom_condition then
 		return c:ritual_custom_condition(mg,ft,"equal")
+	end
+	if c.mat_filter then
+		mg=mg:Filter(c.mat_filter,c,tp)
 	end
 	if ft>0 then
 		local lv=lv or c:GetLevel()
@@ -187,13 +187,13 @@ function Auxiliary.RPEOperation(filter,lv,extrafil,extraop,forcedgroup,stage2,lo
 					local mat=nil
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					mg:Merge(mg2-tc)
-					if tc.mat_filter then
-						mg=mg:Filter(tc.mat_filter,tc,tp)
-					end
 					if tc.ritual_custom_operation then
 						tc:ritual_custom_operation(mg,"equal")
 						mat=tc:GetMaterial()
 					else
+						if tc.mat_filter then
+							mg=mg:Filter(tc.mat_filter,tc,tp)
+						end
 						if ft>0 then
 							local lv=lv or tc:GetLevel()
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
