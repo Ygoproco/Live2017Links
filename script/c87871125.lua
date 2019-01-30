@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1,id)
-	e1:SetCondition(s.thcon1)
+	e1:SetCondition(aux.zptcon(nil))
 	e1:SetTarget(s.thtg1)
 	e1:SetOperation(s.thop1)
 	c:RegisterEffect(e1)
@@ -36,12 +36,6 @@ function s.initial_effect(c)
 end
 function s.matfilter(c,scard,sumtype,tp)
 	return c:IsType(TYPE_EFFECT,scard,sumtype,tp) and c:IsAttribute(ATTRIBUTE_FIRE,scard,sumtype,tp)
-end
-function s.thcfilter(c,g)
-	return g:IsContains(c)
-end
-function s.thcon1(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.thcfilter,1,nil,e:GetHandler():GetLinkedGroup())
 end
 function s.thfilter1(c)
 	return c:IsAttribute(ATTRIBUTE_FIRE) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()

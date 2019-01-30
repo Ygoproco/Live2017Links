@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,id)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCondition(s.thcon)
+	e1:SetCondition(aux.zptcon(nil))
 	e1:SetCost(s.thcost)
 	e1:SetTarget(s.thtg)
 	e1:SetOperation(s.thop)
@@ -33,13 +33,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_names={34767865}
-function s.thcfilter(c,tp,lg)
-	return c:IsControler(tp) and lg:IsContains(c)
-end
-function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-	local lg=e:GetHandler():GetLinkedGroup()
-	return eg:IsExists(s.thcfilter,1,nil,tp,lg)
-end
 function s.cfilter(c,tp)
 	return c:IsType(TYPE_SPELL) and c:IsAbleToRemoveAsCost()
 end

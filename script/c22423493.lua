@@ -83,13 +83,9 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function s.thcfilter(c,lg)
-	return lg:IsContains(c)
-end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local lg=c:GetLinkedGroup()
-	return not eg:IsContains(c) and eg:FilterCount(s.thcfilter,nil,lg)==2
+	return not eg:IsContains(c) and eg:FilterCount(aux.zptfilter(nil),nil,c)==2
 end
 function s.thfilter(c)
 	return c:IsRace(RACE_MACHINE) and c:IsLevelAbove(5) and c:IsAbleToHand()

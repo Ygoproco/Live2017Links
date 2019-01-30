@@ -29,7 +29,7 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1)
-	e3:SetCondition(s.seqcon)
+	e3:SetCondition(aux.zptcon(aux.FilterBoolFunction(Card.IsType,TYPE_EFFECT)))
 	e3:SetTarget(s.seqtg)
 	e3:SetOperation(s.seqop)
 	c:RegisterEffect(e3)
@@ -43,13 +43,6 @@ function s.atkval(e,c)
 end
 function s.atklimit(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c)
-end
-function s.seqcfilter(c,tp,lg)
-	return c:IsType(TYPE_EFFECT) and lg:IsContains(c)
-end
-function s.seqcon(e,tp,eg,ep,ev,re,r,rp)
-	local lg=e:GetHandler():GetLinkedGroup()
-	return eg:IsExists(s.seqcfilter,1,nil,tp,lg)
 end
 function s.seqfilter(c)
 	local tp=c:GetControler()

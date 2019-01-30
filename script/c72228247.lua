@@ -30,7 +30,7 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetCountLimit(1,id)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCondition(s.thcon)
+	e3:SetCondition(aux.zptcon(aux.FilterBoolFunction(Card.IsType,TYPE_EFFECT)))
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
@@ -47,13 +47,6 @@ function s.atkval(e,c)
 end
 function s.atklimit(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c)
-end
-function s.thcfilter(c,tp,lg)
-	return c:IsControler(tp) and c:IsType(TYPE_EFFECT) and lg:IsContains(c)
-end
-function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-	local lg=e:GetHandler():GetLinkedGroup()
-	return eg:IsExists(s.thcfilter,1,nil,tp,lg)
 end
 function s.thfilter(c,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x116) and c:IsAbleToHand()

@@ -29,14 +29,19 @@ function s.initial_effect(c)
 	e2:SetOperation(s.hdop2)
 	c:RegisterEffect(e2)
 end
-function s.cfilter(c,zone)
-	local seq=c:GetSequence()
-	if c:IsControler(1) then seq=seq+16 end
-	return bit.extract(zone,seq)~=0
+function s.cfilter(c,ec)
+	if c:IsLocation(LOCATION_MZONE) then
+		return ec:GetLinkedGroup():IsContains(c)
+	else
+		return (ec:GetLinkedZone(c:GetPreviousControler())&(1<<c:GetPreviousSequence()))~=0
+	end
 end
 function s.hdcon(e,tp,eg,ep,ev,re,r,rp)
-	local zone=Duel.GetLinkedZone(0)+Duel.GetLinkedZone(1)*0x10000
-	return not eg:IsContains(e:GetHandler()) and eg:IsExists(s.cfilter,1,nil,zone)
+    if eg:IsContains(e:GetHandler()) then return false end
+    for tc in aux.Next(Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_MZONE,LOCATION_MZONE,nil,TYPE_LINK)) do
+        if eg:IsExists(s.cfilter,1,nil,tc) then return true end
+    end
+    return false
 end
 function s.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

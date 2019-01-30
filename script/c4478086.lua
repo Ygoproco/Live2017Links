@@ -27,7 +27,7 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e2:SetCountLimit(1,id+1)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCondition(s.spcon)
+	e2:SetCondition(aux.zptcon(nil))
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
@@ -53,13 +53,6 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
-end
-function s.spcfilter(c,tp,lg)
-	return c:IsControler(tp) and lg:IsContains(c)
-end
-function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	local lg=e:GetHandler():GetLinkedGroup()
-	return eg:IsExists(s.spcfilter,1,nil,tp,lg)
 end
 function s.spfilter(c,e,tp)
 	return c:IsRace(RACE_CYBERSE) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)

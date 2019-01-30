@@ -40,7 +40,7 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_DELAY)
 		e1:SetCode(EVENT_SUMMON_SUCCESS)
 		e1:SetRange(LOCATION_MZONE)
-		e1:SetCondition(s.atkcon)
+		e1:SetCondition(aux.zptcon(nil))
 		e1:SetOperation(s.atkop)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e1)
@@ -69,20 +69,13 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function s.cfilter(c,g)
-	return c:IsFaceup() and g:IsContains(c)
-end
-function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	local lg=e:GetHandler():GetLinkedGroup()
-	return lg and eg:IsExists(s.cfilter,1,nil,lg)
-end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	if not lg then return end
 	local g=eg:Filter(s.cfilter,nil,lg)
 	local tc=g:GetFirst()
-	while tc do
+	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
@@ -92,7 +85,6 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_UPDATE_DEFENSE)
 		tc:RegisterEffect(e2)
-		tc=g:GetNext()
 	end
 end
 function s.spfilter(c,e,tp)
