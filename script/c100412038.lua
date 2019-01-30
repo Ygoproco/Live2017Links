@@ -1,4 +1,4 @@
-﻿--死配の呪眼
+--死配の呪眼
 --Death Control of the Evil Eye
 local s,id = GetID()
 function s.initial_effect(c)
