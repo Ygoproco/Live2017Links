@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x226)
 end
@@ -25,7 +25,7 @@ end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
-	if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_CURSED_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil) then
+	if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_EVIL_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil) then
 		e:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	else
 		e:SetProperty(0)

@@ -1,4 +1,4 @@
---min/max value
+﻿--min/max value
 MIN_ID		=1000		--4 digit, by DataManager::GetDesc()
 MAX_ID		=268435455	--9 digit, by DataManager::GetDesc()
 MAX_COUNTER	=65535		--max number for adding/removing counters, by card::add_counter(), field::remove_counter()
@@ -835,7 +835,7 @@ CARD_SALAMANGREAT_SANCTUARY =1295111
 CARD_PSYFRAME_LAMBDA		=8802510
 CARD_PSYFRAME_DRIVER		=49036338
 CARD_FIRE_FIST_EAGLE		=46241344
-CARD_CURSED_EYE_SELENE		=100412032
+CARD_EVIL_EYE_SELENE		=100412032
 CARD_ASSAULT_MODE			=80280737
 CARD_VIJAM					=15610297
 --commonly used counters

@@ -32,7 +32,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.thfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x226) and c:IsAbleToHand()
 end
@@ -47,7 +47,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	local fc=Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_CURSED_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil)
+	local fc=Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_EVIL_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil)
 	local a=Duel.GetAttackTarget()
 	if a and a:IsSetCard(0x226) and a:IsControler(tp) and Duel.GetCurrentPhase()==PHASE_DAMAGE_CAL and fc then
 		e:SetLabelObject(a)

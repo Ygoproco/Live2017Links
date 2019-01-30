@@ -1,4 +1,4 @@
---呪眼の死徒 メドゥサ
+﻿--呪眼の死徒 メドゥサ
 --Medusa, Dead Apostle of the Evil Eye
 --Scripted by AlphaKretin
 local s,id=GetID()
@@ -39,7 +39,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.rmsop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.thfilter(c)
 	return c:IsSetCard(0x226) and not c:IsCode(id) and c:IsAbleToHand()
 end
@@ -60,7 +60,7 @@ end
 function s.rmcon(e)
 	local c=e:GetHandler()
 	local eg=c:GetEquipGroup()
-	return #eg>0 and eg:IsExists(Card.IsCode,1,nil,CARD_CURSED_EYE_SELENE)
+	return #eg>0 and eg:IsExists(Card.IsCode,1,nil,CARD_EVIL_EYE_SELENE)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(1-tp) and chkc:IsType(TYPE_MONSTER) end

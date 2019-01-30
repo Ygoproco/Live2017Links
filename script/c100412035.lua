@@ -1,4 +1,4 @@
---惨禍の呪眼
+﻿--惨禍の呪眼
 --Evil Eye of Disaster
 --Scripted by AlphaKretin
 local s,id=GetID()
@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.desop)
 	c:RegisterEffect(e1)
 end
-s.listed_names={CARD_CURSED_EYE_SELENE}
+s.listed_names={CARD_EVIL_EYE_SELENE}
 function s.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x226)
 end
@@ -35,7 +35,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		local dest
-		if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_CURSED_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil) then
+		if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_EVIL_EYE_SELENE),tp,LOCATION_SZONE,0,1,nil) then
 			dest=LOCATION_REMOVED
 		end
 		Duel.Destroy(tc,REASON_EFFECT,dest)
