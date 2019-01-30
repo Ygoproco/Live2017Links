@@ -34,11 +34,11 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
         e2:SetCondition(s.damcon)
         e2:SetOperation(s.damop)
         e2:SetReset(RESET_PHASE+PHASE_DAMAGE)
-        tc:RegisterEffect(e2)
+		Duel.RegisterEffect(e2,tp)
     end
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-    return ep==tp and e:GetHandler():IsRelateToBattle()
+	return ep==tp and eg:GetFirst():IsRelateToBattle()
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Damage(1-tp,ev*2,REASON_EFFECT)
