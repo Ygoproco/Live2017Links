@@ -1330,6 +1330,26 @@ function Auxiliary.MaleficSummonOperation(cd,loc)
 				Duel.Remove(tc,POS_FACEUP,REASON_COST)
 			end
 end
+--Filter for "If a [filter] monster is Special Summoned to a zone this card points to"
+--Includes non-trivial handling of self-destructing Burning Abyss monsters
+function Auxiliary.zptfilter(filter)
+    return function(c,ec,tp)
+        if filter and not filter(c,tp) then return false end
+        if c:IsLocation(LOCATION_MZONE) then
+            return ec:GetLinkedGroup():IsContains(c)
+        else
+            return (ec:GetLinkedZone(c:GetPreviousControler())&(1<<c:GetPreviousSequence()))~=0
+        end
+    end
+end
+--Condition for "If a [filter] monster is Special Summoned to a zone this card points to"
+--Includes non-trivial handling of self-destructing Burning Abyss monsters
+--Passes tp so you can check control
+function Auxiliary.zptcon(filter)
+    return function(e,tp,eg,ep,ev,re,r,rp)
+        return eg:IsExists(Auxiliary.zptfilter(filter),1,nil,e:GetHandler(),tp)
+    end
+end
 
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
