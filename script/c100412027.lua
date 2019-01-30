@@ -1,4 +1,4 @@
-﻿--呪眼の死徒 サリエル
+--呪眼の死徒 サリエル
 --Cursed Eye Deathsciple Sariel
 --scripted by Naim
 local s,id=GetID()
