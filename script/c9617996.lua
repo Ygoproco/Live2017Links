@@ -28,7 +28,7 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetCountLimit(1,id)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCondition(s.thcon)
+	e3:SetCondition(aux.zptcon(aux.FilterBoolFunction(Card.IsType,TYPE_EFFECT)))
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)	
@@ -60,7 +60,7 @@ end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g1=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
-	if g1:GetCount()>0 then
+	if #g1>0 then
 		Duel.SendtoHand(g1,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g1)
 	end
