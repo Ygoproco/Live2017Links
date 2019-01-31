@@ -22,6 +22,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--control
 	local e3=Effect.CreateEffect(c)
+	e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
 	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetCode(EFFECT_SET_CONTROL)
 	e3:SetRange(LOCATION_SZONE)
@@ -67,7 +68,7 @@ end
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS):GetFirst()
-	if c:IsRelateToEffect(re) and tc and tc:IsFaceup() and tc:IsRelateToEffect(re) then
+	if c:IsRelateToEffect(re) and tc and tc:IsRelateToEffect(re) then
 		c:SetCardTarget(tc)
 	end
 end
