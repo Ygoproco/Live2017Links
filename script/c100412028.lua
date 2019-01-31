@@ -1,4 +1,4 @@
-﻿--呪眼の死徒 メドゥサ
+--呪眼の死徒 メドゥサ
 --Medusa, Dead Apostle of the Evil Eye
 --Scripted by AlphaKretin
 local s,id=GetID()

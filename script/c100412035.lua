@@ -1,4 +1,4 @@
-﻿--惨禍の呪眼
+--惨禍の呪眼
 --Evil Eye of Disaster
 --Scripted by AlphaKretin
 local s,id=GetID()

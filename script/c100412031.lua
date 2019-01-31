@@ -1,4 +1,4 @@
-﻿--呪眼の王 ザラキエル
+--呪眼の王 ザラキエル
 --Zerachiel, King of the Evil Eye
 --scripted by Naim
 local s,id=GetID()

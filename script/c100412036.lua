@@ -1,4 +1,4 @@
-﻿-- 静冠の呪眼
+-- 静冠の呪眼
 --Watchful Rule of the Evil Eye 
 local s,id=GetID()
 function s.initial_effect(c)

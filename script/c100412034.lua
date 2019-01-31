@@ -1,4 +1,4 @@
-﻿--喚忌の呪眼
+--喚忌の呪眼
 --Wails of the Evil Eye
 --Scripted by AlphaKretin
 local s,id=GetID()
