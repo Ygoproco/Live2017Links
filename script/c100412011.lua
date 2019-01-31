@@ -26,13 +26,13 @@ function s.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetCountLimit(1,id)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
 function s.efilter(e,te)
-	local tc=te:GetHandler()
-	return tc==e:GetHandler() or not tc:IsType(TYPE_XYZ)
+	return te:IsActiveType(TYPE_MONSTER) and not te:IsActiveType(TYPE_XYZ)
 end
 function s.indes(e,c)
 	return not c:IsType(TYPE_XYZ)
@@ -66,6 +66,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			if #og>0 then
 				Duel.SendtoGrave(og,REASON_RULE)
 			end
+			oc:CancelToGrave()
 			Duel.Overlay(tc,Group.FromCards(oc))
 		end
 	end
