@@ -38,7 +38,7 @@ function c71384012.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c71384012.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0
+	return (r&REASON_EFFECT+REASON_BATTLE)~=0
 end
 function c71384012.thfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToHand()

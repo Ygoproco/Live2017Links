@@ -28,7 +28,7 @@ function c38342335.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c38342335.lcheck(g,lc)
-	return g:GetClassCount(Card.GetCode)==g:GetCount()
+	return g:GetClassCount(Card.GetCode)==#g
 end
 function c38342335.tdcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
@@ -69,7 +69,7 @@ function c38342335.drfilter(c)
 end
 function c38342335.drval(e)
 	local g=Duel.GetMatchingGroup(c38342335.drfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,nil)
-	if g:GetCount()<=0 then return 1 end
+	if #g<=0 then return 1 end
 	return g:GetClassCount(Card.GetCode)
 end
 

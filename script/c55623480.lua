@@ -48,7 +48,7 @@ function c55623480.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
 	local sg=Duel.GetMatchingGroup(c55623480.rmfilter,tp,LOCATION_HAND+LOCATION_ONFIELD+LOCATION_GRAVE,0,e:GetHandler())
-	if chk==0 then return sg:GetCount()>=7 and (ft>0 or sg:FilterCount(aux.MZFilter,nil,tp)>=ct) end
+	if chk==0 then return #sg>=7 and (ft>0 or sg:FilterCount(aux.MZFilter,nil,tp)>=ct) end
 	local g
 	if ft<=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)

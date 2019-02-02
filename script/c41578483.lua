@@ -94,7 +94,7 @@ end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=c:GetEquipGroup():Filter(s.atkfilter,nil)
-	return g:GetCount()>0
+	return #g>0
 end
 function s.atkval(e,c)
 	local atk=0

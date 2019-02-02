@@ -56,7 +56,7 @@ function c91512835.value(e,c)
 	return Duel.GetMatchingGroupCount(c91512835.filter,0,LOCATION_MZONE,LOCATION_MZONE,nil)*200
 end
 function c91512835.regop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RegisterFlagEffect(91512835,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	e:GetHandler():RegisterFlagEffect(91512835,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c91512835.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetFlagEffect(91512835)~=0
@@ -68,7 +68,7 @@ function c91512835.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c91512835.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,91512836,0,0x4011,100,100,1,RACE_INSECT,ATTRIBUTE_EARTH) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,91512836,0,TYPES_TOKEN,100,100,1,RACE_INSECT,ATTRIBUTE_EARTH) then
 		local token=Duel.CreateToken(tp,91512836)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_ATTACK)
 	end

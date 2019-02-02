@@ -16,7 +16,7 @@ function c86516889.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(Card.IsFacedown,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEDOWN)
 	local g=Duel.SelectTarget(tp,Card.IsFacedown,tp,LOCATION_MZONE,0,1,99,nil)
-	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,#g,0,0)
 end
 function c86516889.filter(c,e)
 	return c:IsFacedown() and c:IsRelateToEffect(e)
@@ -28,7 +28,7 @@ function c86516889.activate(e,tp,eg,ep,ev,re,r,rp)
 	if ct>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
 		local sg=Duel.SelectMatchingCard(tp,Card.IsCanTurnSet,tp,0,LOCATION_MZONE,1,ct,nil)
-		if sg:GetCount()>0 then
+		if #sg>0 then
 			Duel.HintSelection(sg)
 			Duel.ChangePosition(sg,POS_FACEDOWN_DEFENSE)
 		end

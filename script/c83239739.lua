@@ -22,7 +22,7 @@ function c83239739.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c83239739.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,83239740,0,0x4011,0,0,1,RACE_FISH,ATTRIBUTE_WATER) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,83239740,0,TYPES_TOKEN,0,0,1,RACE_FISH,ATTRIBUTE_WATER) then
 		local token=Duel.CreateToken(tp,83239740)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

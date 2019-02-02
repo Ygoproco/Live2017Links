@@ -17,5 +17,5 @@ function c52040216.val(e,c)
 	return Duel.GetMatchingGroupCount(c52040216.filter,c:GetControler(),LOCATION_ONFIELD,LOCATION_ONFIELD,nil)*300
 end
 function c52040216.filter(c)
-	return c:IsFaceup() and c:IsCode(76812113)
+	return c:IsFaceup() and c:IsCode(CARD_HARPIE_LADY)
 end

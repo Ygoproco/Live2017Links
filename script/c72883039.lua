@@ -76,14 +76,14 @@ end
 function c72883039.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetFlagEffect(72883039)==0 end
-	c:RegisterFlagEffect(72883039,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	c:RegisterFlagEffect(72883039,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c72883039.spfilter(c,e,tp)
 	return c:IsSetCard(0x4a) and c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function c72883039.spcheck(sg,e,tp,mg)
-	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
-		and sg:GetClassCount(Card.GetLocation)>=sg:GetCount()
+	return sg:GetClassCount(Card.GetCode)>=#sg
+		and sg:GetClassCount(Card.GetLocation)>=#sg
 end
 function c72883039.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(c72883039.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp) end
@@ -93,11 +93,11 @@ function c72883039.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft==0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then
 		ft=1
 	end
 	local sg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c72883039.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp)
-	if sg:GetCount()==0 then return end
+	if #sg==0 then return end
 	local rg=aux.SelectUnselectGroup(sg,e,tp,nil,ft,c72883039.spcheck,1,tp,HINTMSG_SPSUMMON,c72883039.spcheck)
 	Duel.SpecialSummon(rg,0,tp,tp,true,false,POS_FACEUP)
 end

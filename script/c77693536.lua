@@ -60,7 +60,7 @@ function c77693536.equipop(c,e,tp,tc)
 	e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
 	e1:SetCode(EFFECT_UPDATE_DEFENSE)
 	e1:SetValue(atk)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	tc:RegisterEffect(e1)
 end
 function c77693536.eqop(e,tp,eg,ep,ev,re,r,rp)

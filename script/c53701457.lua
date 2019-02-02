@@ -27,7 +27,7 @@ function c53701457.initial_effect(c)
 	e3:SetCost(c53701457.damcost)
 	e3:SetTarget(c53701457.damtg)
 	e3:SetOperation(c53701457.damop)
-	c:RegisterEffect(e3,false,1)
+	c:RegisterEffect(e3,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c53701457.xyz_number=28
 function c53701457.dircon(e)

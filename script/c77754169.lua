@@ -41,7 +41,7 @@ function c77754169.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g2=Duel.SelectTarget(tp,c77754169.eqfilter2,tp,LOCATION_GRAVE,0,1,ct-1,g:GetFirst(),g:GetFirst():GetCode())
 	g:Merge(g2)
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,#g,0,0)
 end
 function c77754169.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
@@ -49,7 +49,7 @@ function c77754169.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
 		local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-		if ft<g:GetCount() then return end
+		if ft<#g then return end
 		Duel.BreakEffect()
 		for tc in aux.Next(g) do
 			Duel.Equip(tp,tc,c,false)
@@ -84,7 +84,7 @@ end
 function c77754169.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(c77754169.desfilter,tp,0,LOCATION_MZONE,nil,e:GetLabel())
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
 function c77754169.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c77754169.desfilter,tp,0,LOCATION_MZONE,nil,e:GetLabel())

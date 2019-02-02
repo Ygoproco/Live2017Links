@@ -1,6 +1,7 @@
 --プリン隊
 --Putrid Pudding Body Buddies
-function c85101097.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--cannot release
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -26,34 +27,34 @@ function c85101097.initial_effect(c)
 	c:RegisterEffect(e5)
 	--control
 	local e6=Effect.CreateEffect(c)
-	e6:SetDescription(aux.Stringid(85101097,0))
+	e6:SetDescription(aux.Stringid(id,0))
 	e6:SetCategory(CATEGORY_DESTROY+CATEGORY_CONTROL)
 	e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e6:SetCode(EVENT_PHASE+PHASE_END)
 	e6:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e6:SetRange(LOCATION_MZONE)
 	e6:SetCountLimit(1)
-	e6:SetCondition(c85101097.ctlcon)
-	e6:SetTarget(c85101097.ctltg)
-	e6:SetOperation(c85101097.ctlop)
+	e6:SetCondition(s.ctlcon)
+	e6:SetTarget(s.ctltg)
+	e6:SetOperation(s.ctlop)
 	c:RegisterEffect(e6)
 	--damage
 	local e7=Effect.CreateEffect(c)
-	e7:SetDescription(aux.Stringid(85101097,1))
+	e7:SetDescription(aux.Stringid(id,1))
 	e7:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e7:SetCategory(CATEGORY_DAMAGE)
 	e7:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e7:SetRange(LOCATION_MZONE)
 	e7:SetCountLimit(1)
-	e7:SetCondition(c85101097.damcon)
-	e7:SetTarget(c85101097.damtg)
-	e7:SetOperation(c85101097.damop)
+	e7:SetCondition(s.damcon)
+	e7:SetTarget(s.damtg)
+	e7:SetOperation(s.damop)
 	c:RegisterEffect(e7)
 end
-function c85101097.ctlcon(e,tp,eg,ep,ev,re,r,rp)
+function s.ctlcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c85101097.ctltg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.ctltg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_PZONE) and chkc:IsControler(tp) end
 	if chk==0 then return e:GetHandler():IsControlerCanBeChanged()
 		and Duel.IsExistingTarget(nil,tp,LOCATION_PZONE,0,1,nil) end
@@ -62,7 +63,7 @@ function c85101097.ctltg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_CONTROL,e:GetHandler(),1,0,0)
 end
-function c85101097.ctlop(e,tp,eg,ep,ev,re,r,rp)
+function s.ctlop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0
@@ -72,13 +73,13 @@ function c85101097.ctlop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.GetControl(c,1-tp,0,0,zone)
 	end
 end
-function c85101097.damcon(e,tp,eg,ep,ev,re,r,rp)
+function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c85101097.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,0,0,tp,300)
 end
-function c85101097.damop(e,tp,eg,ep,ev,re,r,rp)
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Damage(tp,300,REASON_EFFECT)
 end

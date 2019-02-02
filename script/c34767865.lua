@@ -22,7 +22,7 @@ function c34767865.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return aux.exccon(e) and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
 end
 function c34767865.cfilter(c)
-	return bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
+	return (c:GetType()&0x81)==0x81 and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
 function c34767865.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost()
@@ -33,16 +33,16 @@ function c34767865.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c34767865.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,34767866,0,0x4011,0,0,4,RACE_CYBERSE,ATTRIBUTE_LIGHT) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,34767866,0,TYPES_TOKEN,0,0,4,RACE_CYBERSE,ATTRIBUTE_LIGHT) end
 		Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c34767865.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2 then return end
-	if not Duel.IsPlayerCanSpecialSummonMonster(tp,34767866,0,0x4011,0,0,4,RACE_CYBERSE,ATTRIBUTE_LIGHT) then return end
+	if not Duel.IsPlayerCanSpecialSummonMonster(tp,34767866,0,TYPES_TOKEN,0,0,4,RACE_CYBERSE,ATTRIBUTE_LIGHT) then return end
 	for i=1,2 do
 		local token=Duel.CreateToken(tp,34767866)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)

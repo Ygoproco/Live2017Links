@@ -14,9 +14,9 @@ function c67159705.initial_effect(c)
 	e1:SetOperation(c67159705.desop)
 	c:RegisterEffect(e1)
 end
-c67159705.listed_names={70095154}
+c67159705.listed_names={CARD_CYBER_DRAGON}
 function c67159705.unfilter(c)
-	return c:IsCode(70095154) or aux.IsMaterialListCode(c,70095154)
+	return c:IsCode(CARD_CYBER_DRAGON) or aux.IsMaterialListCode(c,CARD_CYBER_DRAGON)
 end
 function c67159705.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end

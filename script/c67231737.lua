@@ -36,7 +36,7 @@ function c67231737.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	if tc:GetFlagEffect(67231737)==0 then
 		c67231737[ep]=c67231737[ep]+1
-		tc:RegisterFlagEffect(67231737,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+		tc:RegisterFlagEffect(67231737,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 	end
 end
 function c67231737.clear(e,tp,eg,ep,ev,re,r,rp)
@@ -83,7 +83,7 @@ function c67231737.operation(e,tp,eg,ep,ev,re,r,rp)
 		e0:SetType(EFFECT_TYPE_SINGLE)
 		e0:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
 		e0:SetValue(gc)
-		e0:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
+		e0:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
 		a:RegisterEffect(e0)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_FIELD)

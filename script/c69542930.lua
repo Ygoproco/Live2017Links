@@ -10,9 +10,9 @@ function c69542930.initial_effect(c)
 	e1:SetOperation(c69542930.activate)
 	c:RegisterEffect(e1)
 end
-c69542930.listed_names={46986414,40737112}
+c69542930.listed_names={CARD_DARK_MAGICIAN,40737112}
 function c69542930.cfilter(c,ft,tp)
-	return c:IsCode(46986414) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp))
+	return c:IsCode(CARD_DARK_MAGICIAN) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp))
 end
 function c69542930.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
@@ -35,7 +35,7 @@ function c69542930.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c69542930.filter),tp,0x13,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

@@ -15,7 +15,7 @@ function c78144171.initial_effect(c)
 	e1:SetCost(c78144171.cost)
 	e1:SetTarget(c78144171.target)
 	e1:SetOperation(c78144171.operation)
-	c:RegisterEffect(e1,false,1)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 end
 function c78144171.ovfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsLevelAbove(5) and Duel.GetMatchingGroupCount(Card.IsAttribute,c:GetControler(),LOCATION_GRAVE,0,nil,ATTRIBUTE_DARK)==5
@@ -47,7 +47,7 @@ function c78144171.operation(e,tp,eg,ep,ev,re,r,rp)
 			else
 				g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,1,1,nil)
 			end
-			if g:GetCount()>0 then
+			if #g>0 then
 			Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 			end
 		end
@@ -55,7 +55,7 @@ function c78144171.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CANNOT_ATTACK)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		e:GetHandler():RegisterEffect(e1)
 	end
 end

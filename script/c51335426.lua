@@ -33,7 +33,7 @@ function c51335426.activate(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_EXTRA) then
 		if Duel.Draw(p,ct,REASON_EFFECT)==ct then
 			local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,p,LOCATION_HAND,0,nil)
-			if g:GetCount()==0 then return end
+			if #g==0 then return end
 			Duel.Hint(HINT_SELECTMSG,p,HINTMSG_TODECK)
 			local sg=g:Select(p,ct,ct,nil)
 			Duel.SendtoDeck(sg,nil,0,REASON_EFFECT)

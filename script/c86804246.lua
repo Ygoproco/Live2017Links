@@ -46,7 +46,7 @@ function c86804246.spcon(e,c)
 	local rg=rg1:Clone()
 	rg:Merge(rg2)
 	rg:Merge(rg3)
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-3 and rg1:GetCount()>0 and rg2:GetCount()>0 and rg3:GetCount()>0 
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-3 and #rg1>0 and #rg2>0 and #rg3>0 
 		and aux.SelectUnselectGroup(rg,e,tp,3,3,c86804246.rescon,0)
 end
 function c86804246.spop(e,tp,eg,ep,ev,re,r,rp,c)

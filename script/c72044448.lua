@@ -12,12 +12,12 @@ function c72044448.initial_effect(c)
 	e1:SetOperation(c72044448.activate)
 	c:RegisterEffect(e1)
 end
-c72044448.listed_names={93717133}
+c72044448.listed_names={CARD_GALAXYEYES_P_DRAGON}
 function c72044448.cfilter1(c)
 	return c:IsFaceup() and c:IsSetCard(0x107b)
 end
 function c72044448.cfilter2(c)
-	return c:IsFaceup() and c:IsCode(93717133)
+	return c:IsFaceup() and c:IsCode(CARD_GALAXYEYES_P_DRAGON)
 end
 function c72044448.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c72044448.cfilter1,tp,LOCATION_MZONE,0,1,nil)

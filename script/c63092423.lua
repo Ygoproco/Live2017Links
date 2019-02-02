@@ -78,7 +78,7 @@ function c63092423.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c63092423.splimit(e,c,tp,sumtp,sumpos)
-	return c:GetLink()>e:GetHandler():GetCounter(0x44) and bit.band(sumtp,SUMMON_TYPE_LINK)==SUMMON_TYPE_LINK
+	return c:GetLink()>e:GetHandler():GetCounter(0x44) and (sumtp&SUMMON_TYPE_LINK)==SUMMON_TYPE_LINK
 end
 function c63092423.atktg(e,c)
 	return not c:IsType(TYPE_LINK)

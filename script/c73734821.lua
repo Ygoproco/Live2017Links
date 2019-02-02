@@ -56,7 +56,7 @@ function c73734821.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(300)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 	end
 end
@@ -77,7 +77,7 @@ function c73734821.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 then
 		local g=Duel.GetMatchingGroup(c73734821.tffilter,tp,LOCATION_HAND,0,nil,tp)
-		if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(73734821,2)) then
+		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(73734821,2)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
 			local sc=g:Select(tp,1,1,nil):GetFirst()

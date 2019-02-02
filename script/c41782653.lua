@@ -76,7 +76,7 @@ end
 function c41782653.negop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g1=Duel.SelectMatchingCard(tp,c41782653.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil)
-	if g1:GetCount()>0 and Duel.Destroy(g1,REASON_EFFECT)~=0 then
+	if #g1>0 and Duel.Destroy(g1,REASON_EFFECT)~=0 then
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
@@ -95,7 +95,7 @@ end
 function c41782653.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c41782653.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

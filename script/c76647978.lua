@@ -24,7 +24,7 @@ function c76647978.clear(e,tp,eg,ep,ev,re,r,rp)
 	for c,e2 in ipairs(UltraPolyTable) do
 		local g=e2:GetLabelObject()
 		g:Remove(aux.FilterEqualFunction(Card.GetFlagEffect,0,76647978),nil)
-		if g:GetCount()<=0 then
+		if #g<=0 then
 			g:DeleteGroup()
 			UltraPolyTable[c]=nil
 		end
@@ -76,7 +76,7 @@ function c76647978.activate(e,tp,eg,ep,ev,re,r,rp)
 		local mf=ce:GetValue()
 		sg2=Duel.GetMatchingGroup(c76647978.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,mf)
 	end
-	if sg1:GetCount()>0 or (sg2~=nil and sg2:GetCount()>0) then
+	if #sg1>0 or (sg2~=nil and #sg2>0) then
 		local sg=sg1:Clone()
 		if sg2 then sg:Merge(sg2) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -94,7 +94,7 @@ function c76647978.activate(e,tp,eg,ep,ev,re,r,rp)
 			fop(ce,e,tp,tc,mat2)
 		end
 		local c=e:GetHandler()
-		tc:RegisterFlagEffect(76647978,RESET_EVENT+0x1fe0000,0,1)
+		tc:RegisterFlagEffect(76647978,RESET_EVENT+RESETS_STANDARD,0,1)
 		tc:CompleteProcedure()
 		local g
 		if UltraPolyTable[c]==nil then
@@ -126,7 +126,7 @@ function c76647978.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c76647978.mgfilter(c,e,tp,fusc,mg)
 	return c:IsControler(tp) and c:IsLocation(LOCATION_GRAVE)
-		and bit.band(c:GetReason(),0x40008)==0x40008 and c:GetReasonCard()==fusc
+		and (c:GetReason()&0x40008)==0x40008 and c:GetReasonCard()==fusc
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and fusc:CheckFusionMaterial(mg,c,PLAYER_NONE+65536)
 end
@@ -134,10 +134,10 @@ function c76647978.spfilter(c,e,tp)
 	local g=UltraPolyTable[e:GetHandler()]:GetLabelObject()
 	if c:IsFaceup() and c:GetFlagEffect(76647978)~=0 and g and g:IsContains(c) then
 		local mg=c:GetMaterial()
-		local ct=mg:GetCount()
+		local ct=#mg
 		return ct>0 and ct<=Duel.GetLocationCount(tp,LOCATION_MZONE)
 			and mg:FilterCount(c76647978.mgfilter,nil,e,tp,c,mg)==ct
-			and (not Duel.IsPlayerAffectedByEffect(tp,59822133) or ct<=1)
+			and (not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) or ct<=1)
 	else return false end
 end
 function c76647978.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -152,28 +152,28 @@ function c76647978.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if not tc or not tc:IsRelateToEffect(e) then return end
 	local mg=tc:GetMaterial()
-	local ct=mg:GetCount()
+	local ct=#mg
 	if ct>0 and ct<=Duel.GetLocationCount(tp,LOCATION_MZONE)
 		and mg:FilterCount(c76647978.mgfilter,nil,e,tp,tc,mg)==ct
-		and not Duel.IsPlayerAffectedByEffect(tp,59822133) then
+		and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then
 		local sc=mg:GetFirst()
 		while sc do
 			if Duel.SpecialSummonStep(sc,0,tp,tp,false,false,POS_FACEUP) then
 				local e1=Effect.CreateEffect(c)
 				e1:SetType(EFFECT_TYPE_SINGLE)
 				e1:SetCode(EFFECT_DISABLE)
-				e1:SetReset(RESET_EVENT+0x1fe0000)
+				e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 				sc:RegisterEffect(e1,true)
 				local e2=Effect.CreateEffect(c)
 				e2:SetType(EFFECT_TYPE_SINGLE)
 				e2:SetCode(EFFECT_DISABLE_EFFECT)
-				e2:SetReset(RESET_EVENT+0x1fe0000)
+				e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 				sc:RegisterEffect(e2,true)
 				local e3=Effect.CreateEffect(c)
 				e3:SetType(EFFECT_TYPE_SINGLE)
 				e3:SetCode(EFFECT_SET_ATTACK_FINAL)
 				e3:SetValue(0)
-				e3:SetReset(RESET_EVENT+0x1fe0000)
+				e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 				sc:RegisterEffect(e3,true)
 				local e4=e3:Clone()
 				e4:SetCode(EFFECT_SET_DEFENSE_FINAL)

@@ -41,7 +41,7 @@ end
 function c62834295.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(62834295,1))
 	local g=Duel.SelectMatchingCard(tp,c62834295.tgfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		local tc=g:GetFirst()
 		if tc and tc:IsAbleToGrave() and (not tc:IsAbleToRemove() or Duel.SelectYesNo(tp,aux.Stringid(62834295,2))) then
 			Duel.SendtoGrave(tc,REASON_EFFECT)

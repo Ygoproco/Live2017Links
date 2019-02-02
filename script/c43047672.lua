@@ -22,7 +22,7 @@ function c43047672.initial_effect(c)
 	e2:SetCost(c43047672.cost)
 	e2:SetTarget(c43047672.target)
 	e2:SetOperation(c43047672.operation)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--chain attack
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(43047672,1))
@@ -53,11 +53,11 @@ end
 function c43047672.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c43047672.filter,tp,LOCATION_REMOVED,0,1,nil) end
 	local g=Duel.GetMatchingGroup(c43047672.filter,tp,LOCATION_REMOVED,0,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,#g,0,0)
 end
 function c43047672.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c43047672.filter,tp,LOCATION_REMOVED,0,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoGrave(g,REASON_EFFECT+REASON_RETURN)
 	end
 end

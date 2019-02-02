@@ -43,9 +43,9 @@ function c38916526.thop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetMatchingGroup(c38916526.ctfilter,tp,LOCATION_MZONE,0,nil):GetClassCount(Card.GetCode)
 	Duel.ConfirmDecktop(tp,ct)
 	local g=Duel.GetDecktopGroup(tp,ct)
-	if g:GetCount()>0 then
+	if #g>0 then
 		local tg=g:Filter(Card.IsAbleToHand,nil)
-		if tg:GetCount()>0 then
+		if #tg>0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 			local sg=tg:Select(tp,1,1,nil)
 			Duel.SendtoHand(sg,nil,REASON_EFFECT)

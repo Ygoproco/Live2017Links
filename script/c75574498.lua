@@ -39,7 +39,7 @@ function c75574498.initial_effect(c)
 	e4:SetCost(c75574498.spcost2)
 	e4:SetTarget(c75574498.sptg2)
 	e4:SetOperation(c75574498.spop2)
-	c:RegisterEffect(e4,false,1)
+	c:RegisterEffect(e4,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c75574498.listed_names={81587028}
 function c75574498.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -67,7 +67,7 @@ function c75574498.tgcon(e)
 end
 function c75574498.cfilter(c,tp)
 	return c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE) and c:IsReason(REASON_DESTROY)
-		and bit.band(c:GetPreviousTypeOnField(),TYPE_NORMAL)~=0
+		and (c:GetPreviousTypeOnField()&TYPE_NORMAL)~=0
 end
 function c75574498.spcon2(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c75574498.cfilter,1,nil,tp)
@@ -88,7 +88,7 @@ function c75574498.spop2(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c75574498.spfilter2),tp,LOCATION_GRAVE+LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end

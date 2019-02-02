@@ -1,6 +1,7 @@
 --サイバー・ラーバァ
 --Cyber Larva
 local s,id=GetID(c)
+local s,id=GetID()
 function s.initial_effect(c)
 	--avoid battle damage
 	local e1=Effect.CreateEffect(c)

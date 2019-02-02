@@ -1,5 +1,6 @@
 --炎霊神パイロレクス
-function c35842855.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
@@ -13,33 +14,33 @@ function c35842855.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
-	e2:SetCondition(c35842855.spcon)
+	e2:SetCondition(s.spcon)
 	c:RegisterEffect(e2)
 	--destroy
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(35842855,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_DAMAGE)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e3:SetCountLimit(1,35842855)
+	e3:SetCountLimit(1,id)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetTarget(c35842855.destg)
-	e3:SetOperation(c35842855.desop)
+	e3:SetTarget(s.destg)
+	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
 	--leave
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e4:SetCode(EVENT_LEAVE_FIELD_P)
 	e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
-	e4:SetOperation(c35842855.leaveop)
+	e4:SetOperation(s.leaveop)
 	c:RegisterEffect(e4)
 end
-function c35842855.spcon(e,c)
+function s.spcon(e,c)
 	if c==nil then return true end
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0 and
 		Duel.GetMatchingGroupCount(Card.IsAttribute,c:GetControler(),LOCATION_GRAVE,0,nil,ATTRIBUTE_FIRE)==5
 end
-function c35842855.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) end
 	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
@@ -47,7 +48,7 @@ function c35842855.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,PLAYER_ALL,0)
 end
-function c35842855.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)==1 then
 		local atk=tc:GetTextAttack()/2
@@ -58,7 +59,7 @@ function c35842855.desop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c35842855.leaveop(e,tp,eg,ep,ev,re,r,rp)
+function s.leaveop(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsFacedown() then return end
 	local effp=e:GetHandler():GetControler()
 	local e1=Effect.CreateEffect(e:GetHandler())
@@ -68,13 +69,13 @@ function c35842855.leaveop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetTargetRange(1,0)
 	if Duel.GetTurnPlayer()==effp then
 		e1:SetLabel(Duel.GetTurnCount())
-		e1:SetCondition(c35842855.skipcon)
+		e1:SetCondition(s.skipcon)
 		e1:SetReset(RESET_PHASE+PHASE_END+RESET_SELF_TURN,2)
 	else
 		e1:SetReset(RESET_PHASE+PHASE_END+RESET_SELF_TURN,1)
 	end
 	Duel.RegisterEffect(e1,effp)
 end
-function c35842855.skipcon(e)
+function s.skipcon(e)
 	return Duel.GetTurnCount()~=e:GetLabel()
 end

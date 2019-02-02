@@ -62,7 +62,7 @@ end
 function c63509474.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(63509474,1))
 	local g=Duel.SelectMatchingCard(tp,c63509474.filter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		local sc=g:GetFirst()
 		if sc then
 			if sc:IsCanBeSpecialSummoned(e,0,tp,false,false)

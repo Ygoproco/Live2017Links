@@ -62,14 +62,14 @@ function c49511705.effop(e,tp,eg,ep,ev,re,r,rp)
 	if ct>1 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 		local g=Duel.SelectMatchingCard(tp,nil,tp,0,LOCATION_ONFIELD,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.HintSelection(g)
 			Duel.Destroy(g,REASON_EFFECT)
 		end
 	end
 	if ct>2 then
 		local hg=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
-		if hg:GetCount()>0 then
+		if #hg>0 then
 			Duel.ConfirmCards(tp,hg)
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DISCARD)
 			local sg=hg:Select(tp,1,1,nil)

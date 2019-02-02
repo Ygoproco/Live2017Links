@@ -25,7 +25,7 @@ function c72378329.ffilter(c,fc,sumtype,tp)
 	return c:IsRace(RACE_DRAGON,fc,sumtype,tp) and c:IsAttribute(ATTRIBUTE_DARK,fc,sumtype,tp)
 end
 function c72378329.splimit(e,se,sp,st)
-	return bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
+	return (st&SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
 end
 function c72378329.contactfil(tp)
 	return Duel.GetReleaseGroup(tp)
@@ -52,7 +52,7 @@ end
 function c72378329.valcheck(e,c)
 	local g=c:GetMaterial():Filter(Card.IsRace,nil,RACE_BEAST,c,SUMMON_TYPE_FUSION)
 	local atk=0
-	if g:GetCount()>0 then
+	if #g>0 then
 		atk=g:GetFirst():GetTextAttack()
 		if atk<0 then atk=0 end
 	end

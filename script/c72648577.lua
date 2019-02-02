@@ -21,14 +21,14 @@ function c72648577.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c72648577.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c72648577.filter),tp,LOCATION_MZONE+LOCATION_PZONE+LOCATION_GRAVE+LOCATION_HAND,0,nil)
-	if g:GetCount()<3 then return end
+	if #g<3 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local sg=g:Select(tp,3,3,nil)
 	local cg=sg:Filter(Card.IsLocation,nil,LOCATION_HAND)
 	Duel.ConfirmCards(1-tp,cg)
 	Duel.SendtoDeck(sg,nil,0,REASON_EFFECT)
 	local dg=Duel.GetMatchingGroup(c72648577.thfilter,tp,LOCATION_DECK,0,nil)
-	if dg:GetCount()>1 and Duel.SelectYesNo(tp,aux.Stringid(72648577,0)) then
+	if #dg>1 and Duel.SelectYesNo(tp,aux.Stringid(72648577,0)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local tg=dg:Select(tp,2,2,nil)

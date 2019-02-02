@@ -27,14 +27,14 @@ function c40854824.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function c40854824.rescon(sg,e,tp,mg)
-	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
+	return sg:GetClassCount(Card.GetCode)>=#sg
 end
 function c40854824.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft<=0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	local g=Duel.GetMatchingGroup(c40854824.filter,tp,LOCATION_DECK,0,nil,e,tp)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local sg=aux.SelectUnselectGroup(g,e,tp,nil,ft,c40854824.rescon,1,tp,HINTMSG_SPSUMMON,c40854824.rescon)
 	Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
 end

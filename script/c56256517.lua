@@ -28,7 +28,7 @@ function c56256517.activate(e,tp,eg,ep,ev,re,r,rp)
     c:SetTurnCounter(0)
     local fid=c:GetFieldID()
     for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(56256517,RESET_EVENT+0x1fe0000,0,1,fid)
+        tc:RegisterFlagEffect(56256517,RESET_EVENT+RESETS_STANDARD,0,1,fid)
     end
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)

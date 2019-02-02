@@ -40,7 +40,7 @@ function c41359411.dirop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_EQUIP)
 	e1:SetProperty(EFFECT_CANNOT_DISABLE)
 	e1:SetCode(EFFECT_DIRECT_ATTACK)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	c:RegisterEffect(e1)
 end
 function c41359411.eqcon(e,tp,eg,ep,ev,re,r,rp)

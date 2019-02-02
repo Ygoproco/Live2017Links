@@ -37,8 +37,8 @@ function c82321037.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if Duel.IsPlayerAffectedByEffect(tp,88581108) then loc2=LOCATION_MZONE end
 	local g=Duel.GetMatchingGroup(c82321037.desfilter,tp,LOCATION_MZONE+LOCATION_HAND,loc2,c)
 	if chk==0 then return ft>-2 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and g:GetCount()>=2 and aux.SelectUnselectGroup(g,e,tp,2,2,c82321037.rescon,0) end
-	if (g:GetCount()==2 and g:FilterCount(Card.IsLocation,nil,LOCATION_HAND)==1) or not g:IsExists(Card.IsLocation,1,nil,LOCATION_HAND) then
+		and #g>=2 and aux.SelectUnselectGroup(g,e,tp,2,2,c82321037.rescon,0) end
+	if (#g==2 and g:FilterCount(Card.IsLocation,nil,LOCATION_HAND)==1) or not g:IsExists(Card.IsLocation,1,nil,LOCATION_HAND) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,2,0,0)
 	else
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,2,tp,loc)
@@ -62,7 +62,7 @@ function c82321037.spop(e,tp,eg,ep,ev,re,r,rp)
 			return
 		end
 		local rg=Duel.GetMatchingGroup(c82321037.rmfilter,tp,0,LOCATION_ONFIELD+LOCATION_GRAVE,nil)
-		if rm and rg:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(82321037,1)) then
+		if rm and #rg>0 and Duel.SelectYesNo(tp,aux.Stringid(82321037,1)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 			local tg=rg:Select(tp,1,2,nil)
 			Duel.HintSelection(tg)
@@ -85,7 +85,7 @@ function c82321037.spop2(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c82321037.thfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end

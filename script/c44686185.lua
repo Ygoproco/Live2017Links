@@ -35,7 +35,7 @@ function c44686185.rescon(sg,e,tp,mg)
 end
 function c44686185.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(c44686185.cfilter,tp,LOCATION_GRAVE+LOCATION_MZONE,0,nil)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and g:GetCount()>1 and aux.SelectUnselectGroup(g,e,tp,2,2,c44686185.rescon,0) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and #g>1 and aux.SelectUnselectGroup(g,e,tp,2,2,c44686185.rescon,0) end
 	local sg=aux.SelectUnselectGroup(g,e,tp,2,2,c44686185.rescon,1,tp,HINTMSG_REMOVE)
 	Duel.Remove(sg,POS_FACEUP,REASON_COST)
 end
@@ -58,7 +58,7 @@ function c44686185.repfilter(c,tp)
 end
 function c44686185.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(),69832741) and e:GetHandler():IsAbleToRemove() and eg:IsExists(c44686185.repfilter,1,nil,tp)
-		and eg:GetCount()==1 end
+		and #eg==1 end
 	return Duel.SelectEffectYesNo(tp,e:GetHandler(),96)
 end
 function c44686185.repval(e,c)

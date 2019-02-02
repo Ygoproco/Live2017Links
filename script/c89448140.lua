@@ -41,7 +41,7 @@ function c89448140.condition(e)
 	return Duel.IsExistingMatchingCard(c89448140.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function c89448140.val(e,re,dam,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 and Duel.IsExistingMatchingCard(c89448140.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil) then
+	if (r&REASON_EFFECT)~=0 and Duel.IsExistingMatchingCard(c89448140.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil) then
 		return dam/2
 	else return dam end
 end

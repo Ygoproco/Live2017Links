@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e2:SetCondition(s.cbcon)
 	e2:SetCost(s.cbcost)
 	e2:SetOperation(s.cbop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--atk up
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,2))
@@ -43,7 +43,7 @@ end
 s.xyz_number=38
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
-	return bit.band(loc,LOCATION_SZONE)~=0
+	return (loc&LOCATION_SZONE)~=0
 		and re:IsActiveType(TYPE_SPELL) and Duel.IsChainDisablable(ev) and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -96,7 +96,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	local g=eg:Filter(s.atkfilter1,nil,tp)
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		if g:GetCount()>=2 then
+		if #g>=2 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 			g=g:Select(tp,1,1,nil)
 		end
@@ -105,7 +105,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(g:GetFirst():GetBaseAttack())
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 end

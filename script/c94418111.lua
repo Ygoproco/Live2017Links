@@ -1,6 +1,7 @@
 --魔弾の射手 ワイルド
 --Magibullet Shooter Wild
-function c94418111.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate from hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -26,13 +27,13 @@ function c94418111.initial_effect(c)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,94418111)
-	e3:SetCondition(c94418111.tdcon)
-	e3:SetTarget(c94418111.tdtg)
-	e3:SetOperation(c94418111.tdop)
+	e3:SetCountLimit(1,id)
+	e3:SetCondition(s.tdcon)
+	e3:SetTarget(s.tdtg)
+	e3:SetOperation(s.tdop)
 	c:RegisterEffect(e3)
 end
-function c94418111.tdcon(e,tp,eg,ep,ev,re,r,rp)
+function s.tdcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=re:GetHandler()
 	if Duel.GetCurrentPhase()&PHASE_DAMAGE+PHASE_DAMAGE_CAL~=0 or not re:IsHasType(EFFECT_TYPE_ACTIVATE) or c:GetFlagEffect(1)<=0 then return false end
@@ -46,19 +47,19 @@ function c94418111.tdcon(e,tp,eg,ep,ev,re,r,rp)
 	end
 	return c:IsColumn(seq,p,LOCATION_SZONE)
 end
-function c94418111.filter(c)
+function s.filter(c)
 	return c:IsSetCard(0x108) and c:IsAbleToDeck()
 end
-function c94418111.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c94418111.filter(chkc) end
+function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.filter(chkc) end
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) 
-		and Duel.IsExistingTarget(c94418111.filter,tp,LOCATION_GRAVE,0,3,nil) end
+		and Duel.IsExistingTarget(s.filter,tp,LOCATION_GRAVE,0,3,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c94418111.filter,tp,LOCATION_GRAVE,0,3,3,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
+	local g=Duel.SelectTarget(tp,s.filter,tp,LOCATION_GRAVE,0,3,3,nil)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
-function c94418111.tdop(e,tp,eg,ep,ev,re,r,rp)
+function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	if not tg or tg:FilterCount(Card.IsRelateToEffect,nil,e)~=3 then return end
 	Duel.SendtoDeck(tg,nil,0,REASON_EFFECT)

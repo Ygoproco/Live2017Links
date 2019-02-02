@@ -25,12 +25,12 @@ function c96561011.initial_effect(c)
 	e3:SetValue(c96561011.val)
 	c:RegisterEffect(e3)
 end
-c96561011.listed_names={74677422}
+c96561011.listed_names={CARD_REDEYES_B_DRAGON}
 function c96561011.val(e,c)
 	return Duel.GetMatchingGroupCount(Card.IsRace,c:GetControler(),LOCATION_GRAVE,0,nil,RACE_DRAGON)*300
 end
 function c96561011.rfilter(c,ft,tp)
-	return c:IsCode(74677422)
+	return c:IsCode(CARD_REDEYES_B_DRAGON)
 		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5)) and (c:IsControler(tp) or c:IsFaceup())
 end
 function c96561011.spcon(e,c)

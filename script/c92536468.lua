@@ -37,7 +37,7 @@ function c92536468.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c92536468.effcon(e,tp,eg,ep,ev,re,r,rp)
-	return ep==tp and bit.band(r,REASON_EFFECT)~=0
+	return ep==tp and (r&REASON_EFFECT)~=0
 end
 function c92536468.revtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -57,7 +57,7 @@ function c92536468.revop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c92536468.revval(e,re,r,rp,rc)
-	return bit.band(r,REASON_EFFECT)~=0
+	return (r&REASON_EFFECT)~=0
 end
 function c92536468.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -72,6 +72,6 @@ function c92536468.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c92536468.damval(e,re,val,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 then return 0 end
+	if (r&REASON_EFFECT)~=0 then return 0 end
 	return val
 end

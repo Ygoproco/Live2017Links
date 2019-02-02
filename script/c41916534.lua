@@ -1,16 +1,17 @@
 --鉄のハンス
 --Iron Hans
 --scripted by Naim
-function c41916534.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(41916534,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
-	e1:SetCountLimit(1,41916534)
-	e1:SetTarget(c41916534.target)
-	e1:SetOperation(c41916534.operation)
+	e1:SetCountLimit(1,id)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
@@ -24,49 +25,49 @@ function c41916534.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EFFECT_UPDATE_ATTACK)
-	e4:SetCondition(c41916534.condition)
-	e4:SetValue(c41916534.value)
+	e4:SetCondition(s.condition)
+	e4:SetValue(s.value)
 	c:RegisterEffect(e4)
 end
-c41916534.listed_names={72283691}
-function c41916534.fieldcond(c)
-	return c:IsFaceup() and c:IsCode(72283691)
+s.listed_names={CARD_STROMBERG}
+function s.fieldcond(c)
+	return c:IsFaceup() and c:IsCode(CARD_STROMBERG)
 end
-function c41916534.spfilter(c,e,tp)
+function s.spfilter(c,e,tp)
 	return c:IsCode(73405179) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c41916534.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c41916534.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
-function c41916534.operation(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.operation(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local tc=Duel.GetFirstMatchingCard(c41916534.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
+	local tc=Duel.GetFirstMatchingCard(s.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
 	if tc then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
-		if not Duel.IsExistingMatchingCard(c41916534.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil,tp) then 
+		if not Duel.IsExistingMatchingCard(s.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil,tp) then 
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_FIELD)
 			e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 			e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 			e1:SetTargetRange(1,0)
-			e1:SetTarget(c41916534.splimit)
+			e1:SetTarget(s.splimit)
 			e1:SetReset(RESET_PHASE+PHASE_END)
 			Duel.RegisterEffect(e1,tp)
 		end
 	end
 end
-function c41916534.splimit(e,c)
+function s.splimit(e,c)
 	return c:IsLocation(LOCATION_EXTRA)
 end
-function c41916534.atkfilter(c)
+function s.atkfilter(c)
 	return c:IsFaceup() and c:IsCode(73405179)
 end
-function c41916534.value(e,c)
-	return Duel.GetMatchingGroupCount(c41916534.atkfilter,c:GetControler(),LOCATION_MZONE,0,nil)*1000
+function s.value(e,c)
+	return Duel.GetMatchingGroupCount(s.atkfilter,c:GetControler(),LOCATION_MZONE,0,nil)*1000
 end
-function c41916534.condition(e)
-	return Duel.IsExistingMatchingCard(c41916534.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
+function s.condition(e)
+	return Duel.IsExistingMatchingCard(s.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 end

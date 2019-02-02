@@ -10,9 +10,9 @@ function c87210505.initial_effect(c)
 	e1:SetOperation(c87210505.activate)
 	c:RegisterEffect(e1)
 end
-c87210505.listed_names={46986414,50725996}
+c87210505.listed_names={CARD_DARK_MAGICIAN,50725996}
 function c87210505.costfilter(c,ft,tp)
-	return c:IsFaceup() and c:IsCode(46986414) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp))
+	return c:IsFaceup() and c:IsCode(CARD_DARK_MAGICIAN) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp))
 end
 function c87210505.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)

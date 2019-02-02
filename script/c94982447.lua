@@ -78,7 +78,7 @@ function c94982447.rescon(sg,e,tp,mg)
 	if mi<1 then mi=ma end
 	if not sg:IsExists(c94982447.req,1,nil) or not aux.ChkfMMZ(1)(sg,e,tp,mg) 
 		or sg:FilterCount(c94982447.unreq,nil,tp)>1 then return false end
-	local ct=sg:GetCount()
+	local ct=#sg
 	return sg:CheckWithSumEqual(c94982447.val,mi,ct,ct,c,ma) or sg:CheckWithSumEqual(c94982447.val,ma,ct,ct,c,ma)
 end
 function c94982447.otcon(e,c,minc)
@@ -128,7 +128,7 @@ function c94982447.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c94982447.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end

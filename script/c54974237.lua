@@ -30,7 +30,7 @@ function c54974237.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if ac==1 then ty=TYPE_TRAP end
 	e:SetLabel(ty)
 	local g=Duel.GetMatchingGroup(c54974237.tgfilter,tp,0,LOCATION_ONFIELD,nil,ty)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
 function c54974237.cffilter(c)
 	return c:IsLocation(LOCATION_HAND) or (c:IsFacedown() and c:IsType(TYPE_SPELL+TYPE_TRAP))
@@ -38,7 +38,7 @@ end
 function c54974237.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ty=e:GetLabel()
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD+LOCATION_HAND)
-	if g:GetCount()>0 then
+	if #g>0 then
 		local cg=g:Filter(c54974237.cffilter,nil)
 		Duel.ConfirmCards(tp,cg)
 		local dg=g:Filter(Card.IsType,nil,ty)
@@ -82,7 +82,7 @@ end
 function c54974237.desop(e,tp,eg,ep,ev,re,r,rp)
 	if ep==e:GetOwnerPlayer() then return end
 	local hg=eg:Filter(Card.IsLocation,nil,LOCATION_HAND)
-	if hg:GetCount()==0 then return end
+	if #hg==0 then return end
 	Duel.ConfirmCards(1-ep,hg)
 	local dg=hg:Filter(Card.IsType,nil,e:GetLabel())
 	Duel.Destroy(dg,REASON_EFFECT)

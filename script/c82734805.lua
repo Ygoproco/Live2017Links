@@ -27,7 +27,7 @@ function s.valcheck(e,c)
 	e:GetLabelObject():SetLabel(ct)
 end
 function s.con(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(e:GetHandler():GetSummonType(),SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
+	return (e:GetHandler():GetSummonType()&SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
 end
 function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=e:GetLabel()
@@ -54,18 +54,18 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	if ct>=3 then
 		local g1=Duel.GetMatchingGroup(Card.IsAbleToGrave,tp,LOCATION_EXTRA,0,nil)
 		local sg1=nil
-		if g1:GetCount()>=3 then
+		if #g1>=3 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 			sg1=g1:Select(tp,3,3,nil)
 		else sg1=g1 end
 		local g2=Duel.GetMatchingGroup(Card.IsAbleToGrave,tp,0,LOCATION_EXTRA,nil)
 		local sg2=nil
-		if g2:GetCount()>=3 then
+		if #g2>=3 then
 			Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TOGRAVE)
 			sg2=g2:Select(1-tp,3,3,nil)
 		else sg2=g2 end
 		sg1:Merge(sg2)
-		if sg1:GetCount()>0 then
+		if #sg1>0 then
 			Duel.SendtoGrave(sg1,REASON_EFFECT)
 		end
 	end
@@ -81,7 +81,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TOGRAVE)
 		local g2=Duel.SelectMatchingCard(1-tp,nil,1-tp,LOCATION_REMOVED,0,1,3,nil)
 		g1:Merge(g2)
-		if g1:GetCount()>0 then
+		if #g1>0 then
 			Duel.SendtoGrave(g1,REASON_EFFECT+REASON_RETURN)
 		end
 	end

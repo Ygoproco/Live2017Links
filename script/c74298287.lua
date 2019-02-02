@@ -28,7 +28,7 @@ function c74298287.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x74)
 end
 function c74298287.spcon1(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_DECK+LOCATION_GRAVE)
+	return (r&REASON_EFFECT)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_DECK+LOCATION_GRAVE)
 		and Duel.IsExistingMatchingCard(c74298287.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c74298287.sptg1(e,tp,eg,ep,ev,re,r,rp,chk)

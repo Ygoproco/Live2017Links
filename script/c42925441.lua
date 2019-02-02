@@ -23,7 +23,7 @@ function c42925441.initial_effect(c)
 	e4:SetOperation(c42925441.effop)
 	c:RegisterEffect(e4)
 end
-c42925441.listed_names={93717133}
+c42925441.listed_names={CARD_GALAXYEYES_P_DRAGON}
 function c42925441.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local c=e:GetHandler()
@@ -36,7 +36,7 @@ function c42925441.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetRange(LOCATION_SZONE)
 	e1:SetCondition(c42925441.descon)
 	e1:SetOperation(c42925441.desop)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,3)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,3)
 	c:SetTurnCounter(0)
 	c:RegisterEffect(e1)
 	if c42925441.effcost(e,tp,eg,ep,ev,re,r,rp,0)
@@ -61,7 +61,7 @@ function c42925441.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c42925441.effcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(42925441)==0 end
-	e:GetHandler():RegisterFlagEffect(42925441,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	e:GetHandler():RegisterFlagEffect(42925441,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c42925441.costfilter1(c,e,tp)
 	return c:IsAbleToGraveAsCost() and c:IsFaceup() and (c:IsSetCard(0x55) or c:IsSetCard(0x7b)) and Duel.GetMZoneCount(tp,c)>0
@@ -77,7 +77,7 @@ function c42925441.thfilter(c)
 	return c:IsSetCard(0x55) and not c:IsCode(42925441) and c:IsAbleToHand()
 end
 function c42925441.costfilter3(c,e,tp)
-	return c:IsAbleToGraveAsCost() and c:IsFaceup() and c:IsCode(93717133) and Duel.GetMZoneCount(tp,c)>0
+	return c:IsAbleToGraveAsCost() and c:IsFaceup() and c:IsCode(CARD_GALAXYEYES_P_DRAGON) and Duel.GetMZoneCount(tp,c)>0
 		and Duel.IsExistingMatchingCard(c42925441.spfilter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalCode())
 end
 function c42925441.spfilter2(c,e,tp,code)
@@ -129,13 +129,13 @@ function c42925441.effop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g=Duel.SelectMatchingCard(tp,c42925441.spfilter1,tp,LOCATION_DECK,0,1,1,nil,e,tp,e:GetValue())
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 		end
 	elseif op==1 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,c42925441.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
 		end
@@ -143,10 +143,10 @@ function c42925441.effop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g1=Duel.SelectMatchingCard(tp,c42925441.spfilter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,e:GetValue())
-		if g1:GetCount()>0 and Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)~=0 then
+		if #g1>0 and Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)~=0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 			local g2=Duel.SelectMatchingCard(tp,c42925441.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-			if g2:GetCount()>0 then
+			if #g2>0 then
 				Duel.BreakEffect()
 				Duel.SendtoHand(g2,nil,REASON_EFFECT)
 				Duel.ConfirmCards(1-tp,g2)

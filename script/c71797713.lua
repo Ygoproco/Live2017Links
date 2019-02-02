@@ -36,13 +36,13 @@ function c71797713.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 		fg:AddCard(pe:GetHandler())
 	end
 	local loc=LOCATION_HAND
-	if fg:GetCount()>0 then loc=LOCATION_HAND+LOCATION_DECK end
+	if #fg>0 then loc=LOCATION_HAND+LOCATION_DECK end
 	if chk==0 then return Duel.IsExistingMatchingCard(c71797713.costfilter,tp,loc,0,2,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c71797713.costfilter,tp,loc,0,2,2,e:GetHandler())
 	if g:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then
 		local fc=nil
-		if fg:GetCount()==1 then
+		if #fg==1 then
 			fc=fg:GetFirst()
 		else
 			fc=fg:Select(tp,1,1,nil)

@@ -1,5 +1,6 @@
 --Y－ドラゴン・ヘッド
-function c65622692.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsCode,62651957))
 	--Atk up
 	local e1=Effect.CreateEffect(c)
@@ -12,4 +13,4 @@ function c65622692.initial_effect(c)
 	e2:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e2)
 end
-c65622692.listed_names={62651957}
+s.listed_names={62651957}

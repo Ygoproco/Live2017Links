@@ -71,7 +71,7 @@ function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local count=#Duel.GetOperatedGroup()
 	Duel.Hint(HINT_SELECTMSG,tp,551)
 	local g=Duel.SelectTarget(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,count,count,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 	e:GetHandler():RegisterFlagEffect(id,RESET_PHASE+PHASE_END,0,1)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)

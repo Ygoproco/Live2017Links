@@ -22,7 +22,7 @@ function c62279666.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c62279666.cfilter(c,tp,rp)
-	return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and bit.band(c:GetPreviousTypeOnField(),TYPE_LINK)~=0
+	return c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp and (c:GetPreviousTypeOnField()&TYPE_LINK)~=0
 		and (c:IsReason(REASON_BATTLE) or (rp~=tp and c:IsReason(REASON_EFFECT)))
 end
 function c62279666.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -41,7 +41,7 @@ function c62279666.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c62279666.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end

@@ -23,7 +23,7 @@ function c73405179.initial_effect(c)
 	e2:SetOperation(c73405179.thop)
 	c:RegisterEffect(e2)
 end
-c73405179.listed_names={72283691}
+c73405179.listed_names={CARD_STROMBERG}
 function c73405179.atkfilter(c)
 	return c:IsFaceup() and c:IsCode(41916534)
 end
@@ -31,13 +31,13 @@ function c73405179.atkcond(e)
 	return Duel.IsExistingMatchingCard(c73405179.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function c73405179.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
+	return (r&REASON_EFFECT+REASON_BATTLE)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 function c73405179.thfilter(c,fc)
 	return (c:IsCode(41916534) or (fc and c:IsRace(RACE_WARRIOR))) and c:IsAbleToHand()
 end
 function c73405179.fieldcond(c)
-	return c:IsFaceup() and c:IsCode(72283691)
+	return c:IsFaceup() and c:IsCode(CARD_STROMBERG)
 end
 function c73405179.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
@@ -50,7 +50,7 @@ function c73405179.thop(e,tp,eg,ep,ev,re,r,rp)
 	local fc=Duel.IsExistingMatchingCard(c73405179.fieldcond,tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c73405179.thfilter,tp,LOCATION_DECK,0,1,1,nil,fc)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

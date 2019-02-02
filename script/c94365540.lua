@@ -48,7 +48,7 @@ function c94365540.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local zone=0
 	local lg=Duel.GetMatchingGroup(c94365540.lkfilter,tp,0,LOCATION_MZONE,nil)
 	for tc in aux.Next(lg) do
-		zone=bit.bor(zone,tc:GetLinkedZone())
+		zone=(zone|tc:GetLinkedZone())
 	end
 	return not eg:IsContains(e:GetHandler()) and eg:IsExists(c94365540.cfilter,1,nil,tp,zone)
 end

@@ -38,7 +38,7 @@ function c80701178.filter(c,e,tp)
 	return c:IsSetCard(0x117) and not c:IsCode(80701178) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c80701178.costfilter(c)
-	return bit.band(c:GetType(),0x81)==0x81 and not c:IsPublic()
+	return (c:GetType()&0x81)==0x81 and not c:IsPublic()
 end
 function c80701178.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c80701178.costfilter,tp,LOCATION_HAND,0,1,nil) end
@@ -48,7 +48,7 @@ function c80701178.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.ShuffleHand(tp)
 end
 function c80701178.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
 		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and Duel.IsExistingMatchingCard(c80701178.filter,tp,LOCATION_DECK,0,1,e:GetHandler(),e,tp) end
@@ -56,11 +56,11 @@ function c80701178.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c80701178.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c80701178.filter,tp,LOCATION_DECK,0,1,1,e:GetHandler(),e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		g:AddCard(e:GetHandler())
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
@@ -69,7 +69,7 @@ function c80701178.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousLocation(LOCATION_DECK)
 end
 function c80701178.thfilter(c)
-	return bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToHand()
+	return (c:GetType()&0x81)==0x81 and c:IsAbleToHand()
 end
 function c80701178.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c80701178.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -78,7 +78,7 @@ end
 function c80701178.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c80701178.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

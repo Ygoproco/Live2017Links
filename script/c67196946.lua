@@ -48,7 +48,7 @@ end
 function c67196946.op(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	local g=Duel.GetMatchingGroup(c67196946.filter,tp,LOCATION_HAND+LOCATION_MZONE,0,nil,ct)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(67196946,1))
 		local sg=g:Select(tp,1,1,nil)
 		local tc=sg:GetFirst()

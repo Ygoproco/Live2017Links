@@ -16,7 +16,7 @@ function c95612049.mfilter(c)
 	return c:IsLocation(LOCATION_HAND) and c:IsType(TYPE_RITUAL)
 end
 function c95612049.filter(c,e,tp,m,ft)
-    if not c:IsCode(46427957,72426662) or bit.band(c:GetType(),0x81)~=0x81
+    if not c:IsCode(46427957,72426662) or (c:GetType()&0x81)~=0x81
         or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
     local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel(),c)

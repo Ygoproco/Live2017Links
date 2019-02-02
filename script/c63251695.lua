@@ -32,7 +32,7 @@ function c63251695.negcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c63251695.negop(e,tp,eg,ep,ev,re,r,rp)
     if Duel.SelectYesNo(tp,aux.Stringid(63251695,0)) then
-		e:GetHandler():RegisterFlagEffect(63251695,RESET_EVENT+0x1fe0000,0,1)
+		e:GetHandler():RegisterFlagEffect(63251695,RESET_EVENT+RESETS_STANDARD,0,1)
 		if Duel.NegateEffect(ev) then
 			Duel.BreakEffect()
 			Duel.Destroy(e:GetHandler(),REASON_EFFECT)
@@ -73,22 +73,22 @@ function c63251695.effop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
 		c:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_PIERCE)
-		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
 		c:RegisterEffect(e2)
 	else
 		local g1=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,0,LOCATION_HAND,nil)
 		local g2=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,nil)
 		local opt=0
-		if g1:GetCount()>0 and g2:GetCount()>0 then
+		if #g1>0 and #g2>0 then
 			opt=Duel.SelectOption(tp,aux.Stringid(63251695,3),aux.Stringid(63251695,4))
-		elseif g1:GetCount()>0 then
+		elseif #g1>0 then
 			opt=0
-		elseif g2:GetCount()>0 then
+		elseif #g2>0 then
 			opt=1
 		else
 			return
@@ -108,7 +108,7 @@ function c63251695.effop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
 			e1:SetCode(EFFECT_UPDATE_ATTACK)
 			e1:SetValue(100)
-			e1:SetReset(RESET_EVENT+0x1ff0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 			c:RegisterEffect(e1)
 		end
 	end

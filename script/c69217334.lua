@@ -32,7 +32,7 @@ function c69217334.lvfilter(c,tp)
 		and Duel.IsExistingMatchingCard(c69217334.lvcfilter,tp,LOCATION_HAND,0,1,nil,c)
 end
 function c69217334.lvcfilter(c,mc)
-	return bit.band(c:GetType(),0x81)==0x81 and not c:IsPublic() and not c:IsLevel(mc:GetLevel())
+	return (c:GetType()&0x81)==0x81 and not c:IsPublic() and not c:IsLevel(mc:GetLevel())
 end
 function c69217334.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c69217334.lvfilter(chkc,tp) end
@@ -54,12 +54,12 @@ function c69217334.lvop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_LEVEL)
 		e1:SetValue(tc:GetLevel())
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		pc:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(e:GetHandler())
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_PUBLIC)
-		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		pc:RegisterEffect(e2)
 	end
 end
@@ -72,7 +72,7 @@ end
 function c69217334.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsPlayerCanDraw(tp,1)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
-	local b2=g:GetCount()>0
+	local b2=#g>0
 	if chk==0 then return b1 or b2 end
 	local sel=0
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
@@ -102,7 +102,7 @@ function c69217334.drop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c69217334.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Destroy(g,REASON_EFFECT)
 	end
 end

@@ -29,7 +29,7 @@ function c45025640.damop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c45025640.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return ep==tp and bit.band(r,REASON_BATTLE)~=0
+	return ep==tp and (r&REASON_BATTLE)~=0
 		and (Duel.GetAttacker()==c or Duel.GetAttackTarget()==c)
 		and not c:IsStatus(STATUS_BATTLE_DESTROYED)
 end

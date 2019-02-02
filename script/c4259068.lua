@@ -1,6 +1,5 @@
 --魔力倹約術
-local s,id=GetID()
-function s.initial_effect(c)
+function c4259068.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -13,10 +12,10 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetTargetRange(1,0)
-	e2:SetValue(s.costchange)
+	e2:SetValue(c4259068.costchange)
 	c:RegisterEffect(e2)
 end
-function s.costchange(e,re,rp,val)
+function c4259068.costchange(e,re,rp,val)
 	if re and re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsType(TYPE_SPELL) and not mustpay then
 		return 0
 	else

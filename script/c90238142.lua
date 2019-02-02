@@ -17,7 +17,7 @@ function c90238142.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetCode(EFFECT_CHANGE_CODE)
 	e2:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
-	e2:SetValue(76812113)
+	e2:SetValue(CARD_HARPIE_LADY)
 	c:RegisterEffect(e2)
 	--change level
 	local e3=Effect.CreateEffect(c)
@@ -49,7 +49,7 @@ function c90238142.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c90238142.filter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end

@@ -67,7 +67,7 @@ function c85008676.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function c85008676.damcon2(e,re,val,r,rp,rc)
 		local cc=Duel.GetCurrentChain()
-	if cc==0 or bit.band(r,REASON_EFFECT)==0 then return end
+	if cc==0 or (r&REASON_EFFECT)==0 then return end
 	local cid=Duel.GetChainInfo(0,CHAININFO_CHAIN_ID)
 	return cid==e:GetLabel() and math.ceil(val/2) or val
 end
@@ -84,7 +84,7 @@ end
 function c85008676.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c85008676.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

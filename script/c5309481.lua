@@ -1,6 +1,5 @@
 --蘇りし魔王 ハ・デス
-local s,id=GetID()
-function s.initial_effect(c)
+function c5309481.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsCode,33420078),1,1,aux.NonTunerEx(Card.IsRace,RACE_ZOMBIE),1,99)
 	c:EnableReviveLimit()
@@ -9,10 +8,10 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_BATTLED)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetOperation(s.operation)
+	e1:SetOperation(c5309481.operation)
 	c:RegisterEffect(e1)
 end
-function s.operation(e,tp,eg,ep,ev,re,r,rp)
+function c5309481.operation(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
 	local p=e:GetHandler():GetControler()

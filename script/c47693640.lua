@@ -37,7 +37,7 @@ function c47693640.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c47693640.hdop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local sg=g:RandomSelect(1-tp,1)
 	Duel.SendtoGrave(sg,REASON_DISCARD+REASON_EFFECT)
 end

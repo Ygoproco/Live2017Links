@@ -1,20 +1,21 @@
 --魔導獣 ジャッカル
 --Mythical Beast Jackal
 --Scripted by Eerie Code
-function c91182675.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.EnablePendulumAttribute(c)
 	c:EnableCounterPermit(0x1)
 	--destroy & counter
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(91182675,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_COUNTER)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_PZONE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetCountLimit(1,91182675)
-	e1:SetCondition(c91182675.ctcon)
-	e1:SetTarget(c91182675.cttg)
-	e1:SetOperation(c91182675.ctop)
+	e1:SetCountLimit(1,id)
+	e1:SetCondition(s.ctcon)
+	e1:SetTarget(s.cttg)
+	e1:SetOperation(s.ctop)
 	c:RegisterEffect(e1)
 	--add counter
 	local e2=Effect.CreateEffect(c)
@@ -29,36 +30,36 @@ function c91182675.initial_effect(c)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetOperation(c91182675.acop)
+	e3:SetOperation(s.acop)
 	c:RegisterEffect(e3)
 	--special summon
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(91182675,2))
+	e4:SetDescription(aux.Stringid(id,2))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetCost(c91182675.spcost)
-	e4:SetTarget(c91182675.sptg)
-	e4:SetOperation(c91182675.spop)
+	e4:SetCost(s.spcost)
+	e4:SetTarget(s.sptg)
+	e4:SetOperation(s.spop)
 	c:RegisterEffect(e4)
 end
-function c91182675.ctcon(e,tp,eg,ep,ev,re,r,rp)
+function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,LOCATION_PZONE,0) == 1
 end
-function c91182675.ctfilter(c)
+function s.ctfilter(c)
 	return c:IsFaceup() and c:IsCanAddCounter(0x1,1)
 end
-function c91182675.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
-	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) and chkc~=c and c91182675.ctfilter(chkc) end
+	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) and chkc~=c and s.ctfilter(chkc) end
 	if chk==0 then return e:GetHandler():IsDestructable()
-		and Duel.IsExistingTarget(c91182675.ctfilter,tp,LOCATION_ONFIELD,0,1,c) end
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(91182675,1))
-	Duel.SelectTarget(tp,c91182675.ctfilter,tp,LOCATION_ONFIELD,0,1,1,c)
+		and Duel.IsExistingTarget(s.ctfilter,tp,LOCATION_ONFIELD,0,1,c) end
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
+	Duel.SelectTarget(tp,s.ctfilter,tp,LOCATION_ONFIELD,0,1,1,c)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,0x1)
 end
-function c91182675.ctop(e,tp,eg,ep,ev,re,r,rp)
+function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) 
@@ -67,30 +68,30 @@ function c91182675.ctop(e,tp,eg,ep,ev,re,r,rp)
 		tc:AddCounter(0x1,1)
 	end
 end
-function c91182675.acop(e,tp,eg,ep,ev,re,r,rp)
+function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_SPELL) and e:GetHandler():GetFlagEffect(1)>0 then
 		e:GetHandler():AddCounter(0x1,1)
 	end
 end
-function c91182675.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x1,3,REASON_COST) and c:IsReleasable() end
 	Duel.RemoveCounter(tp,1,0,0x1,3,REASON_COST)
 	Duel.Release(c,REASON_COST)
 end
-function c91182675.spfilter(c,e,tp)
-	return (c:IsSetCard(0x10d) or c:IsCode(55424270)) and not c:IsCode(91182675)
+function s.spfilter(c,e,tp)
+	return (c:IsSetCard(0x10d) or c:IsCode(55424270)) and not c:IsCode(id)
 		and c:IsType(TYPE_EFFECT) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c91182675.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
-		and Duel.IsExistingMatchingCard(c91182675.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
-function c91182675.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c91182675.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

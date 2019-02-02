@@ -39,12 +39,12 @@ end
 function c85771019.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c85771019.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoGrave(g,REASON_EFFECT)
 	end
 end
 function c85771019.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_DESTROY)~=0 and e:GetHandler():GetPreviousControler()==tp
+	return (r&REASON_DESTROY)~=0 and e:GetHandler():GetPreviousControler()==tp
 		and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 function c85771019.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -53,8 +53,8 @@ function c85771019.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c85771019.spop(e,tp,eg,ep,ev,re,r,rp)
-	if not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,85771020,0,0x4011,1800,1300,5,RACE_FAIRY,ATTRIBUTE_DARK) then
+	if not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,85771020,0,TYPES_TOKEN,1800,1300,5,RACE_FAIRY,ATTRIBUTE_DARK) then
 		local token=Duel.CreateToken(tp,85771020)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(e:GetHandler())
@@ -62,11 +62,11 @@ function c85771019.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		token:RegisterEffect(e1)
 	end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,85771021,0,0x4011,1200,1200,3,RACE_FAIRY,ATTRIBUTE_DARK) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,85771021,0,TYPES_TOKEN,1200,1200,3,RACE_FAIRY,ATTRIBUTE_DARK) then
 		local token=Duel.CreateToken(tp,85771021)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(e:GetHandler())
@@ -74,7 +74,7 @@ function c85771019.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		token:RegisterEffect(e1)
 	end
 	Duel.SpecialSummonComplete()

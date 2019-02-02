@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
 	c:SetUniqueOnField(1,1,aux.MaleficUniqueFilter(c),LOCATION_MZONE)
-	aux.AddMaleficSummonProcedure(c,74677422,LOCATION_DECK)
+	aux.AddMaleficSummonProcedure(c,CARD_REDEYES_B_DRAGON,LOCATION_DECK)
 	--selfdes
 	local e7=Effect.CreateEffect(c)
 	e7:SetType(EFFECT_TYPE_SINGLE)
@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e8:SetTarget(s.antarget)
 	c:RegisterEffect(e8)
 end
-s.listed_names={74677422}
+s.listed_names={CARD_REDEYES_B_DRAGON}
 function s.descon(e)
 	local f1=Duel.GetFieldCard(0,LOCATION_SZONE,5)
 	local f2=Duel.GetFieldCard(1,LOCATION_SZONE,5)

@@ -48,7 +48,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.value(e,re,r,rp)
-	return bit.band(r,REASON_EFFECT)~=0 and rp==1-e:GetHandlerPlayer()
+	return (r&REASON_EFFECT)~=0 and rp==1-e:GetHandlerPlayer()
 end
 function s.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x226) and not c:IsCode(id)

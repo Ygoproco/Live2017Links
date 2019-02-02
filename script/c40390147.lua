@@ -12,11 +12,11 @@ function c40390147.initial_effect(c)
 	e1:SetCountLimit(1)
 	e1:SetCost(c40390147.sptg)
 	e1:SetOperation(c40390147.spop)
-	c:RegisterEffect(e1,false,1)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 end
-c40390147.listed_names={93717133}
+c40390147.listed_names={CARD_GALAXYEYES_P_DRAGON}
 function c40390147.spfilter(c,e,tp)
-	return c:IsCode(93717133) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(CARD_GALAXYEYES_P_DRAGON) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c40390147.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsExistingMatchingCard(c40390147.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) and e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST)

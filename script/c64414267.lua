@@ -21,7 +21,7 @@ function c64414267.initial_effect(c)
 	e2:SetCost(c64414267.spcost)
 	e2:SetTarget(c64414267.sptg)
 	e2:SetOperation(c64414267.spop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	local e3=e2:Clone()
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
@@ -50,12 +50,12 @@ function c64414267.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c64414267.spfilter(c,e,tp,mc,pg)
 	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsSetCard(0x9c) and mc:IsCanBeXyzMaterial(c,tp)
-		and (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+		and (#pg<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c64414267.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-		return pg:GetCount()<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
+		return #pg<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
 			and Duel.IsExistingMatchingCard(c64414267.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,e:GetHandler(),pg)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
@@ -69,7 +69,7 @@ function c64414267.spop(e,tp,eg,ep,ev,re,r,rp)
 		local sc=g:GetFirst()
 		if sc then
 			local mg=c:GetOverlayGroup()
-			if mg:GetCount()~=0 then
+			if #mg~=0 then
 				Duel.Overlay(sc,mg)
 			end
 			sc:SetMaterial(Group.FromCards(c))
@@ -88,5 +88,5 @@ function c64414267.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function c64414267.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return bit.band(sumtype,SUMMON_TYPE_XYZ)==SUMMON_TYPE_XYZ
+	return (sumtype&SUMMON_TYPE_XYZ)==SUMMON_TYPE_XYZ
 end

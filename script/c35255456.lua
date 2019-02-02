@@ -9,12 +9,12 @@ function c35255456.initial_effect(c)
 	e1:SetOperation(c35255456.activate)
 	c:RegisterEffect(e1)
 end
-c35255456.listed_names={89943723}
+c35255456.listed_names={CARD_NEOS}
 function c35255456.filter1(c,e)
 	return c:IsAbleToDeck() and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 function c35255456.filter2(c,e,tp,m,chkf)
-	return c:IsSetCard(0x3008) and aux.IsMaterialListCode(c,89943723)
+	return c:IsSetCard(0x3008) and aux.IsMaterialListCode(c,CARD_NEOS)
 		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and c:CheckFusionMaterial(m,nil,chkf+65536)
 end
 function c35255456.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -32,13 +32,13 @@ function c35255456.activate(e,tp,eg,ep,ev,re,r,rp)
 	local chkf=tp
 	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c35255456.filter1),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_MZONE,0,nil,e)
 	local sg=Duel.GetMatchingGroup(c35255456.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg,chkf)
-	if sg:GetCount()>0 then
+	if #sg>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local tg=sg:Select(tp,1,1,nil)
 		local tc=tg:GetFirst()
 		local mat=Duel.SelectFusionMaterial(tp,tc,mg,nil,chkf)
 		local cf=mat:Filter(c35255456.cffilter,nil)
-		if cf:GetCount()>0 then
+		if #cf>0 then
 			Duel.ConfirmCards(1-tp,cf)
 		end
 		Duel.SendtoDeck(mat,nil,2,REASON_EFFECT)

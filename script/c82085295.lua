@@ -39,7 +39,7 @@ function c82085295.filter(c,e,tp)
 	return c:IsSetCard(0x117) and not c:IsCode(82085295) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c82085295.costfilter(c)
-	return bit.band(c:GetType(),0x81)==0x81 and not c:IsPublic()
+	return (c:GetType()&0x81)==0x81 and not c:IsPublic()
 end
 function c82085295.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c82085295.costfilter,tp,LOCATION_HAND,0,1,nil) end
@@ -49,7 +49,7 @@ function c82085295.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.ShuffleHand(tp)
 end
 function c82085295.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
 		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and Duel.IsExistingMatchingCard(c82085295.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end
@@ -57,11 +57,11 @@ function c82085295.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c82085295.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c82085295.filter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		g:AddCard(e:GetHandler())
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
@@ -70,7 +70,7 @@ function c82085295.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousLocation(LOCATION_DECK)
 end
 function c82085295.thfilter(c)
-	return bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToHand()
+	return (c:GetType()&0x81)==0x81 and c:IsAbleToHand()
 end
 function c82085295.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c82085295.thfilter(chkc) end

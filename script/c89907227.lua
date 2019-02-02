@@ -45,13 +45,13 @@ function c89907227.tkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c89907227.tktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-	and Duel.IsPlayerCanSpecialSummonMonster(tp,89907228,0,0x4011,3300,3000,10,RACE_FISH,ATTRIBUTE_WATER,POS_FACEUP_DEFENSE) end
+	and Duel.IsPlayerCanSpecialSummonMonster(tp,89907228,0,TYPES_TOKEN,3300,3000,10,RACE_FISH,ATTRIBUTE_WATER,POS_FACEUP_DEFENSE) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c89907227.tkop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,89907228,0,0x4011,3300,3000,10,RACE_FISH,ATTRIBUTE_WATER,POS_FACEUP_DEFENSE) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,89907228,0,TYPES_TOKEN,3300,3000,10,RACE_FISH,ATTRIBUTE_WATER,POS_FACEUP_DEFENSE) then
 		local token=Duel.CreateToken(tp,89907228)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
@@ -61,7 +61,7 @@ function c89907227.tkcon2(e,tp,eg,ep,ev,re,r,rp)
 end
 function c89907227.tkop2(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,89907228,0,0x4011,3300,3000,10,RACE_FISH,ATTRIBUTE_WATER) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,89907228,0,TYPES_TOKEN,3300,3000,10,RACE_FISH,ATTRIBUTE_WATER) then
 		local token=Duel.CreateToken(tp,89907228)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

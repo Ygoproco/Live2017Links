@@ -66,7 +66,7 @@ function c98645731.activate(e,tp,eg,ep,ev,re,r,rp)
 	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
 	Duel.ConfirmDecktop(p,3)
 	local g=Duel.GetDecktopGroup(p,3)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,p,HINTMSG_ATOHAND)
 		local sg=g:Select(p,1,1,nil)
 		if sg:GetFirst():IsAbleToHand() then
@@ -83,7 +83,7 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 	if not c98645731[0] then
 		local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
 		if ex then
-			if cg and cg:GetCount()>0 then
+			if cg and #cg>0 then
 				if rp==0 or cp==PLAYER_ALL then
 					c98645731[2][ev]=true
 				end
@@ -107,7 +107,7 @@ function c98645731.checkop1(e,tp,eg,ep,ev,re,r,rp)
 	if not c98645731[1] then
 		local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_SPECIAL_SUMMON)
 		if ex then
-			if cg and cg:GetCount()>0 then
+			if cg and #cg>0 then
 				if rp==1 or cp==PLAYER_ALL then
 					c98645731[3][ev]=true
 				end

@@ -1,5 +1,6 @@
 --コイツ
-function c69456283.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsCode,48202661),true)
 	--atk up
 	local e3=Effect.CreateEffect(c)
@@ -15,4 +16,4 @@ function c69456283.initial_effect(c)
 	e4:SetCondition(aux.IsUnionState)
 	c:RegisterEffect(e4)
 end
-c69456283.listed_names={48202661}
+s.listed_names={48202661}

@@ -19,7 +19,7 @@ end
 function c51345461.eqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(c51345461.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e:GetHandler(),Duel.GetTurnCount())
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,#g,0,0)
 end
 function c51345461.equipop(c,e,tp,tc,chk)
 	local eff=false or chk
@@ -28,7 +28,7 @@ function c51345461.equipop(c,e,tp,tc,chk)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_OWNER_RELATE)
 	e1:SetCode(EFFECT_EQUIP_LIMIT)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e1:SetValue(aux.EquipByEffectLimit)
 	e1:SetLabelObject(e:GetLabelObject())
 	tc:RegisterEffect(e1)
@@ -36,7 +36,7 @@ function c51345461.equipop(c,e,tp,tc,chk)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetProperty(EFFECT_FLAG_OWNER_RELATE+EFFECT_FLAG_IGNORE_IMMUNE)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e2:SetValue(200)
 	tc:RegisterEffect(e2)
 end
@@ -46,8 +46,8 @@ function c51345461.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	local g=Duel.GetMatchingGroup(c51345461.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e:GetHandler(),Duel.GetTurnCount())
-	if g:GetCount()==0 then return end
-	if g:GetCount()>ft then return end
+	if #g==0 then return end
+	if #g>ft then return end
 	local tc=g:GetFirst()
 	while tc do
 		c51345461.equipop(c,e,tp,tc,true)

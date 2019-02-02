@@ -14,7 +14,7 @@ function c75253697.initial_effect(c)
 	e1:SetCost(c75253697.descost)
 	e1:SetTarget(c75253697.destg)
 	e1:SetOperation(c75253697.desop)
-	c:RegisterEffect(e1,false,1)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c75253697.xyz_number=72
 function c75253697.descost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -38,7 +38,7 @@ end
 function c75253697.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if tg:GetCount()>0 then
+	if #tg>0 then
 		Duel.Destroy(tg,REASON_EFFECT)
 	end
 	local e1=Effect.CreateEffect(e:GetHandler())

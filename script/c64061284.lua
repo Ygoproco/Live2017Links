@@ -35,7 +35,7 @@ function c64061284.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg=Duel.GetFusionMaterial(tp)
 		local mg2=Duel.GetMatchingGroup(c64061284.filter0,tp,LOCATION_DECK,0,nil)
-		if mg:IsExists(c64061284.filterchk,1,nil) and mg2:GetCount()>0 then
+		if mg:IsExists(c64061284.filterchk,1,nil) and #mg2>0 then
 			mg:Merge(mg2)
 			aux.FCheckAdditional=c64061284.fcheck
 		end
@@ -56,7 +56,7 @@ end
 function c64061284.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg1=Duel.GetFusionMaterial(tp):Filter(c64061284.filter1,nil,e)
 	local mg2=Duel.GetMatchingGroup(c64061284.filter0,tp,LOCATION_DECK,0,nil)
-	if mg1:IsExists(c64061284.filterchk,1,nil) and mg2:GetCount()>0 then
+	if mg1:IsExists(c64061284.filterchk,1,nil) and #mg2>0 then
 		mg1:Merge(mg2)
 		aux.FCheckAdditional=c64061284.fcheck
 	end

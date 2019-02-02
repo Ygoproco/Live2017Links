@@ -24,13 +24,13 @@ end
 function c82162616.filter1(c,e,tp)
 	local rk=c:GetRank()
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-	return pg:GetCount()<=1 and c:IsFaceup() and c:IsType(TYPE_XYZ)
+	return #pg<=1 and c:IsFaceup() and c:IsType(TYPE_XYZ)
 		and Duel.IsExistingMatchingCard(c82162616.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+4,pg)
 		and Duel.GetLocationCountFromEx(tp,tp,c)>0
 end
 function c82162616.filter2(c,e,tp,mc,rk,pg)
 	if c.rum_limit and not c.rum_limit(mc,e) then return false end
-	return (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsRank(rk) and (c:IsSetCard(0x55) or c:IsSetCard(0x7b)) and mc:IsCanBeXyzMaterial(c)
+	return (#pg<=0 or pg:IsContains(mc)) and c:IsRank(rk) and (c:IsSetCard(0x55) or c:IsSetCard(0x7b)) and mc:IsCanBeXyzMaterial(c)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c82162616.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -50,7 +50,7 @@ function c82162616.activate(e,tp,eg,ep,ev,re,r,rp)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=tc:GetOverlayGroup()
-		if mg:GetCount()~=0 then
+		if #mg~=0 then
 			Duel.Overlay(sc,mg)
 		end
 		sc:SetMaterial(Group.FromCards(tc))

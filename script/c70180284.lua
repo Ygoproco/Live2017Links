@@ -42,7 +42,7 @@ end
 function c70180284.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c70180284.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoGrave(g,REASON_EFFECT)
 	end
 end
@@ -52,7 +52,7 @@ function c70180284.repfilter(c,tp)
 end
 function c70180284.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToRemove() and eg:IsExists(c70180284.repfilter,1,nil,tp)
-		and eg:GetCount()==1 end
+		and #eg==1 end
 	return Duel.SelectEffectYesNo(tp,e:GetHandler(),96)
 end
 function c70180284.repval(e,c)

@@ -46,7 +46,7 @@ function c85255550.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetLabelObject(e)
 		e1:SetLabel(0)
 		e1:SetOwnerPlayer(tp)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		bc:RegisterEffect(e1)
 		e:GetLabelObject():AddCard(bc)
 	end
@@ -63,7 +63,7 @@ function c85255550.resetcon(e)
 	local g=e:GetLabelObject():GetLabelObject()
 	local rg=g:Filter(c85255550.rfilter,nil,e:GetLabelObject())
 	g:Sub(rg)
-	return g:GetCount()>0
+	return #g>0
 end
 function c85255550.resetop(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetLabelObject():GetLabelObject()

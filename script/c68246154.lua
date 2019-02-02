@@ -58,7 +58,7 @@ function c68246154.thfilter(c,g)
 end
 function c68246154.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not re or re==e:GetLabelObject() end
-	if eg:GetCount()>1 then
+	if #eg>1 then
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(68246154,1))
 		local g=eg:Select(tp,1,1,nil)
 		Duel.SetTargetCard(g)
@@ -71,7 +71,7 @@ function c68246154.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Group.FromCards(Duel.GetFirstTarget())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c68246154.thfilter,tp,LOCATION_GRAVE,0,1,1,nil,tg)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
@@ -94,7 +94,7 @@ function c68246154.regop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 	if not c:IsColumn(seq,p,LOCATION_SZONE) then return end
-	c:RegisterFlagEffect(68246155,RESET_EVENT+0x1fe0000+RESET_CHAIN,0,1)
+	c:RegisterFlagEffect(68246155,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1)
 	if not SameColumnChain[e:GetLabelObject()] then
 		SameColumnChain[e:GetLabelObject()]=Group.CreateGroup()
 		SameColumnChain[e:GetLabelObject()]:KeepAlive()

@@ -24,15 +24,15 @@ function c50140163.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCondition(c50140163.eqcon)
 		e1:SetTarget(c50140163.eqtg)
 		e1:SetOperation(c50140163.eqop)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		e1:SetLabelObject(e)
 		c:RegisterEffect(e1)
-		aux.AddEREquipLimit(c,c50140163.eqcon,function(ec,_,tp) return ec:IsControler(1-tp) end,c50140163.equipop,e1,nil,RESET_EVENT+0x1ff0000)
+		aux.AddEREquipLimit(c,c50140163.eqcon,function(ec,_,tp) return ec:IsControler(1-tp) end,c50140163.equipop,e1,nil,RESET_EVENT+RESETS_STANDARD_DISABLE)
 	end
 end
 function c50140163.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetHandler():GetEquipGroup():Filter(c50140163.eqfilter,nil)
-	return g:GetCount()==0
+	return #g==0
 end
 function c50140163.eqfilter(c)
 	return c:GetFlagEffect(50140163)~=0 
@@ -51,7 +51,7 @@ function c50140163.equipop(c,e,tp,tc)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE+EFFECT_FLAG_SET_AVAILABLE)
 	e2:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e2:SetValue(c50140163.repval)
 	tc:RegisterEffect(e2)
 end
@@ -65,5 +65,5 @@ function c50140163.eqop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c50140163.repval(e,re,r,rp)
-	return bit.band(r,REASON_BATTLE)~=0
+	return (r&REASON_BATTLE)~=0
 end

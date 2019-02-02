@@ -50,7 +50,7 @@ function c73828446.rmop(e,tp,eg,ep,ev,re,r,rp)
 	if bc:IsAbleToRemove() and not bc:IsLocation(LOCATION_REMOVED) and bc:IsPublic()
 		and bc:IsType(TYPE_MONSTER) and not bc:IsType(TYPE_TOKEN) and bc:IsRelateToEffect(e) then
 		local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,bc)
-		if g:GetCount()==0 then return end
+		if #g==0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 		local sg=g:Select(tp,1,1,nil)
 		Duel.HintSelection(sg)

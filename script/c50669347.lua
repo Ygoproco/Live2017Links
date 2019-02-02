@@ -1,57 +1,58 @@
 --守護神-ネフティス
 --Nephthys the Palladium Deity
 --Scripted by Eerie Code
-function c50669347.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0x11f),2,2)
 	--activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(50669347,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetCountLimit(1,50669347)
-	e1:SetCondition(c50669347.condition)
-	e1:SetTarget(c50669347.target)
+	e1:SetCountLimit(1,id)
+	e1:SetCondition(s.condition)
+	e1:SetTarget(s.target)
 	c:RegisterEffect(e1)
 end
-function c50669347.condition(e)
+function s.condition(e)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
-function c50669347.thfilter1(c)
+function s.thfilter1(c)
 	return c:IsLevel(8) and c:IsRace(RACE_WINDBEAST) and c:IsAbleToHand()
 end
-function c50669347.thfilter2(c)
+function s.thfilter2(c)
 	return c:IsType(TYPE_SPELL) and c:IsType(TYPE_RITUAL) and c:IsAbleToHand()
 end
-function c50669347.desfilter(c,e,tp,g,nc)
-	local f=c50669347.spfilter
+function s.desfilter(c,e,tp,g,nc)
+	local f=s.spfilter
 	if nc then f=aux.NecroValleyFilter(f) end
 	return c:IsFaceup() and c:IsSetCard(0x11f) and g:IsContains(c)
 		and Duel.IsExistingMatchingCard(f,tp,LOCATION_GRAVE,0,1,nil,e,tp,c)
 end
-function c50669347.spfilter(c,e,tp,dc)
+function s.spfilter(c,e,tp,dc)
 	return c:IsSetCard(0x11f) and c:GetOriginalCode()~=dc:GetOriginalCode() and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetMZoneCount(tp,dc)>0
 end
-function c50669347.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local b1=Duel.IsExistingMatchingCard(c50669347.thfilter1,tp,LOCATION_DECK,0,1,nil)
-	local b2=Duel.IsExistingMatchingCard(c50669347.desfilter,tp,LOCATION_MZONE,0,1,nil,e,tp,e:GetHandler():GetLinkedGroup(),false)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	local b1=Duel.IsExistingMatchingCard(s.thfilter1,tp,LOCATION_DECK,0,1,nil)
+	local b2=Duel.IsExistingMatchingCard(s.desfilter,tp,LOCATION_MZONE,0,1,nil,e,tp,e:GetHandler():GetLinkedGroup(),false)
 	if chk==0 then return b1 or b2 end
 	local op=-1
 	if b1 and b2 then
-		op=Duel.SelectOption(tp,aux.Stringid(50669347,1),aux.Stringid(50669347,2))
+		op=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2))
 	elseif b1 then
-		op=Duel.SelectOption(tp,aux.Stringid(50669347,1))
+		op=Duel.SelectOption(tp,aux.Stringid(id,1))
 	else
-		op=Duel.SelectOption(tp,aux.Stringid(50669347,2))+1
+		op=Duel.SelectOption(tp,aux.Stringid(id,2))+1
 	end
 	if op==0 then
 		e:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
-		e:SetOperation(c50669347.thop)
+		e:SetOperation(s.thop)
 		Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 	elseif op==1 then
 		e:SetCategory(CATEGORY_DESTROY+CATEGORY_SPECIAL_SUMMON)
-		e:SetOperation(c50669347.desop)
+		e:SetOperation(s.desop)
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,1,tp,LOCATION_MZONE)
 		Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE)
 	else
@@ -59,13 +60,13 @@ function c50669347.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		e:SetOperation(nil)
 	end
 end
-function c50669347.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c50669347.thfilter1,tp,LOCATION_DECK,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.thfilter1,tp,LOCATION_DECK,0,1,1,nil)
 	if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)>0 then
 		Duel.ConfirmCards(1-tp,g) 
-		local g2=Duel.GetMatchingGroup(aux.NecroValleyFilter(c50669347.thfilter2),tp,LOCATION_GRAVE,0,nil)
-		if #g2>0 and Duel.SelectYesNo(tp,aux.Stringid(50669347,3)) then
+		local g2=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.thfilter2),tp,LOCATION_GRAVE,0,nil)
+		if #g2>0 and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 			local sg2=g2:Select(tp,1,1,nil)
 			Duel.SendtoHand(sg2,nil,REASON_EFFECT)
@@ -74,14 +75,14 @@ function c50669347.thop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c50669347.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=e:GetHandler():GetLinkedGroup()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local dc=Duel.SelectMatchingCard(tp,c50669347.desfilter,tp,LOCATION_MZONE,0,1,1,nil,e,tp,lg,true):GetFirst()
+	local dc=Duel.SelectMatchingCard(tp,s.desfilter,tp,LOCATION_MZONE,0,1,1,nil,e,tp,lg,true):GetFirst()
 	if dc and Duel.Destroy(dc,REASON_EFFECT)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c50669347.spfilter),tp,LOCATION_GRAVE,0,1,1,nil,e,tp,dc):GetFirst()
+		local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_GRAVE,0,1,1,nil,e,tp,dc):GetFirst()
 		if tc and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)

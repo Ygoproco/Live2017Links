@@ -25,17 +25,17 @@ function c40343749.filter(c,e,tp)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,1-tp)
 end
 function c40343749.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(c40343749.filter,tp,LOCATION_DECK+LOCATION_HAND,0,2,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_DECK+LOCATION_HAND)
 end
 function c40343749.operation(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	local ft=math.min(Duel.GetLocationCount(tp,LOCATION_MZONE),Duel.GetLocationCount(1-tp,LOCATION_MZONE))
 	if ft<=0 then return end
 	local g=Duel.GetMatchingGroup(c40343749.filter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,e,tp)
-	local ct=math.floor(g:GetCount()/2)
+	local ct=math.floor(#g/2)
 	if ct==0 then return end
 	ct=math.min(ct,ft)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(40343749,1))
@@ -46,7 +46,7 @@ function c40343749.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
 		tc=sg1:GetNext()
 	end
-	local sg2=g:Select(tp,sg1:GetCount(),sg1:GetCount(),nil)
+	local sg2=g:Select(tp,#sg1,#sg1,nil)
 	tc=sg2:GetFirst()
 	while tc do
 		Duel.SpecialSummonStep(tc,0,tp,1-tp,false,false,POS_FACEUP)

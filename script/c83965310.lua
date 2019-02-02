@@ -48,7 +48,7 @@ function c83965310.spcon(e,c)
 	local rg=Duel.GetReleaseGroup(tp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
-	return ft>-3 and rg:GetCount()>2 and (ft>0 or rg:IsExists(c83965310.mzfilter,ct,nil,tp))
+	return ft>-3 and #rg>2 and (ft>0 or rg:IsExists(c83965310.mzfilter,ct,nil,tp))
 end
 function c83965310.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	local rg=Duel.GetReleaseGroup(tp)
@@ -75,7 +75,7 @@ function c83965310.eqfilter(c)
 end
 function c83965310.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetHandler():GetEquipGroup():Filter(c83965310.eqfilter,nil)
-	return g:GetCount()==0
+	return #g==0
 end
 function c83965310.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and chkc:IsAbleToChangeControler() end
@@ -95,7 +95,7 @@ function c83965310.equipop(c,e,tp,tc)
 		e2:SetType(EFFECT_TYPE_EQUIP)
 		e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
 		e2:SetCode(EFFECT_UPDATE_ATTACK)
-		e2:SetReset(RESET_EVENT+0x1fe0000)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 		e2:SetValue(atk)
 		tc:RegisterEffect(e2)
 	end

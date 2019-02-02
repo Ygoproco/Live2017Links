@@ -62,7 +62,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local code=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp,code)
-	if g:GetCount()~=0 then
+	if #g~=0 then
 		Duel.SpecialSummon(g,0,tp,tp,true,false,POS_FACEUP)
 		g:GetFirst():CompleteProcedure()
 	end

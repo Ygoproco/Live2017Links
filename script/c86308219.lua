@@ -15,10 +15,10 @@ function c86308219.initial_effect(c)
 end
 c86308219.listed_names={CARD_HARPIE_LADY,CARD_HARPIE_LADY_SISTERS}
 function c86308219.counterfilter(c)
-	return bit.band(c:GetSummonLocation(),LOCATION_DECK+LOCATION_EXTRA)==0
+	return (c:GetSummonLocation()&LOCATION_DECK+LOCATION_EXTRA)==0
 end
 function c86308219.cfilter(c)
-	return c:IsFaceup() and c:IsCode(76812113,12206212)
+	return c:IsFaceup() and c:IsCode(CARD_HARPIE_LADY,CARD_HARPIE_LADY_SISTERS)
 end
 function c86308219.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c86308219.cfilter,tp,LOCATION_ONFIELD,0,3,nil)
@@ -51,7 +51,7 @@ function c86308219.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local ct=Duel.GetMatchingGroupCount(c86308219.cfilter,tp,LOCATION_MZONE,0,nil)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,0,LOCATION_MZONE,ct,ct,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,0)
 end
 function c86308219.activate(e,tp,eg,ep,ev,re,r,rp)

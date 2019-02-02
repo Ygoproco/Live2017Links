@@ -10,9 +10,9 @@ function c79814787.initial_effect(c)
 	e1:SetOperation(c79814787.operation)
 	c:RegisterEffect(e1)
 end
-c79814787.listed_names={89631139}
+c79814787.listed_names={CARD_BLUEEYES_W_DRAGON}
 function c79814787.filter(c)
-	return c:IsCode(89631139) and c:IsAbleToHand()
+	return c:IsCode(CARD_BLUEEYES_W_DRAGON) and c:IsAbleToHand()
 end
 function c79814787.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

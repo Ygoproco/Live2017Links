@@ -1,6 +1,5 @@
 --ハニーボット
-local s,id=GetID()
-function s.initial_effect(c)
+function c34472920.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_CYBERSE),2,2)
 	c:EnableReviveLimit()
@@ -11,7 +10,7 @@ function s.initial_effect(c)
 	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e1:SetTarget(s.tgtg)
+	e1:SetTarget(c34472920.tgtg)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
@@ -19,6 +18,6 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SET_AVAILABLE)
 	c:RegisterEffect(e2)
 end
-function s.tgtg(e,c)
+function c34472920.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c)
 end

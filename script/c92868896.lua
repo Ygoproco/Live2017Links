@@ -44,13 +44,13 @@ function c92868896.eqop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectMatchingCard(tp,c92868896.eqfilter,tp,LOCATION_DECK,0,1,1,nil,c)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Equip(tp,g:GetFirst(),c)
 	end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_EQUIP_LIMIT)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e1:SetValue(c92868896.eqlimit)
 	e1:SetLabelObject(c)
 	g:GetFirst():RegisterEffect(e1)

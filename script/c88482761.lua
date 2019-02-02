@@ -52,7 +52,7 @@ function c88482761.operation(e,tp,eg,ep,ev,re,r,rp)
 	local lv=tc:GetOriginalLevel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,c88482761.rmfilter2,tp,LOCATION_HAND,0,1,1,nil,e,tp,lv)
-	if g:GetCount()>0 then
+	if #g>0 then
 		lv=lv+g:GetFirst():GetOriginalLevel()
 		g:AddCard(tc)
 		if Duel.Remove(g,POS_FACEUP,REASON_EFFECT)==2 then
@@ -81,7 +81,7 @@ function c88482761.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c88482761.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if g:GetCount()==2 then
+	if #g==2 then
 		local c1=g:GetFirst()
 		local c2=g:GetNext()
 		if c1~=e:GetLabelObject() then c1,c2=c2,c1 end

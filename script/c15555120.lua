@@ -1,47 +1,46 @@
 --ハイ・スピード・リレベル
-local s,id=GetID()
-function s.initial_effect(c)
+function c15555120.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetCost(s.cost)
-	e1:SetTarget(s.target)
-	e1:SetOperation(s.activate)
+	e1:SetCost(c15555120.cost)
+	e1:SetTarget(c15555120.target)
+	e1:SetOperation(c15555120.activate)
 	c:RegisterEffect(e1)
 end
-s.check=false
-function s.cfilter(c,tp)
+c15555120.check=false
+function c15555120.cfilter(c,tp)
 	local lv=c:GetLevel()
 	return lv>0 and c:IsSetCard(0x2016) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
-		and Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,0,1,c,lv)
+		and Duel.IsExistingTarget(c15555120.filter,tp,LOCATION_MZONE,0,1,c,lv)
 end
-function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	s.check=true
+function c15555120.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	c15555120.check=true
 	if chk==0 then return true end
 end
-function s.filter(c,lv)
+function c15555120.filter(c,lv)
 	local clv=c:GetLevel()
 	return c:IsFaceup() and clv>0 and clv~=lv and c:IsType(TYPE_SYNCHRO)
 end
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function c15555120.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then
 		local lv=e:GetLabel()
-		return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.filter(chkc,lv) end
+		return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c15555120.filter(chkc,lv) end
 	if chk==0 then
-		if not s.check then return false end
-		s.check=false
-		return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,tp) end
+		if not c15555120.check then return false end
+		c15555120.check=false
+		return Duel.IsExistingMatchingCard(c15555120.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,tp)
+	local g=Duel.SelectMatchingCard(tp,c15555120.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,tp)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 	local lv=g:GetFirst():GetLevel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,0,1,1,nil,lv)
+	Duel.SelectTarget(tp,c15555120.filter,tp,LOCATION_MZONE,0,1,1,nil,lv)
 	e:SetLabel(lv)
 end
-function s.activate(e,tp,eg,ep,ev,re,r,rp)
+function c15555120.activate(e,tp,eg,ep,ev,re,r,rp)
 	local lv=e:GetLabel()
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() and tc:GetLevel()~=lv then

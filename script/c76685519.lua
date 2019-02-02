@@ -53,7 +53,7 @@ function c76685519.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_CANNOT_ATTACK)
 		e1:SetLabelObject(c)
 		e1:SetCondition(c76685519.atkcon)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 end

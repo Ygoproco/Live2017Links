@@ -31,7 +31,7 @@ function c64454614.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c64454614.lcheck(g,lc,tp)
-	return g:GetClassCount(Card.GetCode)==g:GetCount()
+	return g:GetClassCount(Card.GetCode)==#g
 end
 function c64454614.negfilter(c,g)
 	return g:IsContains(c)
@@ -49,7 +49,7 @@ function c64454614.costfilter(c,tpe)
 	return c:IsType(tpe) and c:IsDiscardable()
 end
 function c64454614.negcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local rtype=bit.band(re:GetActiveType(),0x7)
+	local rtype=(re:GetActiveType()&0x7)
 	if chk==0 then return Duel.IsExistingMatchingCard(c64454614.costfilter,tp,LOCATION_HAND,0,1,nil,rtype) end
 	Duel.DiscardHand(tp,c64454614.costfilter,1,1,REASON_COST+REASON_DISCARD,nil,rtype)
 end
@@ -80,11 +80,11 @@ function c64454614.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g1=Duel.SelectMatchingCard(tp,c64454614.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g1:GetCount()>0 and Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)~=0 then
+	if #g1>0 and Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		Duel.ConfirmCards(1-tp,g1)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g2=Duel.SelectMatchingCard(tp,c64454614.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if g2:GetCount()>0 then
+		if #g2>0 then
 			Duel.SendtoHand(g2,tp,REASON_EFFECT)
 		end
 	end

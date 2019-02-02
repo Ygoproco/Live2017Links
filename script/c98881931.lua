@@ -31,7 +31,7 @@ function c98881931.sprcon(e,c)
 		and Duel.IsExistingMatchingCard(c98881931.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 end
 function c98881931.valcon(e,re,r,rp)
-	return bit.band(r,REASON_EFFECT)~=0 and re:IsActiveType(TYPE_SPELL+TYPE_TRAP)
+	return (r&REASON_EFFECT)~=0 and re:IsActiveType(TYPE_SPELL+TYPE_TRAP)
 end
 function c98881931.atkcon(e)
 	return Duel.IsExistingMatchingCard(c98881931.filter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler())

@@ -34,7 +34,7 @@ function c85555787.activate(e,tp,eg,ep,ev,re,r,rp)
 	local atk=e:GetLabel()
 	local ct=math.floor(atk/500)
 	local g=Duel.SelectMatchingCard(1-tp,nil,1-tp,LOCATION_DECK+LOCATION_HAND,0,ct,ct,nil)
-	if g:GetCount()~=0 and Duel.Destroy(g,REASON_EFFECT)~=0 then
+	if #g~=0 and Duel.Destroy(g,REASON_EFFECT)~=0 then
 		local og=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_GRAVE)
 		for oc in aux.Next(og) do
 			local e1=Effect.CreateEffect(c)
@@ -42,7 +42,7 @@ function c85555787.activate(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCode(EFFECT_CANNOT_TRIGGER)
 			e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 			e1:SetRange(LOCATION_GRAVE)
-			e1:SetReset(RESET_EVENT+0x17a0000+RESET_PHASE+PHASE_END)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD_EXC_GRAVE+RESET_PHASE+PHASE_END)
 			oc:RegisterEffect(e1)
 			local e2=e1:Clone()
 			e2:SetCode(EFFECT_CANNOT_ACTIVATE)
@@ -74,7 +74,7 @@ function c85555787.desop(e,tp,eg,ep,ev,re,r,rp)
 	if ep==e:GetOwnerPlayer() then return end
 	local c=e:GetHandler()
 	local hg=eg:Filter(Card.IsLocation,nil,LOCATION_HAND)
-	if hg:GetCount()==0 then return end
+	if #hg==0 then return end
 	Duel.ConfirmCards(1-ep,hg)
 	local dg=hg:Filter(Card.IsType,nil,TYPE_MONSTER)
 	if Duel.Destroy(dg,REASON_EFFECT)~=0 then
@@ -85,7 +85,7 @@ function c85555787.desop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCode(EFFECT_CANNOT_TRIGGER)
 			e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 			e1:SetRange(LOCATION_GRAVE)
-			e1:SetReset(RESET_EVENT+0x17a0000+RESET_PHASE+PHASE_END)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD_EXC_GRAVE+RESET_PHASE+PHASE_END)
 			oc:RegisterEffect(e1)
 			local e2=e1:Clone()
 			e2:SetCode(EFFECT_CANNOT_ACTIVATE)

@@ -52,7 +52,7 @@ end
 function c74586817.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetFieldGroup(1-tp,LOCATION_HAND,0)
-	if g:GetCount()==0 or not c:IsRelateToEffect(e) or not c:IsFaceup() then return end
+	if #g==0 or not c:IsRelateToEffect(e) or not c:IsFaceup() then return end
 	local rs=g:RandomSelect(1-tp,1)
 	local rg=Group.FromCards(c,rs:GetFirst())
 	if Duel.Remove(rg,POS_FACEUP,REASON_EFFECT+REASON_TEMPORARY)~=0 then
@@ -62,9 +62,9 @@ function c74586817.rmop(e,tp,eg,ep,ev,re,r,rp)
 		while oc do
 			if oc~=c or not c:IsStatus(STATUS_COPYING_EFFECT) then
 				if oc:IsControler(tp) then
-					oc:RegisterFlagEffect(74586817,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,1,fid)
+					oc:RegisterFlagEffect(74586817,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,1,fid)
 				else
-					oc:RegisterFlagEffect(74586817,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,1,fid)
+					oc:RegisterFlagEffect(74586817,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,1,fid)
 				end
 			end
 			oc=og:GetNext()
@@ -96,7 +96,7 @@ end
 function c74586817.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=tg:Filter(Card.IsRelateToEffect,nil,e)
-	if sg:GetCount()>0 then
+	if #sg>0 then
 		Duel.SendtoGrave(sg,REASON_EFFECT+REASON_RETURN)
 	end
 end

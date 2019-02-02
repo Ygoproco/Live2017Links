@@ -53,7 +53,7 @@ function c85638822.rcop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		c:RemoveCounter(tp,0x146,1,REASON_EFFECT)
-		c:RegisterFlagEffect(85638822,RESET_EVENT+0x1fe0000,0,0)
+		c:RegisterFlagEffect(85638822,RESET_EVENT+RESETS_STANDARD,0,0)
 	end
 end
 function c85638822.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -69,17 +69,17 @@ function c85638822.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,LOCATION_HAND+LOCATION_DECK)
 end
 function c85638822.rescon(sg,e,tp,mg)
-	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
+	return sg:GetClassCount(Card.GetCode)>=#sg
 end
 function c85638822.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local tg=Duel.GetMatchingGroup(c85638822.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,e,tp)
-	if tg:GetCount()==0 or ft<=0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if #tg==0 or ft<=0 then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	local g=aux.SelectUnselectGroup(tg,e,tp,1,ft,c85638822.rescon,1,tp,HINTMSG_SPSUMMON)
-	if g:GetCount()>0 and Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)~=0 then
+	if #g>0 and Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		c:AddCounter(0x146,3)
 		c:ResetFlagEffect(85638822)
 	end

@@ -21,7 +21,7 @@ function c66661678.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c66661678.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(1-tp,LOCATION_MZONE,tp)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,66661679,0,0x4011,1000,0,1,RACE_AQUA,ATTRIBUTE_WATER,POS_FACEUP_ATTACK,1-tp) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,66661679,0,TYPES_TOKEN,1000,0,1,RACE_AQUA,ATTRIBUTE_WATER,POS_FACEUP_ATTACK,1-tp) then
 		local token=Duel.CreateToken(tp,66661679)
 		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_ATTACK)
 		local e1=Effect.CreateEffect(e:GetHandler())
@@ -29,7 +29,7 @@ function c66661678.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_UNRELEASABLE_SUM)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		token:RegisterEffect(e1,true)
 		Duel.SpecialSummonComplete()
 	end

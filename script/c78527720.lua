@@ -27,12 +27,12 @@ function c78527720.initial_effect(c)
 	e3:SetOperation(c78527720.eqop)
 	c:RegisterEffect(e3)
 end
-c78527720.listed_names={72283691}
+c78527720.listed_names={CARD_STROMBERG}
 function c78527720.spfilter(c,e,tp)
 	return c:IsCode(14512825) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c78527720.equipcond(c)
-	return c:IsFaceup() and c:IsCode(72283691)
+	return c:IsFaceup() and c:IsCode(CARD_STROMBERG)
 end
 function c78527720.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -57,7 +57,7 @@ function c78527720.spop(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.SelectYesNo(tp,aux.Stringid(78527720,2)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 		local g2=Duel.SelectMatchingCard(tp,c78527720.eqfilter1,tp,LOCATION_DECK,0,1,1,nil,c)
-		if g2:GetCount()>0 then
+		if #g2>0 then
 			Duel.BreakEffect()
 			Duel.Equip(tp,g2:GetFirst(),c)
 		end

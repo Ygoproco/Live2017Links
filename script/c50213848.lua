@@ -25,7 +25,7 @@ function c50213848.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c50213848.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if g:GetCount()==0 or Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	if #g==0 or Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_SPSUMMON)
 	local tc=g:FilterSelect(1-tp,c50213848.filter,1,1,nil,e,tp):GetFirst()
 	if tc then

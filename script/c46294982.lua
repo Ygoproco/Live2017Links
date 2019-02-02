@@ -32,9 +32,9 @@ function c46294982.initial_effect(c)
 	e3:SetOperation(c46294982.atkop)
 	c:RegisterEffect(e3)
 end
-c46294982.listed_names={72283691}
+c46294982.listed_names={CARD_STROMBERG}
 function c46294982.ffilter(c)
-	return c:IsFaceup() and c:IsCode(72283691)
+	return c:IsFaceup() and c:IsCode(CARD_STROMBERG)
 end
 function c46294982.ntcon(e,c,minc)
 	if c==nil then return true end
@@ -61,7 +61,7 @@ function c46294982.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		e1:SetValue(1)
 		c:RegisterEffect(e1)
 	end
@@ -79,7 +79,7 @@ function c46294982.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(400)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 end

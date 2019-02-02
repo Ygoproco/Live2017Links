@@ -1,11 +1,12 @@
 --PSYフレームロード・Ζ
-function c37192109.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,nil,1,1,aux.NonTuner(nil),1,99)
 	c:EnableReviveLimit()
 	--remove
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(37192109,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_REMOVE)
 	e1:SetType(EFFECT_TYPE_QUICK_O)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -14,34 +15,34 @@ function c37192109.initial_effect(c)
 	e1:SetCountLimit(1)
 	e1:SetHintTiming(0,0x1e0+TIMING_END_PHASE)
 	e1:SetHintTiming(TIMING_SPSUMMON)
-	e1:SetTarget(c37192109.rmtg)
-	e1:SetOperation(c37192109.rmop)
+	e1:SetTarget(s.rmtg)
+	e1:SetOperation(s.rmop)
 	c:RegisterEffect(e1)
 	--to hand
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(37192109,1))
+	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_TOHAND)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetTarget(c37192109.thtg)
-	e2:SetOperation(c37192109.thop)
+	e2:SetTarget(s.thtg)
+	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
 end
-function c37192109.rmfilter(c)
+function s.rmfilter(c)
 	return c:IsPosition(POS_FACEUP_ATTACK) and c:IsAbleToRemove()
 		and c:IsSummonType(SUMMON_TYPE_SPECIAL)
 end
-function c37192109.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c37192109.rmfilter(chkc) end
+function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.rmfilter(chkc) end
 	if chk==0 then return e:GetHandler():IsAbleToRemove()
-		and Duel.IsExistingTarget(c37192109.rmfilter,tp,0,LOCATION_MZONE,1,nil) end
+		and Duel.IsExistingTarget(s.rmfilter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,c37192109.rmfilter,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.rmfilter,tp,0,LOCATION_MZONE,1,1,nil)
 	g:AddCard(e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,2,0,0)
 end
-function c37192109.rmop(e,tp,eg,ep,ev,re,r,rp)
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then return end
@@ -54,9 +55,9 @@ function c37192109.rmop(e,tp,eg,ep,ev,re,r,rp)
 		local oc=og:GetFirst()
 		while oc do
 			if oc:IsControler(tp) then
-				oc:RegisterFlagEffect(37192109,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,rct,fid)
+				oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,rct,fid)
 			else
-				oc:RegisterFlagEffect(37192109,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,rct,fid)
+				oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,rct,fid)
 			end
 			oc=og:GetNext()
 		end
@@ -68,8 +69,8 @@ function c37192109.rmop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCountLimit(1)
 		e1:SetLabel(fid)
 		e1:SetLabelObject(og)
-		e1:SetCondition(c37192109.retcon)
-		e1:SetOperation(c37192109.retop)
+		e1:SetCondition(s.retcon)
+		e1:SetOperation(s.retop)
 		if Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY then
 			e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,2)
 			e1:SetValue(Duel.GetTurnCount())
@@ -80,26 +81,26 @@ function c37192109.rmop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.RegisterEffect(e1,tp)
 	end
 end
-function c37192109.retfilter(c,fid)
-	return c:GetFlagEffectLabel(37192109)==fid
+function s.retfilter(c,fid)
+	return c:GetFlagEffectLabel(id)==fid
 end
-function c37192109.retcon(e,tp,eg,ep,ev,re,r,rp)
+function s.retcon(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetTurnPlayer()~=tp or Duel.GetTurnCount()==e:GetValue() then return false end
 	local g=e:GetLabelObject()
-	if not g:IsExists(c37192109.retfilter,1,nil,e:GetLabel()) then
+	if not g:IsExists(s.retfilter,1,nil,e:GetLabel()) then
 		g:DeleteGroup()
 		e:Reset()
 		return false
 	else return true end
 end
-function c37192109.retop(e,tp,eg,ep,ev,re,r,rp)
+function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetLabelObject()
-	local sg=g:Filter(c37192109.retfilter,nil,e:GetLabel())
+	local sg=g:Filter(s.retfilter,nil,e:GetLabel())
 	g:DeleteGroup()
-	if sg:GetCount()>1 and sg:GetClassCount(Card.GetPreviousControler)==1 then
+	if #sg>1 and sg:GetClassCount(Card.GetPreviousControler)==1 then
 		local ft=Duel.GetLocationCount(sg:GetFirst():GetPreviousControler(),LOCATION_MZONE)
 		if ft==1 then
-			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(37192109,0))
+			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
 			local tc=sg:Select(tp,1,1,nil):GetFirst()
 			Duel.ReturnToField(tc)
 			sg:RemoveCard(tc)
@@ -112,19 +113,19 @@ function c37192109.retop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	
 end
-function c37192109.thfilter(c)
+function s.thfilter(c)
 	return c:IsSetCard(0xc1) and c:IsAbleToHand()
 end
-function c37192109.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c37192109.thfilter(chkc) and chkc~=e:GetHandler() end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.thfilter(chkc) and chkc~=e:GetHandler() end
 	if chk==0 then return e:GetHandler():IsAbleToExtra()
-		and Duel.IsExistingTarget(c37192109.thfilter,tp,LOCATION_GRAVE,0,1,e:GetHandler()) end
+		and Duel.IsExistingTarget(s.thfilter,tp,LOCATION_GRAVE,0,1,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectTarget(tp,c37192109.thfilter,tp,LOCATION_GRAVE,0,1,1,e:GetHandler())
+	local g=Duel.SelectTarget(tp,s.thfilter,tp,LOCATION_GRAVE,0,1,1,e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
 end
-function c37192109.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and Duel.SendtoDeck(c,nil,2,REASON_EFFECT)~=0

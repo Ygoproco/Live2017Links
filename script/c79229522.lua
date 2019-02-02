@@ -2,7 +2,7 @@
 function c79229522.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMixRep(c,true,true,c79229522.fil,1,99,70095154)
+	aux.AddFusionProcMixRep(c,true,true,c79229522.fil,1,99,CARD_CYBER_DRAGON)
 	aux.AddContactFusion(c,c79229522.contactfil,c79229522.contactop,c79229522.splimit)
 	--cannot be fusion material
 	local e3=Effect.CreateEffect(c)
@@ -33,6 +33,6 @@ function c79229522.contactop(g,tp,c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_SET_BASE_ATTACK)
 	e1:SetReset(RESET_EVENT+0xff0000)
-	e1:SetValue(g:GetCount()*1000)
+	e1:SetValue(#g*1000)
 	c:RegisterEffect(e1)
 end

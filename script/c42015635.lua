@@ -22,7 +22,7 @@ function c42015635.initial_effect(c)
 	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	c:RegisterEffect(e3)
 end
-c42015635.listed_names={89943723}
+c42015635.listed_names={CARD_NEOS}
 function c42015635.atktg(e,c)
-	return c:IsCode(89943723) or aux.IsMaterialListCode(c,89943723)
+	return c:IsCode(CARD_NEOS) or aux.IsMaterialListCode(c,CARD_NEOS)
 end

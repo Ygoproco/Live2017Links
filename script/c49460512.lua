@@ -22,7 +22,7 @@ function c49460512.initial_effect(c)
 end
 function c49460512.cfilter(c,tp)
 	return c:IsSetCard(0x33) and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
-		and c:IsPreviousPosition(POS_FACEUP) and bit.band(c:GetReason(),0x41)==0x41
+		and c:IsPreviousPosition(POS_FACEUP) and (c:GetReason()&0x41)==0x41
 end
 function c49460512.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c49460512.cfilter,1,nil,tp)

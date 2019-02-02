@@ -1,5 +1,6 @@
 --W－ウィング・カタパルト
-function c96300057.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsCode,51638941))
 	--Atk up
 	local e1=Effect.CreateEffect(c)
@@ -12,4 +13,4 @@ function c96300057.initial_effect(c)
 	e2:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e2)
 end
-c96300057.listed_names={51638941}
+s.listed_names={51638941}

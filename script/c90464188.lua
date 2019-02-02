@@ -41,7 +41,7 @@ end
 function c90464188.disop(e,tp,eg,ep,ev,re,r,rp)
 	if not re:IsActiveType(TYPE_SPELL+TYPE_TRAP) or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
 	local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
-	if not g or g:GetCount()==0 then return end
+	if not g or #g==0 then return end
 	if g:IsExists(c90464188.disfilter,1,nil,tp) then
 		if Duel.NegateEffect(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(re:GetHandler(),REASON_EFFECT)

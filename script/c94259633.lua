@@ -31,7 +31,7 @@ function c94259633.matfilter(c,lc,sumtype,tp)
 end 
 function c94259633.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetHandler():GetEquipGroup():Filter(c94259633.eqfilter,nil)
-	return g:GetCount()==0
+	return #g==0
 end
 function c94259633.eqfilter(c)
 	return c:GetFlagEffect(94259633)~=0 
@@ -64,7 +64,7 @@ end
 function c94259633.adcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=c:GetEquipGroup():Filter(c94259633.eqfilter,nil)
-	return g:GetCount()>0
+	return #g>0
 end
 function c94259633.atkval(e,c)
 	local c=e:GetHandler()

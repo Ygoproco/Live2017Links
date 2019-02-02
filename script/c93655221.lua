@@ -24,7 +24,7 @@ end
 function c93655221.condition(e,tp,eg,ep,ev,re,r,rp)
     if not Duel.IsChainNegatable(ev) then return false end
     local ex,tg,tc=Duel.GetOperationInfo(ev,CATEGORY_DESTROY)
-    return ex and tg~=nil and tc+tg:FilterCount(c93655221.filter,nil)-tg:GetCount()>0
+    return ex and tg~=nil and tc+tg:FilterCount(c93655221.filter,nil)-#tg>0
 end
 function c93655221.cfilter(c,sf)
     return c:IsType(TYPE_LINK) and c:IsFaceup() and (sf or aux.disfilter1(c))
@@ -53,7 +53,7 @@ function c93655221.activate(e,tp,eg,ep,ev,re,r,rp)
         local e1=Effect.CreateEffect(c)
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetCode(EFFECT_DISABLE)
-        e1:SetReset(RESET_EVENT+0x1fe0000)
+        e1:SetReset(RESET_EVENT+RESETS_STANDARD)
         hc:RegisterEffect(e1)
         local e2=e1:Clone()
         e2:SetCode(EFFECT_DISABLE_EFFECT)
@@ -66,7 +66,7 @@ function c93655221.activate(e,tp,eg,ep,ev,re,r,rp)
             local e1=Effect.CreateEffect(c)
             e1:SetType(EFFECT_TYPE_EQUIP)
             e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-            e1:SetReset(RESET_EVENT+0x1fe0000)
+            e1:SetReset(RESET_EVENT+RESETS_STANDARD)
             e1:SetValue(1)
             c:RegisterEffect(e1)
             --Equip limit
@@ -76,7 +76,7 @@ function c93655221.activate(e,tp,eg,ep,ev,re,r,rp)
             e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
             e2:SetValue(c93655221.eqlimit)
             e2:SetLabelObject(tc)
-            e2:SetReset(RESET_EVENT+0x1fe0000)
+            e2:SetReset(RESET_EVENT+RESETS_STANDARD)
             c:RegisterEffect(e2)
         else
             c:CancelToGrave(false)

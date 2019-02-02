@@ -67,14 +67,14 @@ function c93238626.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c93238626.filter(c,e,tp,mc,no,pg)
 	return c.xyz_number==no and c:IsSetCard(0x1048) and mc:IsCanBeXyzMaterial(c,tp)
-		and (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+		and (#pg<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c93238626.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local at=Duel.GetAttackTarget()
 		local m=_G["c"..at:GetCode()]
 		local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(at),tp,nil,nil,REASON_XYZ)
-		return pg:GetCount()<=1 and m and m.xyz_number and Duel.IsExistingMatchingCard(c93238626.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp,at,m.xyz_number,pg)
+		return #pg<=1 and m and m.xyz_number and Duel.IsExistingMatchingCard(c93238626.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp,at,m.xyz_number,pg)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
@@ -90,7 +90,7 @@ function c93238626.spop(e,tp,eg,ep,ev,re,r,rp)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=tc:GetOverlayGroup()
-		if mg:GetCount()~=0 then
+		if #mg~=0 then
 			Duel.Overlay(sc,mg)
 		end
 		sc:SetMaterial(Group.FromCards(tc))

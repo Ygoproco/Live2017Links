@@ -1,6 +1,5 @@
 --帝王の轟毅
-local s,id=GetID()
-function s.initial_effect(c)
+function c5795980.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DISABLE+CATEGORY_DRAW)
@@ -8,25 +7,25 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetHintTiming(0,0x1e0)
-	e1:SetCost(s.cost)
-	e1:SetTarget(s.target)
-	e1:SetOperation(s.activate)
+	e1:SetCost(c5795980.cost)
+	e1:SetTarget(c5795980.target)
+	e1:SetOperation(c5795980.activate)
 	c:RegisterEffect(e1)
 	--
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetDescription(aux.Stringid(5795980,0))
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCost(aux.bfgcost)
-	e2:SetTarget(s.attg)
-	e2:SetOperation(s.atop)
+	e2:SetTarget(c5795980.attg)
+	e2:SetOperation(c5795980.atop)
 	c:RegisterEffect(e2)
 end
-function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function c5795980.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
-function s.cfilter(c,e,dg)
+function c5795980.cfilter(c,e,dg)
 	if c:IsFacedown() or not c:IsLevelAbove(5) or not c:IsSummonType(SUMMON_TYPE_NORMAL) then return false end
 	local a=0
 	if dg:IsContains(c) then a=1 end
@@ -39,18 +38,18 @@ function s.cfilter(c,e,dg)
 	end
 	return #dg-a>=1
 end
-function s.tgfilter(c,e)
+function c5795980.tgfilter(c,e)
 	return aux.disfilter1(c) and c:IsCanBeEffectTarget(e)
 end
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and s.tgfilter(chkc,e) and chkc~=e:GetHandler() end
+function c5795980.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsOnField() and c5795980.tgfilter(chkc,e) and chkc~=e:GetHandler() end
 	if chk==0 then
 		if not Duel.IsPlayerCanDraw(tp,1) then return false end
 		if e:GetLabel()==1 then
 			e:SetLabel(0)
 			local rg=Duel.GetReleaseGroup(tp)
-			local dg=Duel.GetMatchingGroup(s.tgfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler(),e)
-			return rg:IsExists(s.cfilter,1,e:GetHandler(),e,dg)
+			local dg=Duel.GetMatchingGroup(c5795980.tgfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler(),e)
+			return rg:IsExists(c5795980.cfilter,1,e:GetHandler(),e,dg)
 		else
 			return Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler())
 		end
@@ -58,9 +57,9 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if e:GetLabel()==1 then
 		e:SetLabel(0)
 		local rg=Duel.GetReleaseGroup(tp)
-		local dg=Duel.GetMatchingGroup(s.tgfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler(),e)
+		local dg=Duel.GetMatchingGroup(c5795980.tgfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler(),e)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-		local sg=rg:FilterSelect(tp,s.cfilter,1,1,e:GetHandler(),e,dg)
+		local sg=rg:FilterSelect(tp,c5795980.cfilter,1,1,e:GetHandler(),e,dg)
 		Duel.Release(sg,REASON_COST)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
@@ -68,7 +67,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
-function s.activate(e,tp,eg,ep,ev,re,r,rp)
+function c5795980.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) and ((tc:IsFaceup() and not tc:IsDisabled()) or tc:IsType(TYPE_TRAPMONSTER)) then
@@ -97,13 +96,13 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Draw(tp,1,REASON_EFFECT)
 	end
 end
-function s.attg(e,tp,eg,ep,ev,re,r,rp,chk)
+function c5795980.attg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
 	local rc=Duel.AnnounceAttribute(tp,1,0xffff)
 	Duel.SetTargetParam(rc)
 end
-function s.atop(e,tp,eg,ep,ev,re,r,rp)
+function c5795980.atop(e,tp,eg,ep,ev,re,r,rp)
 	local rc=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	local tc=g:GetFirst()

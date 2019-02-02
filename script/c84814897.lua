@@ -1,5 +1,6 @@
 --騎竜
-function c84814897.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsCode,11321183),true)
 	--Atk up
 	local e1=Effect.CreateEffect(c)
@@ -17,28 +18,28 @@ function c84814897.initial_effect(c)
 	c:RegisterEffect(e2)
 	--direct_attack
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(84814897,2))
+	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCondition(aux.IsUnionState)
-	e3:SetCost(c84814897.atkcost)
-	e3:SetOperation(c84814897.atkop)
+	e3:SetCost(s.atkcost)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3)
 end
-c84814897.listed_names={11321183}
-function c84814897.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
+s.listed_names={11321183}
+function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsReleasable() end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.SetTargetCard(e:GetHandler():GetEquipTarget())
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
-function c84814897.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DIRECT_ATTACK)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 	end
 end

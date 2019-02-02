@@ -15,7 +15,7 @@ function s.initial_effect(c)
 end
 function s.matcheck(e,c)
 	local g=c:GetMaterial()
-	if #g==2 and g:GetClassCount(Card.GetCode)==g:GetCount() and not g:IsExists(aux.NOT(Card.IsAttribute),1,nil,ATTRIBUTE_DARK) then
+	if #g==2 and g:GetClassCount(Card.GetCode)==#g and not g:IsExists(aux.NOT(Card.IsAttribute),1,nil,ATTRIBUTE_DARK) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetDescription(aux.Stringid(id,0))
 		e1:SetCategory(CATEGORY_COUNTER)
@@ -55,9 +55,9 @@ function s.addop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_DESTROY_REPLACE)
 		e1:SetTarget(s.reptg)
 		e1:SetOperation(s.repop)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
-		tc:RegisterFlagEffect(id,RESET_EVENT+0x1fe0000,0,0)
+		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,0)
 	end
 end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)

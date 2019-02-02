@@ -47,7 +47,7 @@ end
 function c36894320.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
     if chk==0 then return e:GetHandler():IsReason(REASON_EFFECT) and c:GetReasonPlayer()~=tp and e:GetHandler():GetFlagEffect(36894320)==0 end
-    c:RegisterFlagEffect(36894320,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+    c:RegisterFlagEffect(36894320,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 	return true
 end
 function c36894320.acfilter(c)
@@ -94,7 +94,7 @@ end
 function c36894320.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetFlagEffect(1002270280)==0 end
-	c:RegisterFlagEffect(1002270280,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	c:RegisterFlagEffect(1002270280,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c36894320.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
@@ -112,7 +112,7 @@ function c36894320.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) or Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c36894320.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
@@ -134,7 +134,7 @@ function c36894320.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0 then
 		local g=Duel.GetMatchingGroup(c36894320.setfilter,tp,LOCATION_HAND+LOCATION_DECK,0,nil)
-		if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(36894320,2)) then
+		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(36894320,2)) then
 			local sc=g:Select(tp,1,1,nil):GetFirst()
 			Duel.SSet(tp,sc)
 			Duel.ConfirmCards(1-tp,sc)

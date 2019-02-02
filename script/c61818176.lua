@@ -38,7 +38,7 @@ function c61818176.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) and Duel.SendtoHand(tc,nil,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_HAND) then
 		local g=Duel.GetMatchingGroup(c61818176.actfilter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,tp)
-		if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(61818176,1)) then
+		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(61818176,1)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
 			local sg=g:Select(tp,1,1,nil)
@@ -54,12 +54,12 @@ function c61818176.activate(e,tp,eg,ep,ev,re,r,rp)
 end
 function c61818176.filter1(c,e,tp)
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-	return pg:GetCount()<=1 and c:IsFaceup() and c:IsSetCard(0x8d) and Duel.GetLocationCountFromEx(tp,tp,c)>0
+	return #pg<=1 and c:IsFaceup() and c:IsSetCard(0x8d) and Duel.GetLocationCountFromEx(tp,tp,c)>0
 		and Duel.IsExistingMatchingCard(c61818176.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,c:GetCode(),pg)
 end
 function c61818176.filter2(c,e,tp,mc,code,pg)
 	return mc:IsType(TYPE_XYZ,c,SUMMON_TYPE_XYZ,tp) and c:IsType(TYPE_XYZ) and c:IsSetCard(0x8d) and not c:IsCode(code) and mc:IsCanBeXyzMaterial(c,tp)
-		and (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+		and (#pg<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c61818176.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c61818176.filter1(chkc,e,tp) end
@@ -78,7 +78,7 @@ function c61818176.spop(e,tp,eg,ep,ev,re,r,rp)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=tc:GetOverlayGroup()
-		if mg:GetCount()~=0 then
+		if #mg~=0 then
 			Duel.Overlay(sc,mg)
 		end
 		sc:SetMaterial(Group.FromCards(tc))

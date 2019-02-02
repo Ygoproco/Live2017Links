@@ -26,7 +26,7 @@ function c44505297.initial_effect(c)
 	e2:SetCost(c44505297.tgcost)
 	e2:SetTarget(c44505297.tgtg)
 	e2:SetOperation(c44505297.tgop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
 function c44505297.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
@@ -49,7 +49,7 @@ function c44505297.equipop(c,e,tp,tc)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e2:SetValue(atk)
 	tc:RegisterEffect(e2)
 	local def=tc:GetTextDefense()/2
@@ -57,7 +57,7 @@ function c44505297.equipop(c,e,tp,tc)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_EQUIP)
 	e3:SetCode(EFFECT_UPDATE_DEFENSE)
-	e3:SetReset(RESET_EVENT+0x1fe0000)
+	e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e3:SetValue(def)
 	tc:RegisterEffect(e3)
 end
@@ -89,7 +89,7 @@ end
 function c44505297.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tg=g:Filter(c44505297.tgfilter,nil,e)
-	if tg:GetCount()>0 then
+	if #tg>0 then
 		Duel.SendtoGrave(tg,REASON_EFFECT)
 	end
 end

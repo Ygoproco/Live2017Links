@@ -45,7 +45,7 @@ function c49820233.damop(e,tp,eg,ep,ev,re,r,rp)
 	if ct>0 and Duel.Damage(p,ct*200,REASON_EFFECT)~=0 and e:GetLabel()==1 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 		local g=Duel.SelectMatchingCard(tp,nil,tp,0,LOCATION_MZONE,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.BreakEffect()
 			Duel.HintSelection(g)
 			if Duel.Destroy(g,REASON_EFFECT)~=0 then

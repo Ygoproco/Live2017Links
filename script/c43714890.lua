@@ -14,7 +14,7 @@ function c43714890.initial_effect(c)
 end
 function c43714890.cfilter(c)
 	local tp=c:GetType()
-	return bit.band(tp,TYPE_NORMAL)~=0 and bit.band(tp,TYPE_TOKEN)==0
+	return (tp&TYPE_NORMAL)~=0 and (tp&TYPE_TOKEN)==0
 end
 function c43714890.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c43714890.cfilter,1,false,nil,nil) end

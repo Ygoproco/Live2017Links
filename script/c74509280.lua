@@ -47,7 +47,7 @@ end
 function c74509280.synchktg(e,c,sg,tg,ntg,tsg,ntsg)
 	if c then
 		local res=true
-		if sg:GetCount()>=2 or (not tg:IsExists(c74509280.chk2,1,c) and not ntg:IsExists(c74509280.chk2,1,c) 
+		if #sg>=2 or (not tg:IsExists(c74509280.chk2,1,c) and not ntg:IsExists(c74509280.chk2,1,c) 
 			and not sg:IsExists(c74509280.chk2,1,c)) then return false end
 		local ttg=tg:Filter(c74509280.chk2,nil)
 		local nttg=ntg:Filter(c74509280.chk2,nil)
@@ -57,9 +57,9 @@ function c74509280.synchktg(e,c,sg,tg,ntg,tsg,ntsg)
 		ntrg:Sub(nttg)
 		return res,trg,ntrg
 	else
-		return sg:GetCount()<2
+		return #sg<2
 	end
 end
 function c74509280.synop(e,tg,ntg,sg,lv,sc,tp)
-	return sg:GetCount()==2,false
+	return #sg==2,false
 end

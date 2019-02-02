@@ -90,7 +90,7 @@ function c73360025.spop(e,tp,eg,ep,ev,re,r,rp)
 		local mf=ce:GetValue()
 		sg3=Duel.GetMatchingGroup(c73360025.spfilter1,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
 	end
-	if sg1:GetCount()>0 or (sg3~=nil and sg3:GetCount()>0) then
+	if #sg1>0 or (sg3~=nil and #sg3>0) then
 		local sg=sg1:Clone()
 		if sg3 then sg:Merge(sg3) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)

@@ -38,7 +38,7 @@ function c90512490.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c90512490.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0
+	return (r&REASON_EFFECT+REASON_BATTLE)~=0
 end
 function c90512490.thfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAttribute(ATTRIBUTE_WIND) and c:IsAbleToHand()

@@ -45,7 +45,7 @@ function c67381587.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c67381587.posop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.ChangePosition(g,POS_FACEDOWN_DEFENSE)
 	end
 end

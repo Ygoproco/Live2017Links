@@ -11,9 +11,9 @@ function c64335805.initial_effect(c)
 	e1:SetOperation(c64335805.spop)
 	c:RegisterEffect(e1)
 end
-c64335805.listed_names={74677422}
+c64335805.listed_names={CARD_REDEYES_B_DRAGON}
 function c64335805.spfilter(c)
-	return c:IsCode(74677422) and c:GetEquipGroup():IsExists(Card.IsCode,1,nil,68540058)
+	return c:IsCode(CARD_REDEYES_B_DRAGON) and c:GetEquipGroup():IsExists(Card.IsCode,1,nil,68540058)
 end
 function c64335805.spcon(e,c)
 	if c==nil then return true end

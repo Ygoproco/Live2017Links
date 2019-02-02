@@ -49,7 +49,7 @@ function c49959355.lvop1(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_UPDATE_LEVEL)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 end
@@ -67,7 +67,7 @@ end
 function c49959355.lvop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c49959355.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()==0 or Duel.SendtoGrave(g,REASON_EFFECT)==0 then return end
+	if #g==0 or Duel.SendtoGrave(g,REASON_EFFECT)==0 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) and g:GetFirst():IsLocation(LOCATION_GRAVE) then
 		local e1=Effect.CreateEffect(e:GetHandler())
@@ -75,7 +75,7 @@ function c49959355.lvop2(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_UPDATE_LEVEL)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 	local e2=Effect.CreateEffect(e:GetHandler())

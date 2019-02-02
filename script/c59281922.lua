@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetCode(EFFECT_CHANGE_CODE)
 	e3:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
-	e3:SetValue(70095154)
+	e3:SetValue(CARD_CYBER_DRAGON)
 	c:RegisterEffect(e3)
 	Duel.AddCustomActivityCounter(id,ACTIVITY_SPSUMMON,s.counterfilter)
 end
@@ -54,7 +54,7 @@ function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return c:GetRace()~=RACE_MACHINE
 end
 function s.filter(c)
-	return c:IsFaceup() and c:IsCode(70095154)
+	return c:IsFaceup() and c:IsCode(CARD_CYBER_DRAGON)
 end
 function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_MZONE,0,1,nil) end

@@ -92,7 +92,7 @@ function c57761191.rescon(sg,e,tp,mg)
 	local c=e:GetHandler()
 	if not sg:IsExists(c57761191.req,1,nil) or not aux.ChkfMMZ(1)(sg,e,tp,mg) 
 		or sg:FilterCount(c57761191.unreq,nil,tp)>1 then return false end
-	local ct=sg:GetCount()
+	local ct=#sg
 	return sg:CheckWithSumEqual(c57761191.val,3,ct,ct,c,3)
 end
 function c57761191.ttcon(e,c,minc)
@@ -193,7 +193,7 @@ function c57761191.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCountFromEx(tp)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c57761191.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

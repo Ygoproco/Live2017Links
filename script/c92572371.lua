@@ -23,7 +23,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
 	local sg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,nil)
-	local nc=sg:GetCount()>=2 and (ft>0 or (ct<3 and sg:IsExists(s.mzfilter,ct,nil)))
+	local nc=#sg>=2 and (ft>0 or (ct<3 and sg:IsExists(s.mzfilter,ct,nil)))
 	if chk==0 then 
 		if Duel.IsPlayerAffectedByEffect(tp,CARD_FIRE_FIST_EAGLE) then 
 			return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 

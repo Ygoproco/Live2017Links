@@ -53,7 +53,7 @@ function c53315891.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then
 		local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,c)
-		if g:GetCount()==0 then return false end
+		if #g==0 then return false end
 		local g1,atk=g:GetMaxGroup(Card.GetAttack)
 		return c:GetAttack()~=atk and c:GetFlagEffect(53315891)==0
 	end
@@ -62,7 +62,7 @@ end
 function c53315891.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,c)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local g1,atk=g:GetMaxGroup(Card.GetAttack)
 	if c:IsRelateToEffect(e) and c:IsFaceup() and atk>0 then
 		local e1=Effect.CreateEffect(c)
@@ -80,16 +80,16 @@ function c53315891.spfilter(c,e,tp)
 	return c:IsSetCard(0xa0) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
 function c53315891.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>=3
 		and Duel.IsExistingMatchingCard(c53315891.spfilter,tp,0x13,0,3,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,3,tp,0x13)
 end
 function c53315891.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<3 then return end
 	local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(c53315891.spfilter),tp,0x13,0,nil,e,tp)
-	if g:GetCount()>2 then
+	if #g>2 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg=g:Select(tp,3,3,nil)
 		Duel.SpecialSummon(sg,0,tp,tp,true,true,POS_FACEUP)

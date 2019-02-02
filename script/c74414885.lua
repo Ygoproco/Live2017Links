@@ -34,7 +34,7 @@ function c74414885.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft<=0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	if ft>5 then ft=5 end
 	local sg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c74414885.filter),tp,LOCATION_HAND+LOCATION_GRAVE,0,nil,e,tp)
 	local g=aux.SelectUnselectGroup(sg,e,tp,1,ft,c74414885.rescon,1,tp,HINTMSG_SPSUMMON)

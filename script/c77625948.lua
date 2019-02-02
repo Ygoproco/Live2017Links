@@ -48,13 +48,13 @@ function c77625948.equipop(c,e,tp,tc)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetProperty(EFFECT_FLAG_OWNER_RELATE+EFFECT_FLAG_IGNORE_IMMUNE)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e2:SetValue(atk)
 	tc:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_EQUIP)
 	e3:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e3:SetReset(RESET_EVENT+0x1fe0000)
+	e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e3:SetValue(c77625948.repval)
 	tc:RegisterEffect(e3)
 end
@@ -67,7 +67,7 @@ function c77625948.eqop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c77625948.repval(e,re,r,rp)
-	return bit.band(r,REASON_BATTLE)~=0
+	return (r&REASON_BATTLE)~=0
 end
 function c77625948.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttackTarget()==nil and e:GetHandler():IsHasEffect(EFFECT_DIRECT_ATTACK)
@@ -88,7 +88,7 @@ function c77625948.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetValue(c:GetAttack()/2)
-		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_DAMAGE_CAL)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_DAMAGE_CAL)
 		c:RegisterEffect(e1)
 	end
 end

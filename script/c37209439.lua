@@ -51,11 +51,11 @@ function c37209439.target(e,tp,eg,ep,ev,re,r,rp,chk)
 			op=Duel.SelectOption(tp,aux.Stringid(37209439,0))
 		else op=Duel.SelectOption(tp,aux.Stringid(37209439,1))+1 end
 		if op==0 then
-			c:RegisterFlagEffect(37209439,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+			c:RegisterFlagEffect(37209439,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 			e:SetCategory(0)
 			e:SetOperation(c37209439.negop)
 		else
-			c:RegisterFlagEffect(37209440,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+			c:RegisterFlagEffect(37209440,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 			c37209439.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 			e:SetCategory(CATEGORY_DAMAGE)
 			e:SetOperation(c37209439.damop)
@@ -73,7 +73,7 @@ function c37209439.negcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c37209439.negcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(37209439)==0 end
-	e:GetHandler():RegisterFlagEffect(37209439,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	e:GetHandler():RegisterFlagEffect(37209439,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c37209439.negop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -120,7 +120,7 @@ function c37209439.damcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c37209439.damcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(37209440)==0 end
-	e:GetHandler():RegisterFlagEffect(37209440,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	e:GetHandler():RegisterFlagEffect(37209440,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c37209439.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

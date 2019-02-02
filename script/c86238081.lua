@@ -47,7 +47,7 @@ function c86238081.initial_effect(c)
 	e5:SetCost(c86238081.descost)
 	e5:SetTarget(c86238081.destg)
 	e5:SetOperation(c86238081.desop)
-	c:RegisterEffect(e5,false,1)
+	c:RegisterEffect(e5,false,REGISTER_FLAG_DETACH_XMAT)
 	--pendulum
 	local e6=Effect.CreateEffect(c)
 	e6:SetDescription(aux.Stringid(86238081,2))
@@ -72,7 +72,7 @@ function c86238081.pcop(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.CheckLocation(tp,LOCATION_PZONE,0) and not Duel.CheckLocation(tp,LOCATION_PZONE,1) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
 	local g=Duel.SelectMatchingCard(tp,c86238081.pcfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.MoveToField(g:GetFirst(),tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 	end
 end
@@ -81,8 +81,8 @@ function c86238081.regcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c86238081.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	c:RegisterFlagEffect(86238081,RESET_EVENT+0x1fe0000,0,1)
-	c:RegisterFlagEffect(0,RESET_EVENT+0x1fe0000,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(86238081,3))
+	c:RegisterFlagEffect(86238081,RESET_EVENT+RESETS_STANDARD,0,1)
+	c:RegisterFlagEffect(0,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(86238081,3))
 end
 function c86238081.effcon(e)
 	return e:GetHandler():GetFlagEffect(86238081)>0
@@ -94,7 +94,7 @@ end
 function c86238081.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)>0 end
 	local sg=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,sg,sg:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,sg,#sg,0,0)
 end
 function c86238081.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -105,7 +105,7 @@ function c86238081.desop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(ct*200)
-		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	end
 end

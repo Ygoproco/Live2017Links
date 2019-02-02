@@ -47,7 +47,7 @@ end
 function c40634253.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if tg:GetCount()>0 then
+	if #tg>0 then
 		Duel.Destroy(tg,REASON_EFFECT)
 	end
 end
@@ -76,8 +76,8 @@ function c40634253.damfilter2(c,tp)
 end
 function c40634253.damop(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(c40634253.damfilter2,nil,tp)
-	if g:GetCount()>0 then
-		if g:GetCount()>1 then
+	if #g>0 then
+		if #g>1 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 			g=g:Select(tp,1,1,nil)
 		end

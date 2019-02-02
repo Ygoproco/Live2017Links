@@ -51,13 +51,13 @@ function c51777272.operation(e,tp,eg,ep,ev,re,r,rp)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_ATTACK_ALL)
-		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		e2:SetValue(2)
 		c:RegisterEffect(e2)
 	end
 end
 function c51777272.indct(e,re,r,rp)
-	if bit.band(r,REASON_BATTLE)~=0 then
+	if (r&REASON_BATTLE)~=0 then
 		return 1
 	else return 0 end
 end

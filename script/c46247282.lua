@@ -1,5 +1,6 @@
 --鉄騎龍ティアマトン
-function c46247282.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
@@ -9,24 +10,24 @@ function c46247282.initial_effect(c)
 	c:RegisterEffect(e1)
 	--special summon
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(46247282,0))
+	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_HAND)
-	e2:SetCountLimit(1,46247282)
-	e2:SetCondition(c46247282.spcon)
-	e2:SetTarget(c46247282.sptg)
-	e2:SetOperation(c46247282.spop)
+	e2:SetCountLimit(1,id)
+	e2:SetCondition(s.spcon)
+	e2:SetTarget(s.sptg)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--destroy
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(46247282,1))
+	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_DESTROY)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e3:SetTarget(c46247282.destg)
-	e3:SetOperation(c46247282.desop)
+	e3:SetTarget(s.destg)
+	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
 	--disable field
 	local e4=Effect.CreateEffect(c)
@@ -34,47 +35,47 @@ function c46247282.initial_effect(c)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EFFECT_DISABLE_FIELD)
 	--thanks fluo for hardcoding our day
-	e4:SetCondition(function(e)if e:GetValue()~=0 then e:SetValue(c46247282.disop) end return true end)
-	e4:SetValue(c46247282.disop)
+	e4:SetCondition(function(e)if e:GetValue()~=0 then e:SetValue(s.disop) end return true end)
+	e4:SetValue(s.disop)
 	c:RegisterEffect(e4)
 end
-function c46247282.cfilter(c)
+function s.cfilter(c)
 	return c:GetColumnGroupCount()>1
 end
-function c46247282.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c46247282.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil)
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil)
 end
-function c46247282.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,true,true) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
-function c46247282.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,true,true,POS_FACEUP)~=0 then
 		c:CompleteProcedure()
 	end
 end
-function c46247282.desfilter(c,g)
+function s.desfilter(c,g)
 	return g:IsContains(c)
 end
-function c46247282.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local cg=e:GetHandler():GetColumnGroup()
-	local g=Duel.GetMatchingGroup(c46247282.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,cg)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	local g=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,cg)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
-function c46247282.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local cg=c:GetColumnGroup()
 	if c:IsRelateToEffect(e) and c:IsFaceup() then
-		local g=Duel.GetMatchingGroup(c46247282.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,cg)
-		if g:GetCount()>0 then
+		local g=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,cg)
+		if #g>0 then
 			Duel.Destroy(g,REASON_EFFECT)
 		end
 	end
 end
-function c46247282.disop(e)
+function s.disop(e)
 	local c=e:GetHandler()
 	local seq=c:GetSequence()
 	local nseq=4-seq

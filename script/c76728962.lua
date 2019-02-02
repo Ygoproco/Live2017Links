@@ -40,8 +40,8 @@ function c76728962.initial_effect(c)
 end
 c76728962.toss_coin=true
 function c76728962.filter(c,tp)
-	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and bit.band(c:GetPreviousRaceOnField(),RACE_MACHINE)~=0
-		and bit.band(c:GetPreviousAttributeOnField(),ATTRIBUTE_DARK)~=0 and c:GetPreviousControler()==tp
+	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and (c:GetPreviousRaceOnField()&RACE_MACHINE)~=0
+		and (c:GetPreviousAttributeOnField()&ATTRIBUTE_DARK)~=0 and c:GetPreviousControler()==tp
 		and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP)
 end
 function c76728962.condition(e,tp,eg,ep,ev,re,r,rp)
@@ -66,7 +66,7 @@ function c76728962.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_OATH)
 	e1:SetCode(EFFECT_CANNOT_ATTACK)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	e:GetHandler():RegisterEffect(e1)
 end
 function c76728962.destg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -77,11 +77,11 @@ function c76728962.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c76728962.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local c1,c2,c3=Duel.TossCoin(tp,3)
 	local ct=c1+c2+c3
 	if ct==0 then return end
-	if ct>g:GetCount() then ct=g:GetCount() end
+	if ct>#g then ct=#g end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local dg=g:Select(tp,1,ct,nil)
 	Duel.HintSelection(dg)
@@ -100,7 +100,7 @@ end
 function c76728962.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c76728962.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

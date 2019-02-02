@@ -34,7 +34,7 @@ function c93020401.hspcon(e,c)
 	local zone=0
 	local lg=Duel.GetMatchingGroup(c93020401.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	for tc in aux.Next(lg) do
-		zone=bit.bor(zone,tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
+		zone=(zone|tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
 	end
 	return Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)>0
 end
@@ -43,7 +43,7 @@ function c93020401.hspval(e,c)
 	local zone=0
 	local lg=Duel.GetMatchingGroup(c93020401.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	for tc in aux.Next(lg) do
-		zone=bit.bor(zone,tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
+		zone=(zone|tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
 	end
 	return 0,zone
 end
@@ -70,7 +70,7 @@ function c93020401.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c93020401.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

@@ -72,7 +72,7 @@ function c93449450.lvop(e,tp,eg,ep,ev,re,r,rp)
 		e4:SetValue(1)
 		e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e4:SetRange(LOCATION_MZONE)
-		e4:SetReset(RESET_EVENT+0x1ff0000)
+		e4:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e4)
 	end
 end

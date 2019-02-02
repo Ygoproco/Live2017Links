@@ -11,14 +11,14 @@ function c73616671.initial_effect(c)
 	e1:SetOperation(c73616671.activate)
 	c:RegisterEffect(e1)
 end
-c73616671.listed_names={46986414}
+c73616671.listed_names={CARD_DARK_MAGICIAN}
 function c73616671.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,nil,nil,RACE_SPELLCASTER) end
 	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,1,false,nil,nil,RACE_SPELLCASTER)
 	Duel.Release(g,REASON_COST)
 end
 function c73616671.filter(c)
-	return c:IsCode(46986414) and c:IsAbleToHand()
+	return c:IsCode(CARD_DARK_MAGICIAN) and c:IsAbleToHand()
 end
 function c73616671.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c73616671.filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
@@ -27,7 +27,7 @@ end
 function c73616671.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c73616671.filter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,2,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

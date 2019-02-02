@@ -54,7 +54,7 @@ function s.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end
 function s.val(e,re,dam,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 then
+	if (r&REASON_EFFECT)~=0 then
 		return dam/2
 	else return dam end
 end

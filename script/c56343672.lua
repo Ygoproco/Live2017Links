@@ -27,7 +27,7 @@ function c56343672.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		local seq=e:GetHandler():GetSequence()
 		if seq<5 and bit.extract(zone,seq)~=0 then ct=ct+1 end
 		if ct<=0 then return false end
-		if Duel.IsPlayerAffectedByEffect(tp,59822133) then ct=1 end
+		if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ct=1 end
 		local g=Duel.GetMatchingGroup(c56343672.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
 		return g:CheckWithSumEqual(Card.GetLevel,6,1,ct)
 	end
@@ -38,7 +38,7 @@ function c56343672.spop(e,tp,eg,ep,ev,re,r,rp)
 	local zone=Duel.GetLinkedZone(tp)&0x1f
 	local ct=Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)
 	if ct<=0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ct=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ct=1 end
 	local g=Duel.GetMatchingGroup(c56343672.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
 	if g:CheckWithSumEqual(Card.GetLevel,6,1,ct) then
 		local fid=c:GetFieldID()
@@ -50,14 +50,14 @@ function c56343672.spop(e,tp,eg,ep,ev,re,r,rp)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_DISABLE)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)
 			e2:SetCode(EFFECT_DISABLE_EFFECT)
-			e2:SetReset(RESET_EVENT+0x1fe0000)
+			e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e2)
-			tc:RegisterFlagEffect(56343672,RESET_EVENT+0x1fe0000,0,1,fid)
+			tc:RegisterFlagEffect(56343672,RESET_EVENT+RESETS_STANDARD,0,1,fid)
 			tc=sg:GetNext()
 		end
 		Duel.SpecialSummonComplete()

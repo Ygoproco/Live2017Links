@@ -24,7 +24,7 @@ function c58873391.spcheck(sg,tp,exg,dg)
 			if dg:IsContains(tc) then a=a+1 end
 		end
 	end
-	return dg:GetCount()-a>=1
+	return #dg-a>=1
 end
 function c58873391.cfilter(c)
 	return c:IsRace(RACE_FISH)
@@ -48,7 +48,7 @@ function c58873391.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,e:GetHandler())
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
 function c58873391.activate(e,tp,eg,ep,ev,re,r,rp)

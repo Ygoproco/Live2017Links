@@ -49,7 +49,7 @@ function c80254726.activate(e,tp,eg,ep,ev,re,r,rp)
 		local loc=0
 		if Duel.GetLocationCountFromEx(tp)>0 then loc=loc+LOCATION_EXTRA end
 		local g=Duel.GetMatchingGroup(c80254726.spfilter,tp,loc,0,nil,e,tp)
-		if loc~=0 and g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(80254726,0)) then
+		if loc~=0 and #g>0 and Duel.SelectYesNo(tp,aux.Stringid(80254726,0)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local sg=g:Select(tp,1,1,nil)

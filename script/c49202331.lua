@@ -23,7 +23,7 @@ function c49202331.initial_effect(c)
 	e2:SetCondition(c49202331.atcon)
 	e2:SetCost(c49202331.atcost)
 	e2:SetOperation(c49202331.atop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c49202331.listed_names={3814632}
 function c49202331.damtg(e,tp,eg,ep,ev,re,r,rp,chk)

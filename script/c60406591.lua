@@ -1,59 +1,60 @@
 --デモンバルサム・シード
-function c60406591.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_BATTLE_DESTROYED)
-	e1:SetCondition(c60406591.condition)
-	e1:SetTarget(c60406591.target)
-	e1:SetOperation(c60406591.activate)
+	e1:SetCondition(s.condition)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
-	if not c60406591.global_check then
-		c60406591.global_check=true
-		c60406591[0]=nil
-		c60406591[1]=nil
-		c60406591[2]=nil
+	if not s.global_check then
+		s.global_check=true
+		s[0]=nil
+		s[1]=nil
+		s[2]=nil
 		local ge1=Effect.CreateEffect(c)
 		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		ge1:SetCode(EVENT_BATTLE_DAMAGE)
-		ge1:SetOperation(c60406591.checkop)
+		ge1:SetOperation(s.checkop)
 		Duel.RegisterEffect(ge1,0)
 		local ge2=Effect.CreateEffect(c)
 		ge2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		ge2:SetCode(EVENT_PHASE_START+PHASE_DRAW)
-		ge2:SetOperation(c60406591.clear)
+		ge2:SetOperation(s.clear)
 		Duel.RegisterEffect(ge2,0)
 	end
 end
-function c60406591.checkop(e,tp,eg,ep,ev,re,r,rp)
-	c60406591[0]=ep
-	c60406591[1]=math.floor(ev/500)
-	c60406591[2]=eg:GetFirst():GetBattleTarget()
+function s.checkop(e,tp,eg,ep,ev,re,r,rp)
+	s[0]=ep
+	s[1]=math.floor(ev/500)
+	s[2]=eg:GetFirst():GetBattleTarget()
 end
-function c60406591.clear(e,tp,eg,ep,ev,re,r,rp)
-	c60406591[0]=nil
-	c60406591[1]=nil
-	c60406591[2]=nil
+function s.clear(e,tp,eg,ep,ev,re,r,rp)
+	s[0]=nil
+	s[1]=nil
+	s[2]=nil
 end
-function c60406591.condition(e,tp,eg,ep,ev,re,r,rp)
-	return c60406591[0]==tp and eg:GetCount()==1 and eg:GetFirst()==c60406591[2]  and eg:GetFirst():GetBattlePosition()==POS_FACEUP_ATTACK
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
+	return s[0]==tp and #eg==1 and eg:GetFirst()==s[2]  and eg:GetFirst():GetBattlePosition()==POS_FACEUP_ATTACK
 end
-function c60406591.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local ct=c60406591[1]
-	if chk==0 then return ct>0 and (ct==1 or not Duel.IsPlayerAffectedByEffect(tp,59822133))
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	local ct=s[1]
+	if chk==0 then return ct>0 and (ct==1 or not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT))
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>=ct
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,60406592,0,0x4011,100,100,1,RACE_PLANT,ATTRIBUTE_DARK) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,100,100,1,RACE_PLANT,ATTRIBUTE_DARK) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,ct,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ct,tp,0)
 end
-function c60406591.activate(e,tp,eg,ep,ev,re,r,rp)
-	local ct=c60406591[1]
-	if (ct>1 and Duel.IsPlayerAffectedByEffect(tp,59822133))
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	local ct=s[1]
+	if (ct>1 and Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT))
 		or Duel.GetLocationCount(tp,LOCATION_MZONE)<ct
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,60406592,0,0x4011,100,100,1,RACE_PLANT,ATTRIBUTE_DARK) then return end
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,100,100,1,RACE_PLANT,ATTRIBUTE_DARK) then return end
 	for i=1,ct do
-		local token=Duel.CreateToken(tp,60406592)
+		local token=Duel.CreateToken(tp,id+1)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 	end
 	Duel.SpecialSummonComplete()

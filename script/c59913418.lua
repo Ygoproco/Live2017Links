@@ -59,7 +59,7 @@ function c59913418.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler()) end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
 	local ct=g:FilterCount(Card.IsControler,nil,1-tp)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,ct*200)
 end
 function c59913418.desop(e,tp,eg,ep,ev,re,r,rp)
@@ -73,7 +73,7 @@ end
 function c59913418.costcon(e)
 	local c=e:GetHandler()
 	local mg=c:GetMaterial()
-	return c:GetSummonType()==SUMMON_TYPE_RITUAL and mg:GetCount()>0 and not mg:IsExists(c59913418.mfilter1,1,nil)
+	return c:GetSummonType()==SUMMON_TYPE_RITUAL and #mg>0 and not mg:IsExists(c59913418.mfilter1,1,nil)
 end
 function c59913418.costchange(e,re,rp,val)
 	if re and re:GetHandler()==e:GetHandler() then

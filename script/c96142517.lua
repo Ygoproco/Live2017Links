@@ -60,21 +60,21 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	g1:Merge(g2)
 	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e,tp,rk,g1)
 	g:Sub(g1)
-	if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+	if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 		local sg=g:Select(tp,1,99,nil)
 		Duel.SetTargetCard(sg)
 		g1:Merge(sg)
 	end
 	Duel.SetTargetParam(rk)
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g1,g1:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g1,#g1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local rk=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	local mg0=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local mg=mg0:Filter(Card.IsRelateToEffect,nil,e)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 or mg:GetCount()==0 or Duel.GetLocationCountFromEx(tp)<=0 then return end
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 or #mg==0 or Duel.GetLocationCountFromEx(tp)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,rk+1,mg0)
 	local sc=g:GetFirst()

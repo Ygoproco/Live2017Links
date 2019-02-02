@@ -39,7 +39,7 @@ function c74822425.discon(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	return loc==LOCATION_MZONE and re:IsActiveType(TYPE_MONSTER)
-		and bit.band(re:GetHandler():GetSummonType(),SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL
+		and (re:GetHandler():GetSummonType()&SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL
 		and Duel.IsChainNegatable(ev)
 end
 function c74822425.distg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -54,7 +54,7 @@ function c74822425.disop(e,tp,eg,ep,ev,re,r,rp)
 	if re:GetHandler():IsRelateToEffect(re) and Duel.Destroy(eg,REASON_EFFECT)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local g=Duel.SelectMatchingCard(tp,Card.IsSetCard,tp,LOCATION_HAND,0,1,1,nil,0x9d)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.BreakEffect()
 			Duel.SendtoGrave(g,REASON_EFFECT)
 		end
