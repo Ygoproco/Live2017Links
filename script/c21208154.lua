@@ -50,7 +50,7 @@ function c21208154.filter(c)
 end
 function c21208154.adval(e,c)
 	local g=Duel.GetMatchingGroup(c21208154.filter,0,LOCATION_MZONE,LOCATION_MZONE,nil)
-	if g:GetCount()==0 then 
+	if #g==0 then 
 		return 100
 	else
 		local tg,val=g:GetMaxGroup(Card.GetAttack)

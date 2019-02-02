@@ -24,28 +24,28 @@ end
 function c1516510.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local flag=e:GetLabel()
-	if bit.band(flag,0x3)~=0 then
+	if (flag&0x3)~=0 then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
 		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-		if bit.band(flag,0x1)~=0 then
+		if (flag&0x1)~=0 then
 			e1:SetDescription(aux.Stringid(1516510,0))
 			e1:SetValue(1)
 		else
 			e1:SetDescription(aux.Stringid(1516510,1))
 			e1:SetValue(2)
 		end
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e1)
 	end
-	if bit.band(flag,0x4)~=0 then
+	if (flag&0x4)~=0 then
 		local e4=Effect.CreateEffect(c)
 		e4:SetType(EFFECT_TYPE_SINGLE)
 		e4:SetCode(EFFECT_IMMUNE_EFFECT)
 		e4:SetValue(c1516510.efilter)
 		e4:SetOwnerPlayer(tp)
-		e4:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e4:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e4)
 	end
 end
@@ -61,11 +61,11 @@ end
 function c1516510.valcheck(e,c)
 	local g=c:GetMaterial()
 	local flag=0
-	if g:GetCount()==2 then
+	if #g==2 then
 		local lv=0
 		local lg1=g:Filter(c1516510.lvfilter,nil,c)
 		local lg2=g:Filter(Card.IsRace,nil,RACE_SPELLCASTER,c,SUMMON_TYPE_FUSION)
-		if lg1:GetCount()==2 then
+		if #lg1==2 then
 			lv=lg2:GetFirst():GetOriginalLevel()
 			local lc=lg2:GetNext()
 			if lc then lv=math.max(lv,lc:GetOriginalLevel()) end

@@ -70,7 +70,7 @@ function c2819435.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 end
 function c2819435.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
-	return eg:GetCount()==1 and tc:GetSummonPlayer()==tp and tc:IsFaceup() and tc:IsType(TYPE_NORMAL)
+	return #eg==1 and tc:GetSummonPlayer()==tp and tc:IsFaceup() and tc:IsType(TYPE_NORMAL)
 end
 function c2819435.thfilter(c)
 	return c:IsSetCard(0xfa) and c:IsAbleToHand()
@@ -83,25 +83,25 @@ function c2819435.thop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c2819435.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
 function c2819435.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return rp~=tp and not Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_MZONE,0,1,nil,TYPE_TOKEN) and e:GetHandler():GetFlagEffect(1)>0 and e:GetHandler():GetFlagEffect(2819435)==0 and e:GetHandler():RegisterFlagEffect(2819435,RESET_EVENT+0x1fe0000+RESET_CHAIN,0,1)
+	return rp~=tp and not Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_MZONE,0,1,nil,TYPE_TOKEN) and e:GetHandler():GetFlagEffect(1)>0 and e:GetHandler():GetFlagEffect(2819435)==0 and e:GetHandler():RegisterFlagEffect(2819435,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1)
 end
 function c2819435.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,2819436,0xfa,0x4011,2000,2000,6,RACE_WYRM,ATTRIBUTE_WATER)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,2819436,0xfa,TYPES_TOKEN,2000,2000,6,RACE_WYRM,ATTRIBUTE_WATER)
 		and e:GetHandler():GetFlagEffect(2819435)==0 end
-		e:GetHandler():RegisterFlagEffect(2819435,RESET_EVENT+0x1fe0000+RESET_CHAIN,0,1)
+		e:GetHandler():RegisterFlagEffect(2819435,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c2819435.spop(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsRelateToEffect(e) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,2819436,0xfa,0x4011,2000,2000,6,RACE_WYRM,ATTRIBUTE_WATER) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,2819436,0xfa,TYPES_TOKEN,2000,2000,6,RACE_WYRM,ATTRIBUTE_WATER) then
 		local token=Duel.CreateToken(tp,2819436)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	end

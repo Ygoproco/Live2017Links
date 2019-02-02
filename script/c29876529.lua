@@ -37,7 +37,7 @@ function c29876529.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		Duel.Release(rg,REASON_COST)
 	end
 	local g=Duel.GetMatchingGroup(c29876529.dfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
 function c29876529.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c29876529.dfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)

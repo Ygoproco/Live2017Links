@@ -26,14 +26,14 @@ function c899287.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
 end
-c899287.listed_names={72283691}
+c899287.listed_names={CARD_STROMBERG}
 function c899287.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:IsDiscardable() end
 	Duel.SendtoGrave(c,REASON_COST+REASON_DISCARD)
 end
 function c899287.thfilter(c)
-	return c:IsCode(72283691) and c:IsAbleToHand()
+	return c:IsCode(CARD_STROMBERG) and c:IsAbleToHand()
 end
 function c899287.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingMatchingCard(c899287.thfilter,tp,LOCATION_DECK,0,1,nil) end

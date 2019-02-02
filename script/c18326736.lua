@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	e1:SetHintTiming(0,TIMING_END_PHASE)
-	c:RegisterEffect(e1,false,1)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 	--turn skip
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	e2:SetCost(s.skipcost)
 	e2:SetTarget(s.skiptg)
 	e2:SetOperation(s.skipop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--material
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,2))
@@ -45,12 +45,12 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.filter(c,e,tp,rk,pg)
 	return c:IsRank(rk+1) and not c:IsSetCard(0x48) and e:GetHandler():IsCanBeXyzMaterial(c,tp)
-		and (pg:GetCount()<=0 or pg:IsContains(e:GetHandler())) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+		and (#pg<=0 or pg:IsContains(e:GetHandler())) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(e:GetHandler()),tp,nil,nil,REASON_XYZ)
-		return pg:GetCount()<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
+		return #pg<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
 			and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_EXTRA,0,1,nil,e,tp,e:GetHandler():GetRank(),pg)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
@@ -64,7 +64,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=c:GetOverlayGroup()
-		if mg:GetCount()~=0 then
+		if #mg~=0 then
 			Duel.Overlay(sc,mg)
 		end
 		sc:SetMaterial(Group.FromCards(c))
@@ -106,7 +106,7 @@ function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 	local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_EXTRA,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Overlay(c,g)
 	end
 end

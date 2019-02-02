@@ -40,8 +40,8 @@ function c25682811.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectTarget(tp,c25682811.filter,tp,LOCATION_GRAVE,0,1,ft,nil)
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,g:GetCount(),0,0)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,#g,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,#g,0,0)
 end
 function c25682811.equipop(c,e,tp,tc,chk)
 	local eff=false or chk
@@ -50,7 +50,7 @@ function c25682811.equipop(c,e,tp,tc,chk)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_OWNER_RELATE)
 	e1:SetCode(EFFECT_EQUIP_LIMIT)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e1:SetValue(aux.EquipByEffectLimit)
 	e1:SetLabelObject(e:GetLabelObject())
 	tc:RegisterEffect(e1)
@@ -58,7 +58,7 @@ end
 function c25682811.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if Duel.GetLocationCount(tp,LOCATION_SZONE)<sg:GetCount() then return end
+	if Duel.GetLocationCount(tp,LOCATION_SZONE)<#sg then return end
 	local c=e:GetHandler()
 	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	local tc=sg:GetFirst()

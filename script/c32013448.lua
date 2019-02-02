@@ -80,7 +80,7 @@ function c32013448.rmtg2(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c32013448.rmop2(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_HAND,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local sg=g:RandomSelect(tp,1)
 	local tc=sg:GetFirst()
 	Duel.Remove(tc,POS_FACEDOWN,REASON_EFFECT)
@@ -112,7 +112,7 @@ function c32013448.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
 end
 function c32013448.thfilter(c)
-	return bit.band(c:GetType(),0x81)==0x81 and c:IsAbleToHand()
+	return (c:GetType()&0x81)==0x81 and c:IsAbleToHand()
 end
 function c32013448.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c32013448.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -121,7 +121,7 @@ end
 function c32013448.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c32013448.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

@@ -19,7 +19,7 @@ function c17092736.cfop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,p,HINTMSG_CONFIRM)
     local ac=Duel.AnnounceLevel(p,1,ct)
     local g=Duel.GetDecktopGroup(1-p,ac)
-    if g:GetCount()>0 then
+    if #g>0 then
         Duel.ConfirmCards(p,g)
     end
 end

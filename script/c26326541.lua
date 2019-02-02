@@ -43,13 +43,13 @@ function c26326541.posop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c26326541.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,26326542,0xd9,0x4011,0,0,1,RACE_ZOMBIE,ATTRIBUTE_FIRE,POS_FACEUP) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,26326542,0xd9,TYPES_TOKEN,0,0,1,RACE_ZOMBIE,ATTRIBUTE_FIRE,POS_FACEUP) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c26326541.tkop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,26326542,0xd9,0x4011,0,0,1,RACE_ZOMBIE,ATTRIBUTE_FIRE,POS_FACEUP)
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,26326542,0xd9,TYPES_TOKEN,0,0,1,RACE_ZOMBIE,ATTRIBUTE_FIRE,POS_FACEUP)
 		then return 
 	end
 	local token=Duel.CreateToken(tp,26326542)

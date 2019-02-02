@@ -26,7 +26,7 @@ function c98905.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local sg=eg:Filter(c98905.cfilter,nil)
 	local tc=sg:GetFirst()
 	while tc do
-		tc:RegisterFlagEffect(98905,RESET_EVENT+0x1fe0000&~(RESET_TOGRAVE|RESET_LEAVE),0,1)
+		tc:RegisterFlagEffect(98905,RESET_EVENT+RESETS_STANDARD&~(RESET_TOGRAVE|RESET_LEAVE),0,1)
 		tc=sg:GetNext()
 	end
 end
@@ -41,7 +41,7 @@ function c98905.spfilter(c,e,tp,cd)
 end
 function c98905.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return eg:IsContains(chkc) and c98905.filter(chkc,e,tp) end
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.GetLocationCountFromEx(tp)>0 and Duel.GetUsableMZoneCount(tp)>1 and eg:IsExists(c98905.filter,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=eg:FilterSelect(tp,c98905.filter,1,1,nil,e,tp)
@@ -49,13 +49,13 @@ function c98905.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c98905.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 or Duel.GetLocationCountFromEx(tp)<=0 or Duel.GetUsableMZoneCount(tp)<=1 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g=Duel.SelectMatchingCard(tp,c98905.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,tc:GetCode())
-		if g:GetCount()>0 then
+		if #g>0 then
 			local sg=Group.FromCards(tc)
 			sg:Merge(g)
 			aux.MainAndExtraSpSummonLoop(nil,0,0,0,false,false)(e,tp,eg,ep,ev,re,r,rp,sg)

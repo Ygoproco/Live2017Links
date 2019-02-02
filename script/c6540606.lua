@@ -25,7 +25,7 @@ end
 function c6540606.activate(e,tp,eg,ep,ev,re,r,rp)
 	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
 	local g=Duel.GetFieldGroup(p,0,LOCATION_HAND)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.ConfirmCards(p,g)
 		Duel.Hint(HINT_SELECTMSG,p,HINTMSG_TOGRAVE)
 		local sg=g:Select(p,1,1,nil)

@@ -1,26 +1,27 @@
 --フェイク・フェザー
-function c22628574.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--copy trap
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0x1e1,0x1e1)
-	e1:SetCost(c22628574.cost)
-	e1:SetTarget(c22628574.target)
-	e1:SetOperation(c22628574.operation)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c22628574.cfilter(c)
+function s.cfilter(c)
 	return c:IsSetCard(0x33) and c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost()
 end
-function c22628574.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c22628574.cfilter,tp,LOCATION_HAND,0,1,nil) end
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c22628574.cfilter,tp,LOCATION_HAND,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_HAND,0,1,1,nil)
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c22628574.filter(c,e,tp,chk,chain)
-	if c:GetType()~=0x4 or c:IsCode(22628574) then return false end
+function s.filter(c,e,tp,chk,chain)
+	if c:GetType()~=0x4 or c:IsCode(id) then return false end
 	local te,eg,ep,ev,re,r,rp
 	if chk==0 then
 		te,eg,ep,ev,re,r,rp=c:CheckActivateEffect(false,true,true)
@@ -47,18 +48,18 @@ function c22628574.filter(c,e,tp,chk,chain)
 			and (not target or target(te,tp,teg,tep,tev,tre,tr,trp,0))
 	end
 end
-function c22628574.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local chain=Duel.GetCurrentChain()
 	if chkc then
 		local te=e:GetLabelObject()
 		local tg=te:GetTarget()
 		return tg and tg(e,tp,eg,ep,ev,re,r,rp,1,true)
 	end
-	if chk==0 then return Duel.IsExistingTarget(c22628574.filter,tp,0,LOCATION_GRAVE,1,nil,e,tp,chk,chain) end
+	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,0,LOCATION_GRAVE,1,nil,e,tp,chk,chain) end
 	chain=chain-1
 	e:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(22628574,0))
-	local g=Duel.SelectTarget(tp,c22628574.filter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp,chk,chain)
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
+	local g=Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp,chk,chain)
 	if not g then return false end
 	local te,teg,tep,tev,tre,tr,trp=g:GetFirst():CheckActivateEffect(false,true,true)
 	if not te then te=g:GetFirst():GetActivateEffect() end
@@ -76,22 +77,22 @@ function c22628574.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	e:SetProperty(te:GetProperty())
 	if tg then tg(e,tp,teg,tep,tev,tre,tr,trp,1) end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,0,0,0)
-	e:SetOperation(c22628574.operationchk(teg,tep,tev,tre,tr,trp))
+	e:SetOperation(s.operationchk(teg,tep,tev,tre,tr,trp))
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_CHAIN_SOLVED)
 	e1:SetReset(RESET_CHAIN)
 	e1:SetLabelObject(e)
-	e1:SetOperation(c22628574.resetop)
+	e1:SetOperation(s.resetop)
 	Duel.RegisterEffect(e1,tp)
 end
-function c22628574.resetop(e,tp,eg,ep,ev,re,r,rp)
+function s.resetop(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if te then
-		te:SetOperation(c22628574.operation)
+		te:SetOperation(s.operation)
 	end
 end
-function c22628574.operationchk(teg,tep,tev,tre,tr,trp)
+function s.operationchk(teg,tep,tev,tre,tr,trp)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 				local te=e:GetLabelObject()
 				if not te then return end
@@ -99,7 +100,7 @@ function c22628574.operationchk(teg,tep,tev,tre,tr,trp)
 				if op then op(e,tp,teg,tep,tev,tre,tr,trp) end
 			end
 end
-function c22628574.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if not te then return end
 	local op=te:GetOperation()

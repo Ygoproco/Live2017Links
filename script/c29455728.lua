@@ -21,26 +21,26 @@ function c29455728.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c29455728.mgfilter(c,e,tp,fusc,mg)
 	return c:IsControler(tp) and c:IsLocation(LOCATION_GRAVE)
-		and bit.band(c:GetReason(),0x40008)==0x40008 and c:GetReasonCard()==fusc
+		and (c:GetReason()&0x40008)==0x40008 and c:GetReasonCard()==fusc
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and fusc:CheckFusionMaterial(mg,c,PLAYER_NONE+65536)
 end
 function c29455728.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=e:GetHandler():GetMaterial()
 	if chk==0 then
-		local ct=g:GetCount()
+		local ct=#g
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 		if e:GetHandler():GetSequence()<5 then ft=ft+1 end
-		return ct>0 and ft>=ct and not Duel.IsPlayerAffectedByEffect(tp,59822133)
+		return ct>0 and ft>=ct and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 			and e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
 			and g:FilterCount(c29455728.mgfilter,nil,e,tp,e:GetHandler(),g)==ct
 	end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,#g,0,0)
 end
 function c29455728.operation(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	local g=e:GetHandler():GetMaterial()
-	local ct=g:GetCount()
+	local ct=#g
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>=ct
 		and g:FilterCount(c29455728.mgfilter,nil,e,tp,e:GetHandler(),g)==ct then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)

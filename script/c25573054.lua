@@ -31,7 +31,7 @@ function c25573054.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=hg:Clone()
 	g:Merge(mg)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and hg:GetCount()>1 and mg:GetCount()>0 and aux.SelectUnselectGroup(g,e,tp,3,3,c25573054.rescon,0) end
+	if chk==0 then return ft>-1 and #hg>1 and #mg>0 and aux.SelectUnselectGroup(g,e,tp,3,3,c25573054.rescon,0) end
 	local sg=aux.SelectUnselectGroup(g,e,tp,3,3,c25573054.rescon,1,tp,HINTMSG_TOGRAVE)
 	Duel.SendtoGrave(sg,REASON_COST)
 end

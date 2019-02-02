@@ -56,7 +56,7 @@ function c2144946.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c2144946.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local sg=g:RandomSelect(1-tp,1)
 	Duel.SendtoGrave(sg,REASON_DISCARD+REASON_EFFECT)
 end
@@ -74,7 +74,7 @@ end
 function c2144946.thop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c2144946.thfilter2,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

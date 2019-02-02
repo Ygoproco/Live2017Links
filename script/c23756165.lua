@@ -37,10 +37,10 @@ function c23756165.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCondition(c23756165.eqcon)
 		e1:SetTarget(c23756165.eqtg)
 		e1:SetOperation(c23756165.eqop)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		e1:SetLabelObject(e)
 		c:RegisterEffect(e1)
-		aux.AddEREquipLimit(c,c23756165.eqcon,c23756165.eqval,c23756165.equipop,e1,nil,RESET_EVENT+0x1ff0000)
+		aux.AddEREquipLimit(c,c23756165.eqcon,c23756165.eqval,c23756165.equipop,e1,nil,RESET_EVENT+RESETS_STANDARD_DISABLE)
 	end
 end
 function c23756165.eqval(ec,c,tp)
@@ -49,7 +49,7 @@ function c23756165.eqval(ec,c,tp)
 end
 function c23756165.eqcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetHandler():GetEquipGroup():Filter(c23756165.eqfilter,nil)
-	return g:GetCount()==0
+	return #g==0
 end
 function c23756165.eqfilter(c)
 	return c:GetFlagEffect(23756165)~=0 
@@ -72,7 +72,7 @@ function c23756165.equipop(c,e,tp,tc)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
 	e2:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e2:SetValue(c23756165.repval)
 	tc:RegisterEffect(e2)
 end
@@ -90,7 +90,7 @@ function c23756165.repval(e,re,r,rp)
 end
 function c23756165.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetHandler():GetEquipGroup():Filter(c23756165.eqfilter,nil)
-	return Duel.GetTurnPlayer()==tp and g:GetCount()==1
+	return Duel.GetTurnPlayer()==tp and #g==1
 end
 function c23756165.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end

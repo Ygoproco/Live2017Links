@@ -15,7 +15,7 @@ function c15520842.initial_effect(c)
 	e1:SetOperation(c15520842.activate)
 	c:RegisterEffect(e1)
 end
-c15520842.listed_names={93717133}
+c15520842.listed_names={CARD_GALAXYEYES_P_DRAGON}
 function c15520842.cfilter(c)
 	return c:IsFaceup() and (c:IsSetCard(0x55) or c:IsSetCard(0x7b))
 end
@@ -27,7 +27,7 @@ function c15520842.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.PayLPCost(tp,1000)
 end
 function c15520842.geffilter(c)
-	return c:IsFaceup() and c:IsCode(93717133)
+	return c:IsFaceup() and c:IsCode(CARD_GALAXYEYES_P_DRAGON)
 end
 function c15520842.filter(c,tp,ged)
 	return (ged or (c:IsFaceup() and c:IsType(TYPE_XYZ))) and c:IsControlerCanBeChanged()

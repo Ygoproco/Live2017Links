@@ -54,7 +54,7 @@ function c14318794.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local rec
 	if c:GetFlagEffect(14318794)==0 then
 		rec=c14318794[tp+2][1]
-		c:RegisterFlagEffect(14318794,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY,0,1,1)
+		c:RegisterFlagEffect(14318794,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY,0,1,1)
 	else
 		rec=c14318794[tp+2][c:GetFlagEffectLabel(14318794)+1]
 		c:SetFlagEffectLabel(14318794,c:GetFlagEffectLabel(14318794)+1)

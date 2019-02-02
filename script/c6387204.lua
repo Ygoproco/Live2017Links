@@ -1,33 +1,34 @@
 --CNo.6 先史遺産カオス・アトランタル
-function c6387204.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,nil,7,3)
 	c:EnableReviveLimit()
 	--equip
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(6387204,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
-	e1:SetTarget(c6387204.eqtg)
-	e1:SetOperation(c6387204.eqop)
+	e1:SetTarget(s.eqtg)
+	e1:SetOperation(s.eqop)
 	c:RegisterEffect(e1)
-	aux.AddEREquipLimit(c,nil,function(ec,_,tp) return ec:IsControler(1-tp) end,c6387204.equipop,e1)
+	aux.AddEREquipLimit(c,nil,function(ec,_,tp) return ec:IsControler(1-tp) end,s.equipop,e1)
 	--lp
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(6387204,1))
+	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCondition(c6387204.lpcon)
-	e2:SetCost(c6387204.lpcost)
-	e2:SetOperation(c6387204.lpop)
-	c:RegisterEffect(e2,false,1)
+	e2:SetCondition(s.lpcon)
+	e2:SetCost(s.lpcost)
+	e2:SetOperation(s.lpop)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
-c6387204.xyz_number=6
-c6387204.listed_names={9161357}
-function c6387204.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+s.xyz_number=6
+s.listed_names={9161357}
+function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and chkc:IsAbleToChangeControler() end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
 		and Duel.IsExistingTarget(Card.IsAbleToChangeControler,tp,0,LOCATION_MZONE,1,nil) end
@@ -35,21 +36,21 @@ function c6387204.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToChangeControler,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,1,0,0)
 end
-function c6387204.equipop(c,e,tp,tc)
-	if not aux.EquipByEffectAndLimitRegister(c,e,tp,tc,6387204) then return end
+function s.equipop(c,e,tp,tc)
+	if not aux.EquipByEffectAndLimitRegister(c,e,tp,tc,id) then return end
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e2:SetValue(1000)
 	tc:RegisterEffect(e2)
 end
-function c6387204.eqop(e,tp,eg,ep,ev,re,r,rp)
+function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
 		if c:IsFaceup() and c:IsRelateToEffect(e) then
-			c6387204.equipop(c,e,tp,tc)
+			s.equipop(c,e,tp,tc)
 		else Duel.SendtoGrave(tc,REASON_RULE) end
 	end
 	local e3=Effect.CreateEffect(c)
@@ -65,20 +66,20 @@ function c6387204.eqop(e,tp,eg,ep,ev,re,r,rp)
 	e4:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e4,tp)
 end
-function c6387204.lpcon(e,tp,eg,ep,ev,re,r,rp)
+function s.lpcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetLP(1-tp)~=100 and e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,9161357)
 end
-function c6387204.filter(c)
-	return c:GetFlagEffect(6387204)~=0 and c:IsSetCard(0x48) and c:IsFaceup() and c:IsAbleToGraveAsCost()
+function s.filter(c)
+	return c:GetFlagEffect(id)~=0 and c:IsSetCard(0x48) and c:IsFaceup() and c:IsAbleToGraveAsCost()
 end
-function c6387204.lpcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.lpcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,3,REASON_COST)
-		and e:GetHandler():GetEquipGroup():IsExists(c6387204.filter,1,nil) end
+		and e:GetHandler():GetEquipGroup():IsExists(s.filter,1,nil) end
 	e:GetHandler():RemoveOverlayCard(tp,3,3,REASON_COST)
-	local g=e:GetHandler():GetEquipGroup():Filter(c6387204.filter,nil)
+	local g=e:GetHandler():GetEquipGroup():Filter(s.filter,nil)
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c6387204.lpop(e,tp,eg,ep,ev,re,r,rp)
+function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SetLP(1-tp,100)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)

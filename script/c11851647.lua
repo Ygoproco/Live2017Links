@@ -49,13 +49,13 @@ function c11851647.operation(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_LEVEL)
-		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
 		e1:SetValue(ct)
 		c:RegisterEffect(e1)
 	end
 end
 function c11851647.reccon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_DESTROY)~=0 and e:GetHandler():GetPreviousControler()==tp
+	return (r&REASON_DESTROY)~=0 and e:GetHandler():GetPreviousControler()==tp
 		and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 function c11851647.rectg(e,tp,eg,ep,ev,re,r,rp,chk)

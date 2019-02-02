@@ -47,7 +47,7 @@ function c4388680.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(300)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 	end
 end
@@ -70,12 +70,12 @@ end
 function c4388680.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local hg=Duel.SelectMatchingCard(tp,c4388680.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if hg:GetCount()>0 and Duel.SendtoHand(hg,tp,REASON_EFFECT)>0
+	if #hg>0 and Duel.SendtoHand(hg,tp,REASON_EFFECT)>0
 		and hg:GetFirst():IsLocation(LOCATION_HAND) then
 		Duel.ConfirmCards(1-tp,hg)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local g=Duel.SelectMatchingCard(tp,c4388680.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.SendtoGrave(g,REASON_EFFECT)
 		end
 	end

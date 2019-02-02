@@ -1,16 +1,17 @@
 --オルフェゴール・オーケストリオン
 --Orphegor Orchestrion
 --Scripted by Eerie Code
-function c3134857.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),2,nil,c3134857.matcheck)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),2,nil,s.matcheck)
 	--indes
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e1:SetCondition(c3134857.indcon)
+	e1:SetCondition(s.indcon)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
@@ -18,50 +19,50 @@ function c3134857.initial_effect(c)
 	c:RegisterEffect(e2)
 	--to deck
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(3134857,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_TODECK+CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE+CATEGORY_DISABLE)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,3134857)
-	e3:SetCondition(c3134857.tdcon1)
-	e3:SetTarget(c3134857.tdtg)
-	e3:SetOperation(c3134857.tdop)
+	e3:SetCountLimit(1,id)
+	e3:SetCondition(s.tdcon1)
+	e3:SetTarget(s.tdtg)
+	e3:SetOperation(s.tdop)
 	c:RegisterEffect(e3)
 	local e4=e3:Clone()
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetHintTiming(TIMING_DAMAGE_STEP,TIMING_DAMAGE_STEP+TIMINGS_CHECK_MONSTER)
-	e4:SetCondition(c3134857.tdcon2)
+	e4:SetCondition(s.tdcon2)
 	c:RegisterEffect(e4)
 end
-function c3134857.matcheck(g,lc,tp)
+function s.matcheck(g,lc,tp)
 	return g:IsExists(Card.IsLinkSetCard,1,nil,0x11b)
 end
-function c3134857.indcon(e)
+function s.indcon(e)
 	return e:GetHandler():IsLinkState()
 end
-function c3134857.tdcon1(e,tp,eg,ep,ev,re,r,rp)
+function s.tdcon1(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsPlayerAffectedByEffect(tp,CARD_ORPHEGEL_BABEL)
 end
-function c3134857.tdcon2(e,tp,eg,ep,ev,re,r,rp)
+function s.tdcon2(e,tp,eg,ep,ev,re,r,rp)
 	return (Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()) and Duel.IsPlayerAffectedByEffect(tp,CARD_ORPHEGEL_BABEL)
 end
-function c3134857.tdfilter(c)
+function s.tdfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_MACHINE) and c:IsAbleToDeck()
 end
-function c3134857.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_REMOVED) and c3134857.tdfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c3134857.tdfilter,tp,LOCATION_REMOVED,0,3,3,nil) end
+function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_REMOVED) and s.tdfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.tdfilter,tp,LOCATION_REMOVED,0,3,3,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c3134857.tdfilter,tp,LOCATION_REMOVED,0,3,3,nil)
+	local g=Duel.SelectTarget(tp,s.tdfilter,tp,LOCATION_REMOVED,0,3,3,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
 end
-function c3134857.filter(c)
+function s.filter(c)
 	return c:IsFaceup() and c:IsLinkState()
 end
-function c3134857.tdop(e,tp,eg,ep,ev,re,r,rp)
+function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
 	if #tg==0 then return end
@@ -69,7 +70,7 @@ function c3134857.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local og=Duel.GetOperatedGroup()
 	if #og==0 then return end
 	if og:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then Duel.ShuffleDeck(tp) end
-	local g=Duel.GetMatchingGroup(c3134857.filter,tp,0,LOCATION_MZONE,nil)
+	local g=Duel.GetMatchingGroup(s.filter,tp,0,LOCATION_MZONE,nil)
 	if #g>0 then
 		Duel.BreakEffect()
 		for tc in aux.Next(g) do

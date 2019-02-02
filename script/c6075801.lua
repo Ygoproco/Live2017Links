@@ -60,7 +60,7 @@ function c6075801.eqop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c6075801.eqcon(e)
 	local eg=e:GetHandler():GetEquipGroup()
-	return eg:GetCount()>0
+	return #eg>0
 end
 function c6075801.efilter(e,te)
 	return te:IsActiveType(TYPE_MONSTER) and te:GetOwner()~=e:GetOwner()

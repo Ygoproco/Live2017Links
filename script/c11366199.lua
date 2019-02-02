@@ -44,7 +44,7 @@ function c11366199.initial_effect(c)
 	c:RegisterEffect(e7)
 end
 function c11366199.sumlimit(e,c,sump,sumtype,sumpos,targetp)
-	return bit.band(sumpos,POS_FACEDOWN)>0
+	return (sumpos&POS_FACEDOWN)>0
 end
 function c11366199.spfilter(c,tp,zones)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToRemoveAsCost() and (aux.SpElimFilter(c,true) or LOCATION_HAND&zones~=0)

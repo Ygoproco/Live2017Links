@@ -13,9 +13,9 @@ function c18597560.initial_effect(c)
 	e1:SetOperation(c18597560.activate)
 	c:RegisterEffect(e1)
 end
-c18597560.listed_names={70095154}
+c18597560.listed_names={CARD_CYBER_DRAGON}
 function c18597560.cfilter(c,tp)
-	return c:IsCode(70095154) and Duel.GetLocationCountFromEx(tp,tp,c)>0
+	return c:IsCode(CARD_CYBER_DRAGON) and Duel.GetLocationCountFromEx(tp,tp,c)>0
 end
 function c18597560.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroup(tp,c18597560.cfilter,1,nil,tp) end
@@ -35,12 +35,12 @@ function c18597560.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,c18597560.filter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)~=0 then
-		tc:RegisterFlagEffect(18597560,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,2)
+		tc:RegisterFlagEffect(18597560,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,2)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)

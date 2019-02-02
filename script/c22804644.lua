@@ -23,7 +23,7 @@ end
 function c22804644.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(c22804644.tgfilter,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
 function c22804644.filter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAttackAbove(1500)
@@ -31,7 +31,7 @@ end
 function c22804644.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local conf=Duel.GetFieldGroup(tp,0,LOCATION_MZONE+LOCATION_HAND)
-	if conf:GetCount()>0 then
+	if #conf>0 then
 		Duel.ConfirmCards(tp,conf)
 		local dg=conf:Filter(c22804644.filter,nil)
 		Duel.Destroy(dg,REASON_EFFECT)
@@ -72,7 +72,7 @@ end
 function c22804644.desop(e,tp,eg,ep,ev,re,r,rp)
 	if ep==e:GetOwnerPlayer() then return end
 	local hg=eg:Filter(Card.IsLocation,nil,LOCATION_HAND)
-	if hg:GetCount()==0 then return end
+	if #hg==0 then return end
 	Duel.ConfirmCards(1-ep,hg)
 	local dg=hg:Filter(c22804644.filter,nil)
 	Duel.Destroy(dg,REASON_EFFECT)

@@ -35,7 +35,7 @@ function c13482075.condition(e,tp,eg,ep,ev,re,r,rp)
 	if re:IsHasCategory(CATEGORY_NEGATE)
 		and Duel.GetChainInfo(ev-1,CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then return false end
 	local ex,tg,tc=Duel.GetOperationInfo(ev,CATEGORY_DESTROY)
-	return ex and tg~=nil and tc+tg:FilterCount(Card.IsOnField,nil)-tg:GetCount()>0
+	return ex and tg~=nil and tc+tg:FilterCount(Card.IsOnField,nil)-#tg>0
 end
 function c13482075.cfilter(c)
 	return c:IsRace(RACE_ZOMBIE) and c:IsAbleToRemoveAsCost()
@@ -70,7 +70,7 @@ function c13482075.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetValue(-500)
 		e1:SetRange(LOCATION_MZONE)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_UPDATE_DEFENSE)

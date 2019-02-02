@@ -35,12 +35,12 @@ function c19642889.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetMatchingGroup(c19642889.cfilter1,tp,LOCATION_HAND,0,nil)
 	local g2=Duel.GetMatchingGroup(c19642889.cfilter2,tp,LOCATION_HAND,0,nil)
 	local select=2
-	if g1:GetCount()>0 and g2:GetCount()>0 then
+	if #g1>0 and #g2>0 then
 		select=Duel.SelectOption(tp,aux.Stringid(19642889,0),aux.Stringid(19642889,1),aux.Stringid(19642889,2))
-	elseif g1:GetCount()>0 then
+	elseif #g1>0 then
 		select=Duel.SelectOption(tp,aux.Stringid(19642889,0),aux.Stringid(19642889,2))
 		if select==1 then select=2 end
-	elseif g2:GetCount()>0 then
+	elseif #g2>0 then
 		select=Duel.SelectOption(tp,aux.Stringid(19642889,1),aux.Stringid(19642889,2))+1
 	else
 		select=Duel.SelectOption(tp,aux.Stringid(19642889,2))
@@ -63,18 +63,18 @@ function c19642889.negop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
 	if bc and bc:IsAttribute(ATTRIBUTE_LIGHT+ATTRIBUTE_DARK) and c:IsFaceup() then
-		c:CreateRelation(bc,RESET_EVENT+0x1fe0000)
+		c:CreateRelation(bc,RESET_EVENT+RESETS_STANDARD)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
 		e1:SetCondition(c19642889.discon)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
 		bc:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		e2:SetCondition(c19642889.discon)
-		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
 		bc:RegisterEffect(e2)
 	end
 end

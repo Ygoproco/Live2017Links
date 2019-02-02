@@ -73,7 +73,7 @@ function c27279764.val(c,sc,ma)
 	return 1
 end
 function c27279764.rescon(sg,e,tp,mg)
-	local ct=sg:GetCount()
+	local ct=#sg
 	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:CheckWithSumEqual(c27279764.val,3,ct,ct,e:GetHandler(),3)
 end
 function c27279764.ttcon(e,c,minc)
@@ -104,7 +104,7 @@ function c27279764.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c27279764.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsType,1-tp,LOCATION_MZONE+LOCATION_HAND,0,nil,TYPE_MONSTER)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TOGRAVE)
 		local sg=g:Select(1-tp,1,1,nil)
 		Duel.HintSelection(sg)

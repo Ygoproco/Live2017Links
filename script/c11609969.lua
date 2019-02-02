@@ -37,7 +37,7 @@ function c11609969.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c11609969.splimit(e,c,tp,sumtp,sumpos)
-	return not c:IsSetCard(0xaf) and bit.band(sumtp,SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
+	return not c:IsSetCard(0xaf) and (sumtp&SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
 end
 function c11609969.sccon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
@@ -50,7 +50,7 @@ function c11609969.sctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local scl=math.max(1,e:GetHandler():GetLeftScale()-2)
 	local g=Duel.GetMatchingGroup(c11609969.filter,tp,LOCATION_MZONE,0,nil,scl)
 	if e:GetHandler():GetLeftScale()>1 then
-		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 	end
 end
 function c11609969.scop(e,tp,eg,ep,ev,re,r,rp)
@@ -58,7 +58,7 @@ function c11609969.scop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) or c:GetLeftScale()==1 then return end
 	if c:UpdateScale(-2)~=0 then
 		local g=Duel.GetMatchingGroup(c11609969.filter,tp,LOCATION_MZONE,0,nil,c:GetLeftScale())
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.BreakEffect()
 			Duel.Destroy(g,REASON_EFFECT)
 		end
@@ -100,7 +100,7 @@ function c11609969.thop(e,tp,eg,ep,ev,re,r,rp)
 	else
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,c11609969.filter2,tp,LOCATION_DECK,0,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
 		end

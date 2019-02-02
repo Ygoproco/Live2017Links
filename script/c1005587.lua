@@ -27,7 +27,7 @@ function c1005587.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(c1005587.filter2,nil,e,1-tp)
 	local tc=g:GetFirst()
 	if not tc then return end
-	if g:GetCount()>1 then
+	if #g>1 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 		tc=g:Select(tp,1,1,nil):GetFirst()
 	end
@@ -35,7 +35,7 @@ function c1005587.activate(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 		Duel.AdjustInstantly()
 		Duel.NegateRelatedChain(tc,RESET_TURN_SET)

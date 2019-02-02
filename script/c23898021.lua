@@ -43,7 +43,7 @@ function c23898021.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c23898021.thop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c23898021.thfilter,tp,LOCATION_DECK,0,nil)
-	if g:GetCount()>=3 then
+	if #g>=3 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 		local sg=g:Select(tp,3,3,nil)
 		Duel.ConfirmCards(1-tp,sg)

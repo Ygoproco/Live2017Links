@@ -1,6 +1,7 @@
 --青眼の混沌龍 
 --Blue-Eyes Chaos Dragon
-function c20654247.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition
 	local e1=Effect.CreateEffect(c)
@@ -23,38 +24,38 @@ function c20654247.initial_effect(c)
 	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetValue(c20654247.indval)
+	e3:SetValue(s.indval)
 	c:RegisterEffect(e3)
 	--pos
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(20654247,0))
+	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetCategory(CATEGORY_POSITION+CATEGORY_ATKCHANGE)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
-	e4:SetCondition(c20654247.poscon)
-	e4:SetTarget(c20654247.postg)
-	e4:SetOperation(c20654247.posop)
+	e4:SetCondition(s.poscon)
+	e4:SetTarget(s.postg)
+	e4:SetOperation(s.posop)
 	c:RegisterEffect(e4)
 	--check material
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_SINGLE)
 	e5:SetCode(EFFECT_MATERIAL_CHECK)
-	e5:SetValue(c20654247.valcheck)
+	e5:SetValue(s.valcheck)
 	c:RegisterEffect(e5)
 end
-function c20654247.indval(e,re,tp)
+function s.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
 end
-function c20654247.poscon(e)
+function s.poscon(e)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetFlagEffect(20654247)~=0
+	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:GetFlagEffect(id)~=0
 end
-function c20654247.postg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.postg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,1,nil) end
 	local g=Duel.GetMatchingGroup(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,#g,0,0)
 end
-function c20654247.posop(e,tp,eg,ep,ev,re,r,rp)
+function s.posop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tg=Duel.GetMatchingGroup(Card.IsCanChangePosition,tp,0,LOCATION_MZONE,nil)
 	if #tg>0 and Duel.ChangePosition(tg,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)>0 then
@@ -64,13 +65,13 @@ function c20654247.posop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_SET_ATTACK_FINAL)
 			e1:SetValue(0)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)
 			e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
 			e2:SetValue(0)
-			e2:SetReset(RESET_EVENT+0x1fe0000)
+			e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e2)
 		end
 	end
@@ -79,13 +80,13 @@ function c20654247.posop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetType(EFFECT_TYPE_SINGLE)
 		e3:SetCode(EFFECT_PIERCE)
 		e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e3:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e3)
 	end
 end
-function c20654247.valcheck(e,c)
+function s.valcheck(e,c)
 	local g=c:GetMaterial()
-	if g:IsExists(Card.IsCode,1,nil,89631139) then
-		c:RegisterFlagEffect(20654247,RESET_EVENT+0x6e0000,0,1)
+	if g:IsExists(Card.IsCode,1,nil,CARD_BLUEEYES_W_DRAGON) then
+		c:RegisterFlagEffect(id,RESET_EVENT+0x6e0000,0,1)
 	end
 end

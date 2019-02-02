@@ -61,19 +61,19 @@ function c28674152.tkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c28674152.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,28674153,0,0x4011,2800,0,7,RACE_FIEND,ATTRIBUTE_DARK) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,28674153,0,TYPES_TOKEN,2800,0,7,RACE_FIEND,ATTRIBUTE_DARK) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function c28674152.tkop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,28674153,0,0x4011,2800,0,7,RACE_FIEND,ATTRIBUTE_DARK) then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,28674153,0,TYPES_TOKEN,2800,0,7,RACE_FIEND,ATTRIBUTE_DARK) then
 		local token=Duel.CreateToken(tp,28674153)
 		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CANNOT_BE_SYNCHRO_MATERIAL)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		e1:SetValue(1)
 		token:RegisterEffect(e1,true)
 	end

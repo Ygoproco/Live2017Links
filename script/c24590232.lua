@@ -24,7 +24,7 @@ end
 function c24590232.rescon(tuner,scard)
 	return	function(sg,e,tp,mg)
 				sg:AddCard(tuner)
-				local res=Duel.GetLocationCountFromEx(tp,tp,sg,scard)>0 and sg:CheckWithSumEqual(Card.GetLevel,scard:GetLevel(),sg:GetCount(),sg:GetCount())
+				local res=Duel.GetLocationCountFromEx(tp,tp,sg,scard)>0 and sg:CheckWithSumEqual(Card.GetLevel,scard:GetLevel(),#sg,#sg)
 				sg:RemoveCard(tuner)
 				return res
 			end
@@ -34,7 +34,7 @@ function c24590232.filter3(c)
 end
 function c24590232.activate(e,tp,eg,ep,ev,re,r,rp)
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.CreateGroup(),tp,nil,nil,REASON_SYNCHRO)
-	if Duel.NegateAttack() and Duel.GetLocationCountFromEx(tp)>0 and pg:GetCount()<=0
+	if Duel.NegateAttack() and Duel.GetLocationCountFromEx(tp)>0 and #pg<=0
 		and Duel.IsExistingMatchingCard(c24590232.filter1,tp,LOCATION_EXTRA,0,1,nil,e,tp)
 		and Duel.SelectYesNo(tp,aux.Stringid(24590232,0)) then
 		Duel.BreakEffect()

@@ -27,12 +27,12 @@ function s.initial_effect(c)
 	e2:SetOperation(s.repop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={1295111}
+s.listed_names={CARD_SALAMANGREAT_SANCTUARY}
 function s.matfilter(c,scard,sumtype,tp)
 	return c:IsLevelBelow(4) and c:IsRace(RACE_CYBERSE,scard,sumtype,tp)
 end
 function s.thfilter(c)
-	return c:IsCode(1295111) and c:IsAbleToHand()
+	return c:IsCode(CARD_SALAMANGREAT_SANCTUARY) and c:IsAbleToHand()
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)

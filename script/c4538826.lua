@@ -97,7 +97,7 @@ function c4538826.spcon(e,c)
 	local rg2=Duel.GetMatchingGroup(c4538826.spfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,nil,ATTRIBUTE_DARK)
 	local rg=rg1:Clone()
 	rg:Merge(rg2)
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and rg1:GetCount()>0 and rg2:GetCount()>0 
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and #rg1>0 and #rg2>0 
 		and aux.SelectUnselectGroup(rg,e,tp,2,2,c4538826.rescon,0)
 end
 function c4538826.spop(e,tp,eg,ep,ev,re,r,rp,c)
@@ -118,15 +118,15 @@ end
 function c4538826.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(c4538826.gyfilter,tp,LOCATION_ONFIELD,0,nil)
 	local og=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD)
-	if chk==0 then return g:GetCount()>0 and og:GetCount()>0 end
-	local oc=og:GetCount()
+	if chk==0 then return #g>0 and #og>0 end
+	local oc=#og
 	g:Merge(og)
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,0,0,1-tp,oc*300)
 end
 function c4538826.gyop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c4538826.gyfilter,tp,LOCATION_ONFIELD,0,nil)
-	if g:GetCount()==0 or Duel.SendtoGrave(g,REASON_EFFECT)==0 then return end
+	if #g==0 or Duel.SendtoGrave(g,REASON_EFFECT)==0 then return end
 	local oc=Duel.GetOperatedGroup():FilterCount(c4538826.sgfilter,nil,tp)
 	if oc==0 then return end
 	local og=Duel.SelectMatchingCard(tp,nil,tp,0,LOCATION_ONFIELD,1,oc,nil)
@@ -140,5 +140,5 @@ function c4538826.dbcon(e)
 	return e:GetHandler():GetFlagEffect(4538826)>0
 end
 function c4538826.op(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RegisterFlagEffect(4538826,RESET_EVENT+0x1fe0000,0,1)
+	e:GetHandler():RegisterFlagEffect(4538826,RESET_EVENT+RESETS_STANDARD,0,1)
 end

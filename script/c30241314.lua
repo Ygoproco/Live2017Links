@@ -30,7 +30,7 @@ end
 function c30241314.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local cg=Duel.GetMatchingGroup(c30241314.filter,tp,LOCATION_DECK+LOCATION_HAND,0,nil,e,tp)
-	if cg:GetCount()>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+	if #cg>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
 		if Duel.SelectYesNo(tp, aux.Stringid(30241314,0)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local sg=cg:Select(tp,1,1,nil)

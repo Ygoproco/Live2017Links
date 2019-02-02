@@ -33,7 +33,7 @@ function c28355718.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCondition(c28355718.spcon)
 		e1:SetTarget(c28355718.sptg)
 		e1:SetOperation(c28355718.spop)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,1)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,1)
 		c:RegisterEffect(e1)
 	end
 end
@@ -41,15 +41,15 @@ function c28355718.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
 function c28355718.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,28355719,0,0x4011,1000,1000,4,RACE_WARRIOR,ATTRIBUTE_DARK) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,28355719,0,TYPES_TOKEN,1000,1000,4,RACE_WARRIOR,ATTRIBUTE_DARK) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c28355718.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) or Duel.GetLocationCount(tp,LOCATION_MZONE)<2 
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,28355719,0,0x4011,1000,1000,4,RACE_WARRIOR,ATTRIBUTE_DARK) then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) or Duel.GetLocationCount(tp,LOCATION_MZONE)<2 
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,28355719,0,TYPES_TOKEN,1000,1000,4,RACE_WARRIOR,ATTRIBUTE_DARK) then return end
 	for i=1,2 do
 		local token=Duel.CreateToken(tp,28355719)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)

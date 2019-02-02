@@ -13,7 +13,7 @@ function c31801517.initial_effect(c)
 	e1:SetCondition(c31801517.atkcon)
 	e1:SetCost(c31801517.atkcost)
 	e1:SetOperation(c31801517.atkop)
-	c:RegisterEffect(e1,false,1)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(31801517,1))
@@ -31,7 +31,7 @@ function c31801517.initial_effect(c)
 	e3:SetOperation(c31801517.rdop)
 	c:RegisterEffect(e3)
 end
-c31801517.listed_names={93717133}
+c31801517.listed_names={CARD_GALAXYEYES_P_DRAGON}
 c31801517.xyz_number=62
 function c31801517.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -41,7 +41,7 @@ function c31801517.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:CheckRemoveOverlayCard(tp,1,REASON_COST) and c:GetFlagEffect(31801517)==0 end
 	c:RemoveOverlayCard(tp,1,1,REASON_COST)
-	c:RegisterFlagEffect(31801517,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE_CAL,0,1)
+	c:RegisterFlagEffect(31801517,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL,0,1)
 end
 function c31801517.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -52,14 +52,14 @@ function c31801517.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(val)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE_CAL)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
 		c:RegisterEffect(e1)
 	end
 end
 function c31801517.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:GetPreviousControler()==tp and rp~=tp and c:IsReason(REASON_EFFECT)
-		and c:IsPreviousLocation(LOCATION_MZONE) and c:GetOverlayGroup():IsExists(Card.IsCode,1,nil,93717133)
+		and c:IsPreviousLocation(LOCATION_MZONE) and c:GetOverlayGroup():IsExists(Card.IsCode,1,nil,CARD_GALAXYEYES_P_DRAGON)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c31801517.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -69,9 +69,9 @@ function c31801517.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetRange(LOCATION_REMOVED+LOCATION_GRAVE)
 	e1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	if Duel.GetCurrentPhase()==PHASE_STANDBY and Duel.GetTurnPlayer()==tp then
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,3)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,3)
 	else
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,2)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,2)
 	end
 	e1:SetCountLimit(1)
 	e1:SetCondition(c31801517.spcon2)
@@ -94,13 +94,13 @@ function c31801517.spop2(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
 		e1:SetCode(EFFECT_SET_ATTACK)
 		e1:SetValue(c:GetAttack()*2)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 		Duel.SpecialSummonComplete()
 	end
 end
 function c31801517.rdcon(e,tp,eg,ep,ev,re,r,rp)
-	return ep~=tp and not e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,93717133)
+	return ep~=tp and not e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,CARD_GALAXYEYES_P_DRAGON)
 end
 function c31801517.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ChangeBattleDamage(ep,ev/2)

@@ -51,7 +51,7 @@ function c22011689.eqop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c22011689.desfilter(c,ec)
-	return c:GetFlagEffect(22011689)~=0 and c:GetEquipTarget()==ec and bit.band(c:GetOriginalType(),TYPE_MONSTER)~=0
+	return c:GetFlagEffect(22011689)~=0 and c:GetEquipTarget()==ec and (c:GetOriginalType()&TYPE_MONSTER)~=0
 end
 function c22011689.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()

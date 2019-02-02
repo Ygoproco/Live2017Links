@@ -60,7 +60,7 @@ function c4335427.spcon(e,c)
 	g:Merge(g2)
 	g:Merge(g3)
 	g:Merge(g4)
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-4 and g1:GetCount()>0 and g2:GetCount()>0 and g3:GetCount()>0 and g4:GetCount()>0 
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-4 and #g1>0 and #g2>0 and #g3>0 and #g4>0 
 		and aux.SelectUnselectGroup(g,e,tp,4,4,c4335427.rescon,0)
 end
 function c4335427.spop(e,tp,eg,ep,ev,re,r,rp,c)
@@ -74,7 +74,7 @@ end
 function c4335427.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(c4335427.rmfilter,tp,0x1e,0x1e,e:GetHandler())
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#g,0,0)
 	Duel.SetChainLimit(aux.FALSE)
 end
 function c4335427.rmop(e,tp,eg,ep,ev,re,r,rp)

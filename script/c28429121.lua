@@ -24,7 +24,7 @@ function c28429121.mfilter(c,e)
 	return c:IsFaceup() and c:GetLevel()>0 and not c:IsImmuneToEffect(e) and c:IsReleasable()
 end
 function c28429121.filter(c,e,tp,m)
-	if bit.band(c:GetType(),0x81)~=0x81 or not c:IsSetCard(0x3a)
+	if (c:GetType()&0x81)~=0x81 or not c:IsSetCard(0x3a)
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	return mg:CheckWithSumEqual(Card.GetRitualLevel,c:GetLevel(),1,99,c)

@@ -60,7 +60,7 @@ function c24731391.initial_effect(c)
 end
 c24731391.listed_names={34767865}
 function c24731391.val(e,re,dam,r,rp,rc)
-	if bit.band(r,REASON_EFFECT)~=0 then
+	if (r&REASON_EFFECT)~=0 then
 		return dam/2
 	else return dam end
 end
@@ -102,7 +102,7 @@ end
 function c24731391.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c24731391.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

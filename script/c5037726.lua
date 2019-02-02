@@ -48,7 +48,7 @@ function c5037726.operation(e,tp,eg,ep,ev,re,r,rp)
 		local sel=1
 		local g=Duel.GetMatchingGroup(c5037726.cfilter,tp,0,LOCATION_HAND,nil)
 		Duel.Hint(HINT_SELECTMSG,1-tp,aux.Stringid(5037726,0))
-		if g:GetCount()>0 then
+		if #g>0 then
 			sel=Duel.SelectOption(1-tp,1213,1214)
 		else
 			sel=Duel.SelectOption(1-tp,1214)+1

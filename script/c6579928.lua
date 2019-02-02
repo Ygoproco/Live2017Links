@@ -34,7 +34,7 @@ end
 function c6579928.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c6579928.thfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
@@ -45,7 +45,7 @@ function c6579928.repfilter(c,tp)
 end
 function c6579928.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(),69832741) and e:GetHandler():IsAbleToRemove() and eg:IsExists(c6579928.repfilter,1,nil,tp)
-		and eg:GetCount()==1 end
+		and #eg==1 end
 	return Duel.SelectEffectYesNo(tp,e:GetHandler(),96)
 end
 function c6579928.repval(e,c)

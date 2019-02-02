@@ -39,7 +39,7 @@ function c15661378.contactop(g)
 	Duel.Remove(g,POS_FACEUP,REASON_COST+REASON_MATERIAL)
 end
 function c15661378.splimit(e,se,sp,st)
-	return bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
+	return (st&SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
 end
 function c15661378.mfilter(c)
 	return c:GetOriginalRace()~=RACE_DRAGON

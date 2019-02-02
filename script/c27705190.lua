@@ -26,7 +26,7 @@ function c27705190.initial_effect(c)
 end
 function c27705190.repop(e,tp,eg,ep,ev,re,r,rp)
 	local sg=Duel.SelectMatchingCard(tp,c27705190.thfilter,tp,0,LOCATION_MZONE,1,1,nil)
-	if sg:GetCount()>0 then
+	if #sg>0 then
 		Duel.SendtoHand(sg,nil,REASON_EFFECT)
 	end
 end
@@ -68,7 +68,7 @@ function c27705190.spop(e,tp,eg,ep,ev,re,r,rp)
 		local zone = tc:GetLinkedZone(tp)&0x1f
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg = Duel.SelectMatchingCard(tp,c27705190.spfilter2,tp,0x13,0,1,1,c,e,tp,zone)
-		if sg:GetCount()>0 then
+		if #sg>0 then
 			Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEDOWN_DEFENSE,zone)
 			Duel.ConfirmCards(1-tp,sg)
 		end

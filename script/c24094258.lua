@@ -51,7 +51,7 @@ end
 function c24094258.teop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(24094258,3))
 	local g=Duel.SelectMatchingCard(tp,c24094258.tefilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoExtraP(g,tp,REASON_EFFECT)
 	end
 end
@@ -73,7 +73,7 @@ function c24094258.desop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,c24094258.thfilter,tp,LOCATION_EXTRA,0,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.BreakEffect()
 			Duel.SendtoHand(g,tp,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)

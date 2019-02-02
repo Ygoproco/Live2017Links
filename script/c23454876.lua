@@ -25,7 +25,7 @@ function c23454876.initial_effect(c)
 	e2:SetCost(c23454876.damcost)
 	e2:SetTarget(c23454876.damtg)
 	e2:SetOperation(c23454876.damop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c23454876.listed_names={51960178}
 function c23454876.drcon(e,tp,eg,ep,ev,re,r,rp)

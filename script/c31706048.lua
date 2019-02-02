@@ -27,7 +27,7 @@ function c31706048.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanDiscardDeck(tp,5) then return end
 	Duel.ConfirmDecktop(tp,5)
 	local g=Duel.GetDecktopGroup(tp,5)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.DisableShuffleCheck()
 		if g:IsExists(c31706048.filter,1,nil) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)

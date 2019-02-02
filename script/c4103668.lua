@@ -45,7 +45,7 @@ end
 function c4103668.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectMatchingCard(tp,c4103668.desfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.HintSelection(g)
 		Duel.Destroy(g,REASON_EFFECT)
 	end

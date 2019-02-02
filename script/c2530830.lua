@@ -21,7 +21,7 @@ function c2530830.initial_effect(c)
 	e2:SetCost(c2530830.descost)
 	e2:SetTarget(c2530830.destg)
 	e2:SetOperation(c2530830.desop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--special summon
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(2530830,2))

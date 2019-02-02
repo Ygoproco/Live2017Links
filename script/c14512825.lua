@@ -26,8 +26,8 @@ function c14512825.initial_effect(c)
 	e3:SetValue(aux.tgoval)
 	c:RegisterEffect(e3)
 end
-c14512825.listed_names={72283691}
+c14512825.listed_names={CARD_STROMBERG}
 function c14512825.indtg(e,c)
-	return c:IsFaceup() and c:IsCode(72283691)
+	return c:IsFaceup() and c:IsCode(CARD_STROMBERG)
 end
 

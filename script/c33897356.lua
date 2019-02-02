@@ -51,7 +51,7 @@ function c33897356.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
 		e1:SetValue(ct)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
 		c:RegisterEffect(e1)
 	end
 	local e2=Effect.CreateEffect(c)
@@ -59,7 +59,7 @@ function c33897356.operation(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
 	e2:SetCondition(c33897356.atkcon)
 	e2:SetValue(-400)
-	e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	c:RegisterEffect(e2)
 end
 function c33897356.atkcon(e)
@@ -71,7 +71,7 @@ function c33897356.bdop(e,tp,eg,ep,ev,re,r,rp)
 	if c:GetFlagEffectLabel(33897356) then
 		c:SetFlagEffectLabel(33897356,c:GetFlagEffectLabel(33897356)+1)
 	else
-		c:RegisterFlagEffect(33897356,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1,1)
+		c:RegisterFlagEffect(33897356,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,1)
 	end
 end
 function c33897356.drcon(e,tp,eg,ep,ev,re,r,rp)

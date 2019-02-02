@@ -1,32 +1,33 @@
 --フォトン・サンクチュアリ
-function c17418744.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c17418744.cost)
-	e1:SetTarget(c17418744.target)
-	e1:SetOperation(c17418744.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
-	Duel.AddCustomActivityCounter(17418744,ACTIVITY_SUMMON,c17418744.counterfilter)
-	Duel.AddCustomActivityCounter(17418744,ACTIVITY_SPSUMMON,c17418744.counterfilter)
-	Duel.AddCustomActivityCounter(17418744,ACTIVITY_FLIPSUMMON,c17418744.counterfilter)
+	Duel.AddCustomActivityCounter(id,ACTIVITY_SUMMON,s.counterfilter)
+	Duel.AddCustomActivityCounter(id,ACTIVITY_SPSUMMON,s.counterfilter)
+	Duel.AddCustomActivityCounter(id,ACTIVITY_FLIPSUMMON,s.counterfilter)
 end
-function c17418744.counterfilter(c)
+function s.counterfilter(c)
 	return c:IsAttribute(ATTRIBUTE_LIGHT)
 end
-function c17418744.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetCustomActivityCount(17418744,tp,ACTIVITY_SUMMON)==0
-		and Duel.GetCustomActivityCount(17418744,tp,ACTIVITY_SPSUMMON)==0 
-		and Duel.GetCustomActivityCount(17418744,tp,ACTIVITY_FLIPSUMMON)==0 end
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetCustomActivityCount(id,tp,ACTIVITY_SUMMON)==0
+		and Duel.GetCustomActivityCount(id,tp,ACTIVITY_SPSUMMON)==0 
+		and Duel.GetCustomActivityCount(id,tp,ACTIVITY_FLIPSUMMON)==0 end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	e1:SetTargetRange(1,0)
-	e1:SetTarget(c17418744.sumlimit)
+	e1:SetTarget(s.sumlimit)
 	Duel.RegisterEffect(e1,tp)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_CANNOT_SUMMON)
@@ -35,34 +36,34 @@ function c17418744.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e3:SetCode(EFFECT_CANNOT_FLIP_SUMMON)
 	Duel.RegisterEffect(e3,tp)
 end
-function c17418744.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return c:IsAttribute(0x6f)
 end
-function c17418744.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,17418745,0x55,0x4011,2000,0,4,RACE_THUNDER,ATTRIBUTE_LIGHT) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0x55,TYPES_TOKEN,2000,0,4,RACE_THUNDER,ATTRIBUTE_LIGHT) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
-function c17418744.activate(e,tp,eg,ep,ev,re,r,rp)
-	if not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,17418745,0x55,0x4011,2000,0,4,RACE_THUNDER,ATTRIBUTE_LIGHT) then
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	if not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0x55,TYPES_TOKEN,2000,0,4,RACE_THUNDER,ATTRIBUTE_LIGHT) then
 		for i=1,2 do
-			local token=Duel.CreateToken(tp,17418745)
+			local token=Duel.CreateToken(tp,id+1)
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_CANNOT_ATTACK)
 			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			token:RegisterEffect(e1,true)
 			local e2=Effect.CreateEffect(e:GetHandler())
 			e2:SetType(EFFECT_TYPE_SINGLE)
 			e2:SetCode(EFFECT_CANNOT_BE_SYNCHRO_MATERIAL)
 			e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 			e2:SetValue(1)
-			e2:SetReset(RESET_EVENT+0x1fe0000)
+			e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 			token:RegisterEffect(e2,true)
 		end
 		Duel.SpecialSummonComplete()

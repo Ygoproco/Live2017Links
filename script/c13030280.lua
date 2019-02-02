@@ -22,11 +22,11 @@ function c13030280.initial_effect(c)
 	e2:SetCost(c13030280.damcost)
 	e2:SetTarget(c13030280.damtg)
 	e2:SetOperation(c13030280.damop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c13030280.listed_names={77631175}
 function c13030280.valcon(e,re,r,rp)
-	return bit.band(r,REASON_BATTLE)~=0
+	return (r&REASON_BATTLE)~=0
 end
 function c13030280.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

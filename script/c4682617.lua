@@ -54,7 +54,7 @@ function c4682617.activate(e,tp,eg,ep,ev,re,r,rp)
 		local ft=math.min(Duel.GetUsableMZoneCount(tp),#sg)
 		if sct>0 and ft>0 and Duel.SelectYesNo(tp,aux.Stringid(4682617,0)) then
 			Duel.BreakEffect()
-			if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+			if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 			local g=Group.CreateGroup()
 			repeat
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)

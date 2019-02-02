@@ -48,7 +48,7 @@ function c31759689.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(atk)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 		Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
 	end
@@ -59,7 +59,7 @@ end
 function c31759689.val(e,c)
 	local lg=Duel.GetMatchingGroup(c31759689.valfilter,0,LOCATION_MZONE,LOCATION_MZONE,c,c)
 	lg:Merge(c:GetLinkedGroup())
-	return lg:GetCount()*-1000
+	return #lg*-1000
 end
 function c31759689.poscon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

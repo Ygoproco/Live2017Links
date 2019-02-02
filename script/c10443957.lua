@@ -32,7 +32,7 @@ function c10443957.initial_effect(c)
 	e3:SetCost(c10443957.discost)
 	e3:SetTarget(c10443957.distg)
 	e3:SetOperation(c10443957.disop)
-	c:RegisterEffect(e3,false,1)
+	c:RegisterEffect(e3,false,REGISTER_FLAG_DETACH_XMAT)
 end
 c10443957.listed_names={58069384}
 function c10443957.mfilter(c,xyz,sumtype,tp)
@@ -65,7 +65,7 @@ function c10443957.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) then
 		local og=tc:GetOverlayGroup()
-		if og:GetCount()>0 then
+		if #og>0 then
 			Duel.SendtoGrave(og,REASON_RULE)
 		end
 		Duel.Overlay(c,Group.FromCards(tc))

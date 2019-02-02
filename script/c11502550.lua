@@ -2,7 +2,7 @@
 function c11502550.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMix(c,true,true,89943723,54959865)
+	aux.AddFusionProcMix(c,true,true,CARD_NEOS,54959865)
 	aux.AddContactFusion(c,c11502550.contactfil,c11502550.contactop,c11502550.splimit)
 	aux.EnableNeosReturn(c)
 	--atkup
@@ -14,7 +14,7 @@ function c11502550.initial_effect(c)
 	e1:SetValue(c11502550.atkval)
 	c:RegisterEffect(e1)
 end
-c11502550.listed_names={89943723}
+c11502550.listed_names={CARD_NEOS}
 c11502550.material_setcode={0x8,0x3008,0x9,0x1f}
 function c11502550.contactfil(tp)
 	return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost,tp,LOCATION_ONFIELD,0,nil)

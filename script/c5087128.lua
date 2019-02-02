@@ -40,7 +40,7 @@ end
 function c5087128.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local g=Duel.GetMatchingGroup(c5087128.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c:GetColumnGroup())
-	if chk==0 then return c:IsDestructable() and g:GetCount()>0 end
+	if chk==0 then return c:IsDestructable() and #g>0 end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,c,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,1,0,0)
 end
@@ -49,10 +49,10 @@ function c5087128.desop(e,tp,eg,ep,ev,re,r,rp)
 	local lg=c:GetColumnGroup()
 	if c:IsRelateToEffect(e) and Duel.Destroy(c,REASON_EFFECT)>0 then
 		local g=Duel.GetMatchingGroup(c5087128.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,lg)
-		if g:GetCount()==0 then return end
+		if #g==0 then return end
 		Duel.BreakEffect()
 		local tc=nil
-		if g:GetCount()==1 then
+		if #g==1 then
 			tc=g:GetFirst()
 		else
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
@@ -61,7 +61,7 @@ function c5087128.desop(e,tp,eg,ep,ev,re,r,rp)
 		local seq=tc:GetSequence()
 		local dg=Group.CreateGroup()
 		if seq<5 then dg=Duel.GetMatchingGroup(c5087128.desfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,seq,tc:GetControler()) end
-		if Duel.Destroy(tc,REASON_EFFECT)~=0 and dg:GetCount()>0 then
+		if Duel.Destroy(tc,REASON_EFFECT)~=0 and #dg>0 then
 			Duel.Destroy(dg,REASON_EFFECT)
 		end
 	end
@@ -78,7 +78,7 @@ function c5087128.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetRange(LOCATION_GRAVE)
 		e1:SetTarget(c5087128.sptg)
 		e1:SetOperation(c5087128.spop)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	end
 end
@@ -94,7 +94,7 @@ function c5087128.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c5087128.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

@@ -55,7 +55,7 @@ function c24104865.checkop2(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if aux.bdgcon(e,tp,eg,ep,ev,re,r,rp) then
 		g:AddCard(t)
-		t:RegisterFlagEffect(24104865,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE,0,1)
+		t:RegisterFlagEffect(24104865,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE,0,1)
 	end
 end
 function c24104865.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -70,7 +70,7 @@ function c24104865.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local dg=g:Filter(c24104865.filter,nil,e,tp)
 	g:Clear()
 	Duel.SetTargetCard(dg)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,dg,dg:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,dg,#dg,0,0)
 end
 function c24104865.sfilter(c,e,tp)
 	return c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -78,16 +78,16 @@ end
 function c24104865.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft<=0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(c24104865.sfilter,nil,e,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	if sg:GetCount()>ft then sg=sg:Select(tp,ft,ft,nil) end
+	if #sg>ft then sg=sg:Select(tp,ft,ft,nil) end
 	local tc=sg:GetFirst()
 	local c=e:GetHandler()
 	while tc do
 		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
-		tc:RegisterFlagEffect(24104865,RESET_EVENT+0x1fe0000,0,0)
+		tc:RegisterFlagEffect(24104865,RESET_EVENT+RESETS_STANDARD,0,0)
 		c:CreateRelation(tc,RESET_EVENT+0x1020000)
 		tc=sg:GetNext()
 	end

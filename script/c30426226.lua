@@ -17,9 +17,9 @@ function c30426226.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,LOCATION_MZONE)
 	local g1=g:Filter(Card.IsControler,nil,tp)
 	local g2=g:Filter(Card.IsControler,nil,1-tp)
-	if chk==0 then return g:GetCount()>0 and g1:GetCount()==g2:GetCount()
+	if chk==0 then return #g>0 and #g1==#g2
 		and g:FilterCount(c30426226.filter,nil)==0 end
-	Duel.SetOperationInfo(0,CATEGORY_CONTROL,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_CONTROL,g,#g,0,0)
 end
 function c30426226.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)

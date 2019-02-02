@@ -1,6 +1,7 @@
 --宮廷のしきたり
-function c9995766.initial_effect(c)
-	c:SetUniqueOnField(1,0,9995766)
+local s,id=GetID()
+function s.initial_effect(c)
+	c:SetUniqueOnField(1,0,id)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -12,10 +13,10 @@ function c9995766.initial_effect(c)
 	e2:SetCode(EFFECT_INDESTRUCTABLE)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetTargetRange(LOCATION_ONFIELD,LOCATION_ONFIELD)
-	e2:SetTarget(c9995766.infilter)
+	e2:SetTarget(s.infilter)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 end
-function c9995766.infilter(e,c)
-	return bit.band(c:GetType(),0x20004)==0x20004 and c:GetCode()~=9995766
+function s.infilter(e,c)
+	return (c:GetType()&0x20004)==0x20004 and c:GetCode()~=id
 end

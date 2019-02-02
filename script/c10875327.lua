@@ -51,9 +51,9 @@ end
 function c10875327.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(c10875327.desfilter,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
-	if g:GetCount()~=0 then
-		Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,g:GetCount()*800)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
+	if #g~=0 then
+		Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,#g*800)
 	end
 end
 function c10875327.desop(e,tp,eg,ep,ev,re,r,rp)

@@ -47,7 +47,7 @@ end
 function c25397880.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,LOCATION_HAND,0,1,1,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local tc=Duel.GetFirstTarget()
 	if Duel.Destroy(g,REASON_EFFECT)~=0 and tc:IsRelateToEffect(e) then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
@@ -55,7 +55,7 @@ function c25397880.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c25397880.spr(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if bit.band(r,0x41)~=0x41 then return end
+	if (r&0x41)~=0x41 then return end
 	if Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_STANDBY then
 		e:SetLabel(Duel.GetTurnCount())
 		c:RegisterFlagEffect(25397880,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,2)
@@ -77,7 +77,7 @@ end
 function c25397880.thop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c25397880.filter,tp,LOCATION_GRAVE,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

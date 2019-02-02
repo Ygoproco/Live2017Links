@@ -78,7 +78,7 @@ end
 function c11167052.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(100)
 	if chk==0 then return e:GetHandler():GetFlagEffect(11167052)==0 end
-	e:GetHandler():RegisterFlagEffect(11167052,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
+	e:GetHandler():RegisterFlagEffect(11167052,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,0)
 end
 function c11167052.filter1(c,e,tp)
 	return Duel.IsExistingMatchingCard(c11167052.filter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalAttribute())
@@ -103,7 +103,7 @@ function c11167052.spop(e,tp,eg,ep,ev,re,r,rp)
 	local att=e:GetLabelObject():GetOriginalAttribute()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,c11167052.filter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,att)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
@@ -116,7 +116,7 @@ function c11167052.thfilter(c)
 end
 function c11167052.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local hg=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
-	local ct=hg:GetCount()
+	local ct=#hg
 	if chk==0 then return ct>0 and Duel.IsExistingMatchingCard(c11167052.thfilter,tp,LOCATION_GRAVE,0,ct,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_HANDES,hg,ct,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,ct,tp,LOCATION_GRAVE)
@@ -127,7 +127,7 @@ function c11167052.thop(e,tp,eg,ep,ev,re,r,rp)
 	if ct<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c11167052.thfilter),tp,LOCATION_GRAVE,0,ct,ct,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.BreakEffect()
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 	end

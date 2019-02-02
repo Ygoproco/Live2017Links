@@ -12,7 +12,7 @@ function c30650147.initial_effect(c)
 end
 function c30650147.filter(c,tp)
 	return c:IsFaceup() and c:GetOriginalLevel()>0 and c:IsReleasableByEffect()
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,30650148,0x106,0x4011,0,0,c:GetLevel(),RACE_ZOMBIE,ATTRIBUTE_DARK)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,30650148,0x106,TYPES_TOKEN,0,0,c:GetLevel(),RACE_ZOMBIE,ATTRIBUTE_DARK)
 end
 function c30650147.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and c30650147.filter(chkc,tp) end
@@ -44,7 +44,7 @@ function c30650147.activate(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetType(EFFECT_TYPE_SINGLE)
 		e3:SetCode(EFFECT_CHANGE_LEVEL)
 		e3:SetValue(tc:GetOriginalLevel())
-		e3:SetReset(RESET_EVENT+0x1fe0000)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 		token:RegisterEffect(e3,true)
 		Duel.SpecialSummonComplete()
 	end

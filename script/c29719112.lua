@@ -89,7 +89,7 @@ function c29719112.spop2(e,tp,eg,ep,ev,re,r,rp)
 		local mf=ce:GetValue()
 		sg2=Duel.GetMatchingGroup(c29719112.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,mf,chkf)
 	end
-	if sg1:GetCount()>0 or (sg2~=nil and sg2:GetCount()>0) then
+	if #sg1>0 or (sg2~=nil and #sg2>0) then
 		local sg=sg1:Clone()
 		if sg2 then sg:Merge(sg2) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -125,7 +125,7 @@ end
 function c29719112.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c29719112.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

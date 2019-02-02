@@ -27,14 +27,14 @@ end
 function c3298689.filter1(c,e,tp)
 	local rk=c:GetRank()
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-	return pg:GetCount()<=1 and c:IsFaceup() and c:GetOverlayCount()==0 and (rk>0 or c:IsStatus(STATUS_NO_LEVEL)) 
+	return #pg<=1 and c:IsFaceup() and c:GetOverlayCount()==0 and (rk>0 or c:IsStatus(STATUS_NO_LEVEL)) 
 		and Duel.IsExistingMatchingCard(c3298689.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+1,pg)
 		and Duel.GetLocationCountFromEx(tp,tp,c)>0
 end
 function c3298689.filter2(c,e,tp,mc,rk,pg)
 	if c.rum_limit and not c.rum_limit(mc,e) then return false end
 	return c:IsType(TYPE_XYZ) and mc:IsType(TYPE_XYZ,c,SUMMON_TYPE_XYZ,tp) and mc:IsAttribute(ATTRIBUTE_DARK,c,SUMMON_TYPE_XYZ,tp) and c:IsRank(rk) and c:IsAttribute(ATTRIBUTE_DARK) 
-		and mc:IsCanBeXyzMaterial(c,tp) and (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+		and mc:IsCanBeXyzMaterial(c,tp) and (#pg<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c3298689.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c3298689.filter1(chkc,e,tp) end
@@ -54,7 +54,7 @@ function c3298689.activate(e,tp,eg,ep,ev,re,r,rp)
 	local sc=g:GetFirst()
 	if sc then
 		local mg=tc:GetOverlayGroup()
-		if mg:GetCount()~=0 then
+		if #mg~=0 then
 			Duel.Overlay(sc,mg)
 		end
 		sc:SetMaterial(Group.FromCards(tc))
@@ -85,7 +85,7 @@ function c3298689.matop(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 		local g=Duel.SelectMatchingCard(tp,c3298689.matfilter,tp,LOCATION_HAND,0,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.Overlay(tc,g)
 		end
 	end

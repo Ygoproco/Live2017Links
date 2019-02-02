@@ -16,7 +16,7 @@ function s.initial_effect(c)
     e1:SetCost(s.immcost)
     e1:SetTarget(s.immtg)
     e1:SetOperation(s.immop)
-    c:RegisterEffect(e1,false,1)
+    c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
     --to deck
     local e2=Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TODECK)

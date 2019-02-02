@@ -36,7 +36,7 @@ function c2266498.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 		if ft<=0 or not Duel.IsPlayerCanSpecialSummonCount(tp,2) then return false end
-		if ft>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+		if ft>1 and Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 		local mg=Duel.GetMatchingGroup(c2266498.filter,tp,LOCATION_REMOVED,0,nil,e,tp)
 		return Duel.IsExistingMatchingCard(c2266498.cfilter,tp,LOCATION_HAND,0,1,nil,e,tp,mg,ft)
 	end
@@ -45,11 +45,11 @@ end
 function c2266498.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft<=0 or not Duel.IsPlayerCanSpecialSummonCount(tp,2) then return end
-	if ft>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if ft>1 and Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	local mg=Duel.GetMatchingGroup(c2266498.filter,tp,LOCATION_REMOVED,0,nil,e,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tg=Duel.SelectMatchingCard(tp,c2266498.cfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg,ft)
-	if tg:GetCount()>0 then
+	if #tg>0 then
 		Duel.ConfirmCards(1-tp,tg)
 		local tc=tg:GetFirst()
 		if tc.mat_filter then
@@ -58,7 +58,7 @@ function c2266498.activate(e,tp,eg,ep,ev,re,r,rp)
 		local sg=Group.CreateGroup()
 		for i=0,98 do
 			local cg=mg:Filter(c2266498.spselect,sg,tc,i,ft,mg,sg)
-			if cg:GetCount()==0 then break end
+			if #cg==0 then break end
 			local min=1
 			if c2266498.spgoal(tc,i,sg) then
 				if not Duel.SelectYesNo(tp,210) then break end
@@ -66,11 +66,11 @@ function c2266498.activate(e,tp,eg,ep,ev,re,r,rp)
 			end
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local g=cg:Select(tp,min,1,nil)
-			if g:GetCount()==0 then break end
+			if #g==0 then break end
 			sg:Merge(g)
 		end
-		if sg:GetCount()==0 then return end
-		if Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEDOWN_DEFENSE)==sg:GetCount() then
+		if #sg==0 then return end
+		if Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEDOWN_DEFENSE)==#sg then
 			local og=Duel.GetOperatedGroup()
 			Duel.ConfirmCards(1-tp,og)
 			tc:SetMaterial(og)

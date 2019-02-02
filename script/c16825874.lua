@@ -49,13 +49,13 @@ function c16825874.cop(e,tp,eg,ep,ev,re,r,rp)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_CANNOT_TRIGGER)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 	rc:RegisterEffect(e2)
 	--disable
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_DISABLE)
-	e3:SetReset(RESET_EVENT+0x1fe0000)
+	e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 	rc:RegisterEffect(e3)
 end
 function c16825874.synval(e,c,sc)
@@ -81,7 +81,7 @@ end
 function c16825874.synchktg(e,c,sg,tg,ntg,tsg,ntsg)
 	if c then
 		local res=true
-		if sg:GetCount()>=2 or (not tg:IsExists(c16825874.chk2,1,c) and not ntg:IsExists(c16825874.chk2,1,c) 
+		if #sg>=2 or (not tg:IsExists(c16825874.chk2,1,c) and not ntg:IsExists(c16825874.chk2,1,c) 
 			and not sg:IsExists(c16825874.chk2,1,c)) then return false end
 		local ttg=tg:Filter(c16825874.chk2,nil)
 		local nttg=ntg:Filter(c16825874.chk2,nil)
@@ -91,9 +91,9 @@ function c16825874.synchktg(e,c,sg,tg,ntg,tsg,ntsg)
 		ntrg:Sub(nttg)
 		return res,trg,ntrg
 	else
-		return sg:GetCount()<2
+		return #sg<2
 	end
 end
 function c16825874.synop(e,tg,ntg,sg,lv,sc,tp)
-	return sg:GetCount()==2,false
+	return #sg==2,false
 end

@@ -51,16 +51,16 @@ function c27198001.condition(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c27198001.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133) 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,0x4011,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE)end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,TYPES_TOKEN,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE)end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,2,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
 function c27198001.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if ft>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if ft>1 and Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	if ft<2 then return end
-	if not Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,0x4011,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE) then return end
+	if not Duel.IsPlayerCanSpecialSummonMonster(tp,27198002,0,TYPES_TOKEN,500,500,2,RACE_ZOMBIE,ATTRIBUTE_FIRE) then return end
 	for i=1,2 do
 		local token=Duel.CreateToken(tp,27198002)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)

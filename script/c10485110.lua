@@ -41,7 +41,7 @@ function c10485110.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Release(g,REASON_COST)
 end
 function c10485110.cfilter2(c)
-	return c:IsFaceup() and c:IsCode(22702055) and c:IsAbleToGraveAsCost()
+	return c:IsFaceup() and c:IsCode(CARD_UMI) and c:IsAbleToGraveAsCost()
 end
 function c10485110.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c10485110.cfilter2,tp,LOCATION_ONFIELD,0,1,nil) end
@@ -52,7 +52,7 @@ end
 function c10485110.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,0xe,0xe,1,e:GetHandler()) end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0xe,0xe,e:GetHandler())
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,#g,0,0)
 end
 function c10485110.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0xe,0xe,e:GetHandler())

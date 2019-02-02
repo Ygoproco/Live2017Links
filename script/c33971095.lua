@@ -55,13 +55,13 @@ function c33971095.lvop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_LEVEL)
 		e1:SetValue(e:GetLabel())
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 	end
 end
 function c33971095.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
-	return a:IsControler(tp) and (bit.band(a:GetType(),0x81)==0x81 and a:IsSetCard(0x106)) and a:GetBattleTarget():IsControler(1-tp)
+	return a:IsControler(tp) and ((a:GetType()&0x81)==0x81 and a:IsSetCard(0x106)) and a:GetBattleTarget():IsControler(1-tp)
 end
 function c33971095.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -71,7 +71,7 @@ function c33971095.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(1000)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 end

@@ -1,6 +1,6 @@
 --インスタント・ネオスペース
 function c11913700.initial_effect(c)
-	aux.AddEquipProcedure(c,nil,aux.FilterBoolFunction(aux.IsMaterialListCode,89943723))
+	aux.AddEquipProcedure(c,nil,aux.FilterBoolFunction(aux.IsMaterialListCode,CARD_NEOS))
 	--equip effect
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_EQUIP)
@@ -18,13 +18,13 @@ function c11913700.initial_effect(c)
 	e4:SetOperation(c11913700.spop)
 	c:RegisterEffect(e4)
 end
-c11913700.listed_names={89943723}
+c11913700.listed_names={CARD_NEOS}
 function c11913700.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=e:GetHandler():GetPreviousEquipTarget()
 	return e:GetHandler():IsReason(REASON_LOST_TARGET) and not ec:IsLocation(LOCATION_ONFIELD+LOCATION_OVERLAY)
 end
 function c11913700.spfilter(c,e,tp)
-	return c:IsCode(89943723) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(CARD_NEOS) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c11913700.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -35,7 +35,7 @@ function c11913700.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c11913700.spfilter),tp,0x13,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

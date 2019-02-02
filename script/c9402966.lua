@@ -32,7 +32,7 @@ function c9402966.sctg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lv=e:GetHandler():GetOriginalLevel()
 	if chk==0 then
 		local pg=aux.GetMustBeMaterialGroup(tp,Group.CreateGroup(),tp,nil,nil,REASON_SYNCHRO)
-		return pg:GetCount()<=0 and Duel.IsExistingTarget(c9402966.filter,tp,0,LOCATION_MZONE,1,nil,e,tp,lv) end
+		return #pg<=0 and Duel.IsExistingTarget(c9402966.filter,tp,0,LOCATION_MZONE,1,nil,e,tp,lv) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectTarget(tp,c9402966.filter,tp,0,LOCATION_MZONE,1,1,nil,e,tp,lv)
 	g:AddCard(e:GetHandler())
@@ -43,7 +43,7 @@ function c9402966.scop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.CreateGroup(),tp,nil,nil,REASON_SYNCHRO)
-	if not c:IsRelateToEffect(e) or not tc or not tc:IsRelateToEffect(e) or pg:GetCount()>0 then return end
+	if not c:IsRelateToEffect(e) or not tc or not tc:IsRelateToEffect(e) or #pg>0 then return end
 	local g=Group.FromCards(c,tc)
 	if Duel.SendtoGrave(g,REASON_EFFECT)==2 and c:GetLevel()>0 and c:IsLocation(LOCATION_GRAVE)
 		and tc:GetLevel()>0 and tc:IsLocation(LOCATION_GRAVE) then

@@ -91,7 +91,7 @@ function c18175965.eqop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectMatchingCard(tp,c18175965.filter,tp,LOCATION_DECK,0,1,1,nil,c)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Equip(tp,g:GetFirst(),c)
 	end
 end

@@ -71,15 +71,15 @@ end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,1-tp,g:GetCount())
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,1-tp,#g)
 end
 function s.cfilter(c,p)
 	return c:IsLocation(LOCATION_DECK) and c:IsControler(p)
 end
 function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,nil)
-	if g:GetCount()>0 and Duel.SendtoDeck(g,nil,2,REASON_EFFECT)>0 then
+	if #g>0 and Duel.SendtoDeck(g,nil,2,REASON_EFFECT)>0 then
 		local ct=Duel.GetOperatedGroup():FilterCount(s.cfilter,nil,1-tp)
 		if ct>0 then
 			Duel.ShuffleDeck(1-tp)

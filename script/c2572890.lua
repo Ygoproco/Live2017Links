@@ -36,8 +36,8 @@ function c2572890.condition1(e,tp,eg,ep,ev,re,r,rp)
 end
 function c2572890.target1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_DISABLE_SUMMON,eg,eg:GetCount(),0,0)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,eg:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DISABLE_SUMMON,eg,#eg,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,#eg,0,0)
 end
 function c2572890.activate1(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateSummon(eg)

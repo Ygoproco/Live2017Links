@@ -14,7 +14,7 @@ function c26885836.initial_effect(c)
 end
 function c26885836.eqconc(e)
 	local g=e:GetHandler():GetEquipGroup():Filter(c26885836.eqfilter,nil)
-	return g:GetCount()==0
+	return #g==0
 end
 function c26885836.eqfilter(c)
 	return c:GetFlagEffect(26885836)~=0 
@@ -39,7 +39,7 @@ function c26885836.equipop(c,e,tp,tc)
 		e2:SetType(EFFECT_TYPE_EQUIP)
 		e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
 		e2:SetCode(EFFECT_UPDATE_ATTACK)
-		e2:SetReset(RESET_EVENT+0x1fe0000)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 		e2:SetValue(atk)
 		tc:RegisterEffect(e2)
 	end
