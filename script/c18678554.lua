@@ -27,10 +27,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.xyzfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsSetCard(0x229)
+	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsSetCard(0x126)
 end
 function s.matfilter(c)
-	return c:IsSetCard(0x229)
+	return c:IsSetCard(0x126)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and s.xyzfilter(chkc) end
