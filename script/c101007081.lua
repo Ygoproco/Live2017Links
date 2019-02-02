@@ -37,6 +37,7 @@ function s.initial_effect(c)
 	e4:SetCode(EVENT_PHASE+PHASE_END)
 	e4:SetRange(LOCATION_GRAVE)
 	e4:SetCountLimit(1,id+EFFECT_COUNT_CODE_DUEL)
+	e4:SetCondition(s.spcond2)
 	e4:SetTarget(s.sptg2)
 	e4:SetOperation(s.spop2)
 	c:RegisterEffect(e4)
@@ -76,6 +77,9 @@ function s.indval(e,c)
 end
 function s.efilter(e,te)
 	return te:GetHandler():IsSetCard(0xd3)
+end
+function s.spcond2(e,tp,eg,ep,ev,re,r,rp)
+	return tp==Duel.GetTurnPlayer()
 end
 function s.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
