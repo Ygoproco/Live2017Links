@@ -1,4 +1,5 @@
 --センサー万別
+--There Can Be Only One
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -51,7 +52,7 @@ function s.adjustop(e,tp,eg,ep,ev,re,r,rp)
 			local rg=g:Filter(Card.IsRace,nil,race)
 			local rc=#rg
 			if rc>1 then
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+				Duel.Hint(HINT_SELECTMSG,p,HINTMSG_TOGRAVE)
 				local dg=rg:Select(p,rc-1,rc-1,nil)
 				sg:Merge(dg)
 			end
