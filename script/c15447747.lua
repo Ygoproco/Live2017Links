@@ -1,11 +1,12 @@
 --プランキッズの大作戦
 --Prankids Super Scheme
 --Scripted by Eerie Code
-function c15447747.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c15447747.target)
+	e1:SetTarget(s.target)
 	c:RegisterEffect(e1)
 	--link
 	local e2=Effect.CreateEffect(c)
@@ -14,10 +15,10 @@ function c15447747.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetHintTiming(0,0x1c0+TIMING_MAIN_END)
-	e2:SetCondition(c15447747.lkcon)
-	e2:SetCost(c15447747.lkcost)
-	e2:SetTarget(c15447747.lktg)
-	e2:SetOperation(c15447747.lkop)
+	e2:SetCondition(s.lkcon)
+	e2:SetCost(s.lkcost)
+	e2:SetTarget(s.lktg)
+	e2:SetOperation(s.lkop)
 	c:RegisterEffect(e2)
 	--shuffle
 	local e3=Effect.CreateEffect(c)
@@ -25,45 +26,45 @@ function c15447747.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e3:SetRange(LOCATION_GRAVE)
-	e3:SetCountLimit(1,15447747)
-	e3:SetCondition(c15447747.atkcon)
+	e3:SetCountLimit(1,id)
+	e3:SetCondition(s.atkcon)
 	e3:SetCost(aux.bfgcost)
-	e3:SetTarget(c15447747.atktg)
-	e3:SetOperation(c15447747.atkop)
+	e3:SetTarget(s.atktg)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3)
 end
-function c15447747.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	if c15447747.lkcon(e,tp,eg,ep,ev,re,r,rp)
-		and c15447747.lkcost(e,tp,eg,ep,ev,re,r,rp,0)
-		and c15447747.lktg(e,tp,eg,ep,ev,re,r,rp,0)
+	if s.lkcon(e,tp,eg,ep,ev,re,r,rp)
+		and s.lkcost(e,tp,eg,ep,ev,re,r,rp,0)
+		and s.lktg(e,tp,eg,ep,ev,re,r,rp,0)
 		and Duel.SelectYesNo(tp,94) then
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
-		e:SetOperation(c15447747.lkop)
-		c15447747.lkcost(e,tp,eg,ep,ev,re,r,rp,1)
-		c15447747.lktg(e,tp,eg,ep,ev,re,r,rp,1)
+		e:SetOperation(s.lkop)
+		s.lkcost(e,tp,eg,ep,ev,re,r,rp,1)
+		s.lktg(e,tp,eg,ep,ev,re,r,rp,1)
 	else
 		e:SetCategory(0)
 		e:SetOperation(nil)
 	end
 end
-function c15447747.lkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.lkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
-function c15447747.lkcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFlagEffect(tp,15447747)==0 end
-	Duel.RegisterFlagEffect(tp,15447747,RESET_PHASE+PHASE_END,0,1)
+function s.lkcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 end
+	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 end
-function c15447747.matfilter(c)
+function s.matfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x120)
 end
-function c15447747.lkfilter(c)
+function s.lkfilter(c)
 	return c:IsSetCard(0x120) and c:IsType(TYPE_LINK) and c:IsSpecialSummonable(SUMMON_TYPE_LINK)
 end
-function c15447747.lktg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.lktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local el={}
-		local mg=Duel.GetMatchingGroup(c15447747.matfilter,tp,LOCATION_MZONE,0,nil)
+		local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_MZONE,0,nil)
 		local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,mg)
 		for tc in aux.Next(g) do
 			local e1=Effect.CreateEffect(e:GetHandler())
@@ -72,7 +73,7 @@ function c15447747.lktg(e,tp,eg,ep,ev,re,r,rp,chk)
 			tc:RegisterEffect(e1)
 			table.insert(el,e1)
 		end
-		local res=Duel.IsExistingMatchingCard(c15447747.lkfilter,tp,LOCATION_EXTRA,0,1,nil)
+		local res=Duel.IsExistingMatchingCard(s.lkfilter,tp,LOCATION_EXTRA,0,1,nil)
 		for _,e in ipairs(el) do
 			e:Reset()
 		end
@@ -80,11 +81,11 @@ function c15447747.lktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function c15447747.lkop(e,tp,eg,ep,ev,re,r,rp)
+function s.lkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local el={}
-	local mg=Duel.GetMatchingGroup(c15447747.matfilter,tp,LOCATION_MZONE,0,nil)
+	local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_MZONE,0,nil)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,mg)
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
@@ -94,7 +95,7 @@ function c15447747.lkop(e,tp,eg,ep,ev,re,r,rp)
 		table.insert(el,e1)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local xg=Duel.SelectMatchingCard(tp,c15447747.lkfilter,tp,LOCATION_EXTRA,0,1,1,nil)
+	local xg=Duel.SelectMatchingCard(tp,s.lkfilter,tp,LOCATION_EXTRA,0,1,1,nil)
 	local tc=xg:GetFirst()
 	if tc then
 		Duel.SpecialSummonRule(tp,tc,SUMMON_TYPE_LINK)
@@ -103,19 +104,19 @@ function c15447747.lkop(e,tp,eg,ep,ev,re,r,rp)
 		e:Reset()
 	end
 end
-function c15447747.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttacker():IsControler(1-tp)
 end
-function c15447747.tdfilter(c)
+function s.tdfilter(c)
 	return c:IsSetCard(0x120) and c:IsAbleToDeck()
 end
-function c15447747.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c15447747.tdfilter,tp,LOCATION_GRAVE,0,1,e:GetHandler()) end
+function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.tdfilter,tp,LOCATION_GRAVE,0,1,e:GetHandler()) end
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_GRAVE)
 end
-function c15447747.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetAttacker()
-	local g=Duel.GetMatchingGroup(c15447747.tdfilter,tp,LOCATION_GRAVE,0,nil)
+	local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
 	if #g==0 then return end
 	local ct=math.min(#g,math.floor(tc:GetAttack()/100))
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)

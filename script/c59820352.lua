@@ -1,7 +1,8 @@
 --大地讃頌
-function c59820352.initial_effect(c)
-	aux.AddRitualProcEqual(c,c59820352.ritual_filter)
+local s,id=GetID()
+function s.initial_effect(c)
+	aux.AddRitualProcEqual(c,s.ritual_filter)
 end
-function c59820352.ritual_filter(c)
+function s.ritual_filter(c)
 	return c:IsType(TYPE_RITUAL) and c:IsAttribute(ATTRIBUTE_EARTH) 
 end

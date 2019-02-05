@@ -1,5 +1,6 @@
 --冥王の咆哮
-function c41925941.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--atkdown
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -7,13 +8,13 @@ function c41925941.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(TIMING_DAMAGE_STEP)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
-	e1:SetCondition(c41925941.condition)
-	e1:SetCost(c41925941.cost)
-	e1:SetTarget(c41925941.target)
-	e1:SetOperation(c41925941.operation)
+	e1:SetCondition(s.condition)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c41925941.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local phase=Duel.GetCurrentPhase()
 	if phase~=PHASE_DAMAGE or Duel.IsDamageCalculated() then return false end
 	local a=Duel.GetAttacker()
@@ -28,11 +29,11 @@ function c41925941.condition(e,tp,eg,ep,ev,re,r,rp)
 			and a and a:IsFaceup() and a:IsRelateToBattle()
 	end
 end
-function c41925941.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	if chk==0 then return true end
 end
-function c41925941.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local tc=e:GetLabelObject()
 	if chkc then return chkc==tc end
 	if chk==0 then
@@ -55,7 +56,7 @@ function c41925941.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetTargetCard(tc)
 	Duel.SetTargetParam(cost)
 end
-function c41925941.operation(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.operation(e,tp,eg,ep,ev,re,r,rp,chk)
 	local bc=Duel.GetFirstTarget()
 	local val=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	if not bc or not bc:IsRelateToEffect(e) or not bc:IsControler(1-tp) then return end
@@ -63,7 +64,7 @@ function c41925941.operation(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
 	e1:SetValue(-val)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	bc:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_UPDATE_DEFENSE)

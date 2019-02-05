@@ -1,5 +1,6 @@
 --トリプル・ヴァイパー
-function c37869028.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--multiattack
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -10,14 +11,14 @@ function c37869028.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_ATTACK_COST)
-	e2:SetCost(c37869028.atcost)
-	e2:SetOperation(c37869028.atop)
+	e2:SetCost(s.atcost)
+	e2:SetOperation(s.atop)
 	c:RegisterEffect(e2)
 end
-function c37869028.atcost(e,c,tp)
+function s.atcost(e,c,tp)
 	return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,nil,e:GetHandler(),RACE_AQUA)
 end
-function c37869028.atop(e,tp,eg,ep,ev,re,r,rp)
+function s.atop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.IsAttackCostPaid()~=2 and e:GetHandler():IsLocation(LOCATION_MZONE) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 		local tc=Duel.GetReleaseGroup(tp):Filter(Card.IsRace,e:GetHandler(),RACE_AQUA):SelectUnselect(Group.CreateGroup(),tp,Duel.IsAttackCostPaid()==0, Duel.IsAttackCostPaid()==0)

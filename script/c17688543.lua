@@ -1,27 +1,28 @@
 --深すぎた墓穴
 --The Deep Grave
 --Script by nekrozar
-function c17688543.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c17688543.target)
-	e1:SetOperation(c17688543.activate)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c17688543.filter(c,e,tp)
+function s.filter(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and (not c:IsHasEffect(EFFECT_REVIVE_LIMIT) or c:IsStatus(STATUS_PROC_COMPLETE))
 end
-function c17688543.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c17688543.filter(chkc,e,tp) end
-	if chk==0 then return Duel.IsExistingTarget(c17688543.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.filter(chkc,e,tp) end
+	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectTarget(tp,c17688543.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,s.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
 end
-function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if not tc or not tc:IsRelateToEffect(e) then return end
 	local res=(Duel.GetCurrentPhase()==PHASE_STANDBY and Duel.GetTurnPlayer()==tp) and 2 or 1
@@ -33,15 +34,15 @@ function c17688543.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,res)
 	e1:SetLabel(turn_asc+Duel.GetTurnCount())
 	e1:SetLabelObject(tc)
-	e1:SetCondition(c17688543.spcon)
-	e1:SetOperation(c17688543.spop)
+	e1:SetCondition(s.spcon)
+	e1:SetOperation(s.spop)
 	Duel.RegisterEffect(e1,tp)
 	tc:CreateEffectRelation(e1)
 end
-function c17688543.spcon(e,tp)
+function s.spcon(e,tp)
 	return Duel.GetTurnCount()==e:GetLabel() and Duel.GetTurnPlayer()==tp
 end
-function c17688543.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if tc and tc:IsLocation(LOCATION_GRAVE) and tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)

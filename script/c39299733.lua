@@ -1,7 +1,8 @@
 --運命の戦車
 --Fortune Chariot
 --scripted by AlphaKretin
-function c39299733.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsRace,RACE_FAIRY),false)
 	--add setcode
 	local e1=Effect.CreateEffect(c)
@@ -20,16 +21,16 @@ function c39299733.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_PRE_BATTLE_DAMAGE)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetCondition(c39299733.rdcon)
-	e3:SetOperation(c39299733.rdop)
+	e3:SetCondition(s.rdcon)
+	e3:SetOperation(s.rdop)
 	c:RegisterEffect(e3)
 end
-function c39299733.rdcon(e,tp,eg,ep,ev,re,r,rp)
+function s.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and Duel.GetAttacker()==e:GetHandler():GetEquipTarget() and Duel.GetAttackTarget()==nil
 		and e:GetHandler():GetEquipTarget() and e:GetHandler():GetEquipTarget():IsHasEffect(EFFECT_DIRECT_ATTACK)
 		and Duel.IsExistingMatchingCard(aux.NOT(Card.IsHasEffect),tp,0,LOCATION_MZONE,1,nil,EFFECT_IGNORE_BATTLE_TARGET)
 end
-function c39299733.rdop(e,tp,eg,ep,ev,re,r,rp)
+function s.rdop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetEquipTarget()
 	local effs={tc:GetCardEffect(EFFECT_DIRECT_ATTACK)}

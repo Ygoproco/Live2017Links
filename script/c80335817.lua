@@ -1,5 +1,6 @@
 --刻剣の魔術師
-function c80335817.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--indes
@@ -8,8 +9,8 @@ function c80335817.initial_effect(c)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
 	e2:SetRange(LOCATION_PZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
-	e2:SetTarget(c80335817.indtg)
-	e2:SetValue(c80335817.indval)
+	e2:SetTarget(s.indtg)
+	e2:SetValue(s.indval)
 	c:RegisterEffect(e2)
 	--double
 	local e3=Effect.CreateEffect(c)
@@ -17,8 +18,8 @@ function c80335817.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetCondition(c80335817.atkcon)
-	e3:SetOperation(c80335817.atkop)
+	e3:SetCondition(s.atkcon)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3)
 	--Banish
 	local e4=Effect.CreateEffect(c)
@@ -27,35 +28,35 @@ function c80335817.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(1)
-	e4:SetTarget(c80335817.rmtg)
-	e4:SetOperation(c80335817.rmop)
+	e4:SetTarget(s.rmtg)
+	e4:SetOperation(s.rmop)
 	c:RegisterEffect(e4)
 end
-function c80335817.indtg(e,c)
+function s.indtg(e,c)
 	return c:IsType(TYPE_PENDULUM)
 end
-function c80335817.indval(e,re,r,rp)
-	if bit.band(r,REASON_EFFECT)~=0 and e:GetHandlerPlayer()~=rp then
+function s.indval(e,re,r,rp)
+	if (r&REASON_EFFECT)~=0 and e:GetHandlerPlayer()~=rp then
 	return 1
 	else return 0 end
 end
-function c80335817.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return eg:GetCount()==1 and eg:GetFirst()==c
+	return #eg==1 and eg:GetFirst()==c
 		and c:IsSummonType(SUMMON_TYPE_PENDULUM) and c:IsPreviousLocation(LOCATION_HAND)
 end
-function c80335817.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsFaceup() and c:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
 		e1:SetValue(c:GetBaseAttack()*2)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 	end
 end
-function c80335817.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsAbleToRemove() end
 	if chk==0 then return e:GetHandler():IsAbleToRemove()
 		and Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler()) end
@@ -64,7 +65,7 @@ function c80335817.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	g:AddCard(e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,2,0,0)
 end
-function c80335817.rmop(e,tp,eg,ep,ev,re,r,rp)
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then return end
@@ -74,9 +75,9 @@ function c80335817.rmop(e,tp,eg,ep,ev,re,r,rp)
 		local oc=og:GetFirst()
 		while oc do
 			if oc:IsControler(tp) then
-				oc:RegisterFlagEffect(80335817,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,1)
+				oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,0,1)
 			else
-				oc:RegisterFlagEffect(80335817,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,1)
+				oc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,1)
 			end
 			oc=og:GetNext()
 		end
@@ -87,24 +88,24 @@ function c80335817.rmop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN)
 		e1:SetCountLimit(1)
 		e1:SetLabelObject(og)
-		e1:SetCondition(c80335817.retcon)
-		e1:SetOperation(c80335817.retop)
+		e1:SetCondition(s.retcon)
+		e1:SetOperation(s.retop)
 		Duel.RegisterEffect(e1,tp)
 	end
 end
-function c80335817.retfilter(c)
-	return c:GetFlagEffect(80335817)~=0
+function s.retfilter(c)
+	return c:GetFlagEffect(id)~=0
 end
-function c80335817.retcon(e,tp,eg,ep,ev,re,r,rp)
+function s.retcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c80335817.retop(e,tp,eg,ep,ev,re,r,rp)
+function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	local g=e:GetLabelObject()
-	local sg=g:Filter(c80335817.retfilter,nil)
-	if sg:GetCount()>1 and sg:GetClassCount(Card.GetPreviousControler)==1 then
+	local sg=g:Filter(s.retfilter,nil)
+	if #sg>1 and sg:GetClassCount(Card.GetPreviousControler)==1 then
 		local ft=Duel.GetLocationCount(sg:GetFirst():GetPreviousControler(),LOCATION_MZONE)
 		if ft==1 then
-			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(80335817,0))
+			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
 			local tc=sg:Select(tp,1,1,nil):GetFirst()
 			Duel.ReturnToField(tc)
 			sg:RemoveCard(tc)

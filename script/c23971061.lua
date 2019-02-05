@@ -1,7 +1,8 @@
 --ダブルバイト・ドラゴン
 --Double Byte Dragon
 --Script by nekrozar
-function c23971061.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--link summon
 	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_LINK),2,2)
@@ -10,8 +11,8 @@ function c23971061.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e1:SetCondition(c23971061.atkcon)
-	e1:SetOperation(c23971061.atkop)
+	e1:SetCondition(s.atkcon)
+	e1:SetOperation(s.atkop)
 	c:RegisterEffect(e1)
 	--immune
 	local e2=Effect.CreateEffect(c)
@@ -19,19 +20,19 @@ function c23971061.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_IMMUNE_EFFECT)
-	e2:SetValue(c23971061.efilter)
+	e2:SetValue(s.efilter)
 	c:RegisterEffect(e2)
 	--indes
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e3:SetValue(c23971061.indval)
+	e3:SetValue(s.indval)
 	c:RegisterEffect(e3)
 end
-function c23971061.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
-function c23971061.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=c:GetMaterial()
 	local atk=0
@@ -45,13 +46,13 @@ function c23971061.atkop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
 	e1:SetValue(atk*300)
-	e1:SetReset(RESET_EVENT+0x1ff0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 	c:RegisterEffect(e1)
 end
-function c23971061.efilter(e,te)
+function s.efilter(e,te)
 	return te:IsActiveType(TYPE_MONSTER) and te:GetOwner()~=e:GetOwner() and not te:IsActiveType(TYPE_LINK)
 end
-function c23971061.indval(e,c)
+function s.indval(e,c)
 	return not c:IsType(TYPE_LINK)
 end
 

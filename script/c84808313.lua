@@ -1,11 +1,12 @@
 --大進化薬
-function c84808313.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c84808313.cost)
-	e1:SetTarget(c84808313.target)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
 	c:RegisterEffect(e1)
 	--reduce tribute
 	local e2=Effect.CreateEffect(c)
@@ -22,12 +23,12 @@ function c84808313.initial_effect(c)
 	e3:SetCode(EFFECT_REMAIN_FIELD)
 	c:RegisterEffect(e3)
 end
-function c84808313.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,nil,nil,RACE_DINOSAUR) end
 	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,1,false,nil,nil,RACE_DINOSAUR)
 	Duel.Release(g,REASON_COST)
 end
-function c84808313.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local c=e:GetHandler()
 	c:SetTurnCounter(0)
@@ -37,9 +38,9 @@ function c84808313.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetCode(EVENT_PHASE+PHASE_END)
 	e1:SetCountLimit(1)
 	e1:SetRange(LOCATION_SZONE)
-	e1:SetCondition(c84808313.descon)
-	e1:SetOperation(c84808313.desop)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetCondition(s.descon)
+	e1:SetOperation(s.desop)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e1)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
@@ -47,17 +48,17 @@ function c84808313.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	e3:SetCode(1082946)
 	e3:SetLabelObject(e1)
 	e3:SetOwnerPlayer(tp)
-	e3:SetOperation(c84808313.reset)
-	e3:SetReset(RESET_EVENT+0x1fe0000)
+	e3:SetOperation(s.reset)
+	e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e3)
 end
-function c84808313.reset(e,tp,eg,ep,ev,re,r,rp)
-	c84808313.desop(e:GetLabelObject(),tp,eg,ep,ev,e,r,rp)
+function s.reset(e,tp,eg,ep,ev,re,r,rp)
+	s.desop(e:GetLabelObject(),tp,eg,ep,ev,e,r,rp)
 end
-function c84808313.descon(e,tp,eg,ep,ev,re,r,rp)
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
-function c84808313.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local ct=c:GetTurnCounter()
 	ct=ct+1

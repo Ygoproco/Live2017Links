@@ -1,7 +1,8 @@
 --コード・トーカー
 --Code Talker
 --Scripted by Eerie Code
-function c53413628.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),2,2)
 	c:EnableReviveLimit()
@@ -11,7 +12,7 @@ function c53413628.initial_effect(c)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(c53413628.atkval)
+	e1:SetValue(s.atkval)
 	c:RegisterEffect(e1)
 	--indes
 	local e2=Effect.CreateEffect(c)
@@ -19,20 +20,20 @@ function c53413628.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e2:SetCondition(c53413628.incon)
+	e2:SetCondition(s.incon)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
 	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-	e3:SetValue(c53413628.inval)
+	e3:SetValue(s.inval)
 	c:RegisterEffect(e3)
 end
-function c53413628.atkval(e,c)
+function s.atkval(e,c)
 	return c:GetLinkedGroupCount()*500
 end
-function c53413628.incon(e)
+function s.incon(e)
 	return e:GetHandler():GetLinkedGroupCount()>0
 end
-function c53413628.inval(e,re,tp)
+function s.inval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
 end

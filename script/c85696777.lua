@@ -12,7 +12,7 @@ function s.initial_effect(c)
 	e0:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e0:SetCode(EFFECT_CHANGE_CODE)
 	e0:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
-	e0:SetValue(76812113)
+	e0:SetValue(CARD_HARPIE_LADY)
 	c:RegisterEffect(e0)
 	--destroy replace
 	local e1=Effect.CreateEffect(c)

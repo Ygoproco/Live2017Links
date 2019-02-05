@@ -1,14 +1,15 @@
 --Raidraptor Replica
 --R・R・R
-function c54423935.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c54423935.target)
-	e1:SetOperation(c54423935.activate)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	--add setcode
 	local e2=Effect.CreateEffect(c)
@@ -18,28 +19,28 @@ function c54423935.initial_effect(c)
 	e2:SetValue(0xba)
 	c:RegisterEffect(e2)
 end
-function c54423935.filter(c,e,tp)
+function s.filter(c,e,tp)
 	return c:IsFaceup() and c:IsSetCard(0xba)
-		and Duel.IsExistingMatchingCard(c54423935.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCode())
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCode())
 end
-function c54423935.spfilter(c,e,tp,cd)
+function s.spfilter(c,e,tp,cd)
 	return c:IsCode(cd) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c54423935.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and chkc:IsCode(e:GetLabel()) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingTarget(c54423935.filter,tp,LOCATION_MZONE,0,1,nil,e,tp) end
+		and Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local g=Duel.SelectTarget(tp,c54423935.filter,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
 	e:SetLabel(g:GetFirst():GetCode())
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
-function c54423935.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local g=Duel.SelectMatchingCard(tp,c54423935.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,tc:GetCode())
+		local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,tc:GetCode())
 		local sc=g:GetFirst()
 		if sc and Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)>0 then
 			local e1=Effect.CreateEffect(e:GetHandler())
@@ -47,9 +48,9 @@ function c54423935.activate(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
 			e1:SetLabelObject(sc)
 			e1:SetLabel(sc:GetFieldID())
-			e1:SetCondition(c54423935.imcon)
+			e1:SetCondition(s.imcon)
 			e1:SetValue(aux.imval1)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
 			local e2=e1:Clone()
 			e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
@@ -59,7 +60,7 @@ function c54423935.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c54423935.imcon(e)
+function s.imcon(e)
 	local tp=e:GetHandlerPlayer()
 	local sc=e:GetLabelObject()
 	return sc and sc:GetFieldID()==e:GetLabel() and sc:IsFaceup() and sc:IsLocation(LOCATION_MZONE)

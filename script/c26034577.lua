@@ -1,5 +1,6 @@
 --インフェルノイド・ベルゼブル
-function c26034577.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon condition
 	local e1=Effect.CreateEffect(c)
@@ -13,40 +14,40 @@ function c26034577.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
-	e2:SetCondition(c26034577.spcon)
-	e2:SetOperation(c26034577.spop)
+	e2:SetCondition(s.spcon)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--to hand
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(26034577,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_TOHAND)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetCountLimit(1)
-	e3:SetTarget(c26034577.thtg)
-	e3:SetOperation(c26034577.thop)
+	e3:SetTarget(s.thtg)
+	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 	--remove
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(26034577,1))
+	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_REMOVE)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e4:SetCountLimit(1)
-	e4:SetCondition(c26034577.rmcon)
-	e4:SetCost(c26034577.rmcost)
-	e4:SetTarget(c26034577.rmtg)
-	e4:SetOperation(c26034577.rmop)
+	e4:SetCondition(s.rmcon)
+	e4:SetCost(s.rmcost)
+	e4:SetTarget(s.rmtg)
+	e4:SetOperation(s.rmop)
 	c:RegisterEffect(e4)
 end
-function c26034577.spfilter(c)
+function s.spfilter(c)
 	return c:IsSetCard(0xbb) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() 
 		and (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c,true,true))
 end
-function c26034577.spcon(e,c)
+function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local sum=0
@@ -62,76 +63,76 @@ function c26034577.spcon(e,c)
 	if ft<0 then return false end
 	if c:IsHasEffect(34822850) then
 		if ft>0 then
-			return Duel.IsExistingMatchingCard(c26034577.spfilter,tp,LOCATION_MZONE+LOCATION_GRAVE+LOCATION_HAND,0,1,c)
+			return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_MZONE+LOCATION_GRAVE+LOCATION_HAND,0,1,c)
 		else
-			return Duel.IsExistingMatchingCard(c26034577.spfilter,tp,LOCATION_MZONE,0,1,nil)
+			return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_MZONE,0,1,nil)
 		end
 	else
 		if Duel.IsPlayerAffectedByEffect(tp,69832741) then
-			return Duel.IsExistingMatchingCard(c26034577.spfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,c)
+			return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,c)
 		else
-			return ft>0 and Duel.IsExistingMatchingCard(c26034577.spfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,1,c)
+			return ft>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,1,c)
 		end
 	end
 end
-function c26034577.spop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=nil
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	if c:IsHasEffect(34822850) then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
-			g=Duel.SelectMatchingCard(tp,c26034577.spfilter,tp,LOCATION_MZONE+LOCATION_GRAVE+LOCATION_HAND,0,1,1,c)
+			g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_MZONE+LOCATION_GRAVE+LOCATION_HAND,0,1,1,c)
 		else
-			g=Duel.SelectMatchingCard(tp,c26034577.spfilter,tp,LOCATION_MZONE,0,1,1,nil)
+			g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_MZONE,0,1,1,nil)
 		end
 	else
 		if Duel.IsPlayerAffectedByEffect(tp,69832741) then
 			if ft>0 then
-				g=Duel.SelectMatchingCard(tp,c26034577.spfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,1,c)
+				g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,1,c)
 			else
-				g=Duel.SelectMatchingCard(tp,c26034577.spfilter,tp,LOCATION_MZONE,0,1,1,c)
+				g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_MZONE,0,1,1,c)
 			end
 		else
-			g=Duel.SelectMatchingCard(tp,c26034577.spfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,1,1,c)
+			g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,1,1,c)
 		end
 	end
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
-function c26034577.thfilter(c)
+function s.thfilter(c)
 	return c:IsFaceup() and c:IsAbleToHand()
 end
-function c26034577.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and c26034577.thfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c26034577.thfilter,tp,0,LOCATION_ONFIELD,1,nil) end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and s.thfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.thfilter,tp,0,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
-	local g=Duel.SelectTarget(tp,c26034577.thfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.thfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
 end
-function c26034577.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
-function c26034577.rmcon(e,tp,eg,ep,ev,re,r,rp)
+function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
-function c26034577.rmfilter(c,e)
+function s.rmfilter(c,e)
 	return c:IsAbleToRemove() and aux.SpElimFilter(c) and (not e or c:IsCanBeEffectTarget(e))
 end
-function c26034577.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local dg=Duel.GetMatchingGroup(c26034577.rmfilter,tp,0,LOCATION_MZONE+LOCATION_GRAVE,nil,e)
+function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local dg=Duel.GetMatchingGroup(s.rmfilter,tp,0,LOCATION_MZONE+LOCATION_GRAVE,nil,e)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,aux.ReleaseCheckTarget,nil,dg) end
 	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,aux.ReleaseCheckTarget,nil,dg)
 	Duel.Release(g,REASON_COST)
 end
-function c26034577.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE+LOCATION_GRAVE) and chkc:IsControler(1-tp) and c26034577.rmfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c26034577.rmfilter,tp,0,LOCATION_MZONE+LOCATION_GRAVE,1,nil) end
+function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE+LOCATION_GRAVE) and chkc:IsControler(1-tp) and s.rmfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.rmfilter,tp,0,LOCATION_MZONE+LOCATION_GRAVE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,c26034577.rmfilter,tp,0,LOCATION_MZONE+LOCATION_GRAVE,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.rmfilter,tp,0,LOCATION_MZONE+LOCATION_GRAVE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
-function c26034577.rmop(e,tp,eg,ep,ev,re,r,rp)
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)

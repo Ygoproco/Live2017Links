@@ -58,7 +58,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.thfilter(c)
-	return c:IsAbleToHand() and c:IsCode(100412103)
+	return c:IsAbleToHand() and c:IsCode(id+100)
 	--update this when the ID for this card it searches is revealed
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)

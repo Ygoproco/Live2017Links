@@ -1,5 +1,6 @@
 --パワー・フレーム
-function c53656677.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)
@@ -7,11 +8,11 @@ function c53656677.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_BE_BATTLE_TARGET)
 	e1:SetCost(aux.RemainFieldCost)
-	e1:SetTarget(c53656677.target)
-	e1:SetOperation(c53656677.operation)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c53656677.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc==Duel.GetAttackTarget() end
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
@@ -19,7 +20,7 @@ function c53656677.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and d:GetAttack()<a:GetAttack() and e:IsHasType(EFFECT_TYPE_ACTIVATE) end
 	Duel.SetTargetCard(d)
 end
-function c53656677.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateAttack()
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
@@ -35,21 +36,21 @@ function c53656677.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_EQUIP)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(atk)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e1)
 		--Equip limit
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_EQUIP_LIMIT)
 		e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e2:SetValue(c53656677.eqlimit)
-		e2:SetReset(RESET_EVENT+0x1fe0000)
+		e2:SetValue(s.eqlimit)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 		e2:SetLabelObject(tc)
 		c:RegisterEffect(e2)
 	else
 		c:CancelToGrave(false)
 	end
 end
-function c53656677.eqlimit(e,c)
+function s.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end

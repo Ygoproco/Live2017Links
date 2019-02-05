@@ -96,7 +96,7 @@ end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
     local sg=e:GetLabelObject()
     local dg=sg:Filter(s.desfilter,nil,e:GetLabel())
-    if dg:GetCount()>0 then
+    if #dg>0 then
         Duel.SendtoDeck(dg,nil,2,REASON_EFFECT)
     end
 end

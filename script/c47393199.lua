@@ -28,7 +28,7 @@ function s.spcheck(sg,tp,exg,dg)
             if dg:IsContains(tc) then a=a+1 end
         end
     end
-    return dg:GetCount()-a>=2
+    return #dg-a>=2
 end
 function s.cfilter(c)
     return c:IsRace(RACE_DRAGON)
@@ -51,7 +51,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
     local g=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,2,e:GetHandler())
-    Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+    Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
     local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)

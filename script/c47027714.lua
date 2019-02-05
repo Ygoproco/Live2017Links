@@ -48,7 +48,7 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return true end
-    Duel.SetOperationInfo(0,CATEGORY_DISABLE_SUMMON,eg,eg:GetCount(),0,0)
+    Duel.SetOperationInfo(0,CATEGORY_DISABLE_SUMMON,eg,#eg,0,0)
     Duel.SetOperationInfo(0,CATEGORY_REMOVE,eg,#eg,0,0)
 end
 function s.rmfilter(c)

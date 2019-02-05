@@ -1,10 +1,11 @@
 --沼地のドロゴン
 --Mudragon of the Swamp
 --Script by nekrozar
-function c54757758.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMixN(c,true,true,c54757758.ffilter,2)
+	aux.AddFusionProcMixN(c,true,true,s.ffilter,2)
 	--cannot be target
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -19,40 +20,40 @@ function c54757758.initial_effect(c)
 	e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e2:SetTarget(c54757758.tglimit)
+	e2:SetTarget(s.tglimit)
 	e2:SetValue(aux.tgoval)
 	c:RegisterEffect(e2)
 	--att change
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(54757758,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1)
-	e3:SetTarget(c54757758.atttg)
-	e3:SetOperation(c54757758.attop)
+	e3:SetTarget(s.atttg)
+	e3:SetOperation(s.attop)
 	c:RegisterEffect(e3)
 end
-function c54757758.ffilter(c,fc,sumtype,sp,sub,mg,sg)
+function s.ffilter(c,fc,sumtype,sp,sub,mg,sg)
 	return not sg or sg:FilterCount(aux.TRUE,c)==0 or (sg:IsExists(Card.IsAttribute,1,c,c:GetAttribute(),fc,sumtype,sp) and not sg:IsExists(Card.IsRace,1,c,c:GetRace(),fc,sumtype,sp))
 end
-function c54757758.tglimit(e,c)
+function s.tglimit(e,c)
 	return c:IsAttribute(e:GetHandler():GetAttribute())
 end
-function c54757758.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,563)
 	local aat=Duel.AnnounceAttribute(tp,1,0xff-e:GetHandler():GetAttribute())
 	e:SetLabel(aat)
 end
-function c54757758.attop(e,tp,eg,ep,ev,re,r,rp)
+function s.attop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and c:IsFaceup() then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
 		e1:SetValue(e:GetLabel())
-		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	end
 end

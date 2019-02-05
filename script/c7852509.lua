@@ -1,6 +1,7 @@
 --Loop of Destruction
 --Scripted by Eerie Code
-function c7852509.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -22,18 +23,18 @@ function c7852509.initial_effect(c)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e3:SetCountLimit(1)
-	e3:SetCondition(c7852509.descon)
-	e3:SetTarget(c7852509.destg)
-	e3:SetOperation(c7852509.desop)
+	e3:SetCondition(s.descon)
+	e3:SetTarget(s.destg)
+	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
 end
-function c7852509.cfilter(c)
+function s.cfilter(c)
 	return c:IsReason(REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE)
 end
-function c7852509.descon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c7852509.cfilter,1,nil)
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.cfilter,1,nil)
 end
-function c7852509.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) end
 	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
@@ -41,7 +42,7 @@ function c7852509.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,PLAYER_ALL,500)
 end
-function c7852509.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
 		Duel.Damage(tp,500,REASON_EFFECT,true)

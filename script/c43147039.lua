@@ -37,7 +37,7 @@ function s.initial_effect(c)
 	e5:SetOperation(s.efop)
 	c:RegisterEffect(e5)
 end
-s.listed_names={93717133}
+s.listed_names={CARD_GALAXYEYES_P_DRAGON}
 function s.cfilter(c)
 	return c:IsFaceup() and (c:IsSetCard(0x55) or c:IsSetCard(0x7b))  and c:IsType(TYPE_MONSTER)
 end
@@ -45,7 +45,7 @@ function s.spcon(e,c)
 	if c==nil then return true end
 	if Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)<=0 then return false end
 	local g=Duel.GetMatchingGroup(s.cfilter,c:GetControler(),LOCATION_MZONE,0,nil)
-	local ct=g:GetCount()
+	local ct=#g
 	return ct>0
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -53,7 +53,7 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 end
 function s.thfilter1(c)
-	return c:IsCode(93717133) and c:IsAbleToHand()
+	return c:IsCode(CARD_GALAXYEYES_P_DRAGON) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter1,tp,LOCATION_DECK,0,1,nil) end
@@ -62,7 +62,7 @@ end
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,s.thfilter1,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
@@ -71,11 +71,11 @@ function s.atklimit(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_CANNOT_ATTACK)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	e:GetHandler():RegisterEffect(e1)
 end
 function s.efcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_XYZ)~=0
+	return (r&REASON_XYZ)~=0
 		and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 function s.efop(e,tp,eg,ep,ev,re,r,rp)
@@ -87,14 +87,14 @@ function s.efop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 	e1:SetCode(EFFECT_BATTLE_DESTROY_REDIRECT)
 	e1:SetValue(LOCATION_REMOVED)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	rc:RegisterEffect(e1,true)
 	if not rc:IsType(TYPE_EFFECT) then
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_ADD_TYPE)
 		e2:SetValue(TYPE_EFFECT)
-		e2:SetReset(RESET_EVENT+0x1fe0000)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 		rc:RegisterEffect(e2,true)
 	end
 end

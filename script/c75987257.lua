@@ -1,39 +1,40 @@
 --隷属の鱗粉
-function c75987257.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_POSITION+CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetCondition(c75987257.condition)
+	e1:SetCondition(s.condition)
 	e1:SetCost(aux.RemainFieldCost)
-	e1:SetTarget(c75987257.target)
-	e1:SetOperation(c75987257.operation)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	--pos
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(75987257,0))
+	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCategory(CATEGORY_POSITION)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCountLimit(1)
-	e2:SetCondition(c75987257.poscon)
-	e2:SetOperation(c75987257.posop)
+	e2:SetCondition(s.poscon)
+	e2:SetOperation(s.posop)
 	c:RegisterEffect(e2)
 end
-function c75987257.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
-function c75987257.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local tc=Duel.GetAttacker()
 	if chkc then return chkc==tc end
 	if chk==0 then return e:IsHasType(EFFECT_TYPE_ACTIVATE) and tc:IsLocation(LOCATION_MZONE) and tc:IsAttackPos()
 		and tc:IsCanChangePosition() and tc:IsCanBeEffectTarget(e) end
 	Duel.SetTargetCard(tc)
 end
-function c75987257.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsLocation(LOCATION_SZONE) then return end
 	local tc=Duel.GetFirstTarget()
@@ -46,23 +47,23 @@ function c75987257.operation(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_EQUIP_LIMIT)
 			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e1:SetValue(c75987257.eqlimit)
+			e1:SetValue(s.eqlimit)
 			e1:SetLabelObject(tc)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			c:RegisterEffect(e1)
 		end
 	else
 		c:CancelToGrave(false)
 	end
 end
-function c75987257.eqlimit(e,c)
+function s.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
-function c75987257.poscon(e,tp,eg,ep,ev,re,r,rp)
+function s.poscon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	return ph>=PHASE_MAIN1 and ph<=PHASE_MAIN2 and e:GetHandler():GetEquipTarget()
 end
-function c75987257.posop(e,tp,eg,ep,ev,re,r,rp)
+function s.posop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local ec=c:GetEquipTarget()

@@ -1,43 +1,44 @@
 --雷帝家臣ミスラ
-function c22404675.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCountLimit(1,22404675)
-	e1:SetTarget(c22404675.sptg)
-	e1:SetOperation(c22404675.spop)
+	e1:SetCountLimit(1,id)
+	e1:SetTarget(s.sptg)
+	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--search
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCode(EVENT_RELEASE)
-	e2:SetCountLimit(1,22404676)
-	e2:SetCondition(c22404675.sumcon)
-	e2:SetTarget(c22404675.sumtg)
-	e2:SetOperation(c22404675.sumop)
+	e2:SetCountLimit(1,id+1)
+	e2:SetCondition(s.sumcon)
+	e2:SetTarget(s.sumtg)
+	e2:SetOperation(s.sumop)
 	c:RegisterEffect(e2)
 end
-function c22404675.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,22404676,0,0x4011,800,1000,1,RACE_THUNDER,ATTRIBUTE_LIGHT) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,800,1000,1,RACE_THUNDER,ATTRIBUTE_LIGHT) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,0)
 end
-function c22404675.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not Duel.IsPlayerAffectedByEffect(tp,59822133) and c:IsRelateToEffect(e) then
+	if not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and c:IsRelateToEffect(e) then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
 			Duel.SpecialSummonStep(c,0,tp,tp,false,false,POS_FACEUP)
 		else
 			Duel.SendtoGrave(c,REASON_EFFECT)
 		end
 		if Duel.GetLocationCount(1-tp,LOCATION_MZONE,tp)>0
-			and Duel.IsPlayerCanSpecialSummonMonster(tp,22404676,0,0x4011,800,1000,1,RACE_THUNDER,ATTRIBUTE_LIGHT) then
-			local token=Duel.CreateToken(tp,22404676)
+			and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,800,1000,1,RACE_THUNDER,ATTRIBUTE_LIGHT) then
+			local token=Duel.CreateToken(tp,id+1)
 			Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
 		end
 		Duel.SpecialSummonComplete()
@@ -48,20 +49,20 @@ function c22404675.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	e1:SetTargetRange(1,0)
-	e1:SetTarget(c22404675.splimit)
+	e1:SetTarget(s.splimit)
 	Duel.RegisterEffect(e1,tp)
 end
-function c22404675.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return c:IsLocation(LOCATION_EXTRA)
 end
-function c22404675.sumcon(e,tp,eg,ep,ev,re,r,rp)
+function s.sumcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_SUMMON) and Duel.GetTurnPlayer()==tp
 end
-function c22404675.sumtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sumtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanSummon(tp) end
 end
-function c22404675.sumop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetFlagEffect(tp,22404675)~=0 then return end
+function s.sumop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetFlagEffect(tp,id)~=0 then return end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetTargetRange(LOCATION_HAND,0)
@@ -72,5 +73,5 @@ function c22404675.sumop(e,tp,eg,ep,ev,re,r,rp)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_EXTRA_SET_COUNT)
 	Duel.RegisterEffect(e2,tp)
-	Duel.RegisterFlagEffect(tp,22404675,RESET_PHASE+PHASE_END,0,1)
+	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 end

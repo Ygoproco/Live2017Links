@@ -1,15 +1,16 @@
 --おジャマッチング
 --Ojamatching
 --Scripted by Eerie Code
-function c38395123.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c38395123.cost)
-	e1:SetTarget(c38395123.target)
-	e1:SetOperation(c38395123.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	--draw
 	local e2=Effect.CreateEffect(c)
@@ -18,52 +19,52 @@ function c38395123.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCost(aux.bfgcost)
-	e2:SetTarget(c38395123.drtg)
-	e2:SetOperation(c38395123.drop)
+	e2:SetTarget(s.drtg)
+	e2:SetOperation(s.drop)
 	c:RegisterEffect(e2)
 end
-function c38395123.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
-function c38395123.cfilter(c,tp)
+function s.cfilter(c,tp)
 	return c:IsSetCard(0xf) and (c:IsFaceup() or not c:IsOnField()) and c:IsAbleToGraveAsCost()
-		and Duel.IsExistingMatchingCard(c38395123.filter1,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,c,c:GetCode())
-		and Duel.IsExistingMatchingCard(c38395123.filter2,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,c)
+		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,c,c:GetCode())
+		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,c)
 end
-function c38395123.filter1(c,cd)
+function s.filter1(c,cd)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xf) and not c:IsCode(cd) and c:IsAbleToHand()
 end
-function c38395123.filter2(c)
+function s.filter2(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x111) and c:IsAbleToHand()
 end
-function c38395123.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		if e:GetLabel()~=1 then return false end
 		e:SetLabel(0)
-		return Duel.IsExistingMatchingCard(c38395123.cfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler(),tp)
+		return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler(),tp)
 	end
 	e:SetLabel(0)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c38395123.cfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,e:GetHandler(),tp)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,e:GetHandler(),tp)
 	e:SetLabelObject(g:GetFirst())
 	Duel.SendtoGrave(g,REASON_COST)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,2,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
-function c38395123.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local sc=e:GetLabelObject()
-	local g1=Duel.GetMatchingGroup(aux.NecroValleyFilter(c38395123.filter1),tp,LOCATION_DECK+LOCATION_GRAVE,0,sc,sc:GetCode())
-	local g2=Duel.GetMatchingGroup(aux.NecroValleyFilter(c38395123.filter2),tp,LOCATION_DECK+LOCATION_GRAVE,0,sc)
-	if g1:GetCount()==0 or g2:GetCount()==0 then return end
+	local g1=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.filter1),tp,LOCATION_DECK+LOCATION_GRAVE,0,sc,sc:GetCode())
+	local g2=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.filter2),tp,LOCATION_DECK+LOCATION_GRAVE,0,sc)
+	if #g1==0 or #g2==0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=g1:Select(tp,1,1,nil)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local gg=g2:Select(tp,1,1,nil)
 	g:Merge(gg)
-	if g:GetCount()==2 and Duel.SendtoHand(g,nil,REASON_EFFECT)>0 then
+	if #g==2 and Duel.SendtoHand(g,nil,REASON_EFFECT)>0 then
 		Duel.ConfirmCards(1-tp,g)
 		local og=Duel.GetOperatedGroup():Filter(Card.IsSummonable,nil,true,nil)
-		if og:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(38395123,0)) then
+		if #og>0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SUMMON)
 			local sg=og:Select(tp,1,1,nil):GetFirst()
@@ -71,22 +72,22 @@ function c38395123.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c38395123.tdfilter(c)
+function s.tdfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(0xf) and c:IsAbleToDeck()
 end
-function c38395123.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and c38395123.tdfilter(chkc) end
+function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and s.tdfilter(chkc) end
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1)
-		and Duel.IsExistingTarget(c38395123.tdfilter,tp,LOCATION_REMOVED,0,3,nil) end
+		and Duel.IsExistingTarget(s.tdfilter,tp,LOCATION_REMOVED,0,3,nil) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c38395123.tdfilter,tp,LOCATION_REMOVED,0,3,3,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
+	local g=Duel.SelectTarget(tp,s.tdfilter,tp,LOCATION_REMOVED,0,3,3,nil)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
-function c38395123.drop(e,tp,eg,ep,ev,re,r,rp)
+function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if tg:GetCount()<=0 then return end
+	if #tg<=0 then return end
 	Duel.SendtoDeck(tg,nil,0,REASON_EFFECT)
 	local g=Duel.GetOperatedGroup()
 	if g:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then Duel.ShuffleDeck(tp) end

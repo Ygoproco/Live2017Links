@@ -1,7 +1,8 @@
 --見習い魔嬢
 --Apprentice Witchling
 --Scripted by Eerie Code
-function c71384012.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK),2,2)
 	c:EnableReviveLimit()
@@ -26,31 +27,31 @@ function c71384012.initial_effect(c)
 	c:RegisterEffect(e4)
 	--tohand
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(71384012,0))
+	e5:SetDescription(aux.Stringid(id,0))
 	e5:SetCategory(CATEGORY_TOHAND)
 	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e5:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e5:SetCode(EVENT_DESTROYED)
-	e5:SetCountLimit(1,71384012)
-	e5:SetCondition(c71384012.thcon)
-	e5:SetTarget(c71384012.thtg)
-	e5:SetOperation(c71384012.thop)
+	e5:SetCountLimit(1,id)
+	e5:SetCondition(s.thcon)
+	e5:SetTarget(s.thtg)
+	e5:SetOperation(s.thop)
 	c:RegisterEffect(e5)
 end
-function c71384012.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0
+function s.thcon(e,tp,eg,ep,ev,re,r,rp)
+	return (r&REASON_EFFECT+REASON_BATTLE)~=0
 end
-function c71384012.thfilter(c)
+function s.thfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToHand()
 end
-function c71384012.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c71384012.thfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c71384012.thfilter,tp,LOCATION_GRAVE,0,1,nil) end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.thfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.thfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectTarget(tp,c71384012.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
 end
-function c71384012.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)

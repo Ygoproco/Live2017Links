@@ -1,37 +1,38 @@
 --モンスター・スロット
-function c9576193.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_REMOVE+CATEGORY_SPECIAL_SUMMON+CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c9576193.target)
-	e1:SetOperation(c9576193.activate)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c9576193.filter1(c,tp)
+function s.filter1(c,tp)
 	local lv=c:GetLevel()
-	return lv>0 and c:IsFaceup() and Duel.IsExistingTarget(c9576193.filter2,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,lv)
+	return lv>0 and c:IsFaceup() and Duel.IsExistingTarget(s.filter2,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,lv)
 end
-function c9576193.filter2(c,lv)
+function s.filter2(c,lv)
 	return c:IsLevel(lv) and c:IsAbleToRemove() and aux.SpElimFilter(c,true)
 end
-function c9576193.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
 		and Duel.IsPlayerCanDraw(tp,1) and Duel.IsPlayerCanSpecialSummon(tp) 
-		and Duel.IsExistingTarget(c9576193.filter1,tp,LOCATION_MZONE,0,1,nil,tp) end
+		and Duel.IsExistingTarget(s.filter1,tp,LOCATION_MZONE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local g1=Duel.SelectTarget(tp,c9576193.filter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
+	local g1=Duel.SelectTarget(tp,s.filter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g2=Duel.SelectTarget(tp,c9576193.filter2,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,g1:GetFirst():GetLevel())
+	local g2=Duel.SelectTarget(tp,s.filter2,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,g1:GetFirst():GetLevel())
 	e:SetLabelObject(g1:GetFirst())
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g2,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,0,tp,LOCATION_HAND)
 end
-function c9576193.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc1=e:GetLabelObject()
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tc2=g:GetFirst()

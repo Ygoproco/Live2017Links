@@ -51,7 +51,7 @@ function s.splimcon(e)
 	return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),LOCATION_MZONE,0)>0
 end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp)
-	return bit.band(sumtype,SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
+	return (sumtype&SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
 end
 function s.rccfilter(c)
 	return c:IsFaceup() and c:IsCode(13331639)
@@ -101,7 +101,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetLocationCountFromEx(tp)<=0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
-		if g:GetCount()==0 then return end
+		if #g==0 then return end
 		local sc=g:GetFirst()
 		if Duel.SpecialSummonStep(sc,0,tp,tp,false,false,POS_FACEUP) then
 			local e1=Effect.CreateEffect(c)

@@ -1,6 +1,7 @@
 --Silent Magician LV4
 --サイレント・マジシャン LV4
-function c73665146.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableCounterPermit(0x1)
 	c:SetCounterLimit(0x1,5)
 	--draw
@@ -8,7 +9,7 @@ function c73665146.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_DRAW)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetOperation(c73665146.addc)
+	e1:SetOperation(s.addc)
 	c:RegisterEffect(e1)
 	--attackup
 	local e2=Effect.CreateEffect(c)
@@ -16,51 +17,51 @@ function c73665146.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetValue(c73665146.attackup)
+	e2:SetValue(s.attackup)
 	c:RegisterEffect(e2)
 	--special summon
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(73665146,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCode(EVENT_PHASE+PHASE_STANDBY)
-	e3:SetCondition(c73665146.spcon)
-	e3:SetCost(c73665146.spcost)
-	e3:SetTarget(c73665146.sptg)
-	e3:SetOperation(c73665146.spop)
+	e3:SetCondition(s.spcon)
+	e3:SetCost(s.spcost)
+	e3:SetTarget(s.sptg)
+	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
-c73665146.lvupcount=1
-c73665146.lvup={72443568}
-function c73665146.addc(e,tp,eg,ep,ev,re,r,rp)
+s.lvupcount=1
+s.lvup={72443568}
+function s.addc(e,tp,eg,ep,ev,re,r,rp)
 	if ep~=tp then
 		e:GetHandler():AddCounter(0x1,1)
 	end
 end
-function c73665146.attackup(e,c)
+function s.attackup(e,c)
 	return c:GetCounter(0x1)*500
 end
-function c73665146.spcon(e,tp,eg,ep,ev,re,r,rp)
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetCounter(0x1)==5 and tp==Duel.GetTurnPlayer()
 end
-function c73665146.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
-function c73665146.spfilter(c,e,tp)
+function s.spfilter(c,e,tp)
 	return c:IsCode(72443568) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
-function c73665146.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if e:GetHandler():GetSequence()<5 then ft=ft+1 end
-	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(c73665146.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
+	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
-function c73665146.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,c73665146.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummon(tc,0,tp,tp,true,true,POS_FACEUP)>0 then
 		tc:CompleteProcedure()
 	end

@@ -1,5 +1,6 @@
 --アポクリフォート・キラー
-function c27279764.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -10,16 +11,16 @@ function c27279764.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_TRIBUTE_LIMIT)
-	e2:SetValue(c27279764.tlimit)
+	e2:SetValue(s.tlimit)
 	c:RegisterEffect(e2)
 	--summon with 3 tribute
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(27279764,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e3:SetCode(EFFECT_LIMIT_SUMMON_PROC)
-	e3:SetCondition(c27279764.ttcon)
-	e3:SetOperation(c27279764.ttop)
+	e3:SetCondition(s.ttcon)
+	e3:SetOperation(s.ttop)
 	e3:SetValue(SUMMON_TYPE_ADVANCE)
 	c:RegisterEffect(e3)
 	local e4=e3:Clone()
@@ -31,8 +32,8 @@ function c27279764.initial_effect(c)
 	e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_UNCOPYABLE)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetCode(EFFECT_IMMUNE_EFFECT)
-	e5:SetCondition(c27279764.immcon)
-	e5:SetValue(c27279764.efilter)
+	e5:SetCondition(s.immcon)
+	e5:SetValue(s.efilter)
 	c:RegisterEffect(e5)
 	--atk/def down
 	local e6=Effect.CreateEffect(c)
@@ -40,7 +41,7 @@ function c27279764.initial_effect(c)
 	e6:SetCode(EFFECT_UPDATE_ATTACK)
 	e6:SetRange(LOCATION_MZONE)
 	e6:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e6:SetTarget(c27279764.adtg)
+	e6:SetTarget(s.adtg)
 	e6:SetValue(-500)
 	c:RegisterEffect(e6)
 	local e7=e6:Clone()
@@ -52,14 +53,14 @@ function c27279764.initial_effect(c)
 	e8:SetType(EFFECT_TYPE_IGNITION)
 	e8:SetRange(LOCATION_MZONE)
 	e8:SetCountLimit(1)
-	e8:SetTarget(c27279764.tgtg)
-	e8:SetOperation(c27279764.tgop)
+	e8:SetTarget(s.tgtg)
+	e8:SetOperation(s.tgop)
 	c:RegisterEffect(e8)
 end
-function c27279764.tlimit(e,c)
+function s.tlimit(e,c)
 	return not c:IsSetCard(0xaa)
 end
-function c27279764.val(c,sc,ma)
+function s.val(c,sc,ma)
 	local eff3={c:GetCardEffect(EFFECT_TRIPLE_TRIBUTE)}
 	if ma>=3 then
 		for _,te in ipairs(eff3) do
@@ -72,39 +73,39 @@ function c27279764.val(c,sc,ma)
 	end
 	return 1
 end
-function c27279764.rescon(sg,e,tp,mg)
-	local ct=sg:GetCount()
-	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:CheckWithSumEqual(c27279764.val,3,ct,ct,e:GetHandler(),3)
+function s.rescon(sg,e,tp,mg)
+	local ct=#sg
+	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:CheckWithSumEqual(s.val,3,ct,ct,e:GetHandler(),3)
 end
-function c27279764.ttcon(e,c,minc)
+function s.ttcon(e,c,minc)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local g=Duel.GetTributeGroup(c)
-	return minc<=3 and Duel.GetLocationCount(tp,LOCATION_MZONE)>-3 and aux.SelectUnselectGroup(g,e,tp,1,3,c27279764.rescon,0)
+	return minc<=3 and Duel.GetLocationCount(tp,LOCATION_MZONE)>-3 and aux.SelectUnselectGroup(g,e,tp,1,3,s.rescon,0)
 end
-function c27279764.ttop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.ttop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=Duel.GetTributeGroup(c)
-	local sg=aux.SelectUnselectGroup(g,e,tp,1,3,c27279764.rescon,1,tp,HINTMSG_RELEASE,c27279764.rescon)
+	local sg=aux.SelectUnselectGroup(g,e,tp,1,3,s.rescon,1,tp,HINTMSG_RELEASE,s.rescon)
 	c:SetMaterial(sg)
 	Duel.Release(sg,REASON_SUMMON+REASON_MATERIAL)
 end
-function c27279764.immcon(e)
+function s.immcon(e)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_NORMAL)
 end
-function c27279764.efilter(e,te)
+function s.efilter(e,te)
 	if te:IsActiveType(TYPE_SPELL+TYPE_TRAP) then return true
 	else return aux.qlifilter(e,te) end
 end
-function c27279764.adtg(e,c)
+function s.adtg(e,c)
 	return c:IsSummonType(SUMMON_TYPE_SPECIAL)
 end
-function c27279764.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE+LOCATION_HAND)>0 end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,0,LOCATION_MZONE+LOCATION_HAND)
 end
-function c27279764.tgop(e,tp,eg,ep,ev,re,r,rp)
+function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsType,1-tp,LOCATION_MZONE+LOCATION_HAND,0,nil,TYPE_MONSTER)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TOGRAVE)
 		local sg=g:Select(1-tp,1,1,nil)
 		Duel.HintSelection(sg)

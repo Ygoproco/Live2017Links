@@ -1,5 +1,6 @@
 --王宮のお触れ
-function c51452091.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -12,14 +13,14 @@ function c51452091.initial_effect(c)
 	e2:SetCode(EFFECT_DISABLE)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetTargetRange(LOCATION_SZONE,LOCATION_SZONE)
-	e2:SetTarget(c51452091.distarget)
+	e2:SetTarget(s.distarget)
 	c:RegisterEffect(e2)
 	--disable effect
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetOperation(c51452091.disop)
+	e3:SetOperation(s.disop)
 	c:RegisterEffect(e3)
 	--disable trap monster
 	local e4=Effect.CreateEffect(c)
@@ -27,7 +28,7 @@ function c51452091.initial_effect(c)
 	e4:SetCode(EFFECT_DISABLE_TRAPMONSTER)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e4:SetTarget(c51452091.distarget)
+	e4:SetTarget(s.distarget)
 	c:RegisterEffect(e4)
 	--Double Snare
 	local e5=Effect.CreateEffect(c)
@@ -37,10 +38,10 @@ function c51452091.initial_effect(c)
 	e5:SetCode(3682106)
 	c:RegisterEffect(e5)
 end
-function c51452091.distarget(e,c)
+function s.distarget(e,c)
 	return c~=e:GetHandler() and c:IsType(TYPE_TRAP)
 end
-function c51452091.disop(e,tp,eg,ep,ev,re,r,rp)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tl=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	if tl==LOCATION_SZONE and re:IsActiveType(TYPE_TRAP) and re:GetHandler()~=e:GetHandler() then
 		Duel.NegateEffect(ev)

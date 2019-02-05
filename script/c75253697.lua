@@ -1,57 +1,58 @@
 --No.72 ラインモンスター チャリオッツ・飛車
-function c75253697.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,nil,6,2)
 	c:EnableReviveLimit()
 	--destroy
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(75253697,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
-	e1:SetCost(c75253697.descost)
-	e1:SetTarget(c75253697.destg)
-	e1:SetOperation(c75253697.desop)
-	c:RegisterEffect(e1,false,1)
+	e1:SetCost(s.descost)
+	e1:SetTarget(s.destg)
+	e1:SetOperation(s.desop)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 end
-c75253697.xyz_number=72
-function c75253697.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+s.xyz_number=72
+function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,2,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,2,2,REASON_COST)
 end
-function c75253697.dfilter(c,pos)
+function s.dfilter(c,pos)
 	return c:IsPosition(pos)
 end
-function c75253697.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c75253697.dfilter,tp,0,LOCATION_MZONE,1,nil,POS_FACEUP)
-		and Duel.IsExistingTarget(c75253697.dfilter,tp,0,LOCATION_SZONE,1,nil,POS_FACEDOWN) end
+	if chk==0 then return Duel.IsExistingTarget(s.dfilter,tp,0,LOCATION_MZONE,1,nil,POS_FACEUP)
+		and Duel.IsExistingTarget(s.dfilter,tp,0,LOCATION_SZONE,1,nil,POS_FACEDOWN) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g1=Duel.SelectTarget(tp,c75253697.dfilter,tp,0,LOCATION_MZONE,1,1,nil,POS_FACEUP)
+	local g1=Duel.SelectTarget(tp,s.dfilter,tp,0,LOCATION_MZONE,1,1,nil,POS_FACEUP)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g2=Duel.SelectTarget(tp,c75253697.dfilter,tp,0,LOCATION_SZONE,1,1,nil,POS_FACEDOWN)
+	local g2=Duel.SelectTarget(tp,s.dfilter,tp,0,LOCATION_SZONE,1,1,nil,POS_FACEDOWN)
 	g1:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,2,0,0)
 end
-function c75253697.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if tg:GetCount()>0 then
+	if #tg>0 then
 		Duel.Destroy(tg,REASON_EFFECT)
 	end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e1:SetCondition(c75253697.dcon)
-	e1:SetOperation(c75253697.dop)
+	e1:SetCondition(s.dcon)
+	e1:SetOperation(s.dop)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-function c75253697.dcon(e,tp,eg,ep,ev,re,r,rp)
+function s.dcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
-function c75253697.dop(e,tp,eg,ep,ev,re,r,rp)
+function s.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end

@@ -35,13 +35,13 @@ end
 	--Check for "Utopia" Xyz monster, excluding "Number 39: Utopia Double"
 function s.spfilter(c,e,tp,mc,pg)
 	return c:IsType(TYPE_XYZ) and c:IsSetCard(0x107f) and not c:IsCode(id) and mc:IsCanBeXyzMaterial(c,tp)
-		and (pg:GetCount()<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+		and (#pg<=0 or pg:IsContains(mc)) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 	--Activation legality
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
 		local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-		return pg:GetCount()<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
+		return #pg<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
 		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,e:GetHandler(),pg)
 		and Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)

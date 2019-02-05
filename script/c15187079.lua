@@ -1,5 +1,6 @@
 --地縛神 Uru
-function c15187079.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:SetUniqueOnField(1,1,aux.FilterBoolFunction(Card.IsSetCard,0x21),LOCATION_MZONE)
 	--
 	local e4=Effect.CreateEffect(c)
@@ -7,7 +8,7 @@ function c15187079.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EFFECT_SELF_DESTROY)
-	e4:SetCondition(c15187079.sdcon)
+	e4:SetCondition(s.sdcon)
 	c:RegisterEffect(e4)
 	--battle target
 	local e5=Effect.CreateEffect(c)
@@ -24,41 +25,41 @@ function c15187079.initial_effect(c)
 	c:RegisterEffect(e6)
 	--damage
 	local e7=Effect.CreateEffect(c)
-	e7:SetDescription(aux.Stringid(15187079,0))
+	e7:SetDescription(aux.Stringid(id,0))
 	e7:SetCategory(CATEGORY_CONTROL)
 	e7:SetType(EFFECT_TYPE_IGNITION)
 	e7:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e7:SetRange(LOCATION_MZONE)
 	e7:SetCountLimit(1)
-	e7:SetCost(c15187079.ctcost)
-	e7:SetTarget(c15187079.cttg)
-	e7:SetOperation(c15187079.ctop)
+	e7:SetCost(s.ctcost)
+	e7:SetTarget(s.cttg)
+	e7:SetOperation(s.ctop)
 	c:RegisterEffect(e7)
 end
-function c15187079.sdcon(e)
+function s.sdcon(e)
 	local c=e:GetHandler()
 	if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
 	local f1=Duel.GetFieldCard(0,LOCATION_SZONE,5)
 	local f2=Duel.GetFieldCard(1,LOCATION_SZONE,5)
 	return ((f1==nil or not f1:IsFaceup()) and (f2==nil or not f2:IsFaceup()))
 end
-function c15187079.ctcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local dg=Duel.GetMatchingGroup(c15187079.filter,tp,0,LOCATION_MZONE,nil,e)
+function s.ctcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local dg=Duel.GetMatchingGroup(s.filter,tp,0,LOCATION_MZONE,nil,e)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,aux.ReleaseCheckTarget,e:GetHandler(),dg) end
 	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,aux.ReleaseCheckTarget,e:GetHandler(),dg)
 	Duel.Release(g,REASON_COST)
 end
-function c15187079.filter(c,e)
+function s.filter(c,e)
 	return c:IsFaceup() and c:IsAbleToChangeControler() and (not e or c:IsCanBeEffectTarget(e))
 end
-function c15187079.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c15187079.filter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c15187079.filter,tp,0,LOCATION_MZONE,1,nil) end
+function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.filter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	local g=Duel.SelectTarget(tp,c15187079.filter,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_CONTROL,g,1,0,0)
 end
-function c15187079.ctop(e,tp,eg,ep,ev,re,r,rp)
+function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.GetControl(tc,tp,PHASE_END,1)

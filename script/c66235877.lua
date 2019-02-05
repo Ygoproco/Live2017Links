@@ -1,5 +1,6 @@
 --デス・デーモン・ドラゴン
-function c66235877.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
 	aux.AddFusionProcMix(c,false,false,93220472,16475472)
@@ -16,12 +17,12 @@ function c66235877.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_CHAIN_SOLVING)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetOperation(c66235877.disop)
+	e2:SetOperation(s.disop)
 	c:RegisterEffect(e2)
 	--
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetCode(66235877)
+	e3:SetCode(id)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	c:RegisterEffect(e3)
@@ -33,8 +34,8 @@ function c66235877.initial_effect(c)
 	e4:SetCode(3682106)
 	c:RegisterEffect(e4)
 end
-c66235877.material_setcode=0x45
-function c66235877.disop(e,tp,eg,ep,ev,re,r,rp)
+s.material_setcode=0x45
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if re:IsActiveType(TYPE_FLIP) then Duel.NegateEffect(ev) end
 	if re:IsActiveType(TYPE_TRAP) and re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
 		local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)

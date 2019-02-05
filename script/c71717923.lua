@@ -1,35 +1,36 @@
 --モーム
-function c71717923.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--destroy
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(71717923,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCost(c71717923.descost)
-	e1:SetTarget(c71717923.destg)
-	e1:SetOperation(c71717923.desop)
+	e1:SetCost(s.descost)
+	e1:SetTarget(s.destg)
+	e1:SetOperation(s.desop)
 	c:RegisterEffect(e1)
 end
-function c71717923.costfilter(c)
+function s.costfilter(c)
 	return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_EARTH)
-		and Duel.IsExistingMatchingCard(c71717923.filter,0,LOCATION_MZONE,LOCATION_MZONE,1,c,c:GetAttack())
+		and Duel.IsExistingMatchingCard(s.filter,0,LOCATION_MZONE,LOCATION_MZONE,1,c,c:GetAttack())
 end
-function c71717923.filter(c,atk)
+function s.filter(c,atk)
 	return c:IsFaceup() and c:IsDefenseBelow(atk)
 end
-function c71717923.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,c71717923.costfilter,1,false,nil,nil) end
-	local g=Duel.SelectReleaseGroupCost(tp,c71717923.costfilter,1,1,false,nil,nil)
+function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.costfilter,1,false,nil,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.costfilter,1,1,false,nil,nil)
 	e:SetLabel(g:GetFirst():GetAttack())
 	Duel.Release(g,REASON_COST)
 end
-function c71717923.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	local g=Duel.GetMatchingGroup(c71717923.filter,0,LOCATION_MZONE,LOCATION_MZONE,nil,e:GetLabel())
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	local g=Duel.GetMatchingGroup(s.filter,0,LOCATION_MZONE,LOCATION_MZONE,nil,e:GetLabel())
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
-function c71717923.desop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(c71717923.filter,0,LOCATION_MZONE,LOCATION_MZONE,nil,e:GetLabel())
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(s.filter,0,LOCATION_MZONE,LOCATION_MZONE,nil,e:GetLabel())
 	Duel.Destroy(g,REASON_EFFECT)
 end

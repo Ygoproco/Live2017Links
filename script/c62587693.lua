@@ -74,7 +74,7 @@ function s.disop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-    return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
+    return (r&REASON_EFFECT+REASON_BATTLE)~=0 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 function s.thfilter(c,ec)
     return c:IsLevel(9) and c:IsAbleToHand() 

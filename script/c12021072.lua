@@ -37,7 +37,7 @@ function s.filter(c,tp)
 	return c:GetSummonPlayer()==tp
 end
 function s.hcondition(e,tp,eg,ep,ev,re,r,rp)
-	return eg and eg:IsExists(c12021072.filter,1,nil,1-tp)
+	return eg and eg:IsExists(s.filter,1,nil,1-tp)
 end
 function s.hcondition2(e,tp,eg,ep,ev,re,r,rp)
 	return eg and eg:IsExists(Card.IsControler,1,nil,1-tp)

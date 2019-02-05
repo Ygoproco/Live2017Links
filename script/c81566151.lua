@@ -1,9 +1,10 @@
 --E・HERO フレア・ネオス
-function c81566151.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMix(c,true,true,89943723,89621922)
-	aux.AddContactFusion(c,c81566151.contactfil,c81566151.contactop,c81566151.splimit)
+	aux.AddFusionProcMix(c,true,true,CARD_NEOS,89621922)
+	aux.AddContactFusion(c,s.contactfil,s.contactop,s.splimit)
 	aux.EnableNeosReturn(c)
 	--atkup
 	local e5=Effect.CreateEffect(c)
@@ -11,21 +12,21 @@ function c81566151.initial_effect(c)
 	e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e5:SetCode(EFFECT_UPDATE_ATTACK)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetValue(c81566151.atkval)
+	e5:SetValue(s.atkval)
 	c:RegisterEffect(e5)
 end
-c81566151.listed_names={89943723}
-c81566151.material_setcode={0x8,0x3008,0x9,0x1f}
-function c81566151.contactfil(tp)
+s.listed_names={CARD_NEOS}
+s.material_setcode={0x8,0x3008,0x9,0x1f}
+function s.contactfil(tp)
 	return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost,tp,LOCATION_ONFIELD,0,nil)
 end
-function c81566151.contactop(g,tp)
+function s.contactop(g,tp)
 	Duel.ConfirmCards(1-tp,g)
 	Duel.SendtoDeck(g,nil,2,REASON_COST+REASON_MATERIAL)
 end
-function c81566151.splimit(e,se,sp,st)
+function s.splimit(e,se,sp,st)
 	return not e:GetHandler():IsLocation(LOCATION_EXTRA)
 end
-function c81566151.atkval(e,c)
+function s.atkval(e,c)
 	return Duel.GetMatchingGroupCount(Card.IsType,0,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,TYPE_SPELL+TYPE_TRAP)*400
 end

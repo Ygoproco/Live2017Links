@@ -1,45 +1,46 @@
 --古代の機械融合
 --Ancient Gear Fusion
-function c64061284.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c64061284.target)
-	e1:SetOperation(c64061284.activate)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	if not AshBlossomTable then AshBlossomTable={} end
 	table.insert(AshBlossomTable,e1)
 end
-c64061284.listed_names={83104731,95735217}
-function c64061284.fcheck(tp,sg,fc,mg)
+s.listed_names={83104731,95735217}
+function s.fcheck(tp,sg,fc,mg)
 	if sg:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then
-		return sg:IsExists(c64061284.filterchk,1,nil) end
+		return sg:IsExists(s.filterchk,1,nil) end
 	return true
 end
-function c64061284.filterchk(c)
+function s.filterchk(c)
 	return c:IsFaceup() and c:IsCode(83104731,95735217) and c:IsOnField()
 end
-function c64061284.filter0(c)
+function s.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end
-function c64061284.filter1(c,e)
+function s.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end
-function c64061284.filter2(c,e,tp,m,f)
+function s.filter2(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0x7) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
-function c64061284.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg=Duel.GetFusionMaterial(tp)
-		local mg2=Duel.GetMatchingGroup(c64061284.filter0,tp,LOCATION_DECK,0,nil)
-		if mg:IsExists(c64061284.filterchk,1,nil) and mg2:GetCount()>0 then
+		local mg2=Duel.GetMatchingGroup(s.filter0,tp,LOCATION_DECK,0,nil)
+		if mg:IsExists(s.filterchk,1,nil) and #mg2>0 then
 			mg:Merge(mg2)
-			aux.FCheckAdditional=c64061284.fcheck
+			aux.FCheckAdditional=s.fcheck
 		end
-		local res=Duel.IsExistingMatchingCard(c64061284.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg,nil)
+		local res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg,nil)
 		aux.FCheckAdditional=nil
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
@@ -47,20 +48,20 @@ function c64061284.target(e,tp,eg,ep,ev,re,r,rp,chk)
 				local fgroup=ce:GetTarget()
 				local mg3=fgroup(ce,e,tp)
 				local mf=ce:GetValue()
-				res=Duel.IsExistingMatchingCard(c64061284.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg3,mf)
+				res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg3,mf)
 			end
 		end
 		return res
 	end
 end
-function c64061284.activate(e,tp,eg,ep,ev,re,r,rp)
-	local mg1=Duel.GetFusionMaterial(tp):Filter(c64061284.filter1,nil,e)
-	local mg2=Duel.GetMatchingGroup(c64061284.filter0,tp,LOCATION_DECK,0,nil)
-	if mg1:IsExists(c64061284.filterchk,1,nil) and mg2:GetCount()>0 then
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	local mg1=Duel.GetFusionMaterial(tp):Filter(s.filter1,nil,e)
+	local mg2=Duel.GetMatchingGroup(s.filter0,tp,LOCATION_DECK,0,nil)
+	if mg1:IsExists(s.filterchk,1,nil) and #mg2>0 then
 		mg1:Merge(mg2)
-		aux.FCheckAdditional=c64061284.fcheck
+		aux.FCheckAdditional=s.fcheck
 	end
-	local sg1=Duel.GetMatchingGroup(c64061284.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
+	local sg1=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	aux.FCheckAdditional=nil
 	local mg2=nil
 	local sg2=nil
@@ -69,7 +70,7 @@ function c64061284.activate(e,tp,eg,ep,ev,re,r,rp)
 		local fgroup=ce:GetTarget()
 		mg2=fgroup(ce,e,tp)
 		local mf=ce:GetValue()
-		sg2=Duel.GetMatchingGroup(c64061284.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,mf)
+		sg2=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,mf)
 	end
 	local sg=sg1:Clone()
 	if sg2 then sg:Merge(sg2) end
@@ -78,7 +79,7 @@ function c64061284.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=tg:GetFirst()
 	if not tc then return end
 	if sg1:IsContains(tc) and (sg2==nil or not sg2:IsContains(tc) or not Duel.SelectYesNo(tp,ce:GetDescription())) then
-		aux.FCheckAdditional=c64061284.fcheck
+		aux.FCheckAdditional=s.fcheck
 		local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,nil,tp)
 		aux.FCheckAdditional=nil
 		tc:SetMaterial(mat1)

@@ -1,5 +1,6 @@
 --魔術師の左手
-function c13758665.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -11,8 +12,8 @@ function c13758665.initial_effect(c)
 	e2:SetCode(EVENT_CHAIN_SOLVING)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCountLimit(1)
-	e2:SetCondition(c13758665.negcon)
-	e2:SetOperation(c13758665.negop)
+	e2:SetCondition(s.negcon)
+	e2:SetOperation(s.negop)
 	c:RegisterEffect(e2)
 	--Double Snare
 	local e3=Effect.CreateEffect(c)
@@ -22,14 +23,14 @@ function c13758665.initial_effect(c)
 	e3:SetCode(3682106)
 	c:RegisterEffect(e3)
 end
-function c13758665.cfilter(c)
+function s.cfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_SPELLCASTER)
 end
-function c13758665.negcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c13758665.cfilter,tp,LOCATION_MZONE,0,1,nil)
+function s.negcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
 		and rp~=tp and re:IsActiveType(TYPE_TRAP) and Duel.IsChainDisablable(ev) 
 end
-function c13758665.negop(e,tp,eg,ep,ev,re,r,rp)
+function s.negop(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	if Duel.NegateEffect(ev) and rc:IsRelateToEffect(re) then
 		Duel.Destroy(rc,REASON_EFFECT)

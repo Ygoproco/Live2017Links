@@ -166,7 +166,7 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
 	local ft1=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ft2=Duel.GetLocationCountFromEx(tp)
 	local ft=Duel.GetUsableMZoneCount(tp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then
 		if ft1>0 then ft1=1 end
 		if ft2>0 then ft2=1 end
 		ft=1
@@ -182,7 +182,7 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
 	end
 	ft1=math.min(ft1,tg:FilterCount(Card.IsLocation,nil,LOCATION_HAND))
 	ft2=math.min(ft2,tg:FilterCount(Card.IsLocation,nil,LOCATION_EXTRA))
-	local ect=c29724053 and Duel.IsPlayerAffectedByEffect(tp,29724053) and c29724053[tp]
+	local ect=cCARD_SUMMON_GATE and Duel.IsPlayerAffectedByEffect(tp,CARD_SUMMON_GATE) and cCARD_SUMMON_GATE[tp]
 	if ect and ect<ft2 then ft2=ect end
 	while true do
 		local ct1=tg:FilterCount(Card.IsLocation,nil,LOCATION_HAND)
@@ -194,7 +194,7 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
 		if ft1>0 then loc=loc+LOCATION_HAND end
 		if ft2>0 then loc=loc+LOCATION_EXTRA end
 		local g=tg:Filter(Card.IsLocation,sg,loc)
-		if g:GetCount()==0 or ft==0 then break end
+		if #g==0 or ft==0 then break end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local tc=Group.SelectUnselect(g,sg,tp,true,true)
 		if not tc then break end
@@ -216,7 +216,7 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
 			ft=ft-1
 		end
 	end
-	if sg:GetCount()>0 then
+	if #sg>0 then
 		Duel.Hint(HINT_CARD,0,id)
 		Duel.RegisterFlagEffect(tp,29432356,RESET_PHASE+PHASE_END+RESET_SELF_TURN,0,1)
 		Duel.HintSelection(Group.FromCards(c))

@@ -1,20 +1,21 @@
 --真紅眼融合
-function c6172122.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,6172122+EFFECT_COUNT_CODE_OATH)
-	e1:SetCost(c6172122.cost)
-	e1:SetTarget(c6172122.target)
-	e1:SetOperation(c6172122.activate)
+	e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	if not AshBlossomTable then AshBlossomTable={} end
 	table.insert(AshBlossomTable,e1)
 end
-c6172122.listed_names={74677422}
-function c6172122.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+s.listed_names={CARD_REDEYES_B_DRAGON}
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetActivityCount(tp,ACTIVITY_SUMMON)==0 and Duel.GetActivityCount(tp,ACTIVITY_SPSUMMON)==0 end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -26,46 +27,46 @@ function c6172122.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e2:SetLabelObject(e)
-	e2:SetTarget(c6172122.splimit)
+	e2:SetTarget(s.splimit)
 	Duel.RegisterEffect(e2,tp)
 end
-function c6172122.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return se~=e:GetLabelObject()
 end
-function c6172122.filter0(c)
+function s.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end
-function c6172122.filter1(c,e)
+function s.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end
-function c6172122.filter2(c,e,tp,m,f)
+function s.filter2(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and aux.IsMaterialListSetCard(c,0x3b) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
-function c6172122.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg1=Duel.GetFusionMaterial(tp)
-		local mg2=Duel.GetMatchingGroup(c6172122.filter0,tp,LOCATION_DECK,0,nil)
+		local mg2=Duel.GetMatchingGroup(s.filter0,tp,LOCATION_DECK,0,nil)
 		mg1:Merge(mg2)
-		local res=Duel.IsExistingMatchingCard(c6172122.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
+		local res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
 			if ce~=nil then
 				local fgroup=ce:GetTarget()
 				local mg2=fgroup(ce,e,tp)
 				local mf=ce:GetValue()
-				res=Duel.IsExistingMatchingCard(c6172122.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,mf)
+				res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,mf)
 			end
 		end
 		return res
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function c6172122.activate(e,tp,eg,ep,ev,re,r,rp)
-	local mg1=Duel.GetFusionMaterial(tp):Filter(c6172122.filter1,nil,e)
-	local mg2=Duel.GetMatchingGroup(c6172122.filter0,tp,LOCATION_DECK,0,nil)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	local mg1=Duel.GetFusionMaterial(tp):Filter(s.filter1,nil,e)
+	local mg2=Duel.GetMatchingGroup(s.filter0,tp,LOCATION_DECK,0,nil)
 	mg1:Merge(mg2)
-	local sg1=Duel.GetMatchingGroup(c6172122.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
+	local sg1=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	local mg3=nil
 	local sg2=nil
 	local ce=Duel.GetChainMaterial(tp)
@@ -73,9 +74,9 @@ function c6172122.activate(e,tp,eg,ep,ev,re,r,rp)
 		local fgroup=ce:GetTarget()
 		mg3=fgroup(ce,e,tp)
 		local mf=ce:GetValue()
-		sg2=Duel.GetMatchingGroup(c6172122.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
+		sg2=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
 	end
-	if sg1:GetCount()>0 or (sg2~=nil and sg2:GetCount()>0) then
+	if #sg1>0 or (sg2~=nil and #sg2>0) then
 		local sg=sg1:Clone()
 		if sg2 then sg:Merge(sg2) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -97,8 +98,8 @@ function c6172122.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_CODE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetValue(74677422)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetValue(CARD_REDEYES_B_DRAGON)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
 end

@@ -1,6 +1,7 @@
 --D3
 --D Cubed
 local s,id=GetID(c)
+local s,id=GetID()
 function s.initial_effect(c)
 	--setcode
 	local e1=Effect.CreateEffect(c)
@@ -51,7 +52,7 @@ end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
 	local ct=2
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ct=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ct=1 end
 	ct=math.min(ct,Duel.GetLocationCount(tp,LOCATION_MZONE),
 		Duel.GetMatchingGroupCount(s.spfilter,tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,nil,e,tp))
 	local cg=Duel.DiscardHand(tp,Card.IsDiscardable,1,ct,REASON_COST+REASON_DISCARD,nil)
@@ -66,10 +67,10 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=e:GetLabel()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft>=ct then
-		if ft>1 and ct>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+		if ft>1 and ct>1 and Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,ct,ct,nil,e,tp)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 		end
 	end
@@ -95,7 +96,7 @@ function s.splimit(e,c)
 	return not c:IsSetCard(0xc008)
 end
 function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0
+	return (r&REASON_EFFECT+REASON_BATTLE)~=0
 end
 function s.tgfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xc008) and c:IsAbleToGrave()
@@ -107,7 +108,7 @@ end
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,s.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoGrave(g,REASON_EFFECT)
 	end
 end

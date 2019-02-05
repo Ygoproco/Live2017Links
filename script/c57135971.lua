@@ -1,5 +1,6 @@
 --鎖付き真紅眼牙
-function c57135971.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)
@@ -7,8 +8,8 @@ function c57135971.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCost(aux.RemainFieldCost)
-	e1:SetTarget(c57135971.target)
-	e1:SetOperation(c57135971.operation)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	--sand to grave and equip
 	local e2=Effect.CreateEffect(c)
@@ -18,23 +19,23 @@ function c57135971.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetHintTiming(TIMING_DAMAGE_STEP)
-	e2:SetCondition(c57135971.descon)
-	e2:SetCost(c57135971.descost)
-	e2:SetTarget(c57135971.destg)
-	e2:SetOperation(c57135971.desop)
+	e2:SetCondition(s.descon)
+	e2:SetCost(s.descost)
+	e2:SetTarget(s.destg)
+	e2:SetOperation(s.desop)
 	c:RegisterEffect(e2)
 end
-function c57135971.filter(c)
+function s.filter(c)
 	return c:IsSetCard(0x3b) and c:IsFaceup()
 end
-function c57135971.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return c57135971.filter(chkc) and chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) end
-	if chk==0 then return Duel.IsExistingTarget(c57135971.filter,tp,LOCATION_MZONE,0,1,nil) end
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return s.filter(chkc) and chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) end
+	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c57135971.filter,tp,LOCATION_MZONE,0,1,1,nil)
+	Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 end
-function c57135971.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
 	local tc=Duel.GetFirstTarget()
@@ -44,43 +45,43 @@ function c57135971.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_EQUIP)
 		e1:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
 		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e1)
 		--Equip limit
 		local e3=Effect.CreateEffect(c)
 		e3:SetType(EFFECT_TYPE_SINGLE)
 		e3:SetCode(EFFECT_EQUIP_LIMIT)
 		e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e3:SetValue(c57135971.eqlimit)
-		e3:SetReset(RESET_EVENT+0x1fe0000)
+		e3:SetValue(s.eqlimit)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e3)
 	else
 		c:CancelToGrave(false)
 	end
 end
-function c57135971.eqlimit(e,c)
+function s.eqlimit(e,c)
 	return c:IsSetCard(0x3b)
 end
-function c57135971.descon(e,tp,eg,ep,ev,re,r,rp)
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetEquipTarget() and (Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated())
 end
-function c57135971.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
 	e:SetLabelObject(e:GetHandler():GetEquipTarget())
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
-function c57135971.desfilter(c)
+function s.desfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_EFFECT)
 end
-function c57135971.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local ec=e:GetLabelObject()
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c57135971.desfilter(chkc) and chkc~=ec end
-	if chk==0 then return Duel.IsExistingTarget(c57135971.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler():GetEquipTarget()) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.desfilter(chkc) and chkc~=ec end
+	if chk==0 then return Duel.IsExistingTarget(s.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler():GetEquipTarget()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,c57135971.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,ec)
+	local g=Duel.SelectTarget(tp,s.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,ec)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,1,0,0)
 end
-function c57135971.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local ec=e:GetLabelObject()
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
@@ -91,28 +92,28 @@ function c57135971.desop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_EQUIP)
 			e1:SetCode(EFFECT_SET_ATTACK)
 			e1:SetValue(tc:GetAttack())
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
 			--Def
 			local e2=Effect.CreateEffect(tc)
 			e2:SetType(EFFECT_TYPE_EQUIP)
 			e2:SetCode(EFFECT_SET_DEFENSE)
 			e2:SetValue(tc:GetDefense())
-			e2:SetReset(RESET_EVENT+0x1fe0000)
+			e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e2)
 			--Equip limit
 			local e3=Effect.CreateEffect(tc)
 			e3:SetType(EFFECT_TYPE_SINGLE)
 			e3:SetCode(EFFECT_EQUIP_LIMIT)
 			e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e3:SetValue(c57135971.eqlimit2)
-			e3:SetReset(RESET_EVENT+0x1fe0000)
+			e3:SetValue(s.eqlimit2)
+			e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 			e3:SetLabelObject(ec)
 			tc:RegisterEffect(e3)
 		else Duel.SendtoGrave(tc,REASON_RULE)
 		end
 	end
 end
-function c57135971.eqlimit2(e,c)
+function s.eqlimit2(e,c)
 	return c==e:GetLabelObject()
 end

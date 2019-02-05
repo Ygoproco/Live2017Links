@@ -2,7 +2,7 @@
 --Infinite Ignition Leverstorm
 --scripted by Naim
 local s,id=GetID()
-function c100412007.initial_effect(c)
+function s.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,nil,5,2)
 	c:EnableReviveLimit()
@@ -69,7 +69,7 @@ function s.atchop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and c:IsFaceup() and tc and tc:IsRelateToEffect(e) and not tc:IsLocation(LOCATION_DECK) then
 		local og=tc:GetOverlayGroup()
-		if og:GetCount()>0 then
+		if #og>0 then
 			Duel.SendtoGrave(og,REASON_RULE)
 		end
 		Duel.Overlay(c,Group.FromCards(tc))

@@ -1,5 +1,6 @@
 --超重魔獣キュウ－B
-function c85528209.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,nil,1,1,aux.NonTuner(Card.IsSetCard,0x9a),1,99)
 	c:EnableReviveLimit()
@@ -22,16 +23,16 @@ function c85528209.initial_effect(c)
 	e3:SetCode(EFFECT_UPDATE_DEFENSE)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCondition(c85528209.sccon)
-	e3:SetValue(c85528209.adval)
+	e3:SetCondition(s.sccon)
+	e3:SetValue(s.adval)
 	c:RegisterEffect(e3)
 end
-function c85528209.sccon(e)
+function s.sccon(e)
 	return not Duel.IsExistingMatchingCard(Card.IsType,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil,TYPE_SPELL+TYPE_TRAP)
 end
-function c85528209.adval(e,c)
-	return Duel.GetMatchingGroupCount(c85528209.ctfilter,c:GetControler(),0,LOCATION_MZONE,nil)*900
+function s.adval(e,c)
+	return Duel.GetMatchingGroupCount(s.ctfilter,c:GetControler(),0,LOCATION_MZONE,nil)*900
 end
-function c85528209.ctfilter(c)
-	return bit.band(c:GetSummonType(),SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL
+function s.ctfilter(c)
+	return (c:GetSummonType()&SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL
 end

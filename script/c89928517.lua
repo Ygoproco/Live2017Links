@@ -1,26 +1,27 @@
 --通販売員
 --Two-Man Salesman
 --Scripted by Eerie Code
-function c89928517.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOGRAVE+CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
-	e1:SetTarget(c89928517.target)
-	e1:SetOperation(c89928517.operation)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c89928517.filter(c)
+function s.filter(c)
 	return not c:IsPublic()
 end
-function c89928517.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMatchingGroupCount(c89928517.filter,tp,LOCATION_HAND,0,nil)*Duel.GetMatchingGroupCount(c89928517.filter,tp,0,LOCATION_HAND,nil)>0 end
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_HAND,0,nil)*Duel.GetMatchingGroupCount(s.filter,tp,0,LOCATION_HAND,nil)>0 end
 end
-function c89928517.operation(e,tp,eg,ep,ev,re,r,rp)
-	local hg1=Duel.GetMatchingGroup(c89928517.filter,tp,LOCATION_HAND,0,nil)
-	local hg2=Duel.GetMatchingGroup(c89928517.filter,tp,0,LOCATION_HAND,nil)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	local hg1=Duel.GetMatchingGroup(s.filter,tp,LOCATION_HAND,0,nil)
+	local hg2=Duel.GetMatchingGroup(s.filter,tp,0,LOCATION_HAND,nil)
 	if #hg1==0 or #hg2==0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
 	local tc1=hg1:Select(tp,1,1,nil):GetFirst()
@@ -29,8 +30,8 @@ function c89928517.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmCards(1-tp,tc1)
 	Duel.ConfirmCards(tp,tc2)
 	if tc1:IsType(TYPE_MONSTER) and tc2:IsType(TYPE_MONSTER) then
-		local ask1=Duel.SelectYesNo(tp,aux.Stringid(89928517,1))
-		local ask2=Duel.SelectYesNo(1-tp,aux.Stringid(89928517,1))
+		local ask1=Duel.SelectYesNo(tp,aux.Stringid(id,1))
+		local ask2=Duel.SelectYesNo(1-tp,aux.Stringid(id,1))
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and tc1:IsCanBeSpecialSummoned(e,0,tp,false,false) and ask1 then
 			Duel.SpecialSummonStep(tc1,0,tp,tp,false,false,POS_FACEUP)
 		end

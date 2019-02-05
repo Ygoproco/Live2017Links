@@ -1,48 +1,49 @@
 --サイバー・ドラゴン・ヘルツ
 --Cyber Dragon Hertz
 --scripted by Naim
-function c56364287.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--name change
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetCode(EFFECT_CHANGE_CODE)
 	e1:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
-	e1:SetValue(70095154)
+	e1:SetValue(CARD_CYBER_DRAGON)
 	c:RegisterEffect(e1)
 	--level change
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(56364287,0))
-	e2:SetCountLimit(1,56364287)
+	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetCountLimit(1,id)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
-	e2:SetTarget(c56364287.lvtg)
-	e2:SetOperation(c56364287.lvop)
+	e2:SetTarget(s.lvtg)
+	e2:SetOperation(s.lvop)
 	c:RegisterEffect(e2)
 	--to hand
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(56364287,2))
+	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_TO_GRAVE)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
-	e3:SetCountLimit(1,56364287)
-	e3:SetTarget(c56364287.thtg)
-	e3:SetOperation(c56364287.thop)
+	e3:SetCountLimit(1,id)
+	e3:SetTarget(s.thtg)
+	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
-function c56364287.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not e:GetHandler():IsLevel(5) end
 end
-function c56364287.lvop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.lvop(e,tp,eg,ep,ev,re,r,rp,c)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and c:IsFaceup() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetRange(LOCATION_MZONE)
-		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
 		e1:SetCode(EFFECT_CHANGE_LEVEL)
 		e1:SetValue(5)
 		c:RegisterEffect(e1)
@@ -54,23 +55,23 @@ function c56364287.lvop(e,tp,eg,ep,ev,re,r,rp,c)
 	e2:SetReset(RESET_PHASE+PHASE_END)
 	e2:SetTargetRange(1,0)
 	e2:SetLabelObject(e)
-	e2:SetTarget(c56364287.splimit)
+	e2:SetTarget(s.splimit)
 	Duel.RegisterEffect(e2,tp)
 end
-function c56364287.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return not c:IsRace(RACE_MACHINE)
 end
-function c56364287.thfilter(c)
-	return c:IsCode(70095154) and c:IsAbleToHand()
+function s.thfilter(c)
+	return c:IsCode(CARD_CYBER_DRAGON) and c:IsAbleToHand()
 end
-function c56364287.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c56364287.thfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,e:GetHandler()) end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,e:GetHandler()) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
-function c56364287.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c56364287.thfilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,e:GetHandler())
-	if g:GetCount()>0 then
+	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.thfilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,e:GetHandler())
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

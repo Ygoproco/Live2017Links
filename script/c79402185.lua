@@ -1,13 +1,14 @@
 --ボンディング－D2O
-function c79402185.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c79402185.cost)
-	e1:SetTarget(c79402185.target)
-	e1:SetOperation(c79402185.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	--to hand
 	local e2=Effect.CreateEffect(c)
@@ -16,54 +17,54 @@ function c79402185.initial_effect(c)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_GRAVE)
-	e2:SetCountLimit(1,79402185)
-	e2:SetCondition(c79402185.thcon)
-	e2:SetTarget(c79402185.thtg)
-	e2:SetOperation(c79402185.thop)
+	e2:SetCountLimit(1,id)
+	e2:SetCondition(s.thcon)
+	e2:SetTarget(s.thtg)
+	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
 end
-function c79402185.spcheck(sg,tp)
-	return aux.ReleaseCheckMMZ(sg,tp) and sg:IsExists(c79402185.chk,1,nil,sg)
+function s.spcheck(sg,tp)
+	return aux.ReleaseCheckMMZ(sg,tp) and sg:IsExists(s.chk,1,nil,sg)
 end
-function c79402185.chk(c,sg)
+function s.chk(c,sg)
 	return c:IsCode(58071123) and sg:IsExists(Card.IsCode,2,c,43017476)
 end
-function c79402185.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsCode,3,true,c79402185.spcheck,nil,43017476,58071123) end
-	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsCode,3,3,true,c79402185.spcheck,nil,43017476,58071123)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsCode,3,true,s.spcheck,nil,43017476,58071123) end
+	local sg=Duel.SelectReleaseGroupCost(tp,Card.IsCode,3,3,true,s.spcheck,nil,43017476,58071123)
 	Duel.Release(sg,REASON_COST)
 end
-function c79402185.filter(c,e,tp)
+function s.filter(c,e,tp)
 	return (c:IsCode(85066822) or c:IsCode(6022371)) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
-function c79402185.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		if e:GetLabel()==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)<=-1 then return false end
 		e:SetLabel(0)
-		return Duel.IsExistingMatchingCard(c79402185.filter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp)
+		return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
-function c79402185.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c79402185.filter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.filter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp)
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,true,true,POS_FACEUP)
 		g:GetFirst():CompleteProcedure()
 	end
 end
-function c79402185.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c79402185.thfilter,1,nil)
+function s.thcon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.thfilter,1,nil)
 end
-function c79402185.thfilter(c)
+function s.thfilter(c)
 	return (c:IsCode(85066822) or c:IsCode(6022371)) and c:IsPreviousLocation(LOCATION_ONFIELD)
 end
-function c79402185.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,e:GetHandler(),1,0,0)
 end
-function c79402185.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		Duel.SendtoHand(c,nil,REASON_EFFECT)

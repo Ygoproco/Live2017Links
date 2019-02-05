@@ -1,5 +1,6 @@
 --鎖付きブーメラン
-function c37390589.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)
@@ -7,20 +8,20 @@ function c37390589.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(TIMING_DAMAGE_STEP)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
-	e1:SetCondition(c37390589.condition)
-	e1:SetCost(c37390589.cost)
-	e1:SetTarget(c37390589.target)
-	e1:SetOperation(c37390589.operation)
+	e1:SetCondition(s.condition)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c37390589.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
 end
-function c37390589.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	e:SetLabel(1)
 end
-function c37390589.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then
 		if e:GetLabel()==0 then
 			return false
@@ -35,11 +36,11 @@ function c37390589.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return b1 or b2 end
 	local opt=0
 	if b1 and b2 then
-		opt=Duel.SelectOption(tp,aux.Stringid(37390589,0),aux.Stringid(37390589,1),aux.Stringid(37390589,2))
+		opt=Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1),aux.Stringid(id,2))
 	elseif b1 then
-		opt=Duel.SelectOption(tp,aux.Stringid(37390589,0))
+		opt=Duel.SelectOption(tp,aux.Stringid(id,0))
 	else
-		opt=Duel.SelectOption(tp,aux.Stringid(37390589,1))+1
+		opt=Duel.SelectOption(tp,aux.Stringid(id,1))+1
 	end
 	Duel.SetTargetParam(opt)
 	if opt==0 or opt==2 then
@@ -56,7 +57,7 @@ function c37390589.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	end
 	e:SetLabel(0)
 end
-function c37390589.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local opt=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	if opt==0 or opt==2 then
@@ -75,21 +76,21 @@ function c37390589.operation(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_EQUIP)
 			e1:SetCode(EFFECT_UPDATE_ATTACK)
 			e1:SetValue(500)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			c:RegisterEffect(e1)
 			--Equip limit
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)
 			e2:SetCode(EFFECT_EQUIP_LIMIT)
 			e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e2:SetValue(c37390589.eqlimit)
-			e2:SetReset(RESET_EVENT+0x1fe0000)
+			e2:SetValue(s.eqlimit)
+			e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 			c:RegisterEffect(e2)
 		else
 			c:CancelToGrave(false)
 		end
 	end
 end
-function c37390589.eqlimit(e,c)
+function s.eqlimit(e,c)
 	return c:GetControler()==e:GetOwnerPlayer()
 end

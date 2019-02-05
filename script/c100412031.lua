@@ -95,7 +95,7 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,560)
 	--!system 560 Select
 	local g=Duel.SelectMatchingCard(tp,s.ngtfilt,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,e,lg)
-	if g:GetCount()>0 then
+	if #g>0 then
 		local tc=g:GetFirst()
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)

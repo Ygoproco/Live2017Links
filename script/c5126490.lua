@@ -1,5 +1,6 @@
 --ネオス・ワイズマン
-function c5126490.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition
 	local e1=Effect.CreateEffect(c)
@@ -13,17 +14,17 @@ function c5126490.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
-	e2:SetCondition(c5126490.spcon)
-	e2:SetOperation(c5126490.spop)
+	e2:SetCondition(s.spcon)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--damage&recover
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(5126490,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_DAMAGE+CATEGORY_RECOVER)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetCode(EVENT_DAMAGE_STEP_END)
-	e3:SetTarget(c5126490.damtg)
-	e3:SetOperation(c5126490.damop)
+	e3:SetTarget(s.damtg)
+	e3:SetOperation(s.damop)
 	c:RegisterEffect(e3)
 	--
 	local e4=Effect.CreateEffect(c)
@@ -34,38 +35,38 @@ function c5126490.initial_effect(c)
 	e4:SetValue(1)
 	c:RegisterEffect(e4)
 end
-c5126490.listed_names={89943723}
-function c5126490.spfilter(c,...)
+s.listed_names={CARD_NEOS}
+function s.spfilter(c,...)
 	return c:IsFaceup() and c:IsCode(...) and c:IsAbleToGraveAsCost()
 end
-function c5126490.rescon(sg,e,tp,mg)
-	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:IsExists(c5126490.chk,1,nil,sg)
+function s.rescon(sg,e,tp,mg)
+	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:IsExists(s.chk,1,nil,sg)
 end
-function c5126490.chk(c,sg)
-	return c:IsCode(89943723) and sg:IsExists(Card.IsCode,1,c,78371393)
+function s.chk(c,sg)
+	return c:IsCode(CARD_NEOS) and sg:IsExists(Card.IsCode,1,c,78371393)
 end
-function c5126490.spcon(e,c)
+function s.spcon(e,c)
 	if c==nil then return true end 
 	local tp=c:GetControler()
-	local g1=Duel.GetMatchingGroup(c5126490.spfilter,tp,LOCATION_MZONE,0,nil,89943723)
-	local g2=Duel.GetMatchingGroup(c5126490.spfilter,tp,LOCATION_MZONE,0,nil,78371393)
+	local g1=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_MZONE,0,nil,CARD_NEOS)
+	local g2=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_MZONE,0,nil,78371393)
 	local g=g1:Clone()
 	g:Merge(g2)
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and g1:GetCount()>0 and g2:GetCount()>0 
-		and aux.SelectUnselectGroup(g,e,tp,2,2,c5126490.rescon,0)
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2 and #g1>0 and #g2>0 
+		and aux.SelectUnselectGroup(g,e,tp,2,2,s.rescon,0)
 end
-function c5126490.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local sg=Duel.GetMatchingGroup(c5126490.spfilter,tp,LOCATION_MZONE,0,nil,89943723,78371393)
-	local g=aux.SelectUnselectGroup(sg,e,tp,2,2,c5126490.rescon,1,tp,HINTMSG_TOGRAVE)
+function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
+	local sg=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_MZONE,0,nil,CARD_NEOS,78371393)
+	local g=aux.SelectUnselectGroup(sg,e,tp,2,2,s.rescon,1,tp,HINTMSG_TOGRAVE)
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c5126490.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetAttackTarget()~=nil end
 	local bc=e:GetHandler():GetBattleTarget()
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,bc:GetAttack())
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,bc:GetDefense())
 end
-function c5126490.damop(e,tp,eg,ep,ev,re,r,rp)
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	local bc=e:GetHandler():GetBattleTarget()
 	local atk=bc:GetAttack()
 	local def=bc:GetDefense()

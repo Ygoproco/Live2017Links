@@ -1,6 +1,7 @@
 --魔弾の射手 ドクトル
 --Magibullet Shooter Doctor
-function c68246154.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate from hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -25,17 +26,17 @@ function c68246154.initial_effect(c)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetOperation(c68246154.regop)
+	e3:SetOperation(s.regop)
 	c:RegisterEffect(e3)
 	local e4=Effect.CreateEffect(c)
 	e4:SetCategory(CATEGORY_TOHAND)
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e4:SetCode(EVENT_CUSTOM+68246154)
+	e4:SetCode(EVENT_CUSTOM+id)
 	e4:SetProperty(EFFECT_FLAG_DELAY)
-	e4:SetCountLimit(1,68246154)
+	e4:SetCountLimit(1,id)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetTarget(c68246154.thtg)
-	e4:SetOperation(c68246154.thop)
+	e4:SetTarget(s.thtg)
+	e4:SetOperation(s.thop)
 	c:RegisterEffect(e4)
 	e3:SetLabelObject(e4)
 	local e5=Effect.CreateEffect(c)
@@ -43,23 +44,23 @@ function c68246154.initial_effect(c)
 	e5:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
 	e5:SetCode(EVENT_ADJUST)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetOperation(c68246154.regop2)
+	e5:SetOperation(s.regop2)
 	e5:SetLabelObject(e4)
 	c:RegisterEffect(e5)
 	e4:SetLabelObject(e5)
 	if not SameColumnChain then SameColumnChain={} end
 end
-function c68246154.thfilter(c,g)
+function s.thfilter(c,g)
 	bool=false
 	for tc in aux.Next(g) do
 		if c:IsSetCard(0x108) and c:IsAbleToHand() and tc:GetCode()~=c:GetCode() then bool=true end
 	end
 	return bool
 end
-function c68246154.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not re or re==e:GetLabelObject() end
-	if eg:GetCount()>1 then
-		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(68246154,1))
+	if #eg>1 then
+		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
 		local g=eg:Select(tp,1,1,nil)
 		Duel.SetTargetCard(g)
 	else
@@ -67,16 +68,16 @@ function c68246154.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
 end
-function c68246154.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Group.FromCards(Duel.GetFirstTarget())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c68246154.thfilter,tp,LOCATION_GRAVE,0,1,1,nil,tg)
-	if g:GetCount()>0 then
+	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_GRAVE,0,1,1,nil,tg)
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-function c68246154.regop(e,tp,eg,ep,ev,re,r,rp)
+function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=re:GetHandler()
 	if c:IsFacedown() then
@@ -94,7 +95,7 @@ function c68246154.regop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 	if not c:IsColumn(seq,p,LOCATION_SZONE) then return end
-	c:RegisterFlagEffect(68246155,RESET_EVENT+0x1fe0000+RESET_CHAIN,0,1)
+	c:RegisterFlagEffect(id+1,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1)
 	if not SameColumnChain[e:GetLabelObject()] then
 		SameColumnChain[e:GetLabelObject()]=Group.CreateGroup()
 		SameColumnChain[e:GetLabelObject()]:KeepAlive()
@@ -102,13 +103,13 @@ function c68246154.regop(e,tp,eg,ep,ev,re,r,rp)
 	SameColumnChain[e:GetLabelObject()]:AddCard(rc)
 	e:GetLabelObject():GetLabelObject():SetLabel(1)
 end
-function c68246154.regop2(e,tp,eg,ep,ev,re,r,rp)
+function s.regop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local te=e:GetLabelObject()
-	if c:GetFlagEffect(68246155)==0 and e:GetLabel()==1 then
+	if c:GetFlagEffect(id+1)==0 and e:GetLabel()==1 then
 		e:SetLabel(0)
-		if SameColumnChain[te] and Duel.IsExistingMatchingCard(c68246154.thfilter,tp,LOCATION_GRAVE,0,1,nil,SameColumnChain[te]) then
-			Duel.RaiseEvent(SameColumnChain[te],EVENT_CUSTOM+68246154,e,REASON_EFFECT,rp,ep,ev)
+		if SameColumnChain[te] and Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_GRAVE,0,1,nil,SameColumnChain[te]) then
+			Duel.RaiseEvent(SameColumnChain[te],EVENT_CUSTOM+id,e,REASON_EFFECT,rp,ep,ev)
 		end
 		SameColumnChain[te]=nil
 	end

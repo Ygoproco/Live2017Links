@@ -1,25 +1,26 @@
 --サイバーポッド
-function c34124316.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--flip
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_SPECIAL_SUMMON+CATEGORY_TOHAND)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_FLIP)
-	e1:SetTarget(c34124316.target)
-	e1:SetOperation(c34124316.operation)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	if not AshBlossomTable then AshBlossomTable={} end
 	table.insert(AshBlossomTable,e1)
 end
-function c34124316.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
-function c34124316.spchk(c,e,tp)
+function s.spchk(c,e,tp)
 	return (c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_ATTACK) 
 		or c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEDOWN_DEFENSE))
 end
-function c34124316.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	Duel.Destroy(g,REASON_EFFECT)
 	Duel.BreakEffect()
@@ -35,7 +36,7 @@ function c34124316.operation(e,tp,eg,ep,ev,re,r,rp)
 	while tc do
 		local lv=tc:GetLevel()
 		local pos=0
-		if c34124316.spchk(tc,e,tc:GetControler()) and Duel.IsPlayerAffectedByEffect(tc:GetControler(),59822133) then
+		if s.spchk(tc,e,tc:GetControler()) and Duel.IsPlayerAffectedByEffect(tc:GetControler(),CARD_BLUEEYES_SPIRIT) then
 			gg:AddCard(tc)
 		else
 			if tc:IsCanBeSpecialSummoned(e,0,p,false,false,POS_FACEUP_ATTACK) then pos=pos+POS_FACEUP_ATTACK end
@@ -54,7 +55,7 @@ function c34124316.operation(e,tp,eg,ep,ev,re,r,rp)
 	while tc do
 		local lv=tc:GetLevel()
 		local pos=0
-		if c34124316.spchk(tc,e,tc:GetControler()) and Duel.IsPlayerAffectedByEffect(tc:GetControler(),59822133) then
+		if s.spchk(tc,e,tc:GetControler()) and Duel.IsPlayerAffectedByEffect(tc:GetControler(),CARD_BLUEEYES_SPIRIT) then
 			gg:AddCard(tc)
 		else
 			if tc:IsCanBeSpecialSummoned(e,0,1-p,false,false,POS_FACEUP_ATTACK) then pos=pos+POS_FACEUP_ATTACK end
@@ -69,13 +70,13 @@ function c34124316.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc=g2:GetNext()
 	end
 	Duel.SpecialSummonComplete()
-	if hg:GetCount()>0 then
+	if #hg>0 then
 		Duel.DisableShuffleCheck()
 		Duel.SendtoHand(hg,nil,REASON_EFFECT)
 		Duel.ShuffleHand(tp)
 		Duel.ShuffleHand(1-tp)
 	end
-	if gg:GetCount()>0 then
+	if #gg>0 then
 		Duel.DisableShuffleCheck()
 		Duel.SendtoGrave(gg,REASON_EFFECT)
 	end

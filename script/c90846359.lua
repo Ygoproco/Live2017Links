@@ -50,7 +50,7 @@ function s.acttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	s[1]=0
 end
 function s.sumlimit(e,c,sump,sumtype,sumpos,targetp)
-	if sumpos and bit.band(sumpos,POS_FACEDOWN)>0 then return false end
+	if sumpos and (sumpos&POS_FACEDOWN)>0 then return false end
 	local rc=s.getrace(Duel.GetMatchingGroup(Card.IsFaceup,targetp or sump,LOCATION_MZONE,0,nil))
 	if rc==0 then return false end
 	return c:GetRace()~=rc
@@ -59,7 +59,7 @@ function s.getrace(g)
 	local arc=0
 	local tc=g:GetFirst()
 	while tc do
-		arc=bit.bor(arc,tc:GetRace())
+		arc=(arc|tc:GetRace())
 		tc=g:GetNext()
 	end
 	return arc
@@ -73,11 +73,11 @@ function s.adjustop(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 	local g2=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
 	local c=e:GetHandler()
-	if g1:GetCount()==0 then s[tp]=0
+	if #g1==0 then s[tp]=0
 	else
 		local rac=s.getrace(g1)
-		if bit.band(rac,rac-1)~=0 then
-			if s[tp]==0 or bit.band(s[tp],rac)==0 then
+		if (rac&rac-1)~=0 then
+			if s[tp]==0 or (s[tp]&rac)==0 then
 				Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
 				rac=Duel.AnnounceRace(tp,1,rac)
 			else rac=s[tp] end
@@ -85,11 +85,11 @@ function s.adjustop(e,tp,eg,ep,ev,re,r,rp)
 		g1:Remove(s.rmfilter,nil,rac)
 		s[tp]=rac
 	end
-	if g2:GetCount()==0 then s[1-tp]=0
+	if #g2==0 then s[1-tp]=0
 	else
 		local rac=s.getrace(g2)
-		if bit.band(rac,rac-1)~=0 then
-			if s[1-tp]==0 or bit.band(s[1-tp],rac)==0 then
+		if (rac&rac-1)~=0 then
+			if s[1-tp]==0 or (s[1-tp]&rac)==0 then
 				Duel.Hint(HINT_SELECTMSG,1-tp,aux.Stringid(id,0))
 				rac=Duel.AnnounceRace(1-tp,1,rac)
 			else rac=s[1-tp] end
@@ -98,7 +98,7 @@ function s.adjustop(e,tp,eg,ep,ev,re,r,rp)
 		s[1-tp]=rac
 	end
 	g1:Merge(g2)
-	if g1:GetCount()>0 then
+	if #g1>0 then
 		Duel.SendtoGrave(g1,REASON_RULE)
 		Duel.Readjust()
 	end

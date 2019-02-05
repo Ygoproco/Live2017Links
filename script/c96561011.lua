@@ -1,5 +1,6 @@
 --真紅眼の闇竜
-function c96561011.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
@@ -13,8 +14,8 @@ function c96561011.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
-	e2:SetCondition(c96561011.spcon)
-	e2:SetOperation(c96561011.spop)
+	e2:SetCondition(s.spcon)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--atkup
 	local e3=Effect.CreateEffect(c)
@@ -22,25 +23,25 @@ function c96561011.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetCode(EFFECT_UPDATE_ATTACK)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetValue(c96561011.val)
+	e3:SetValue(s.val)
 	c:RegisterEffect(e3)
 end
-c96561011.listed_names={74677422}
-function c96561011.val(e,c)
+s.listed_names={CARD_REDEYES_B_DRAGON}
+function s.val(e,c)
 	return Duel.GetMatchingGroupCount(Card.IsRace,c:GetControler(),LOCATION_GRAVE,0,nil,RACE_DRAGON)*300
 end
-function c96561011.rfilter(c,ft,tp)
-	return c:IsCode(74677422)
+function s.rfilter(c,ft,tp)
+	return c:IsCode(CARD_REDEYES_B_DRAGON)
 		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5)) and (c:IsControler(tp) or c:IsFaceup())
 end
-function c96561011.spcon(e,c)
+function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return ft>-1 and Duel.CheckReleaseGroup(tp,c96561011.rfilter,1,nil,ft,tp)
+	return ft>-1 and Duel.CheckReleaseGroup(tp,s.rfilter,1,nil,ft,tp)
 end
-function c96561011.spop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local g=Duel.SelectReleaseGroup(tp,c96561011.rfilter,1,1,nil,ft,tp)
+	local g=Duel.SelectReleaseGroup(tp,s.rfilter,1,1,nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end

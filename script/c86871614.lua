@@ -1,39 +1,40 @@
 --クローン複製
-function c86871614.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
-	e1:SetCondition(c86871614.condition)
-	e1:SetTarget(c86871614.target)
-	e1:SetOperation(c86871614.activate)
+	e1:SetCondition(s.condition)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
 	c:RegisterEffect(e2)
 end
-function c86871614.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
-function c86871614.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ec=eg:GetFirst()
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and ec:GetOriginalLevel()>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,86871615,0,0x4011,ec:GetBaseAttack(),ec:GetBaseDefense(),
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,ec:GetBaseAttack(),ec:GetBaseDefense(),
 			ec:GetOriginalLevel(),ec:GetOriginalRace(),ec:GetOriginalAttribute()) end
 	ec:CreateEffectRelation(e)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
-function c86871614.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ec=eg:GetFirst()
 	if not ec:IsRelateToEffect(e) or ec:IsFacedown() then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,86871615,0,0x4011,ec:GetBaseAttack(),ec:GetBaseDefense(),
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,ec:GetBaseAttack(),ec:GetBaseDefense(),
 			ec:GetOriginalLevel(),ec:GetOriginalRace(),ec:GetOriginalAttribute()) then return end
-	ec:RegisterFlagEffect(86871614,RESET_EVENT+0x17a0000,0,0)
-	local token=Duel.CreateToken(tp,86871615)
+	ec:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD_EXC_GRAVE,0,0)
+	local token=Duel.CreateToken(tp,id+1)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_SET_BASE_ATTACK)
@@ -61,17 +62,17 @@ function c86871614.activate(e,tp,eg,ep,ev,re,r,rp)
 	de:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	de:SetRange(LOCATION_MZONE)
 	de:SetCode(EVENT_TO_GRAVE)
-	de:SetCondition(c86871614.descon)
-	de:SetOperation(c86871614.desop)
+	de:SetCondition(s.descon)
+	de:SetOperation(s.desop)
 	de:SetReset(RESET_EVENT+0xfe0000)
 	token:RegisterEffect(de)
 end
-function c86871614.dfilter(c)
-	return c:IsReason(REASON_DESTROY) and c:GetFlagEffect(86871614)~=0
+function s.dfilter(c)
+	return c:IsReason(REASON_DESTROY) and c:GetFlagEffect(id)~=0
 end
-function c86871614.descon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c86871614.dfilter,1,nil)
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.dfilter,1,nil)
 end
-function c86871614.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(e:GetHandler(),REASON_EFFECT)
 end

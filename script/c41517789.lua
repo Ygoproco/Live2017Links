@@ -1,5 +1,6 @@
 --星態龍
-function c41517789.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,nil,1,1,aux.NonTuner(nil),1,99)
 	c:EnableReviveLimit()
@@ -19,30 +20,30 @@ function c41517789.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e3:SetOperation(c41517789.sumsuc)
+	e3:SetOperation(s.sumsuc)
 	c:RegisterEffect(e3)
 	--immune
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
-	e4:SetOperation(c41517789.atkop)
+	e4:SetOperation(s.atkop)
 	c:RegisterEffect(e4)
 end
-function c41517789.sumsuc(e,tp,eg,ep,ev,re,r,rp)
+function s.sumsuc(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) then return end
 	Duel.SetChainLimitTillChainEnd(aux.FALSE)
 end
-function c41517789.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EFFECT_IMMUNE_EFFECT)
-	e1:SetValue(c41517789.efilter)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE)
+	e1:SetValue(s.efilter)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
 	e:GetHandler():RegisterEffect(e1)
 	Duel.AdjustInstantly(e:GetHandler())
 end
-function c41517789.efilter(e,te)
+function s.efilter(e,te)
 	return te:GetOwner()~=e:GetOwner()
 end

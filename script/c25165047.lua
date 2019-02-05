@@ -1,15 +1,16 @@
 --ライフ・ストリーム・ドラゴン
-function c25165047.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,nil,1,1,aux.FilterBoolFunction(Card.IsCode,2403771),1,1)
 	c:EnableReviveLimit()
 	--change lp
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(25165047,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e1:SetCondition(c25165047.lpcon)
-	e1:SetOperation(c25165047.lpop)
+	e1:SetCondition(s.lpcon)
+	e1:SetOperation(s.lpop)
 	c:RegisterEffect(e1)
 	--damage reduce
 	local e2=Effect.CreateEffect(c)
@@ -18,7 +19,7 @@ function c25165047.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(1,0)
-	e2:SetValue(c25165047.damval)
+	e2:SetValue(s.damval)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
 	e3:SetCode(EFFECT_NO_EFFECT_DAMAGE)
@@ -29,40 +30,40 @@ function c25165047.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EFFECT_DESTROY_REPLACE)
-	e4:SetTarget(c25165047.desreptg)
+	e4:SetTarget(s.desreptg)
 	c:RegisterEffect(e4)
 	--double tuner check
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_SINGLE)
 	e5:SetCode(EFFECT_MATERIAL_CHECK)
-	e5:SetValue(c25165047.valcheck)
+	e5:SetValue(s.valcheck)
 	c:RegisterEffect(e5)
 end
-function c25165047.lpcon(e,tp,eg,ep,ev,re,r,rp)
+function s.lpcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
-function c25165047.lpop(e,tp,eg,ep,ev,re,r,rp)
+function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SetLP(tp,4000)
 end
-function c25165047.damval(e,re,val,r,rp,rc)
+function s.damval(e,re,val,r,rp,rc)
 	if r&REASON_EFFECT~=0 then return 0 end
 	return val
 end
-function c25165047.repfilter(c)
+function s.repfilter(c)
 	return c:IsType(TYPE_EQUIP) and c:IsAbleToRemoveAsCost()
 end
-function c25165047.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return not c:IsReason(REASON_REPLACE) 
-		and Duel.IsExistingMatchingCard(c25165047.repfilter,tp,LOCATION_GRAVE,0,1,nil) end
+		and Duel.IsExistingMatchingCard(s.repfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	if Duel.SelectEffectYesNo(tp,c,96) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-		local g=Duel.SelectMatchingCard(tp,c25165047.repfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,s.repfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 		Duel.Remove(g,POS_FACEUP,REASON_COST)
 		return true
 	else return false end
 end
-function c25165047.valcheck(e,c)
+function s.valcheck(e,c)
 	local g=c:GetMaterial()
 	if g:IsExists(Card.IsType,2,nil,TYPE_TUNER) then
 		local e1=Effect.CreateEffect(c)

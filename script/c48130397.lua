@@ -1,40 +1,41 @@
 --超融合
-function c48130397.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,0x1e0)
-	e1:SetCost(c48130397.cost)
-	e1:SetTarget(c48130397.target)
-	e1:SetOperation(c48130397.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c48130397.filter2(c,e,tp,m,f)
+function s.filter2(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
-function c48130397.filter3(c,e,opp)
+function s.filter3(c,e,opp)
 	return c:IsOnField() and (not e or not c:IsImmuneToEffect(e)) and (not opp or c:IsFaceup())
 end
-function c48130397.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
-function c48130397.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg1=Duel.GetFusionMaterial(tp):Filter(Card.IsOnField,nil)
-		local mg2=Duel.GetFusionMaterial(1-tp):Filter(c48130397.filter3,nil,nil,true)
+		local mg2=Duel.GetFusionMaterial(1-tp):Filter(s.filter3,nil,nil,true)
 		mg1:Merge(mg2)
-		local res=Duel.IsExistingMatchingCard(c48130397.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
+		local res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
 			if ce~=nil then
 				local fgroup=ce:GetTarget()
 				local mg3=fgroup(ce,e,tp):Filter(Card.IsOnField,nil)
 				local mf=ce:GetValue()
-				res=Duel.IsExistingMatchingCard(c48130397.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg3,mf)
+				res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg3,mf)
 			end
 		end
 		return res
@@ -44,11 +45,11 @@ function c48130397.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		Duel.SetChainLimit(aux.FALSE)
 	end
 end
-function c48130397.activate(e,tp,eg,ep,ev,re,r,rp)
-	local mg1=Duel.GetFusionMaterial(tp):Filter(c48130397.filter3,nil,e)
-	local mg2=Duel.GetFusionMaterial(1-tp):Filter(c48130397.filter3,nil,e,true)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	local mg1=Duel.GetFusionMaterial(tp):Filter(s.filter3,nil,e)
+	local mg2=Duel.GetFusionMaterial(1-tp):Filter(s.filter3,nil,e,true)
 	mg1:Merge(mg2)
-	local sg1=Duel.GetMatchingGroup(c48130397.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
+	local sg1=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	local mg3=nil
 	local sg2=nil
 	local ce=Duel.GetChainMaterial(tp)
@@ -56,9 +57,9 @@ function c48130397.activate(e,tp,eg,ep,ev,re,r,rp)
 		local fgroup=ce:GetTarget()
 		mg3=fgroup(ce,e,tp)
 		local mf=ce:GetValue()
-		sg2=Duel.GetMatchingGroup(c48130397.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
+		sg2=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
 	end
-	if sg1:GetCount()>0 or (sg2~=nil and sg2:GetCount()>0) then
+	if #sg1>0 or (sg2~=nil and #sg2>0) then
 		local sg=sg1:Clone()
 		if sg2 then sg:Merge(sg2) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)

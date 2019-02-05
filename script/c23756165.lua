@@ -1,114 +1,115 @@
 --魅惑の女王 LV5
-function c23756165.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--equip
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e1:SetOperation(c23756165.regop)
+	e1:SetOperation(s.regop)
 	c:RegisterEffect(e1)
 	--special summon
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(23756165,1))
+	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EVENT_PHASE+PHASE_STANDBY)
-	e2:SetCondition(c23756165.spcon)
-	e2:SetCost(c23756165.spcost)
-	e2:SetTarget(c23756165.sptg)
-	e2:SetOperation(c23756165.spop)
+	e2:SetCondition(s.spcon)
+	e2:SetCost(s.spcost)
+	e2:SetTarget(s.sptg)
+	e2:SetOperation(s.spop)
 	e2:SetLabelObject(e1)
 	c:RegisterEffect(e2)
 end
-c23756165.lvupcount=2
-c23756165.lvup={50140163,87257460}
-c23756165.lvdncount=1
-c23756165.lvdn={87257460}
-function c23756165.regop(e,tp,eg,ep,ev,re,r,rp)
+s.lvupcount=2
+s.lvup={50140163,87257460}
+s.lvdncount=1
+s.lvdn={87257460}
+function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:GetSummonType()==SUMMON_TYPE_SPECIAL+1 then
 		local e1=Effect.CreateEffect(c)
-		e1:SetDescription(aux.Stringid(23756165,0))
+		e1:SetDescription(aux.Stringid(id,0))
 		e1:SetCategory(CATEGORY_EQUIP)
 		e1:SetType(EFFECT_TYPE_IGNITION)
 		e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetCountLimit(1)
-		e1:SetCondition(c23756165.eqcon)
-		e1:SetTarget(c23756165.eqtg)
-		e1:SetOperation(c23756165.eqop)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetCondition(s.eqcon)
+		e1:SetTarget(s.eqtg)
+		e1:SetOperation(s.eqop)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		e1:SetLabelObject(e)
 		c:RegisterEffect(e1)
-		aux.AddEREquipLimit(c,c23756165.eqcon,c23756165.eqval,c23756165.equipop,e1,nil,RESET_EVENT+0x1ff0000)
+		aux.AddEREquipLimit(c,s.eqcon,s.eqval,s.equipop,e1,nil,RESET_EVENT+RESETS_STANDARD_DISABLE)
 	end
 end
-function c23756165.eqval(ec,c,tp)
+function s.eqval(ec,c,tp)
 	local lv=ec:GetLevel()
 	return ec:IsControler(1-tp) and lv>0 and lv<=5
 end
-function c23756165.eqcon(e,tp,eg,ep,ev,re,r,rp)
-	local g=e:GetHandler():GetEquipGroup():Filter(c23756165.eqfilter,nil)
-	return g:GetCount()==0
+function s.eqcon(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetHandler():GetEquipGroup():Filter(s.eqfilter,nil)
+	return #g==0
 end
-function c23756165.eqfilter(c)
-	return c:GetFlagEffect(23756165)~=0 
+function s.eqfilter(c)
+	return c:GetFlagEffect(id)~=0 
 end
-function c23756165.filter(c)
+function s.filter(c)
 	local lv=c:GetLevel()
 	return lv>0 and lv<=5 and c:IsFaceup() and c:IsAbleToChangeControler()
 end
-function c23756165.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c23756165.filter(chkc) end
+function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.filter(chkc) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		and Duel.IsExistingTarget(c23756165.filter,tp,0,LOCATION_MZONE,1,nil) end
+		and Duel.IsExistingTarget(s.filter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	local g=Duel.SelectTarget(tp,c23756165.filter,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,1,0,0)
 end
-function c23756165.equipop(c,e,tp,tc)
-	if not aux.EquipByEffectAndLimitRegister(c,e,tp,tc,23756165) then return end
+function s.equipop(c,e,tp,tc)
+	if not aux.EquipByEffectAndLimitRegister(c,e,tp,tc,id) then return end
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
 	e2:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
-	e2:SetValue(c23756165.repval)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
+	e2:SetValue(s.repval)
 	tc:RegisterEffect(e2)
 end
-function c23756165.eqop(e,tp,eg,ep,ev,re,r,rp)
+function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) then
 		if c:IsFaceup() and c:IsRelateToEffect(e) then
-			c23756165.equipop(c,e,tp,tc)
+			s.equipop(c,e,tp,tc)
 		else Duel.SendtoGrave(tc,REASON_RULE) end
 	end
 end
-function c23756165.repval(e,re,r,rp)
+function s.repval(e,re,r,rp)
 	return r&REASON_BATTLE~=0
 end
-function c23756165.spcon(e,tp,eg,ep,ev,re,r,rp)
-	local g=e:GetHandler():GetEquipGroup():Filter(c23756165.eqfilter,nil)
-	return Duel.GetTurnPlayer()==tp and g:GetCount()==1
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetHandler():GetEquipGroup():Filter(s.eqfilter,nil)
+	return Duel.GetTurnPlayer()==tp and #g==1
 end
-function c23756165.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
-function c23756165.spfilter(c,e,tp)
+function s.spfilter(c,e,tp)
 	return c:IsCode(50140163) and c:IsCanBeSpecialSummoned(e,1,tp,true,false)
 end
-function c23756165.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if e:GetHandler():GetSequence()<5 then ft=ft+1 end
-	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(c23756165.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
+	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
-function c23756165.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,c23756165.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummon(tc,1,tp,tp,true,false,POS_FACEUP)>0 then
 		tc:CompleteProcedure()
 	end

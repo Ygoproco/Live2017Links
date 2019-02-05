@@ -33,10 +33,10 @@ end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local dg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(s.filter,nil,e,1-tp)
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.ConfirmCards(tp,g)
 		local tg=g:Filter(s.rmfilter,nil,dg)
-		if tg:GetCount()>0 then
+		if #tg>0 then
 			Duel.Remove(tg,POS_FACEUP,REASON_EFFECT)
 		end
 		Duel.ShuffleHand(1-tp)

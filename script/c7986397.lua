@@ -1,19 +1,20 @@
 --Revendread Evolution
 --Scripted by Eerie Code
-function c7986397.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,7986397+EFFECT_COUNT_CODE_OATH)
-	e1:SetTarget(c7986397.target)
-	e1:SetOperation(c7986397.activate)
+	e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	if not AshBlossomTable then AshBlossomTable={} end
 	table.insert(AshBlossomTable,e1)
 end
-function c7986397.filter(c,e,tp,m1,m2,ft)
+function s.filter(c,e,tp,m1,m2,ft)
 	if not c:IsSetCard(0x106) or (c:GetType()&0x81)~=0x81
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local lv=c:GetLevel()
@@ -36,7 +37,7 @@ function c7986397.filter(c,e,tp,m1,m2,ft)
 																									end,1,nil,c)
 	end
 end
-function c7986397.checkvalid(c,rc,tp,sg,mg,mg2,ft)
+function s.checkvalid(c,rc,tp,sg,mg,mg2,ft)
 	local deck = (mg2-sg)<mg2
 	if mg2:IsContains(c) and deck then return false end
 	local lv=rc:GetLevel()
@@ -69,25 +70,25 @@ function c7986397.checkvalid(c,rc,tp,sg,mg,mg2,ft)
 	end
 	return res
 end
-function c7986397.exfilter0(c)
+function s.exfilter0(c)
 	return c:IsSetCard(0x106) and c:IsLevelAbove(1) and c:IsAbleToGrave()
 end
-function c7986397.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg=Duel.GetRitualMaterial(tp)
-		local sg=Duel.GetMatchingGroup(c7986397.exfilter0,tp,LOCATION_DECK,0,nil)-mg
+		local sg=Duel.GetMatchingGroup(s.exfilter0,tp,LOCATION_DECK,0,nil)-mg
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-		return Duel.IsExistingMatchingCard(c7986397.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,e,tp,mg,sg,ft)
+		return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,e,tp,mg,sg,ft)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_GRAVE)
 end
-function c7986397.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg=Duel.GetRitualMaterial(tp)
-	local sg=Duel.GetMatchingGroup(c7986397.exfilter0,tp,LOCATION_DECK,0,nil)-mg
+	local sg=Duel.GetMatchingGroup(s.exfilter0,tp,LOCATION_DECK,0,nil)-mg
 	local full=mg+sg
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tg=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c7986397.filter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil,e,tp,mg,sg,ft)
+	local tg=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.filter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil,e,tp,mg,sg,ft)
 	local rc=tg:GetFirst()
 	if rc then
 	local lv=rc:GetLevel()
@@ -97,7 +98,7 @@ function c7986397.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		local mat=Group.CreateGroup()
 		while true do
-			local cg=full:Filter(c7986397.checkvalid,mat,rc,tp,mat,mg,sg,ft)
+			local cg=full:Filter(s.checkvalid,mat,rc,tp,mat,mg,sg,ft)
 			if #cg==0 then break end
 			local cancelable=(function()Duel.SetSelectedCard(mat)return Group.CreateGroup():CheckWithSumEqual(Card.GetRitualLevel,lv,0,0,rc)end)() and (ft>0 or mat:IsExists(function(c)
 																																						return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5
@@ -118,7 +119,7 @@ function c7986397.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.BreakEffect()
 		Duel.SpecialSummon(rc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
 		rc:CompleteProcedure()
-		rc:RegisterFlagEffect(7986397,RESET_EVENT+0x1fe0000,0,1,0)
+		rc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1,0)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e1:SetCode(EVENT_PHASE+PHASE_END)
@@ -127,14 +128,14 @@ function c7986397.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetLabel(Duel.GetTurnCount())
 		e1:SetLabelObject(rc)
 		e1:SetReset(RESET_PHASE+PHASE_END,2)
-		e1:SetCondition(c7986397.descon)
-		e1:SetOperation(c7986397.desop)
+		e1:SetCondition(s.descon)
+		e1:SetOperation(s.desop)
 		Duel.RegisterEffect(e1,tp)
 	end
 end
-function c7986397.descon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnCount()>e:GetLabel() and e:GetLabelObject():GetFlagEffect(7986397)~=0
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetTurnCount()>e:GetLabel() and e:GetLabelObject():GetFlagEffect(id)~=0
 end
-function c7986397.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(e:GetLabelObject(),REASON_EFFECT)
 end
