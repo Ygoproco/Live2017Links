@@ -3,7 +3,7 @@
 --scripted by Naim
 local s,id=GetID()
 function s.initial_effect(c)
-	aux.AddEquipProcedure(c,nil,aux.FilterBoolFunction(Card.IsSummonType,SUMMON_TYPE_NORMAL))
+	aux.AddEquipProcedure(c,0,aux.FilterBoolFunction(Card.IsSummonType,SUMMON_TYPE_NORMAL))
 	--immune
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_EQUIP)
@@ -33,7 +33,7 @@ function s.adop(e,tp,eg,ep,ev,re,r,rp)
 	local ec=e:GetHandler():GetEquipTarget()
 	local bc=ec:GetBattleTarget()
 	if bc:IsRelateToBattle() then
-	local value=ec:GetBaseAttack()
+		local value=ec:GetBaseAttack()
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
