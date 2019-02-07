@@ -1,5 +1,5 @@
 --ウィジャ盤
--- Destiny Board
+--Destiny Board
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -65,10 +65,11 @@ function s.plop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
-	local ids={31893528,67287533,94772232,30170981}
-	local id=ids[c:GetFlagEffect(id)+1]
+	local passcodes={31893528,67287533,94772232,30170981}
+	local passcode=passcodes[c:GetFlagEffect(id)+1]
+	Debug.Message(passcode)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
-	local g=Duel.SelectMatchingCard(tp,Card.IsCode,tp,LOCATION_DECK+LOCATION_HAND,0,1,1,nil,id)
+	local g=Duel.SelectMatchingCard(tp,Card.IsCode,tp,LOCATION_DECK+LOCATION_HAND,0,1,1,nil,passcode)
 	if #g>0 and Duel.MoveToField(g:GetFirst(),tp,tp,LOCATION_SZONE,POS_FACEUP,true) then
 		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,0)
 	end
