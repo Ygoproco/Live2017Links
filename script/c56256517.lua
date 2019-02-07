@@ -2,23 +2,24 @@
 --Seer's Passbook
 --Script by nekrozar
 --fixed by Larry126
-function c56256517.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
     --Activate
     local e1=Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_REMOVE)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetCountLimit(1,56256517+EFFECT_COUNT_CODE_OATH)
-    e1:SetTarget(c56256517.target)
-    e1:SetOperation(c56256517.activate)
+    e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
+    e1:SetTarget(s.target)
+    e1:SetOperation(s.activate)
     c:RegisterEffect(e1)
 end
-function c56256517.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
     local g=Duel.GetDecktopGroup(tp,3)
     if chk==0 then return g:FilterCount(Card.IsAbleToRemove,nil)==3 end
     Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,3,tp,LOCATION_DECK)
 end
-function c56256517.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
     if Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)<3 then return end
     local g=Duel.GetDecktopGroup(tp,3)
     Duel.DisableShuffleCheck()
@@ -28,7 +29,7 @@ function c56256517.activate(e,tp,eg,ep,ev,re,r,rp)
     c:SetTurnCounter(0)
     local fid=c:GetFieldID()
     for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(56256517,RESET_EVENT+0x1fe0000,0,1,fid)
+        tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1,fid)
     end
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -37,23 +38,23 @@ function c56256517.activate(e,tp,eg,ep,ev,re,r,rp)
     e1:SetCountLimit(1)
     e1:SetLabel(fid)
     e1:SetLabelObject(g)
-    e1:SetCondition(c56256517.thcon)
-    e1:SetOperation(c56256517.thop)
+    e1:SetCondition(s.thcon)
+    e1:SetOperation(s.thop)
     e1:SetReset(RESET_PHASE+PHASE_STANDBY+RESET_SELF_TURN,3)
     Duel.RegisterEffect(e1,tp)
 end
-function c56256517.thcon(e,tp,eg,ep,ev,re,r,rp)
+function s.thcon(e,tp,eg,ep,ev,re,r,rp)
     return Duel.GetTurnPlayer()==tp
 end
-function c56256517.thfilter(c,fid)
-    return c:GetFlagEffectLabel(56256517)==fid
+function s.thfilter(c,fid)
+    return c:GetFlagEffectLabel(id)==fid
 end
-function c56256517.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
     local ct=c:GetTurnCounter()
     ct=ct+1
     if ct==3 then
-        local g=e:GetLabelObject():Filter(c56256517.thfilter,nil,e:GetLabel())
+        local g=e:GetLabelObject():Filter(s.thfilter,nil,e:GetLabel())
         if g and #g==3 then
             Duel.SendtoHand(g,nil,REASON_EFFECT)
         end

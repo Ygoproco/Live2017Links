@@ -66,7 +66,7 @@ function s.tgfilter(c)
     return c:IsType(TYPE_NORMAL) and c:IsAbleToGrave()
 end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return eg:IsExists(s.repfilter,1,nil,tp) and eg:GetCount()==1
+    if chk==0 then return eg:IsExists(s.repfilter,1,nil,tp) and #eg==1
         and Duel.IsExistingMatchingCard(s.tgfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil) end
     if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)

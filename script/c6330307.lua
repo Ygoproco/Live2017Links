@@ -1,15 +1,16 @@
 --DZW－魔装鵺妖衣
 -- DZW - Chimera Clad
-function c6330307.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--equip
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(6330307,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCategory(CATEGORY_EQUIP)
 	e1:SetRange(LOCATION_HAND+LOCATION_MZONE)
-	e1:SetTarget(c6330307.eqtg)
-	e1:SetOperation(c6330307.eqop)
+	e1:SetTarget(s.eqtg)
+	e1:SetOperation(s.eqop)
 	c:RegisterEffect(e1)
 	--destroy sub
 	local e2=Effect.CreateEffect(c)
@@ -20,25 +21,25 @@ function c6330307.initial_effect(c)
 	c:RegisterEffect(e2)
 	--chain attack
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(6330307,1))
+	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_DAMAGE_STEP_END)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetCondition(c6330307.atkcon)
-	e3:SetOperation(c6330307.atkop)
+	e3:SetCondition(s.atkcon)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3)
 end
-function c6330307.filter(c)
+function s.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0x5048)
 end
-function c6330307.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c6330307.filter(chkc) end
+function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and s.filter(chkc) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		and Duel.IsExistingTarget(c6330307.filter,tp,LOCATION_MZONE,0,1,nil) end
+		and Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c6330307.filter,tp,LOCATION_MZONE,0,1,1,nil)
+	Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,0,1,1,nil)
 end
-function c6330307.eqop(e,tp,eg,ep,ev,re,r,rp)
+function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	if c:IsLocation(LOCATION_MZONE) and c:IsFacedown() then return end
@@ -51,20 +52,20 @@ function c6330307.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_EQUIP_LIMIT)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
-	e1:SetValue(c6330307.eqlimit)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	e1:SetValue(s.eqlimit)
 	e1:SetLabelObject(tc)
 	c:RegisterEffect(e1)
 end
-function c6330307.eqlimit(e,c)
+function s.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
-function c6330307.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local at=Duel.GetAttackTarget()
 	return at and a==e:GetHandler():GetEquipTarget() and at:IsRelateToBattle() and at:GetAttack()>0 and a:IsChainAttackable()
 end
-function c6330307.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttackTarget()
 	local c=e:GetHandler()
 	local ec=c:GetEquipTarget()
@@ -73,7 +74,7 @@ function c6330307.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
 		e1:SetValue(0)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		at:RegisterEffect(e1)
 		Duel.ChainAttack(at)
 	end

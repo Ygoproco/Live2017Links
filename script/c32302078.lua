@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e2:SetCost(s.cost)
 	e2:SetTarget(s.tgtg)
 	e2:SetOperation(s.tgop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--spsummon
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
@@ -40,7 +40,7 @@ function s.initial_effect(c)
 	e3:SetCost(s.cost)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
-	c:RegisterEffect(e3,false,1)
+	c:RegisterEffect(e3,false,REGISTER_FLAG_DETACH_XMAT)
 end
 function s.lvtg(e,c)
 	return c:IsLevelAbove(1) and c:GetOwner()~=e:GetHandlerPlayer()
@@ -82,8 +82,8 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
 	local tc=nil
 	local g=eg:Filter(s.spfilter,nil,e,tp)
-	if g:GetCount()==0 then return end
-	if g:GetCount()==1 then
+	if #g==0 then return end
+	if #g==1 then
 		tc=g:GetFirst()
 	else
 		tc=g:Select(tp,1,1,nil):GetFirst()

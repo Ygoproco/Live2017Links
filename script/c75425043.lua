@@ -58,7 +58,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2 or not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter2),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local tc=g:GetFirst()
 	local c=e:GetHandler()
 	local fid=c:GetFieldID()
@@ -80,7 +80,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g2=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g2:GetCount()>0 then
+	if #g2>0 then
 		Duel.SendtoHand(g2,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g2)
 	end

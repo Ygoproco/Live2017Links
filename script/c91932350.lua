@@ -1,5 +1,6 @@
 --ハーピィ・レディ1
-function c91932350.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--atkup
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -10,4 +11,4 @@ function c91932350.initial_effect(c)
 	e1:SetValue(300)
 	c:RegisterEffect(e1)
 end
-c91932350.listed_names={CARD_HARPIE_LADY}
+s.listed_names={CARD_HARPIE_LADY}

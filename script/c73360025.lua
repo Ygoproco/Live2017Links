@@ -1,5 +1,6 @@
 --魔神王の契約書
-function c73360025.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -7,13 +8,13 @@ function c73360025.initial_effect(c)
 	c:RegisterEffect(e1)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(73360025,0))
+	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCountLimit(1,73360025)
-	e2:SetTarget(c73360025.sptg)
-	e2:SetOperation(c73360025.spop)
+	e2:SetCountLimit(1,id)
+	e2:SetTarget(s.sptg)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	if not GhostBelleTable then GhostBelleTable={} end
 	table.insert(GhostBelleTable,e2)
@@ -24,62 +25,62 @@ function c73360025.initial_effect(c)
 	e3:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1)
-	e3:SetCondition(c73360025.damcon)
-	e3:SetTarget(c73360025.damtg)
-	e3:SetOperation(c73360025.damop)
+	e3:SetCondition(s.damcon)
+	e3:SetTarget(s.damtg)
+	e3:SetOperation(s.damop)
 	c:RegisterEffect(e3)
 end
-function c73360025.mfilter0(c)
+function s.mfilter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
 end
-function c73360025.mfilter1(c,e)
+function s.mfilter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end
-function c73360025.mfilter2(c,e)
+function s.mfilter2(c,e)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and not c:IsImmuneToEffect(e)
 end
-function c73360025.spfilter1(c,e,tp,m,f)
+function s.spfilter1(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and c:IsRace(RACE_FIEND) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
-function c73360025.spfilter2(c,e,tp,m,f)
+function s.spfilter2(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and c:IsRace(RACE_FIEND) and c:IsSetCard(0xaf) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
-function c73360025.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg1=Duel.GetFusionMaterial(tp)
-		local res=Duel.IsExistingMatchingCard(c73360025.spfilter1,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
+		local res=Duel.IsExistingMatchingCard(s.spfilter1,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
 		if res then return true end
 		local mg2=Group.CreateGroup()
 		if not Duel.IsPlayerAffectedByEffect(tp,69832741) then
-			mg2:Merge(Duel.GetMatchingGroup(c73360025.mfilter0,tp,LOCATION_GRAVE,0,nil))
+			mg2:Merge(Duel.GetMatchingGroup(s.mfilter0,tp,LOCATION_GRAVE,0,nil))
 		end
 		mg2:Merge(mg1)
-		res=Duel.IsExistingMatchingCard(c73360025.spfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,nil)
+		res=Duel.IsExistingMatchingCard(s.spfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,nil)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
 			if ce~=nil then
 				local fgroup=ce:GetTarget()
 				local mg3=fgroup(ce,e,tp)
 				local mf=ce:GetValue()
-				res=Duel.IsExistingMatchingCard(c73360025.spfilter1,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg3,mf)
+				res=Duel.IsExistingMatchingCard(s.spfilter1,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg3,mf)
 			end
 		end
 		return res
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function c73360025.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local mg1=Duel.GetFusionMaterial(tp):Filter(c73360025.mfilter1,nil,e)
-	local sg1=Duel.GetMatchingGroup(c73360025.spfilter1,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
+	local mg1=Duel.GetFusionMaterial(tp):Filter(s.mfilter1,nil,e)
+	local sg1=Duel.GetMatchingGroup(s.spfilter1,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	local mg2=Group.CreateGroup()
 	if not Duel.IsPlayerAffectedByEffect(tp,69832741) then
-		mg2:Merge(Duel.GetMatchingGroup(c73360025.mfilter2,tp,LOCATION_GRAVE,0,nil,e))
+		mg2:Merge(Duel.GetMatchingGroup(s.mfilter2,tp,LOCATION_GRAVE,0,nil,e))
 	end
 	mg2:Merge(mg1)
-	local sg2=Duel.GetMatchingGroup(c73360025.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,nil)
+	local sg2=Duel.GetMatchingGroup(s.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,nil)
 	sg1:Merge(sg2)
 	local mg3=nil
 	local sg3=nil
@@ -88,9 +89,9 @@ function c73360025.spop(e,tp,eg,ep,ev,re,r,rp)
 		local fgroup=ce:GetTarget()
 		mg3=fgroup(ce,e,tp)
 		local mf=ce:GetValue()
-		sg3=Duel.GetMatchingGroup(c73360025.spfilter1,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
+		sg3=Duel.GetMatchingGroup(s.spfilter1,tp,LOCATION_EXTRA,0,nil,e,tp,mg3,mf)
 	end
-	if sg1:GetCount()>0 or (sg3~=nil and sg3:GetCount()>0) then
+	if #sg1>0 or (sg3~=nil and #sg3>0) then
 		local sg=sg1:Clone()
 		if sg3 then sg:Merge(sg3) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -119,16 +120,16 @@ function c73360025.spop(e,tp,eg,ep,ev,re,r,rp)
 		tc:CompleteProcedure()
 	end
 end
-function c73360025.damcon(e,tp,eg,ep,ev,re,r,rp)
+function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c73360025.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(1000)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,0,0,tp,1000)
 end
-function c73360025.damop(e,tp,eg,ep,ev,re,r,rp)
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Damage(p,d,REASON_EFFECT)

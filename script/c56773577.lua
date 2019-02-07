@@ -1,12 +1,13 @@
 --ネクロバレーの神殿
 --Sacred Temples of Necrovalley
 --Script by dest
-function c56773577.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c56773577.target)
+	e1:SetTarget(s.target)
 	c:RegisterEffect(e1)
 	--atk down
 	local e2=Effect.CreateEffect(c)
@@ -14,7 +15,7 @@ function c56773577.initial_effect(c)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetTargetRange(0,LOCATION_MZONE)
-	e2:SetCondition(c56773577.atkcon)
+	e2:SetCondition(s.atkcon)
 	e2:SetValue(-500)
 	c:RegisterEffect(e2)
 	--def down
@@ -23,58 +24,58 @@ function c56773577.initial_effect(c)
 	c:RegisterEffect(e3)
 	--activate Necrovalley
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(56773577,0))
+	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetCode(EVENT_FREE_CHAIN)
-	e4:SetCost(c56773577.accost)
-	e4:SetCondition(c56773577.accon)
-	e4:SetOperation(c56773577.acop)
+	e4:SetCost(s.accost)
+	e4:SetCondition(s.accon)
+	e4:SetOperation(s.acop)
 	c:RegisterEffect(e4)
 	--set
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(56773577,1))
+	e5:SetDescription(aux.Stringid(id,1))
 	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e5:SetCode(EVENT_TO_GRAVE)
 	e5:SetProperty(EFFECT_FLAG_DELAY)
-	e5:SetCondition(c56773577.setcon)
-	e5:SetTarget(c56773577.settg)
-	e5:SetOperation(c56773577.setop)
+	e5:SetCondition(s.setcon)
+	e5:SetTarget(s.settg)
+	e5:SetOperation(s.setop)
 	c:RegisterEffect(e5)
 end
-function c56773577.cfilter(c)
+function s.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x2e)
 end
-function c56773577.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c56773577.cfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil)
-		and Duel.IsEnvironment(47355498)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil)
+		and Duel.IsEnvironment(CARD_NECROVALLEY)
 end
-function c56773577.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	if c56773577.accost(e,tp,eg,ep,ev,re,r,rp,0) and c56773577.accon(e,tp,eg,ep,ev,re,r,rp)
-		and Duel.SelectYesNo(tp,aux.Stringid(56773577,0)) then
-		c56773577.accost(e,tp,eg,ep,ev,re,r,rp,1)
-		e:SetOperation(c56773577.acop)
+	if s.accost(e,tp,eg,ep,ev,re,r,rp,0) and s.accon(e,tp,eg,ep,ev,re,r,rp)
+		and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+		s.accost(e,tp,eg,ep,ev,re,r,rp,1)
+		e:SetOperation(s.acop)
 	else
 		e:SetOperation(nil)
 	end
 end
-function c56773577.accost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():GetFlagEffect(56773577)==0 end
-	e:GetHandler():RegisterFlagEffect(56773577,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+function s.accost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():GetFlagEffect(id)==0 end
+	e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
-function c56773577.accon(e,tp,eg,ep,ev,re,r,rp)
+function s.accon(e,tp,eg,ep,ev,re,r,rp)
 	return (Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2)
-		and Duel.IsExistingMatchingCard(c56773577.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,tp)
+		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,tp)
 		and not Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_FZONE,0,1,nil)
 end
-function c56773577.filter(c,tp)
-	return c:IsCode(47355498) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
+function s.filter(c,tp)
+	return c:IsCode(CARD_NECROVALLEY) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
 end
-function c56773577.acop(e,tp,eg,ep,ev,re,r,rp)
+function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c56773577.filter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil,tp):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.filter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil,tp):GetFirst()
 	if tc then
 		local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 		if fc then
@@ -89,19 +90,19 @@ function c56773577.acop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.RaiseEvent(tc,4179255,te,0,tp,tp,Duel.GetCurrentChain())
 	end
 end
-function c56773577.setcon(e,tp,eg,ep,ev,re,r,rp)
+function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return rp==1-tp and c:IsReason(REASON_DESTROY) and c:IsReason(REASON_EFFECT) and c:GetPreviousControler()==tp
 end
-function c56773577.setfilter(c)
-	return c:IsSetCard(0x91) and not c:IsCode(56773577) and c:IsSSetable()
+function s.setfilter(c)
+	return c:IsSetCard(0x91) and not c:IsCode(id) and c:IsSSetable()
 end
-function c56773577.settg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c56773577.setfilter,tp,LOCATION_DECK,0,1,nil) end
+function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil) end
 end
-function c56773577.setop(e,tp,eg,ep,ev,re,r,rp)
+function s.setop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
-	local tc=Duel.SelectMatchingCard(tp,c56773577.setfilter,tp,LOCATION_DECK,0,1,1,nil):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,s.setfilter,tp,LOCATION_DECK,0,1,1,nil):GetFirst()
 	if tc then
 		Duel.SSet(tp,tc)
 		Duel.ConfirmCards(1-tp,tc)

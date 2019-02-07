@@ -1,5 +1,6 @@
 --シャドウナイトデーモン
-function c9603356.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--maintain
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -7,36 +8,36 @@ function c9603356.initial_effect(c)
 	e1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
-	e1:SetCondition(c9603356.mtcon)
-	e1:SetOperation(c9603356.mtop)
+	e1:SetCondition(s.mtcon)
+	e1:SetOperation(s.mtop)
 	c:RegisterEffect(e1)
 	--disable and destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_CHAIN_SOLVING)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetOperation(c9603356.disop)
+	e2:SetOperation(s.disop)
 	c:RegisterEffect(e2)
 	--damage reduce
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e3:SetCondition(c9603356.rdcon)
-	e3:SetOperation(c9603356.rdop)
+	e3:SetCondition(s.rdcon)
+	e3:SetOperation(s.rdop)
 	c:RegisterEffect(e3)
 end
-function c9603356.mtcon(e,tp,eg,ep,ev,re,r,rp)
+function s.mtcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c9603356.mtop(e,tp,eg,ep,ev,re,r,rp)
+function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.CheckLPCost(tp,900) then
 		Duel.PayLPCost(tp,900)
 	else
 		Duel.Destroy(e:GetHandler(),REASON_COST)
 	end
 end
-function c9603356.disop(e,tp,eg,ep,ev,re,r,rp)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if ep==tp then return end
 	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
 	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
@@ -48,9 +49,9 @@ function c9603356.disop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(rc,REASON_EFFECT)
 	end
 end
-function c9603356.rdcon(e,tp,eg,ep,ev,re,r,rp)
+function s.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and e:GetHandler()==Duel.GetAttacker()
 end
-function c9603356.rdop(e,tp,eg,ep,ev,re,r,rp)
+function s.rdop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end

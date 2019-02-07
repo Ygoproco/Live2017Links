@@ -1,29 +1,30 @@
 --モンスターゲート
-function c43040603.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c43040603.cost)
-	e1:SetTarget(c43040603.target)
-	e1:SetOperation(c43040603.operation)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c43040603.cfilter(c,ft,tp)
+function s.cfilter(c,ft,tp)
 	return ft>0 or (c:IsControler(tp) and c:GetSequence()<5)
 end
-function c43040603.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,c43040603.cfilter,1,false,nil,nil,ft,tp) end
-	local g=Duel.SelectReleaseGroupCost(tp,c43040603.cfilter,1,1,false,nil,nil,ft,tp)
+	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,nil,nil,ft,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,false,nil,nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
-function c43040603.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanSpecialSummon(tp)
 		and Duel.IsExistingMatchingCard(Card.IsSummonableCard,tp,LOCATION_DECK,0,1,nil) and Duel.IsPlayerCanDiscardDeck(tp,1) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,LOCATION_DECK)
 end
-function c43040603.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanSpecialSummon(tp) or not Duel.IsPlayerCanDiscardDeck(tp,1) then return end
 	local g=Duel.GetMatchingGroup(Card.IsSummonableCard,tp,LOCATION_DECK,0,nil)
 	local dcount=Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)

@@ -1,5 +1,6 @@
 --ゴーストリック・ハウス
-function c99795159.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -19,7 +20,7 @@ function c99795159.initial_effect(c)
 	e3:SetCode(EFFECT_DIRECT_ATTACK)
 	e3:SetRange(LOCATION_FZONE)
 	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e3:SetTarget(c99795159.dirtg)
+	e3:SetTarget(s.dirtg)
 	c:RegisterEffect(e3)
 	--
 	local e4=Effect.CreateEffect(c)
@@ -28,28 +29,28 @@ function c99795159.initial_effect(c)
 	e4:SetCode(EFFECT_CHANGE_DAMAGE)
 	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e4:SetTargetRange(1,1)
-	e4:SetValue(c99795159.val)
+	e4:SetValue(s.val)
 	c:RegisterEffect(e4)
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e5:SetRange(LOCATION_FZONE)
 	e5:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e5:SetCondition(c99795159.dcon)
-	e5:SetOperation(c99795159.dop)
+	e5:SetCondition(s.dcon)
+	e5:SetOperation(s.dop)
 	c:RegisterEffect(e5)
 end
-function c99795159.dirtg(e,c)
+function s.dirtg(e,c)
 	return not Duel.IsExistingMatchingCard(Card.IsFaceup,c:GetControler(),0,LOCATION_MZONE,1,nil)
 end
-function c99795159.val(e,re,dam,r,rp,rc)
+function s.val(e,re,dam,r,rp,rc)
 	if r&REASON_EFFECT~=0 then
 		return dam/2
 	else return dam end
 end
-function c99795159.dcon(e,tp,eg,ep,ev,re,r,rp)
+function s.dcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	return not tc:IsSetCard(0x8d)
 end
-function c99795159.dop(e,tp,eg,ep,ev,re,r,rp)
+function s.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.HalfBattleDamage(ep)
 end

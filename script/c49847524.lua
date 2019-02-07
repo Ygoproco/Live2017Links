@@ -1,9 +1,10 @@
 --フレイム・アドミニスター
 --Flame Administrator
 --Scripted by Eerie Code
-function c49847524.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
-	c:SetUniqueOnField(1,0,49847524)
+	c:SetUniqueOnField(1,0,id)
 	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_CYBERSE),2,2)
 	--atk up
 	local e1=Effect.CreateEffect(c)

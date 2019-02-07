@@ -1,16 +1,17 @@
 --リチュアに伝わりし禁断の秘術
-function c28429121.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c28429121.cost)
-	e1:SetTarget(c28429121.target)
-	e1:SetOperation(c28429121.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c28429121.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetCurrentPhase()~=PHASE_MAIN2 end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -20,32 +21,32 @@ function c28429121.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-function c28429121.mfilter(c,e)
+function s.mfilter(c,e)
 	return c:IsFaceup() and c:GetLevel()>0 and not c:IsImmuneToEffect(e) and c:IsReleasable()
 end
-function c28429121.filter(c,e,tp,m)
-	if bit.band(c:GetType(),0x81)~=0x81 or not c:IsSetCard(0x3a)
+function s.filter(c,e,tp,m)
+	if (c:GetType()&0x81)~=0x81 or not c:IsSetCard(0x3a)
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	return mg:CheckWithSumEqual(Card.GetRitualLevel,c:GetLevel(),1,99,c)
 end
-function c28429121.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg1=Duel.GetRitualMaterial(tp)
 		mg1:Remove(Card.IsLocation,nil,LOCATION_HAND)
-		local mg2=Duel.GetMatchingGroup(c28429121.mfilter,tp,0,LOCATION_MZONE,nil,e)
+		local mg2=Duel.GetMatchingGroup(s.mfilter,tp,0,LOCATION_MZONE,nil,e)
 		mg1:Merge(mg2)
-		return Duel.IsExistingMatchingCard(c28429121.filter,tp,LOCATION_HAND,0,1,nil,e,tp,mg1)
+		return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil,e,tp,mg1)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
-function c28429121.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg1=Duel.GetRitualMaterial(tp)
 	mg1:Remove(Card.IsLocation,nil,LOCATION_HAND)
-	local mg2=Duel.GetMatchingGroup(c28429121.mfilter,tp,0,LOCATION_MZONE,nil,e)
+	local mg2=Duel.GetMatchingGroup(s.mfilter,tp,0,LOCATION_MZONE,nil,e)
 	mg1:Merge(mg2)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tg=Duel.SelectMatchingCard(tp,c28429121.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg1)
+	local tg=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg1)
 	local tc=tg:GetFirst()
 	if tc then
 		local mg=mg1:Filter(Card.IsCanBeRitualMaterial,tc,tc)

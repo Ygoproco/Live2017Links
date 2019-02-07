@@ -35,7 +35,7 @@ function s.initial_effect(c)
 	e3:SetCondition(s.dacon)
 	e3:SetCost(s.dacost)
 	e3:SetOperation(s.daop)
-	c:RegisterEffect(e3,false,1)
+	c:RegisterEffect(e3,false,REGISTER_FLAG_DETACH_XMAT)
 end
 s.xyz_number=9
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
@@ -43,7 +43,7 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(id)==0 end
-	e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE,0,1)
+	e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE,0,1)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateAttack()
@@ -63,7 +63,7 @@ function s.olop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.Overlay(c,g)
 		end
 	end
@@ -87,7 +87,7 @@ function s.daop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetCode(EFFECT_DIRECT_ATTACK)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	end
 end

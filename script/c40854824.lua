@@ -1,40 +1,41 @@
 --オーバー・ザ・レインボー
-function c40854824.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCondition(c40854824.condition)
-	e1:SetTarget(c40854824.target)
-	e1:SetOperation(c40854824.activate)
+	e1:SetCondition(s.condition)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
-	Duel.AddCustomActivityCounter(40854824,ACTIVITY_CHAIN,c40854824.chainfilter)
+	Duel.AddCustomActivityCounter(id,ACTIVITY_CHAIN,s.chainfilter)
 end
-function c40854824.chainfilter(re,tp,cid)
+function s.chainfilter(re,tp,cid)
 	local code1,code2=re:GetHandler():GetOriginalCodeRule()
 	return not (re:IsActiveType(TYPE_MONSTER) and (code1==79407975 or code1==79856792 or code2==79407975 or code2==79856792))
 end
-function c40854824.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCustomActivityCount(40854824,tp,ACTIVITY_CHAIN)~=0
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetCustomActivityCount(id,tp,ACTIVITY_CHAIN)~=0
 end
-function c40854824.filter(c,e,tp)
+function s.filter(c,e,tp)
 	return c:IsSetCard(0x1034) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c40854824.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(c40854824.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
-function c40854824.rescon(sg,e,tp,mg)
-	return sg:GetClassCount(Card.GetCode)>=sg:GetCount()
+function s.rescon(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)>=#sg
 end
-function c40854824.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft<=0 then return end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
-	local g=Duel.GetMatchingGroup(c40854824.filter,tp,LOCATION_DECK,0,nil,e,tp)
-	if g:GetCount()==0 then return end
-	local sg=aux.SelectUnselectGroup(g,e,tp,nil,ft,c40854824.rescon,1,tp,HINTMSG_SPSUMMON,c40854824.rescon)
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
+	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,nil,e,tp)
+	if #g==0 then return end
+	local sg=aux.SelectUnselectGroup(g,e,tp,nil,ft,s.rescon,1,tp,HINTMSG_SPSUMMON,s.rescon)
 	Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
 end

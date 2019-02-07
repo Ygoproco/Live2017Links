@@ -1,6 +1,7 @@
 --魔弾の射手 ザ・キッド
 --Magibullet Shooter The Kid
-function c5230799.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate from hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -26,14 +27,14 @@ function c5230799.initial_effect(c)
 	e3:SetCode(EVENT_CHAIN_SOLVING)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,5230799)
-	e3:SetCondition(c5230799.drcon)
-	e3:SetCost(c5230799.drcost)
-	e3:SetTarget(c5230799.drtg)
-	e3:SetOperation(c5230799.drop)
+	e3:SetCountLimit(1,id)
+	e3:SetCondition(s.drcon)
+	e3:SetCost(s.drcost)
+	e3:SetTarget(s.drtg)
+	e3:SetOperation(s.drop)
 	c:RegisterEffect(e3)
 end
-function c5230799.drcon(e,tp,eg,ep,ev,re,r,rp)
+function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=re:GetHandler()
 	if Duel.GetCurrentPhase()&PHASE_DAMAGE+PHASE_DAMAGE_CAL~=0 or not re:IsHasType(EFFECT_TYPE_ACTIVATE) or c:GetFlagEffect(1)<=0 then return false end
@@ -47,20 +48,20 @@ function c5230799.drcon(e,tp,eg,ep,ev,re,r,rp)
 	end
 	return c:IsColumn(seq,p,LOCATION_SZONE)
 end
-function c5230799.cfilter(c)
+function s.cfilter(c)
 	return c:IsSetCard(0x108) and c:IsDiscardable()
 end
-function c5230799.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c5230799.cfilter,tp,LOCATION_HAND,0,1,nil) end
-	Duel.DiscardHand(tp,c5230799.cfilter,1,1,REASON_COST+REASON_DISCARD)
+function s.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil) end
+	Duel.DiscardHand(tp,s.cfilter,1,1,REASON_COST+REASON_DISCARD)
 end
-function c5230799.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,2) end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(2)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,2)
 end
-function c5230799.drop(e,tp,eg,ep,ev,re,r,rp)
+function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Draw(p,d,REASON_EFFECT)	
 end

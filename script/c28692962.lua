@@ -36,7 +36,7 @@ function s.hspcon(e,c)
 	local zone=0
 	local lg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	for tc in aux.Next(lg) do
-		zone=bit.bor(zone,tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
+		zone=(zone|tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
 	end
 	return Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)>0
 end
@@ -45,7 +45,7 @@ function s.hspval(e,c)
 	local zone=0
 	local lg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	for tc in aux.Next(lg) do
-		zone=bit.bor(zone,tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
+		zone=(zone|tc:GetColumnZone(LOCATION_MZONE,0,0,tp))
 	end
 	return 0,zone
 end
@@ -84,7 +84,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		tc:CreateEffectRelation(e1)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if g:GetCount()>0 then
+		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
 		end

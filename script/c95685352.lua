@@ -31,7 +31,7 @@ function s.initial_effect(c)
 	e2:SetCost(s.cost)
 	e2:SetTarget(s.target)
 	e2:SetOperation(s.atkop2)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--place in pendulum zone
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)

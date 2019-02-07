@@ -1,16 +1,17 @@
 --スカル・マイスター
-function c67750322.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Inactivate
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(67750322,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DISABLE)
 	e1:SetType(EFFECT_TYPE_QUICK_O)
 	e1:SetCode(EVENT_CHAINING)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCondition(c67750322.discon)
-	e1:SetCost(c67750322.discost)
-	e1:SetTarget(c67750322.distg)
-	e1:SetOperation(c67750322.disop)
+	e1:SetCondition(s.discon)
+	e1:SetCost(s.discost)
+	e1:SetTarget(s.distg)
+	e1:SetOperation(s.disop)
 	c:RegisterEffect(e1)
 	--Double Snare
 	local e6=Effect.CreateEffect(c)
@@ -20,18 +21,18 @@ function c67750322.initial_effect(c)
 	e6:SetCode(3682106)
 	c:RegisterEffect(e6)
 end
-function c67750322.discon(e,tp,eg,ep,ev,re,r,rp)
+function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	return ep~=tp and Duel.IsChainDisablable(ev) and loc==LOCATION_GRAVE
 end
-function c67750322.discost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
-function c67750322.distg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not re:GetHandler():IsStatus(STATUS_DISABLED) end
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE,eg,1,0,0)
 end
-function c67750322.disop(e,tp,eg,ep,ev,re,r,rp)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
 end

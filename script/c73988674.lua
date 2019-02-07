@@ -1,20 +1,21 @@
 --三位一択
-function c73988674.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(c73988674.target)
-	e1:SetOperation(c73988674.operation)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function c73988674.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetMatchingGroupCount(Card.IsFacedown,tp,LOCATION_EXTRA,0,nil)>0
 		and Duel.GetMatchingGroupCount(Card.IsFacedown,tp,0,LOCATION_EXTRA,nil)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CARDTYPE)
-	local op=Duel.SelectOption(tp,aux.Stringid(73988674,0),aux.Stringid(73988674,1),aux.Stringid(73988674,2))
+	local op=Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1),aux.Stringid(id,2))
 	e:SetLabel(op)
 end
-function c73988674.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetFieldGroup(tp,LOCATION_EXTRA,0)
 	Duel.ConfirmCards(1-tp,g1)
 	local g2=Duel.GetFieldGroup(tp,0,LOCATION_EXTRA)

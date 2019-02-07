@@ -1,5 +1,6 @@
 --スターライト・ジャンクション
-function c1003840.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -7,14 +8,14 @@ function c1003840.initial_effect(c)
 	c:RegisterEffect(e1)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(1003840,0))
+	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_FZONE)
-	e2:SetCountLimit(1,1003840)
-	e2:SetCost(c1003840.spcost)
-	e2:SetTarget(c1003840.sptg)
-	e2:SetOperation(c1003840.spop)
+	e2:SetCountLimit(1,id)
+	e2:SetCost(s.spcost)
+	e2:SetTarget(s.sptg)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--todeck
 	local e3=Effect.CreateEffect(c)
@@ -23,54 +24,54 @@ function c1003840.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_FZONE)
-	e3:SetCountLimit(1,1003841)
-	e3:SetCondition(c1003840.thcon)
-	e3:SetTarget(c1003840.thtg)
-	e3:SetOperation(c1003840.thop)
+	e3:SetCountLimit(1,id+1)
+	e3:SetCondition(s.thcon)
+	e3:SetTarget(s.thtg)
+	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
-function c1003840.cfilter(c,e,tp,ft)
+function s.cfilter(c,e,tp,ft)
 	local lv=c:GetLevel()
 	return lv>0 and c:IsType(TYPE_TUNER)
 		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5)) and (c:IsControler(tp) or c:IsFaceup())
-		and Duel.IsExistingMatchingCard(c1003840.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,lv)
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,lv)
 end
-function c1003840.spfilter(c,e,tp,lv)
+function s.spfilter(c,e,tp,lv)
 	return c:IsSetCard(0x1017) and c:GetLevel()~=lv and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c1003840.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,c1003840.cfilter,1,false,nil,nil,e,tp,ft) end
-	local g=Duel.SelectReleaseGroupCost(tp,c1003840.cfilter,1,1,false,nil,nil,e,tp,ft)
+	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,nil,nil,e,tp,ft) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,false,nil,nil,e,tp,ft)
 	e:SetLabel(g:GetFirst():GetLevel())
 	Duel.Release(g,REASON_COST)
 end
-function c1003840.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
-function c1003840.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) or Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local lv=e:GetLabel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c1003840.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,lv)
-	if g:GetCount()>0 then
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,lv)
+	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function c1003840.thcon(e,tp,eg,ep,ev,re,r,rp)
+function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=eg:GetFirst()
 	return Duel.GetTurnPlayer()~=tp
 		and ec:IsPreviousLocation(LOCATION_EXTRA) and ec:GetPreviousControler()==tp and ec:IsType(TYPE_SYNCHRO)
 end
-function c1003840.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_ONFIELD) and chkc:IsAbleToDeck() end
 	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToDeck,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
 end
-function c1003840.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then

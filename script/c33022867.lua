@@ -40,7 +40,7 @@ function s.spcon(e,c)
 	local rg=Duel.GetReleaseGroup(tp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
-	return ft>-3 and rg:GetCount()>2 and (ft>0 or rg:IsExists(s.mzfilter,ct,nil,tp))
+	return ft>-3 and #rg>2 and (ft>0 or rg:IsExists(s.mzfilter,ct,nil,tp))
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	local rg=Duel.GetReleaseGroup(tp)

@@ -1,5 +1,6 @@
 --ドイツ
-function c57062206.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsCode,60246171),true)
 	--atk up
 	local e1=Effect.CreateEffect(c)
@@ -9,4 +10,4 @@ function c57062206.initial_effect(c)
 	e1:SetCondition(aux.IsUnionState)
 	c:RegisterEffect(e1)
 end
-c57062206.listed_names={60246171}
+s.listed_names={60246171}

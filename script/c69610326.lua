@@ -1,6 +1,7 @@
 --覇王眷竜ダークヴルム
 --Supreme King Dragon Darkwurm
 local s,id=GetID(c)
+local s,id=GetID()
 function s.initial_effect(c)
 	aux.EnablePendulumAttribute(c)
 	--pendulum set
@@ -69,12 +70,12 @@ function s.pcop(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.CheckLocation(tp,LOCATION_PZONE,0) and not Duel.CheckLocation(tp,LOCATION_PZONE,1) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
 	local g=Duel.SelectMatchingCard(tp,s.pcfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.MoveToField(g:GetFirst(),tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 	end
 end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return not c:IsAttribute(ATTRIBUTE_DARK) and bit.band(sumtype,SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
+	return not c:IsAttribute(ATTRIBUTE_DARK) and (sumtype&SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
 end
 function s.thfilter(c)
 	return c:IsSetCard(0x10f8) and c:IsType(TYPE_PENDULUM) and c:IsAbleToHand()
@@ -86,7 +87,7 @@ end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

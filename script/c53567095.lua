@@ -1,5 +1,6 @@
 --ゴッドバードアタック
-function c53567095.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DESTROY)
@@ -7,16 +8,16 @@ function c53567095.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,0x1e0)
-	e1:SetCost(c53567095.cost)
-	e1:SetTarget(c53567095.target)
-	e1:SetOperation(c53567095.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c53567095.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
-function c53567095.spcheck(sg,tp,exg,dg)
+function s.spcheck(sg,tp,exg,dg)
 	local a=0
 	for c in aux.Next(sg) do
 		if dg:IsContains(c) then a=a+1 end
@@ -24,32 +25,32 @@ function c53567095.spcheck(sg,tp,exg,dg)
 			if dg:IsContains(tc) then a=a+1 end
 		end
 	end
-	return dg:GetCount()-a>=2
+	return #dg-a>=2
 end
-function c53567095.cfilter(c)
+function s.cfilter(c)
 	return c:IsRace(RACE_WINDBEAST)
 end
-function c53567095.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc~=e:GetHandler() end
 	local dg=Duel.GetMatchingGroup(Card.IsCanBeEffectTarget,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler(),e)
 	if chk==0 then
 		if e:GetLabel()==1 then
 			e:SetLabel(0)
-			return Duel.CheckReleaseGroupCost(tp,c53567095.cfilter,1,false,c53567095.spcheck,nil,dg)
+			return Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,s.spcheck,nil,dg)
 		else
 			return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler())
 		end
 	end
 	if e:GetLabel()==1 then
 		e:SetLabel(0)
-		local sg=Duel.SelectReleaseGroupCost(tp,c53567095.cfilter,1,1,false,c53567095.spcheck,nil,dg)
+		local sg=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,false,s.spcheck,nil,dg)
 		Duel.Release(sg,REASON_COST)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,2,e:GetHandler())
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
 end
-function c53567095.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
 	Duel.Destroy(sg,REASON_EFFECT)

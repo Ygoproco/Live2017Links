@@ -1,7 +1,8 @@
 --カボチャの馬車
 --Pumpkin Carriage
 --Scripted by AlphaKretin
-function c14512825.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--direct attack
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -17,7 +18,7 @@ function c14512825.initial_effect(c)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(LOCATION_ONFIELD,0)
-	e2:SetTarget(c14512825.indtg)
+	e2:SetTarget(s.indtg)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	--cannot be target
@@ -26,8 +27,8 @@ function c14512825.initial_effect(c)
 	e3:SetValue(aux.tgoval)
 	c:RegisterEffect(e3)
 end
-c14512825.listed_names={72283691}
-function c14512825.indtg(e,c)
-	return c:IsFaceup() and c:IsCode(72283691)
+s.listed_names={CARD_STROMBERG}
+function s.indtg(e,c)
+	return c:IsFaceup() and c:IsCode(CARD_STROMBERG)
 end
 

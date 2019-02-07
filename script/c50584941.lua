@@ -1,44 +1,45 @@
 --レッド・スプレマシー
-function c50584941.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c50584941.cost)
-	e1:SetTarget(c50584941.target)
-	e1:SetOperation(c50584941.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-c50584941.check=false
-function c50584941.cfilter(c,tp)
+s.check=false
+function s.cfilter(c,tp)
 	local code=c:GetOriginalCode()
 	return c:IsSetCard(0x1045) and c:IsType(TYPE_SYNCHRO) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true) 
-		and Duel.IsExistingTarget(c50584941.filter,tp,LOCATION_MZONE,0,1,c,code)
+		and Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,0,1,c,code)
 end
-function c50584941.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	c50584941.check=true
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	s.check=true
 	return true
 end
-function c50584941.filter(c,code)
+function s.filter(c,code)
 	return c:IsFaceup() and c:IsSetCard(0x1045) and c:IsType(TYPE_SYNCHRO) and (not c:IsCode(code) or c:GetOriginalCode()~=code)
 end
-function c50584941.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c50584941.filter(chkc,e:GetLabel()) end
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and s.filter(chkc,e:GetLabel()) end
 	if chk==0 then
-		if not c50584941.check then return false end
-		c50584941.check=false
-		return Duel.IsExistingMatchingCard(c50584941.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,tp)
+		if not s.check then return false end
+		s.check=false
+		return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,nil,tp)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c50584941.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,tp)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,tp)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 	local code=g:GetFirst():GetOriginalCode()
 	e:SetLabel(code)	
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,c50584941.filter,tp,LOCATION_MZONE,0,1,1,nil,code)
+	Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,0,1,1,nil,code)
 end
-function c50584941.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	local code=e:GetLabel()
@@ -48,8 +49,8 @@ function c50584941.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_CHANGE_CODE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(code)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
-		tc:ReplaceEffect(code,RESET_EVENT+0x1fe0000)
+		tc:ReplaceEffect(code,RESET_EVENT+RESETS_STANDARD)
 	end
 end

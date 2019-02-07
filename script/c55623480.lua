@@ -1,54 +1,55 @@
 --妖精伝姫－シラユキ
-function c55623480.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--position
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(55623480,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_POSITION)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
-	e1:SetTarget(c55623480.postg)
-	e1:SetOperation(c55623480.posop)
+	e1:SetTarget(s.postg)
+	e1:SetOperation(s.posop)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e2)
 	--special summon
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(55623480,1))
+	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_GRAVE)
-	e3:SetCost(c55623480.spcost)
-	e3:SetTarget(c55623480.sptg)
-	e3:SetOperation(c55623480.spop)
+	e3:SetCost(s.spcost)
+	e3:SetTarget(s.sptg)
+	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
-function c55623480.posfilter(c)
+function s.posfilter(c)
 	return c:IsFaceup() and c:IsCanTurnSet()
 end
-function c55623480.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c55623480.posfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c55623480.posfilter,tp,0,LOCATION_MZONE,1,nil) end
+function s.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.posfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.posfilter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local g=Duel.SelectTarget(tp,c55623480.posfilter,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.posfilter,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,1,0,0)
 end
-function c55623480.posop(e,tp,eg,ep,ev,re,r,rp)
+function s.posop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
 	end
 end
-function c55623480.rmfilter(c)
+function s.rmfilter(c)
 	return c:IsAbleToRemoveAsCost() and (c:IsLocation(LOCATION_HAND+LOCATION_SZONE) or aux.SpElimFilter(c,false,true))
 end
-function c55623480.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ct=-ft+1
-	local sg=Duel.GetMatchingGroup(c55623480.rmfilter,tp,LOCATION_HAND+LOCATION_ONFIELD+LOCATION_GRAVE,0,e:GetHandler())
-	if chk==0 then return sg:GetCount()>=7 and (ft>0 or sg:FilterCount(aux.MZFilter,nil,tp)>=ct) end
+	local sg=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_HAND+LOCATION_ONFIELD+LOCATION_GRAVE,0,e:GetHandler())
+	if chk==0 then return #sg>=7 and (ft>0 or sg:FilterCount(aux.MZFilter,nil,tp)>=ct) end
 	local g
 	if ft<=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
@@ -64,11 +65,11 @@ function c55623480.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
-function c55623480.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
-function c55623480.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)

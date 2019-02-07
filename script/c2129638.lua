@@ -1,9 +1,10 @@
 --青眼の双爆裂龍
-function c2129638.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMixN(c,true,true,89631139,2)
-	aux.AddContactFusion(c,c2129638.contactfil,c2129638.contactop,c2129638.splimit)
+	aux.AddFusionProcMixN(c,true,true,CARD_BLUEEYES_W_DRAGON,2)
+	aux.AddContactFusion(c,s.contactfil,s.contactop,s.splimit)
 	--indes
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
@@ -22,37 +23,37 @@ function c2129638.initial_effect(c)
 	c:RegisterEffect(e4)
 	--remove
 	local e7=Effect.CreateEffect(c)
-	e7:SetDescription(aux.Stringid(2129638,0))
+	e7:SetDescription(aux.Stringid(id,0))
 	e7:SetCategory(CATEGORY_REMOVE)
 	e7:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e7:SetCode(EVENT_DAMAGE_STEP_END)
-	e7:SetCondition(c2129638.rmcon)
-	e7:SetTarget(c2129638.rmtg)
-	e7:SetOperation(c2129638.rmop)
+	e7:SetCondition(s.rmcon)
+	e7:SetTarget(s.rmtg)
+	e7:SetOperation(s.rmop)
 	c:RegisterEffect(e7)
 end
-c2129638.material_setcode=0xdd
-c2129638.listed_names={89631139}
-function c2129638.splimit(e,se,sp,st)
-	return bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
+s.material_setcode=0xdd
+s.listed_names={CARD_BLUEEYES_W_DRAGON}
+function s.splimit(e,se,sp,st)
+	return (st&SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
 end
-function c2129638.contactfil(tp)
+function s.contactfil(tp)
 	return Duel.GetMatchingGroup(Card.IsAbleToGraveAsCost,tp,LOCATION_ONFIELD,0,nil)
 end
-function c2129638.contactop(g)
+function s.contactop(g)
 	Duel.SendtoGrave(g,REASON_COST+REASON_MATERIAL)
 end
-function c2129638.rmcon(e,tp,eg,ep,ev,re,r,rp)
+function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local bc=c:GetBattleTarget()
 	e:SetLabelObject(bc)
 	return c==Duel.GetAttacker() and bc and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsOnField() and bc:IsRelateToBattle()
 end
-function c2129638.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetLabelObject():IsAbleToRemove() end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,e:GetLabelObject(),1,0,0)
 end
-function c2129638.rmop(e,tp,eg,ep,ev,re,r,rp)
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local bc=e:GetLabelObject()
 	if bc:IsRelateToBattle() then
 		Duel.Remove(bc,POS_FACEUP,REASON_EFFECT)

@@ -1,6 +1,7 @@
 --ダーク・サンクチュアリ
 --Dark Sanctuary
-function c16625614.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -11,15 +12,15 @@ function c16625614.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_CHAINING)
 	e2:SetRange(LOCATION_FZONE)
-	e2:SetCondition(c16625614.chcon1)
-	e2:SetOperation(c16625614.chop1)
+	e2:SetCondition(s.chcon1)
+	e2:SetOperation(s.chop1)
 	c:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_CHAIN_ACTIVATING)
 	e3:SetRange(LOCATION_FZONE)
-	e3:SetCondition(c16625614.chcon2)
-	e3:SetOperation(c16625614.chop2)
+	e3:SetCondition(s.chcon2)
+	e3:SetOperation(s.chop2)
 	c:RegisterEffect(e3)
 	--negate attack
 	local e4=Effect.CreateEffect(c)
@@ -27,26 +28,26 @@ function c16625614.initial_effect(c)
 	e4:SetCategory(CATEGORY_COIN)
 	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e4:SetRange(LOCATION_FZONE)
-	e4:SetCondition(c16625614.condition)
-	e4:SetTarget(c16625614.target)
-	e4:SetOperation(c16625614.operation)
+	e4:SetCondition(s.condition)
+	e4:SetTarget(s.target)
+	e4:SetOperation(s.operation)
 	c:RegisterEffect(e4)
 end
-c16625614.toss_coin=true
-function c16625614.chcon1(e,tp,eg,ep,ev,re,r,rp)
+s.toss_coin=true
+function s.chcon1(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	return rc:IsControler(tp) and rc:IsCode(94212438) and re:GetLabel()==94212438
 end
-function c16625614.chop1(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():RegisterFlagEffect(16625614,RESET_EVENT+0x1fe0000+RESET_CHAIN,0,1,ev)
+function s.chop1(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1,ev)
 end
-function c16625614.chcon2(e,tp,eg,ep,ev,re,r,rp)
-	return ev==e:GetHandler():GetFlagEffectLabel(16625614)
+function s.chcon2(e,tp,eg,ep,ev,re,r,rp)
+	return ev==e:GetHandler():GetFlagEffectLabel(id)
 end
-function c16625614.chop2(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.ChangeChainOperation(ev,c16625614.dbop)
+function s.chop2(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.ChangeChainOperation(ev,s.dbop)
 end
-function c16625614.dbop(e,tp,eg,ep,ev,re,r,rp)
+function s.dbop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local ids={31893528,67287533,94772232,30170981}
@@ -56,7 +57,7 @@ function c16625614.dbop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	if tc and Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x11,0,0,1,RACE_FIEND,ATTRIBUTE_DARK,POS_FACEUP,tp,181)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.SelectYesNo(tp,aux.Stringid(16625614,0)) then
+		and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 		tc:AddMonsterAttribute(TYPE_NORMAL,ATTRIBUTE_DARK,RACE_FIEND,1,0,0)
 		Duel.SpecialSummonStep(tc,181,tp,tp,true,false,POS_FACEUP)
 		tc:AddMonsterAttributeComplete()
@@ -66,7 +67,7 @@ function c16625614.dbop(e,tp,eg,ep,ev,re,r,rp)
 		e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e7:SetRange(LOCATION_MZONE)
 		e7:SetCode(EFFECT_IMMUNE_EFFECT)
-		e7:SetValue(c16625614.efilter)
+		e7:SetValue(s.efilter)
 		e7:SetReset(RESET_EVENT+0x47c0000)
 		tc:RegisterEffect(e7)
 		--cannot be target
@@ -76,24 +77,24 @@ function c16625614.dbop(e,tp,eg,ep,ev,re,r,rp)
 		e8:SetReset(RESET_EVENT+0x47c0000)
 		tc:RegisterEffect(e8)
 		Duel.SpecialSummonComplete()
-		c:RegisterFlagEffect(94212438,RESET_EVENT+0x1fe0000,0,0)
+		c:RegisterFlagEffect(94212438,RESET_EVENT+RESETS_STANDARD,0,0)
 	elseif tc and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 then
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
-		c:RegisterFlagEffect(94212438,RESET_EVENT+0x1fe0000,0,0)
+		c:RegisterFlagEffect(94212438,RESET_EVENT+RESETS_STANDARD,0,0)
 	end
 end
-function c16625614.efilter(e,te)
+function s.efilter(e,te)
 	local tc=te:GetHandler()
 	return not tc:IsCode(94212438)
 end
-function c16625614.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=Duel.GetTurnPlayer()
 end
-function c16625614.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_COIN,nil,0,tp,1)
 end
-function c16625614.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetAttacker()
 	local coin=Duel.TossCoin(tp,1)

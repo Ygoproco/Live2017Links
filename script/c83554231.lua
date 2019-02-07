@@ -47,9 +47,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
     end
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-    return bit.band(r,REASON_DESTROY)~=0
-        and bit.band(e:GetHandler():GetPreviousLocation(),LOCATION_ONFIELD)~=0
-        and bit.band(e:GetHandler():GetPreviousPosition(),POS_FACEDOWN)~=0
+    return (r&REASON_DESTROY)~=0
+        and (e:GetHandler():GetPreviousLocation()&LOCATION_ONFIELD)~=0
+        and (e:GetHandler():GetPreviousPosition()&POS_FACEDOWN)~=0
 end
 function s.thfilter(c)
     return c:IsSetCard(0x119) and c:IsType(TYPE_SPELL+TYPE_TRAP) and not c:IsCode(id) and c:IsAbleToHand()

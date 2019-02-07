@@ -71,7 +71,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 		local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_DECK,0,nil,e,tp)
-		if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local sg=g:Select(tp,1,1,nil)

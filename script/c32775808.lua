@@ -1,7 +1,8 @@
 --デーモンの顕現
 --Manifested Skull Archfiend
 --Scripted by AlphaKretin
-function c32775808.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	aux.AddFusionProcMix(c,true,true,CARD_SUMMONED_SKULL,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK))
 	--code
@@ -27,30 +28,30 @@ function c32775808.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_TO_GRAVE)
 	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP)
-	e3:SetCondition(c32775808.spcon)
-	e3:SetTarget(c32775808.sptg)
-	e3:SetOperation(c32775808.spop)
+	e3:SetCondition(s.spcon)
+	e3:SetTarget(s.sptg)
+	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
-function c32775808.spcon(e,tp,eg,ep,ev,re,r,rp)
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsSummonType(SUMMON_TYPE_FUSION)
 		and rp~=tp and c:GetPreviousControler()==tp
 end
-function c32775808.spfilter(c,e,tp)
+function s.spfilter(c,e,tp)
 	return c:IsCode(CARD_SUMMONED_SKULL) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
-function c32775808.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return false end
-		return Duel.IsExistingMatchingCard(c32775808.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp)
+		return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
-function c32775808.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c32775808.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
 	if tc then 
 		Duel.SpecialSummon(tc,0,tp,tp,true,true,POS_FACEUP)
 	end

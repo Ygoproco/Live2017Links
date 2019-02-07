@@ -1,14 +1,15 @@
 --Dragunity Pilum
 --ドラグニティ－ピルム
-function c52977572.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--equip
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(52977572,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_EQUIP)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
-	e1:SetTarget(c52977572.sptg)
-	e1:SetOperation(c52977572.spop)
+	e1:SetTarget(s.sptg)
+	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--direct attack
 	local e2=Effect.CreateEffect(c)
@@ -20,23 +21,23 @@ function c52977572.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e3:SetCondition(c52977572.rdcon)
-	e3:SetOperation(c52977572.rdop)
+	e3:SetCondition(s.rdcon)
+	e3:SetOperation(s.rdop)
 	c:RegisterEffect(e3)
 end
-function c52977572.filter(c,e,tp)
+function s.filter(c,e,tp)
 	return c:IsSetCard(0x29) and c:IsRace(RACE_WINDBEAST) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c52977572.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		and Duel.IsExistingMatchingCard(c52977572.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 end
-function c52977572.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c52977572.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
+	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
 	local tc=g:GetFirst()
 	if not tc then return end
 	Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
@@ -49,21 +50,21 @@ function c52977572.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_EQUIP_LIMIT)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
-	e1:SetValue(c52977572.eqlimit)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	e1:SetValue(s.eqlimit)
 	e1:SetLabelObject(tc)
 	c:RegisterEffect(e1)
 end
-function c52977572.eqlimit(e,c)
+function s.eqlimit(e,c)
 	return e:GetLabelObject()==c
 end
-function c52977572.rdcon(e,tp,eg,ep,ev,re,r,rp)
+function s.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler():GetEquipTarget()
 	return ep~=tp and c==Duel.GetAttacker() and Duel.GetAttackTarget()==nil
 		and c:IsHasEffect(EFFECT_DIRECT_ATTACK)
 		and Duel.IsExistingMatchingCard(aux.NOT(Card.IsHasEffect),tp,0,LOCATION_MZONE,1,nil,EFFECT_IGNORE_BATTLE_TARGET)
 end
-function c52977572.rdop(e,tp,eg,ep,ev,re,r,rp)
+function s.rdop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetEquipTarget()
 	local effs={tc:GetCardEffect(EFFECT_DIRECT_ATTACK)}

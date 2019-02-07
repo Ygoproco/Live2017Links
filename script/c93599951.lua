@@ -1,19 +1,20 @@
 --沈黙の邪悪霊
-function c93599951.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCondition(c93599951.condition)
-	e1:SetTarget(c93599951.target)
-	e1:SetOperation(c93599951.activate)
+	e1:SetCondition(s.condition)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c93599951.condition(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=Duel.GetTurnPlayer()
 end
-function c93599951.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	local a=Duel.GetAttacker()
 	if chk==0 then return a and a:IsCanBeEffectTarget(e) and Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,a) end
@@ -22,7 +23,7 @@ function c93599951.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,1,a)
 	e:SetLabelObject(g:GetFirst())
 end
-function c93599951.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if Duel.NegateAttack() and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		if tc:IsDefensePos() then

@@ -94,7 +94,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetTargetRange(1,0)
 	Duel.RegisterEffect(e2,tp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if g:GetCount()>0 and Duel.Destroy(g,REASON_EFFECT)~=0 then
+	if #g>0 and Duel.Destroy(g,REASON_EFFECT)~=0 then
 		local c=e:GetHandler()
 		if c:IsRelateToEffect(e) then
 			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)

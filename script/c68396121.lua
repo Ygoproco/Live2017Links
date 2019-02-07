@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	e1:SetCountLimit(1)
 	e1:SetCost(s.negcost)
 	e1:SetOperation(s.negop)
-	c:RegisterEffect(e1,false,1)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
 	--atk
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))

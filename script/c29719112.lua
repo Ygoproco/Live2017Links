@@ -1,85 +1,86 @@
 --サイバー・ファロス
 -- Cyber Pharos
-function c29719112.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--special summon
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(29719112,0))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCondition(c29719112.spcon1)
-	e1:SetOperation(c29719112.spop1)
+	e1:SetCondition(s.spcon1)
+	e1:SetOperation(s.spop1)
 	c:RegisterEffect(e1)
 	--special summon
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(29719112,1))
+	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1)
-	e2:SetTarget(c29719112.sptg)
-	e2:SetOperation(c29719112.spop2)
+	e2:SetTarget(s.sptg)
+	e2:SetOperation(s.spop2)
 	c:RegisterEffect(e2)	
 	--search
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(29719112,2))
+	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
 	e3:SetRange(LOCATION_GRAVE)
 	e3:SetCode(EVENT_DESTROYED)
-	e3:SetCountLimit(1,29719112)
+	e3:SetCountLimit(1,id)
 	e3:SetCost(aux.bfgcost)
-	e3:SetCondition(c29719112.thcon)
-	e3:SetTarget(c29719112.thtg)
-	e3:SetOperation(c29719112.thop)
+	e3:SetCondition(s.thcon)
+	e3:SetTarget(s.thtg)
+	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
-function c29719112.spfilter(c,ft,tp)
+function s.spfilter(c,ft,tp)
 	return c:IsRace(RACE_MACHINE)
 		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5)) and (c:IsControler(tp) or c:IsFaceup())
 end
-function c29719112.spcon1(e,c)
+function s.spcon1(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return ft>-1 and Duel.CheckReleaseGroup(tp,c29719112.spfilter,1,nil,ft,tp)
+	return ft>-1 and Duel.CheckReleaseGroup(tp,s.spfilter,1,nil,ft,tp)
 end
-function c29719112.spop1(e,tp,eg,ep,ev,re,r,rp,c)
+function s.spop1(e,tp,eg,ep,ev,re,r,rp,c)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local g=Duel.SelectReleaseGroup(tp,c29719112.spfilter,1,1,nil,ft,tp)
+	local g=Duel.SelectReleaseGroup(tp,s.spfilter,1,1,nil,ft,tp)
 	Duel.Release(g,REASON_COST)
 end
-function c29719112.spfilter1(c,e)
+function s.spfilter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end
-function c29719112.spfilter2(c,e,tp,m,f,chkf)
+function s.spfilter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsRace(RACE_MACHINE) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,chkf)
 end
-function c29719112.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=tp
 		local mg1=Duel.GetFusionMaterial(tp)
-		local res=Duel.IsExistingMatchingCard(c29719112.spfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil,chkf)
+		local res=Duel.IsExistingMatchingCard(s.spfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil,chkf)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
 			if ce~=nil then
 				local fgroup=ce:GetTarget()
 				local mg2=fgroup(ce,e,tp)
 				local mf=ce:GetValue()
-				res=Duel.IsExistingMatchingCard(c29719112.spfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,mf,chkf)
+				res=Duel.IsExistingMatchingCard(s.spfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,mf,chkf)
 			end
 		end
 		return res
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function c29719112.spop2(e,tp,eg,ep,ev,re,r,rp)
+function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 	local chkf=tp
-	local mg1=Duel.GetFusionMaterial(tp):Filter(c29719112.spfilter1,nil,e)
-	local sg1=Duel.GetMatchingGroup(c29719112.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil,chkf)
+	local mg1=Duel.GetFusionMaterial(tp):Filter(s.spfilter1,nil,e)
+	local sg1=Duel.GetMatchingGroup(s.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil,chkf)
 	local mg2=nil
 	local sg2=nil
 	local ce=Duel.GetChainMaterial(tp)
@@ -87,9 +88,9 @@ function c29719112.spop2(e,tp,eg,ep,ev,re,r,rp)
 		local fgroup=ce:GetTarget()
 		mg2=fgroup(ce,e,tp)
 		local mf=ce:GetValue()
-		sg2=Duel.GetMatchingGroup(c29719112.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,mf,chkf)
+		sg2=Duel.GetMatchingGroup(s.spfilter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg2,mf,chkf)
 	end
-	if sg1:GetCount()>0 or (sg2~=nil and sg2:GetCount()>0) then
+	if #sg1>0 or (sg2~=nil and #sg2>0) then
 		local sg=sg1:Clone()
 		if sg2 then sg:Merge(sg2) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -109,23 +110,23 @@ function c29719112.spop2(e,tp,eg,ep,ev,re,r,rp)
 		tc:CompleteProcedure()
 	end
 end
-function c29719112.cfilter(c,tp)
+function s.cfilter(c,tp)
 	return c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp and c:IsType(TYPE_FUSION) and c:IsReason(REASON_BATTLE)
 end
-function c29719112.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c29719112.cfilter,1,nil,tp)
+function s.thcon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.cfilter,1,nil,tp)
 end
-function c29719112.thfilter(c)
+function s.thfilter(c)
 	return c:IsCode(37630732) and c:IsAbleToHand()
 end
-function c29719112.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c29719112.thfilter,tp,LOCATION_DECK,0,1,nil) end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
-function c29719112.thop(e,tp,eg,ep,ev,re,r,rp)
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c29719112.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

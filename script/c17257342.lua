@@ -1,7 +1,8 @@
 --光の精霊 ディアーナ
 --Diana the Light Spirit
 --Scripted by Eerie Code
-function c17257342.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -9,8 +10,8 @@ function c17257342.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCondition(c17257342.spcon)
-	e1:SetOperation(c17257342.spop)
+	e1:SetCondition(s.spcon)
+	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--recover
 	local e2=Effect.CreateEffect(c)
@@ -20,37 +21,37 @@ function c17257342.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1)
-	e2:SetCondition(c17257342.reccon)
-	e2:SetTarget(c17257342.rectg)
-	e2:SetOperation(c17257342.recop)
+	e2:SetCondition(s.reccon)
+	e2:SetTarget(s.rectg)
+	e2:SetOperation(s.recop)
 	c:RegisterEffect(e2)
 end
-function c17257342.spfilter(c,ft)
+function s.spfilter(c,ft)
 	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true,false)
 		and (ft>0 or c:IsLocation(LOCATION_MZONE))
 end
-function c17257342.spcon(e,c)
+function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return Duel.IsExistingMatchingCard(c17257342.spfilter,tp,LOCATION_GRAVE,0,1,nil,ft)
+	return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,ft)
 end
-function c17257342.spop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	local g=Duel.SelectMatchingCard(tp,c17257342.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,ft)
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,ft)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
-function c17257342.reccon(e,tp,eg,ep,ev,re,r,rp)
+function s.reccon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
-function c17257342.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(1000)
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,1000)
 end
-function c17257342.recop(e,tp,eg,ep,ev,re,r,rp)
+function s.recop(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Recover(p,d,REASON_EFFECT)
 end

@@ -1,10 +1,11 @@
 --罠封印の呪符
-function c19312169.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCondition(c19312169.actcon)
+	e1:SetCondition(s.actcon)
 	c:RegisterEffect(e1)
 	--destroy
 	local e2=Effect.CreateEffect(c)
@@ -12,7 +13,7 @@ function c19312169.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCode(EFFECT_SELF_DESTROY)
-	e2:SetCondition(c19312169.descon)
+	e2:SetCondition(s.descon)
 	c:RegisterEffect(e2)
 	--cannot trigger
 	local e3=Effect.CreateEffect(c)
@@ -36,7 +37,7 @@ function c19312169.initial_effect(c)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e5:SetCode(EVENT_CHAIN_SOLVING)
 	e5:SetRange(LOCATION_SZONE)
-	e5:SetOperation(c19312169.disop)
+	e5:SetOperation(s.disop)
 	c:RegisterEffect(e5)
 	--disable trap monster
 	local e6=Effect.CreateEffect(c)
@@ -54,16 +55,16 @@ function c19312169.initial_effect(c)
 	e7:SetCode(3682106)
 	c:RegisterEffect(e7)
 end
-function c19312169.filter(c)
+function s.filter(c)
 	return c:IsFaceup() and c:IsCode(2468169)
 end
-function c19312169.actcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c19312169.filter,tp,LOCATION_MZONE,0,1,nil)
+function s.actcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_MZONE,0,1,nil)
 end
-function c19312169.descon(e)
-	return not Duel.IsExistingMatchingCard(c19312169.filter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
+function s.descon(e)
+	return not Duel.IsExistingMatchingCard(s.filter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
-function c19312169.disop(e,tp,eg,ep,ev,re,r,rp)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tl=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	if tl==LOCATION_SZONE and re:IsActiveType(TYPE_TRAP) then
 		Duel.NegateEffect(ev)

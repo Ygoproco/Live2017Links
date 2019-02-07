@@ -1,5 +1,6 @@
 --アドバンスド・ダーク
-function c12644061.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -11,7 +12,7 @@ function c12644061.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetTargetRange(LOCATION_MZONE+LOCATION_GRAVE,LOCATION_MZONE+LOCATION_GRAVE)
 	e2:SetCode(EFFECT_CHANGE_ATTRIBUTE)
-	e2:SetTarget(c12644061.tg)
+	e2:SetTarget(s.tg)
 	e2:SetValue(ATTRIBUTE_DARK)
 	c:RegisterEffect(e2)
 	--negate
@@ -19,30 +20,30 @@ function c12644061.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e3:SetRange(LOCATION_FZONE)
-	e3:SetCondition(c12644061.discon)
-	e3:SetOperation(c12644061.disop)
+	e3:SetCondition(s.discon)
+	e3:SetOperation(s.disop)
 	c:RegisterEffect(e3)
 	--
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(12644061,0))
+	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	e4:SetRange(LOCATION_FZONE)
-	e4:SetCondition(c12644061.damcon)
-	e4:SetCost(c12644061.damcost)
-	e4:SetOperation(c12644061.damop)
+	e4:SetCondition(s.damcon)
+	e4:SetCost(s.damcost)
+	e4:SetOperation(s.damop)
 	c:RegisterEffect(e4)
-	--12644061 chk
+	--id chk
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_FIELD)
-	e5:SetCode(12644061)
+	e5:SetCode(id)
 	e5:SetRange(LOCATION_FZONE)
 	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e5:SetTargetRange(1,1)
-	e5:SetValue(c12644061.val)
+	e5:SetValue(s.val)
 	c:RegisterEffect(e5)
 end
-function c12644061.tg(e,c)
+function s.tg(e,c)
 	if not c:IsSetCard(0x1034) then return false end
 	if c:GetFlagEffect(1)==0 then
 		c:RegisterFlagEffect(1,0,0,0)
@@ -55,54 +56,54 @@ function c12644061.tg(e,c)
 	end
 	return true
 end
-function c12644061.val(e,c,re,chk)
+function s.val(e,c,re,chk)
 	if chk==0 then return c:IsSetCard(0x1034) end
 	return ATTRIBUTE_DARK
 end
-function c12644061.discon(e,tp,eg,ep,ev,re,r,rp)
+function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local at=Duel.GetAttackTarget()
 	return at and a:IsSetCard(0x2034)
 end
-function c12644061.disop(e,tp,eg,ep,ev,re,r,rp)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetAttackTarget()
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_DISABLE)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
 	tc:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(e:GetHandler())
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_DISABLE_EFFECT)
-	e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
 	tc:RegisterEffect(e2)
 end
-function c12644061.damcon(e,tp,eg,ep,ev,re,r,rp)
+function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local at=Duel.GetAttackTarget()
 	return Duel.GetBattleDamage(tp)>0
 		and ((a:IsControler(tp) and a:IsSetCard(0x1034)) or (at and at:IsControler(tp) and at:IsSetCard(0x1034)))
 end
-function c12644061.dfilter(c)
+function s.dfilter(c)
 	return c:IsSetCard(0x1034) and c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost()
 end
-function c12644061.damcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c12644061.dfilter,tp,LOCATION_DECK,0,1,nil) end
+function s.damcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.dfilter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c12644061.dfilter,tp,LOCATION_DECK,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.dfilter,tp,LOCATION_DECK,0,1,1,nil)
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c12644061.damop(e,tp,eg,ep,ev,re,r,rp)
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
 	e1:SetRange(LOCATION_FZONE)
-	e1:SetOperation(c12644061.dop)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE)
+	e1:SetOperation(s.dop)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
 	c:RegisterEffect(e1)
 end
-function c12644061.dop(e,tp,eg,ep,ev,re,r,rp)
+function s.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ChangeBattleDamage(tp,0)
 end

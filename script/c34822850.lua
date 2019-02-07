@@ -1,5 +1,6 @@
 --煉獄の氾爛
-function c34822850.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -12,9 +13,9 @@ function c34822850.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e2:SetCountLimit(1)
-	e2:SetCondition(c34822850.spcon)
-	e2:SetTarget(c34822850.sptg)
-	e2:SetOperation(c34822850.spop)
+	e2:SetCondition(s.spcon)
+	e2:SetTarget(s.sptg)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--
 	local e3=Effect.CreateEffect(c)
@@ -22,7 +23,7 @@ function c34822850.initial_effect(c)
 	e3:SetRange(LOCATION_FZONE)
 	e3:SetTargetRange(LOCATION_HAND+LOCATION_GRAVE,0)
 	e3:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0xbb))
-	e3:SetCode(34822850)
+	e3:SetCode(id)
 	c:RegisterEffect(e3)
 	--cannot be target
 	local e4=Effect.CreateEffect(c)
@@ -30,7 +31,7 @@ function c34822850.initial_effect(c)
 	e4:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
 	e4:SetRange(LOCATION_FZONE)
 	e4:SetTargetRange(0,LOCATION_MZONE)
-	e4:SetValue(c34822850.atlimit)
+	e4:SetValue(s.atlimit)
 	c:RegisterEffect(e4)
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_FIELD)
@@ -38,33 +39,33 @@ function c34822850.initial_effect(c)
 	e5:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 	e5:SetRange(LOCATION_FZONE)
 	e5:SetTargetRange(LOCATION_MZONE,0)
-	e5:SetTarget(c34822850.tglimit)
+	e5:SetTarget(s.tglimit)
 	e5:SetValue(aux.tgoval)
 	c:RegisterEffect(e5)
 end
-function c34822850.spcon(e,tp,eg,ep,ev,re,r,rp)
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c34822850.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,34822851,0xbb,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_FIRE) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0xbb,TYPES_TOKEN,0,0,1,RACE_FIEND,ATTRIBUTE_FIRE) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
-function c34822850.spop(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e)
 		or Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,34822851,0xbb,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_FIRE) then return end
-	local token=Duel.CreateToken(tp,34822851)
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0xbb,TYPES_TOKEN,0,0,1,RACE_FIEND,ATTRIBUTE_FIRE) then return end
+	local token=Duel.CreateToken(tp,id+1)
 	Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 end
-function c34822850.filter(c,lv)
+function s.filter(c,lv)
 	return c:IsFaceup() and c:IsSetCard(0xbb) and c:GetLevel()>lv
 end
-function c34822850.atlimit(e,c)
-	return c:IsFaceup() and c:IsSetCard(0xbb) and Duel.IsExistingMatchingCard(c34822850.filter,c:GetControler(),LOCATION_MZONE,0,1,nil,c:GetLevel())
+function s.atlimit(e,c)
+	return c:IsFaceup() and c:IsSetCard(0xbb) and Duel.IsExistingMatchingCard(s.filter,c:GetControler(),LOCATION_MZONE,0,1,nil,c:GetLevel())
 end
-function c34822850.tglimit(e,c)
+function s.tglimit(e,c)
 	return c:IsSetCard(0xbb) 
-		and Duel.IsExistingMatchingCard(c34822850.filter,c:GetControler(),LOCATION_MZONE,0,1,nil,c:GetLevel())
+		and Duel.IsExistingMatchingCard(s.filter,c:GetControler(),LOCATION_MZONE,0,1,nil,c:GetLevel())
 end

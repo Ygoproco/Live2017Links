@@ -24,13 +24,13 @@ function s.initial_effect(c)
 	e2:SetCost(s.discost)
 	e2:SetTarget(s.distg)
 	e2:SetOperation(s.disop)
-	c:RegisterEffect(e2,false,1)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	local e3=e2:Clone()
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetHintTiming(0,0x1e0)
 	e3:SetCondition(s.discon2)
-	c:RegisterEffect(e3,false,1)
+	c:RegisterEffect(e3,false,REGISTER_FLAG_DETACH_XMAT)
 	--material
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
@@ -94,7 +94,7 @@ function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 	local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil,e)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.Overlay(c,g)
 	end
 end

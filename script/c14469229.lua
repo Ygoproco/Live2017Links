@@ -1,5 +1,6 @@
 --宝玉の守護者
-function c14469229.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--avoid destruction
@@ -8,40 +9,40 @@ function c14469229.initial_effect(c)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
 	e2:SetRange(LOCATION_PZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
-	e2:SetTarget(c14469229.indtg)
-	e2:SetValue(c14469229.indval)
+	e2:SetTarget(s.indtg)
+	e2:SetValue(s.indval)
 	c:RegisterEffect(e2)
 	--double
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(14469229,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	e3:SetRange(LOCATION_MZONE+LOCATION_HAND)
-	e3:SetCost(c14469229.cost)
-	e3:SetTarget(c14469229.target)
-	e3:SetOperation(c14469229.operation)
+	e3:SetCost(s.cost)
+	e3:SetTarget(s.target)
+	e3:SetOperation(s.operation)
 	c:RegisterEffect(e3)
 end
-function c14469229.indtg(e,c)
+function s.indtg(e,c)
 	return c:IsSetCard(0x1034) or (c:IsLocation(LOCATION_MZONE) and c:IsSetCard(0x2034))
 end
-function c14469229.indval(e,re,r,rp)
-	if bit.band(r,REASON_EFFECT)~=0 then
+function s.indval(e,re,r,rp)
+	if (r&REASON_EFFECT)~=0 then
 		return 1
 	else return 0 end
 end
-function c14469229.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsReleasable() end
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
-function c14469229.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
 	if a:IsControler(1-tp) then a=d end
 	if chk==0 then return d and a:IsSetCard(0x1034) end
 	e:SetLabelObject(a)
 end
-function c14469229.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if tc:IsRelateToBattle() and tc:IsFaceup() then
 		local atk=tc:GetBaseAttack()
@@ -50,7 +51,7 @@ function c14469229.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
 		e1:SetValue(atk*2)
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE_CAL)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
 		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
@@ -59,12 +60,12 @@ function c14469229.operation(e,tp,eg,ep,ev,re,r,rp)
 		local e3=Effect.CreateEffect(e:GetHandler())
 		e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 		e3:SetCode(EVENT_DAMAGE_STEP_END)
-		e3:SetOperation(c14469229.desop)
-		e3:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE)
+		e3:SetOperation(s.desop)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
 		tc:RegisterEffect(e3)
 	end
 end
-function c14469229.desop(e,tp,eg,ep,ev,re,r,rp)
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToBattle() and c:IsFaceup() then
 		Duel.Destroy(c,REASON_EFFECT)

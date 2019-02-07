@@ -1,5 +1,6 @@
 --海竜神－ネオダイダロス
-function c10485110.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
@@ -13,48 +14,48 @@ function c10485110.initial_effect(c)
 	e2:SetCode(EFFECT_SPSUMMON_PROC)
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e2:SetRange(LOCATION_HAND)
-	e2:SetCondition(c10485110.spcon)
-	e2:SetOperation(c10485110.spop)
+	e2:SetCondition(s.spcon)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--tograve
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(10485110,0))
+	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_TOGRAVE)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCost(c10485110.cost)
-	e3:SetTarget(c10485110.target)
-	e3:SetOperation(c10485110.operation)
+	e3:SetCost(s.cost)
+	e3:SetTarget(s.target)
+	e3:SetOperation(s.operation)
 	c:RegisterEffect(e3)
 end
-function c10485110.cfilter1(c,ft,tp)
+function s.cfilter1(c,ft,tp)
 	return c:IsCode(37721209) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp))
 end
-function c10485110.spcon(e,c)
+function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return ft>-1 and Duel.CheckReleaseGroup(tp,c10485110.cfilter1,1,nil,ft,tp)
+	return ft>-1 and Duel.CheckReleaseGroup(tp,s.cfilter1,1,nil,ft,tp)
 end
-function c10485110.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,c10485110.cfilter1,1,1,nil,Duel.GetLocationCount(tp,LOCATION_MZONE),tp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
+	local g=Duel.SelectReleaseGroup(tp,s.cfilter1,1,1,nil,Duel.GetLocationCount(tp,LOCATION_MZONE),tp)
 	Duel.Release(g,REASON_COST)
 end
-function c10485110.cfilter2(c)
-	return c:IsFaceup() and c:IsCode(22702055) and c:IsAbleToGraveAsCost()
+function s.cfilter2(c)
+	return c:IsFaceup() and c:IsCode(CARD_UMI) and c:IsAbleToGraveAsCost()
 end
-function c10485110.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c10485110.cfilter2,tp,LOCATION_ONFIELD,0,1,nil) end
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter2,tp,LOCATION_ONFIELD,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c10485110.cfilter2,tp,LOCATION_ONFIELD,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter2,tp,LOCATION_ONFIELD,0,1,1,nil)
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c10485110.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,0xe,0xe,1,e:GetHandler()) end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0xe,0xe,e:GetHandler())
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,#g,0,0)
 end
-function c10485110.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0xe,0xe,e:GetHandler())
 	Duel.SendtoGrave(g,REASON_EFFECT)
 end

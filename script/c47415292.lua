@@ -1,5 +1,6 @@
 --漆黒の闘龍
-function c47415292.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	aux.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsCode,11321183),true)
 	--atk/def
 	local e3=Effect.CreateEffect(c)
@@ -18,4 +19,4 @@ function c47415292.initial_effect(c)
 	e5:SetCondition(aux.IsUnionState)
 	c:RegisterEffect(e5)
 end
-c47415292.listed_names={11321183}
+s.listed_names={11321183}

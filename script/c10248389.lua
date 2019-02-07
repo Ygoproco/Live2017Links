@@ -1,5 +1,6 @@
 --サイバー・ブレイダー
-function c10248389.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
 	aux.AddFusionProcMix(c,false,false,97023549,11460577)
@@ -7,7 +8,7 @@ function c10248389.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e1:SetCondition(c10248389.con)
+	e1:SetCondition(s.con)
 	e1:SetLabel(1)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
@@ -18,8 +19,8 @@ function c10248389.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_SET_ATTACK_FINAL)
 	e2:SetLabel(2)
-	e2:SetCondition(c10248389.con)
-	e2:SetValue(c10248389.atkval)
+	e2:SetCondition(s.con)
+	e2:SetValue(s.atkval)
 	c:RegisterEffect(e2)
 	--disable effect
 	local e4=Effect.CreateEffect(c)
@@ -27,8 +28,8 @@ function c10248389.initial_effect(c)
 	e4:SetCode(EVENT_CHAIN_SOLVING)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetLabel(3)
-	e4:SetCondition(c10248389.con)
-	e4:SetOperation(c10248389.disop)
+	e4:SetCondition(s.con)
+	e4:SetOperation(s.disop)
 	c:RegisterEffect(e4)
 	--Double Snare
 	local e5=Effect.CreateEffect(c)
@@ -36,18 +37,18 @@ function c10248389.initial_effect(c)
 	e5:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SINGLE_RANGE)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetLabel(3)
-	e5:SetCondition(c10248389.con)
+	e5:SetCondition(s.con)
 	e5:SetCode(3682106)
 	c:RegisterEffect(e5)
 end
-c10248389.material_setcode=0x93
-function c10248389.con(e)
+s.material_setcode=0x93
+function s.con(e)
 	return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),0,LOCATION_MZONE)==e:GetLabel()
 end
-function c10248389.atkval(e,c)
+function s.atkval(e,c)
 	return c:GetAttack()*2
 end
-function c10248389.disop(e,tp,eg,ep,ev,re,r,rp)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if rp~=tp then
 		Duel.NegateEffect(ev)
 	end

@@ -84,7 +84,7 @@ function s.sum(c)
 end
 function s.recop1(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(s.filter,nil,1-tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		local sum=g:GetSum(s.sum)
 		if Duel.Recover(tp,sum,REASON_EFFECT)~=0 then 
 			Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)

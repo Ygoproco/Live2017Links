@@ -33,11 +33,11 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if fc then ct=2 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToHand,tp,LOCATION_MZONE,LOCATION_MZONE,1,ct,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,g:GetCount(),0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,#g,0,0)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 	end
 end

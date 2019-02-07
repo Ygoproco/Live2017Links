@@ -26,7 +26,7 @@ end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local at=Duel.GetAttacker()
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 and
-		Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,0x4011,at:GetAttack(),0,2,RACE_AQUA,ATTRIBUTE_WATER) 
+		Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,at:GetAttack(),0,2,RACE_AQUA,ATTRIBUTE_WATER) 
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
@@ -38,7 +38,7 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	local seq=math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2)
 	Duel.MoveSequence(c,seq)
-	if c:GetSequence()==seq and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,0x4011,at:GetAttack(),0,2,RACE_AQUA,ATTRIBUTE_WATER) then
+	if c:GetSequence()==seq and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,at:GetAttack(),0,2,RACE_AQUA,ATTRIBUTE_WATER) then
 		Duel.BreakEffect()
 		local token=Duel.CreateToken(tp,id+1)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)

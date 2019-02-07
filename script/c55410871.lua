@@ -1,5 +1,6 @@
 --ブルーアイズ・カオス・MAX・ドラゴン
-function c55410871.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition
 	local e1=Effect.CreateEffect(c)
@@ -22,7 +23,7 @@ function c55410871.initial_effect(c)
 	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetValue(c55410871.indval)
+	e3:SetValue(s.indval)
 	c:RegisterEffect(e3)
 	--pierce
 	local e4=Effect.CreateEffect(c)
@@ -32,18 +33,18 @@ function c55410871.initial_effect(c)
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e5:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-	e5:SetCondition(c55410871.damcon)
-	e5:SetOperation(c55410871.damop)
+	e5:SetCondition(s.damcon)
+	e5:SetOperation(s.damop)
 	c:RegisterEffect(e5)
 end
-c55410871.listed_names={21082832}
-function c55410871.indval(e,re,tp)
+s.listed_names={21082832}
+function s.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
 end
-function c55410871.damcon(e,tp,eg,ep,ev,re,r,rp)
+function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return ep~=tp and c==Duel.GetAttacker() and Duel.GetAttackTarget() and Duel.GetAttackTarget():IsDefensePos()
 end
-function c55410871.damop(e,tp,eg,ep,ev,re,r,rp)
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DoublePiercingDamage(ep)
 end

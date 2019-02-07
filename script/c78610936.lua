@@ -38,9 +38,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)>0 then
 		local g=mg:Filter(aux.NecroValleyFilter(s.spfilter),nil,e,tp)
 		local ft=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
-		if ft>0 and g:GetCount()>0 then
-			if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
-			if g:GetCount()>ft then
+		if ft>0 and #g>0 then
+			if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
+			if #g>ft then
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 				g=g:Select(tp,ft,ft,nil)
 			end
@@ -52,7 +52,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 					e1:SetType(EFFECT_TYPE_SINGLE)
 					e1:SetCode(EFFECT_UPDATE_LEVEL)
 					e1:SetValue(-1)
-					e1:SetReset(RESET_EVENT+0x1fe0000)
+					e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 					tc:RegisterEffect(e1)
 				end
 				tc=g:GetNext()
