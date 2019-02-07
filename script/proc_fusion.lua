@@ -57,9 +57,9 @@ function Auxiliary.FConditionMix(insf,sub,...)
 				local chkf=chkfnf&0xff
 				local c=e:GetHandler()
 				local tp=c:GetControler()
-				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=(chkfnf>>12)&0xf~=0
-				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
+				local notfusion=(chkfnf&FUSPROC_NOTFUSION)~=0
+				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
+				local matcheck=e:GetValue()
 				local sub=(sub or notfusion) and not contact
 				local mg=g:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,table.unpack(funs))
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_FUSION)
@@ -81,9 +81,9 @@ function Auxiliary.FOperationMix(insf,sub,...)
 				local chkf=chkfnf&0xff
 				local c=e:GetHandler()
 				local tp=c:GetControler()
-				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=(chkfnf>>12)&0xf~=0
-				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
+				local notfusion=(chkfnf&FUSPROC_NOTFUSION)~=0
+				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
+				local matcheck=e:GetValue()
 				local sub=(sub or notfusion) and not contact
 				local mg=eg:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,table.unpack(funs))
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
@@ -125,7 +125,7 @@ function Auxiliary.FOperationMix(insf,sub,...)
 			end
 end
 function Auxiliary.FConditionFilterMix(c,fc,sub,sub,contact,matcheck,tp,...)
-	if matcheck~=0 and not matcheck(c,fc,sub,sub2,mg,sg,tp,contact,SUMMON_TYPE_FUSION) then return false end
+	if matcheck and not matcheck(c,fc,sub,sub2,mg,sg,tp,contact,SUMMON_TYPE_FUSION) then return false end
 	if contact then
 		if not c:IsCanBeFusionMaterial(fc,tp) then return false end
 	else
@@ -252,9 +252,9 @@ function Auxiliary.FConditionMixRep(insf,sub,fun1,minc,maxc,...)
 				local chkf=chkfnf&0xff
 				local c=e:GetHandler()
 				local tp=c:GetControler()
-				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=(chkfnf>>12)&0xf~=0
-				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
+				local notfusion=(chkfnf&FUSPROC_NOTFUSION)~=0
+				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
+				local matcheck=e:GetValue()
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
 				if contact then mustg:Clear() end
 				local sub=(sub or notfusion) and not contact
@@ -276,9 +276,9 @@ function Auxiliary.FOperationMixRep(insf,sub,fun1,minc,maxc,...)
 				local chkf=chkfnf&0xff
 				local c=e:GetHandler()
 				local tp=c:GetControler()
-				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=(chkfnf>>12)&0xf~=0
-				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
+				local notfusion=(chkfnf&FUSPROC_NOTFUSION)~=0
+				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
+				local matcheck=e:GetValue()
 				local sub=(sub or notfusion) and not contact
 				local sg=Group.CreateGroup()
 				local mg=eg:Filter(Auxiliary.FConditionFilterMix,c,c,sub,sub,contact,matcheck,tp,fun1,table.unpack(funs))
@@ -514,9 +514,9 @@ function Auxiliary.FConditionMixRepUnfix(insf,sub,minc,maxc,...)
 				local chkf=chkfnf&0xff
 				local c=e:GetHandler()
 				local tp=c:GetControler()
-				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=(chkfnf>>12)&0xf~=0
-				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
+				local notfusion=(chkfnf&FUSPROC_NOTFUSION)~=0
+				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
+				local matcheck=e:GetValue()
 				local sub=(sub or notfusion) and not contact
 				local mg=g:Filter(Auxiliary.FConditionFilterMixRepUnfix,c,c,sub,sub,contact,tp,table.unpack(funs))
 				mustg=Auxiliary.GetMustBeMaterialGroup(tp,g,tp,c,mg,REASON_FUSION)
@@ -537,9 +537,9 @@ function Auxiliary.FOperationMixRepUnfix(insf,sub,minc,maxc,...)
 				local chkf=chkfnf&0xff
 				local c=e:GetHandler()
 				local tp=c:GetControler()
-				local notfusion=(chkfnf>>8)&0xf~=0
-				local contact=(chkfnf>>12)&0xf~=0
-				local matcheck=(chkfnf>>16)&0xf==0 and e:GetValue() or 0
+				local notfusion=(chkfnf&FUSPROC_NOTFUSION)~=0
+				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
+				local matcheck=e:GetValue()
 				local sub=(sub or notfusion) and not contact
 				local mg=eg:Filter(Auxiliary.FConditionFilterMixRepUnfix,c,c,sub,sub,contact,tp,table.unpack(funs))
 				local mustg=Auxiliary.GetMustBeMaterialGroup(tp,eg,tp,c,mg,REASON_FUSION)
@@ -790,20 +790,14 @@ function Auxiliary.ContactCon(f,fcon)
 	return function(e,c)
 		if c==nil then return true end
 		local m=f(e:GetHandlerPlayer())
-		local chkf=c:GetControler()+0x1000
-		if e:GetValue()~=SUMMON_TYPE_FUSION then
-			chkf=chkf+0x10000
-		end
+		local chkf=c:GetControler()|FUSPROC_CONTACTFUS
 		return c:CheckFusionMaterial(m,nil,chkf) and (not fcon or fcon(e:GetHandlerPlayer()))
 	end
 end
 function Auxiliary.ContactTg(f)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local m=f(tp)
-		local chkf=tp+0x1000
-		if e:GetValue()~=SUMMON_TYPE_FUSION then
-			chkf=chkf+0x10000
-		end
+		local chkf=tp|FUSPROC_CONTACTFUS
 		local sg=Duel.SelectFusionMaterial(tp,e:GetHandler(),m,nil,chkf)
 		if sg:GetCount()>0 then
 			sg:KeepAlive()
