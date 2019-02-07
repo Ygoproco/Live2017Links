@@ -1,4 +1,5 @@
 --トリックスター・マンジュシカ
+--Trickstar Lycoris
 local s,id=GetID()
 function s.initial_effect(c)
 	--return
@@ -15,19 +16,14 @@ function s.initial_effect(c)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	--damage
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_CHAIN_SOLVED)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCondition(s.damcon)
-	e3:SetOperation(s.damop)
-	c:RegisterEffect(e3)
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e4:SetCode(EVENT_TO_HAND)
-	e4:SetRange(LOCATION_MZONE)
-	e4:SetOperation(s.checkop)
-	c:RegisterEffect(e4)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_TO_HAND)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCondition(s.damcon)
+	e2:SetOperation(s.damop)
+	c:RegisterEffect(e2)
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -59,23 +55,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetFlagEffect(id+1)>0
+	return eg:IsExists(Card.IsControler,1,nil,1-tp)
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,id)
-	Duel.Damage(1-tp,e:GetHandler():GetFlagEffect(id+1)*200,REASON_EFFECT)
-	e:GetHandler():ResetFlagEffect(id+1)
-end
-
-function s.checkop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
 	local ct=eg:FilterCount(Card.IsControler,nil,1-tp)
-	if ct>0 then
-		for i=1,ct do c:RegisterFlagEffect(id+1,RESET_CHAIN,0,1) end
-	end
-	if Duel.GetCurrentChain()==0 and c:GetFlagEffect(id+1)>0 then
-		Duel.Hint(HINT_CARD,0,id)
-		Duel.Damage(1-tp,c:GetFlagEffect(id+1)*200,REASON_EFFECT)
-		c:ResetFlagEffect(id+1)
-	end
+	Duel.Damage(1-tp,ct*200,REASON_EFFECT)
 end
