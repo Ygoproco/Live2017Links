@@ -852,3 +852,4 @@ REGISTER_FLAG_THUNDRA		=4
 --Flags for the various filters in the fusion procedure
 FUSPROC_NOTFUSION			=0x100
 FUSPROC_CONTACTFUS			=0x200
+FUSPROC_LISTEDMATS			=0x400

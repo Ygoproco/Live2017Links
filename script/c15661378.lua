@@ -27,8 +27,11 @@ end
 function s.fusfilter(c,code)
 	return c:IsFusionCode(code) and not c:IsHasEffect(511002961)
 end
-function s.matfilter(c,fc,sub,sub2,mg,sg,tp,contact)
-	return c:IsLocation(LOCATION_ONFIELD+LOCATION_HAND) and c:IsControler(tp)
+function s.matfilter(c,fc,sub,sub2,mg,sg,tp,contact,sumtype)
+	if sumtype==SUMMON_TYPE_FUSION and fc:IsLocation(LOCATION_EXTRA) and not contact then
+		return c:IsLocation(LOCATION_ONFIELD+LOCATION_HAND) and c:IsControler(tp)
+	end
+	return true
 end
 function s.filteraux(c)
 	return c:IsAbleToRemoveAsCost() and c:IsType(TYPE_MONSTER)

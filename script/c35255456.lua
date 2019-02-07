@@ -16,7 +16,7 @@ function s.filter1(c,e)
 end
 function s.filter2(c,e,tp,m,chkf)
 	return c:IsSetCard(0x3008) and aux.IsMaterialListCode(c,CARD_NEOS)
-		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and c:CheckFusionMaterial(m,nil,chkf+65536)
+		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and c:CheckFusionMaterial(m,nil,chkf|FUSPROC_NOTFUSION|FUSPROC_LISTEDMATS)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -30,7 +30,7 @@ function s.cffilter(c)
 	return c:IsLocation(LOCATION_HAND) or (c:IsLocation(LOCATION_MZONE) and c:IsFacedown())
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	local chkf=tp
+	local chkf=tp|FUSPROC_NOTFUSION|FUSPROC_LISTEDMATS
 	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.filter1),tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_MZONE,0,nil,e)
 	local sg=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg,chkf)
 	if #sg>0 then
