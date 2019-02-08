@@ -36,6 +36,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
     e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	g:GetFirst():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
     g:GetFirst():RegisterEffect(e1)
 end
 
