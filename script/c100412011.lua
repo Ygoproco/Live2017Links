@@ -1,5 +1,5 @@
 --無限起動要塞メガトンゲイル
---Infinite Ignition Fortress Megatongale
+--Infinite Ignition Fortress Megaton Gale
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -61,7 +61,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsRelateToEffect(e) and tc:IsLocation(LOCATION_GRAVE) 
 		and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		local oc=tg:Filter(s.mtfilter,tc,e,tp):GetFirst()
-		if oc and oc:IsControler(1-tp) and oc:IsRelateToEffect(e) then
+		if oc and oc:IsControler(1-tp) and oc:IsRelateToEffect(e) and not oc:IsImmuneToEffect(e) then
 			local og=oc:GetOverlayGroup()
 			if #og>0 then
 				Duel.SendtoGrave(og,REASON_RULE)
