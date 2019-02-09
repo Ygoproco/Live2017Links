@@ -1,4 +1,5 @@
 --王者の調和
+--King's Synchro
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -36,8 +37,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 		local g2=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,1,nil,tp,lv)
 		g2:AddCard(tc)
-		Duel.Remove(g2,POS_FACEUP,REASON_EFFECT)
-		Duel.SpecialSummon(g1,SUMMON_TYPE_SYNCHRO,tp,tp,false,false,POS_FACEUP)
-		g1:GetFirst():CompleteProcedure()
+		if Duel.Remove(g2,POS_FACEUP,REASON_EFFECT)==2 then
+			Duel.SpecialSummon(g1,SUMMON_TYPE_SYNCHRO,tp,tp,false,false,POS_FACEUP)
+			g1:GetFirst():CompleteProcedure()
+		end
 	end
 end
