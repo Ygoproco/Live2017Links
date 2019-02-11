@@ -1287,7 +1287,7 @@ end
 --Filter for unique on field Malefic monsters
 function Auxiliary.MaleficUniqueFilter(cc)
 	return 	function(c)
-				if Duel.IsPlayerAffectedByEffect(0,100236116) then
+				if Duel.IsPlayerAffectedByEffect(0,75223115) then
 					return c:GetCode()==cc:GetCode()
 				else
 					return c:IsSetCard(0x23)
@@ -1310,7 +1310,7 @@ function Auxiliary.MaleficSummonFilter(c,cd)
 	return c:IsCode(cd) and c:IsAbleToRemoveAsCost()
 end
 function Auxiliary.MaleficSummonSubstitute(c,cd)
-	return c:IsHasEffect(100236115) and c:IsAbleToRemoveAsCost()
+	return c:IsHasEffect(48829461) and c:IsAbleToRemoveAsCost()
 end
 function Auxiliary.MaleficSummonCondition(cd,loc)
 	return 	function(e,c)
@@ -1326,7 +1326,7 @@ function Auxiliary.MaleficSummonOperation(cd,loc)
 				g:Merge(Duel.GetMatchingGroup(Auxiliary.MaleficSummonSubstitute,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,nil))
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 				local tc=g:Select(tp,1,1,nil):GetFirst()
-				if tc:IsHasEffect(100236115) then Duel.RegisterFlagEffect(tp,100236115,RESET_PHASE+PHASE_END,0,1) end
+				if tc:IsHasEffect(48829461) then Duel.RegisterFlagEffect(tp,48829461,RESET_PHASE+PHASE_END,0,1) end
 				Duel.Remove(tc,POS_FACEUP,REASON_COST)
 			end
 end

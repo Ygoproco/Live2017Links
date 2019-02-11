@@ -70,7 +70,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			Duel.BreakEffect()
 			if Duel.IsPlayerAffectedByEffect(1-tp,CARD_BLUEEYES_SPIRIT) then ft2 = 1 end
 			Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_SPSUMMON)
-			sg = g2:Select(1-tp,ft2,ft2,nil)
+			sg = g2:Select(1-tp,1,ft2,nil)
 			Duel.SpecialSummon(sg,0,1-tp,1-tp,false,false,POS_FACEUP)
 		end
 	end
