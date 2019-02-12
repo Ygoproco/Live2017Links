@@ -1,4 +1,5 @@
 --アストログラフ・マジシャン
+--Astrograph Sorcerer
 local s,id=GetID()
 function s.initial_effect(c)
 	aux.EnablePendulumAttribute(c)
@@ -96,7 +97,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 end
-function s.thfilter1(c,tp,id)
+function s.thfilter1(c,tp)
 	return c:IsType(TYPE_MONSTER) and c:GetFlagEffect(id)~=0
 		and (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
 		and Duel.IsExistingMatchingCard(s.thfilter2,tp,LOCATION_DECK,0,1,nil,c:GetCode())
@@ -108,7 +109,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
-		local g=Duel.GetMatchingGroup(s.thfilter1,tp,0x70,0x70,nil,tp,Duel.GetTurnCount())
+		local g=Duel.GetMatchingGroup(s.thfilter1,tp,0x70,0x70,nil,tp)
 		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,7))

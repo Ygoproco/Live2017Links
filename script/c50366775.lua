@@ -1,4 +1,5 @@
 --フォーマッド・スキッパー
+--Formud Skipper
 local s,id=GetID()
 function s.initial_effect(c)
 	--link
@@ -14,7 +15,7 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetCode(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_TO_GRAVE)
+	e2:SetCode(EVENT_BE_MATERIAL)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCountLimit(1,id+1)
 	e2:SetCondition(s.thcon)
@@ -69,7 +70,7 @@ function s.chngcon(scard,sumtype,tp)
 	return sumtype==SUMMON_TYPE_LINK
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsReason(REASON_LINK)
+	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r==REASON_LINK
 end
 function s.thfilter(c)
 	return c:IsRace(RACE_CYBERSE) and c:IsLevelAbove(5) and c:IsAbleToHand()
