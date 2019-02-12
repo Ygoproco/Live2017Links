@@ -9,12 +9,12 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetCountLimit(1,id)
-	e1:SetCondition(s.condition)
+    e1:SetCondition(s.condition)
     e1:SetTarget(s.target)
     e1:SetOperation(s.operation)
     c:RegisterEffect(e1)
-	--to hand
-	local e2=Effect.CreateEffect(c)
+    --to hand
+    local e2=Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TOHAND+CATEGORY_LEAVE_GRAVE)
     e2:SetDescription(aux.Stringid(id,0))
     e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
@@ -71,7 +71,7 @@ function s.aclimit(e,re,tp)
 	return re:IsHasType(EFFECT_TYPE_ACTIVATE) and not re:GetHandler():IsImmuneToEffect(e)
 end
 function s.thcon2(e,tp,eg,ep,ev,re,r,rp)
-    return Duel.IsExistingMatchingCard(aux.tgfilterFaceupFunction(Card.IsSetCard,0x228),tp,LOCATION_MZONE,0,1,nil) and Duel.GetTurnPlayer()==tp
+    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x228),tp,LOCATION_MZONE,0,1,nil) and Duel.GetTurnPlayer()==tp
 end
 function s.thtg2(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler()
