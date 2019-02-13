@@ -36,6 +36,8 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetNext()
 	if hc~=e:GetLabelObject() then tc,hc=hc,tc end
 	if hc:IsFaceup() and tc:IsFaceup() and Duel.SendtoHand(hc,nil,REASON_EFFECT)~=0 then
+		local sg=Duel.GetOperatedGroup()
+		if not sg:IsExists(Card.IsLocation,1,nil,LOCATION_HAND) then return end
 		local atk=hc:GetBaseAttack()
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
