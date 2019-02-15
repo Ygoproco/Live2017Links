@@ -1,5 +1,5 @@
 --エンプレス・オブ・エンディミオン
---Empress of Endymion
+--Empress of Endymion 
 --scripted by Hatter
 
 local s,id=GetID()
