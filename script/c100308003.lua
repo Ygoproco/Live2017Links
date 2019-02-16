@@ -97,10 +97,9 @@ function s.spop1(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,aux.FilterFaceupFunction(s.spfilter,e,tp),tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
 	if #g>0 then
-		if Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)==1
-			and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)==1 then
+		g:AddCard(c)
+		if Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)==2 then
 			Duel.BreakEffect()
-			g:AddCard(c)
 			g:ForEach(Card.AddCounter,COUNTER_SPELL,1)
 		end
 	end
