@@ -109,12 +109,12 @@ end
 function s.cttg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:IsCanAddCounter(COUNTER_SPELL,1)
-		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCanAddCounter(COUNTER_SPELL,1)),tp,LOCATION_ONFIELD,0,1,c) end
+		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCanAddCounter,COUNTER_SPELL,1),tp,LOCATION_ONFIELD,0,1,c) end
 end
 function s.ctop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or not c:IsFaceup() or not c:IsCanAddCounter(COUNTER_SPELL,1) then return end
-	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsCanAddCounter(COUNTER_SPELL,1)),tp,LOCATION_ONFIELD,0,c)
+	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsCanAddCounter,COUNTER_SPELL,1),tp,LOCATION_ONFIELD,0,c)
 	if #g>0 then
 		g:AddCard(c)
 		g:ForEach(Card.AddCounter,COUNTER_SPELL,1)
