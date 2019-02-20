@@ -4,12 +4,12 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
-    local e1=Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    c:RegisterEffect(e1)
-    --Cannot target
-    local e2=Effect.CreateEffect(c)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	c:RegisterEffect(e1)
+	--Cannot target
+	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 	e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
@@ -18,7 +18,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.tgval)
 	e2:SetValue(aux.tgoval)
 	c:RegisterEffect(e2)
-    --Rank-Up
+	--Rank-Up
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -51,7 +51,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SelectTarget(tp,s.filter1,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function s.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if Duel.GetLocationCountFromEx(tp,tp,tc)<=0 or not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsControler(1-tp) or tc:IsImmuneToEffect(e) then return end
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(tc),tp,nil,nil,REASON_XYZ)
@@ -68,7 +68,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(sc,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
 		sc:CompleteProcedure()
 	end
-	local e1=Effect.CreateEffect(c)
+	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGEEFFECT_FLAG_CLIENT_HINT)

@@ -146,8 +146,8 @@ function Auxiliary.SynchroCheckP31(c,g,tsg,ntsg,sg,f1,sub1,f2,sub2,min1,max1,min
 		end
 	end
 	--c has the synchro limit
-	if c:IsHasEffect(73941492+TYPE_SYNCHRO) then
-		local eff={c:GetCardEffect(73941492+TYPE_SYNCHRO)}
+	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
 			local sg1=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
@@ -155,9 +155,9 @@ function Auxiliary.SynchroCheckP31(c,g,tsg,ntsg,sg,f1,sub1,f2,sub2,min1,max1,min
 		end
 	end
 	--A card in the selected group has the synchro lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_SYNCHRO)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_SYNCHRO_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_SYNCHRO)}
+		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
 		end
@@ -226,8 +226,8 @@ function Auxiliary.SynchroCheckP32(c,g,tsg,ntsg,sg,f2,sub2,min2,max2,req2,reqm,l
 		end
 	end
 	--c has the synchro limit
-	if c:IsHasEffect(73941492+TYPE_SYNCHRO) then
-		local eff={c:GetCardEffect(73941492+TYPE_SYNCHRO)}
+	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
 			local sg2=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
@@ -235,9 +235,9 @@ function Auxiliary.SynchroCheckP32(c,g,tsg,ntsg,sg,f2,sub2,min2,max2,req2,reqm,l
 		end
 	end
 	--A card in the selected group has the synchro lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_SYNCHRO)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_SYNCHRO_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_SYNCHRO)}
+		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
 		end
@@ -300,8 +300,8 @@ function Auxiliary.SynchroCheckP41(c,tg,ntg,tsg,ntsg,sg,min1,max1,min2,max2,req1
 	local trg=Group.CreateGroup()
 	local ntrg=Group.CreateGroup()
 	--c has the synchro limit
-	if c:IsHasEffect(73941492+TYPE_SYNCHRO) then
-		local eff={c:GetCardEffect(73941492+TYPE_SYNCHRO)}
+	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
 			local sg1=tg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
@@ -311,9 +311,9 @@ function Auxiliary.SynchroCheckP41(c,tg,ntg,tsg,ntsg,sg,min1,max1,min2,max2,req1
 		end
 	end
 	--A card in the selected group has the synchro lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_SYNCHRO)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_SYNCHRO_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_SYNCHRO)}
+		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
 		end
@@ -371,8 +371,8 @@ function Auxiliary.SynchroCheckP42(c,ntg,tsg,ntsg,sg,min2,max2,req2,reqm,lv,sc,t
 	local res
 	local ntrg=Group.CreateGroup()
 	--c has the synchro limit
-	if c:IsHasEffect(73941492+TYPE_SYNCHRO) then
-		local eff={c:GetCardEffect(73941492+TYPE_SYNCHRO)}
+	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
 			local sg2=ntg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
@@ -380,9 +380,9 @@ function Auxiliary.SynchroCheckP42(c,ntg,tsg,ntsg,sg,min2,max2,req2,reqm,lv,sc,t
 		end
 	end
 	--A card in the selected group has the synchro lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_SYNCHRO)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_SYNCHRO_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_SYNCHRO)}
+		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
 		end
@@ -774,8 +774,8 @@ function Auxiliary.MajesticSynchroCheck1(c,g,sg,card1,card2,card3,lv,sc,tp,pg,f1
 		end
 	end
 	--c has the synchro limit
-	if c:IsHasEffect(73941492+TYPE_SYNCHRO) then
-		local eff={c:GetCardEffect(73941492+TYPE_SYNCHRO)}
+	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
 			local sg1=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
@@ -783,9 +783,9 @@ function Auxiliary.MajesticSynchroCheck1(c,g,sg,card1,card2,card3,lv,sc,tp,pg,f1
 		end
 	end
 	--A card in the selected group has the synchro lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_SYNCHRO)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_SYNCHRO_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_SYNCHRO)}
+		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
 		end
@@ -1072,8 +1072,8 @@ function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,pg,f1,f2,.
 		end
 	end
 	--c has the synchro limit
-	if c:IsHasEffect(73941492+TYPE_SYNCHRO) then
-		local eff={c:GetCardEffect(73941492+TYPE_SYNCHRO)}
+	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
 			local sg1=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
@@ -1081,9 +1081,9 @@ function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,pg,f1,f2,.
 		end
 	end
 	--A card in the selected group has the synchro lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_SYNCHRO)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_SYNCHRO_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_SYNCHRO)}
+		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
 		end

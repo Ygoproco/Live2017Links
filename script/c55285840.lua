@@ -32,6 +32,7 @@ function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetDecktopGroup(1-tp,1)
 	if c:IsRelateToEffect(e) and #g==1 then
+		Duel.DisableShuffleCheck()
 		Duel.Overlay(c,g)
 	end
 end

@@ -96,8 +96,8 @@ function Auxiliary.FOperationMix(insf,sub,...)
 				end
 				for tc in aux.Next(mustg) do
 					sg:AddCard(tc)
-					if not contact and tc:IsHasEffect(73941492+TYPE_FUSION) then
-						local eff={gc:GetCardEffect(73941492+TYPE_FUSION)}
+					if not contact and tc:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+						local eff={gc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 						for i=1,#eff do
 							local f=eff[i]:GetValue()
 							mg=mg:Filter(Auxiliary.TuneMagFilterFus,tc,eff[i],f)
@@ -167,8 +167,8 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 	-- local rg=Group.CreateGroup()
 	local mg2=mg:Clone()
 	--c has the fusion limit
-	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
-		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
+	if not contact and c:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
 				return false
@@ -183,9 +183,9 @@ function Auxiliary.FSelectMix(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,...)
 	end
 	--A card in the selected group has the fusion lmit
 	if not contact then
-		local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_FUSION_MAT_RESTRICTION)
 		for tc in aux.Next(g2) do
-			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+			local eff={tc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 			for i,f in ipairs(eff) do
 				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
 					return false
@@ -416,8 +416,8 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 		minc=Auxiliary.FCheckExact-#{...}
 	end
 	--c has the fusion limit
-	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
-		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
+	if not contact and c:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
 				-- mg:Merge(rg)
@@ -433,9 +433,9 @@ function Auxiliary.FSelectMixRep(c,tp,mg,sg,mustg,fc,sub,sub2,contact,chkf,fun1,
 	end
 	--A card in the selected group has the fusion lmit
 	if not contact then
-		local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_FUSION_MAT_RESTRICTION)
 		for tc in aux.Next(g2) do
-			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+			local eff={tc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 			for i,f in ipairs(eff) do
 				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
 					-- mg:Merge(rg)
@@ -556,8 +556,8 @@ function Auxiliary.FOperationMixRepUnfix(insf,sub,minc,maxc,...)
 				end
 				for tc in aux.Next(mustg) do
 					sg:AddCard(tc)
-					if not contact and tc:IsHasEffect(73941492+TYPE_FUSION) then
-						local eff={gc:GetCardEffect(73941492+TYPE_FUSION)}
+					if not contact and tc:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+						local eff={gc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 						for i=1,#eff do
 							local f=eff[i]:GetValue()
 							mg=mg:Filter(Auxiliary.TuneMagFilterFus,tc,eff[i],f)
@@ -655,8 +655,8 @@ function Auxiliary.FCheckSelectMixRepUnfixAll(c,tp,mg,sg,mustg,g,fc,sub,sub2,chk
 	--Second layer check for harmonizing magician, checking teh possible selected group for the fusion summon
 	local mg2=mg:Clone()
 	if not contact then
-		if c:IsHasEffect(73941492+TYPE_FUSION) then
-			local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
+		if c:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+			local eff={c:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 			for _,fun in ipairs(eff) do
 				if (sg+g):IsExists(Auxiliary.TuneMagFilter,1,c,fun,fun:GetValue()) then
 					return false
@@ -665,9 +665,9 @@ function Auxiliary.FCheckSelectMixRepUnfixAll(c,tp,mg,sg,mustg,g,fc,sub,sub2,chk
 				mg2:Sub(sg2)
 			end
 		end
-		local g2=(sg+g):Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		local g2=(sg+g):Filter(Card.IsHasEffect,nil,EFFECT_FUSION_MAT_RESTRICTION)
 		for tc in aux.Next(g2) do
-			local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+			local eff={tc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 			for _,fun in ipairs(eff) do
 				if Auxiliary.TuneMagFilter(c,fun,fun:GetValue()) then
 					return false
@@ -717,8 +717,8 @@ function Auxiliary.FSelectMixRepUnfix(c,tp,mg,sg,mustg,fc,sub,sub2,minc,maxc,chk
 	end
 	--First layer check for harmonizing magician, checking only the selected group given when the function is called
 	--c has the fusion limit
-	if c:IsHasEffect(73941492+TYPE_FUSION) then
-		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
+	if c:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
 				mg:Merge(rg)
@@ -730,9 +730,9 @@ function Auxiliary.FSelectMixRepUnfix(c,tp,mg,sg,mustg,fc,sub,sub2,minc,maxc,chk
 		end
 	end
 	--A card in the selected group has the fusion lmit
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_FUSION_MAT_RESTRICTION)
 	for tc in aux.Next(g2) do
-		local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+		local eff={tc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 		for i,f in ipairs(eff) do
 			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
 				mg:Merge(rg)
@@ -939,8 +939,8 @@ end
 function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 	local res
 	local mg2=mg:Clone()
-	if not contact and c:IsHasEffect(73941492+TYPE_FUSION) then
-		local eff={c:GetCardEffect(73941492+TYPE_FUSION)}
+	if not contact and c:IsHasEffect(EFFECT_FUSION_MAT_RESTRICTION) then
+		local eff={c:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 		for i,f in ipairs(eff) do
 			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
 				return false
@@ -950,11 +950,11 @@ function Auxiliary.ShaddollRecursion(c,tp,mg,sg,exg,mustg,fc,chkf,f1,f2)
 		end
 	end
 	if not contact then
-		local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_FUSION)
+		local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_FUSION_MAT_RESTRICTION)
 		if g2:GetCount()>0 then
 			local tc=g2:GetFirst()
 			while tc do
-				local eff={tc:GetCardEffect(73941492+TYPE_FUSION)}
+				local eff={tc:GetCardEffect(EFFECT_FUSION_MAT_RESTRICTION)}
 				for i,f in ipairs(eff) do
 					if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
 						return false

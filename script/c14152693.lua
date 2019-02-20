@@ -51,7 +51,7 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spfilter(c,e,tp)
 	return  (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) 
-	and c:IsSetCard(0xdf) and not c:IsCode(id) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
+	and c:IsLevelBelow(4) and c:IsSetCard(0xdf) and not c:IsCode(id) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE+LOCATION_REMOVED) and chkc:IsControler(tp) and s.spfilter(chkc,e,tp) end
