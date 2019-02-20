@@ -99,7 +99,6 @@ function s.spop1(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 then
 		g:AddCard(c)
 		if Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)==2 then
-			Duel.BreakEffect()
 			g:ForEach(Card.AddCounter,COUNTER_SPELL,1)
 		end
 	end
