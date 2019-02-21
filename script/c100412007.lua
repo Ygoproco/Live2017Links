@@ -58,9 +58,9 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(tc,REASON_EFFECT)
 	end
 end
-function s.atchtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)	
-	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) end
+function s.atchtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local bc=e:GetHandler():GetBattleTarget()
+	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) and not bc:IsType(TYPE_TOKEN) end
 	Duel.SetTargetCard(bc)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,bc,1,0,0)
 end
