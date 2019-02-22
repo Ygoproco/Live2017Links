@@ -39,6 +39,9 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	elseif not (spchk and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)) and c:IsAbleToRemove() then
 		e:SetCategory(CATEGORY_REMOVE)
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
+	else 
+		Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
+		Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 	end
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
