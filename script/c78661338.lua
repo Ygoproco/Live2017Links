@@ -51,9 +51,8 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
     local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
     if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
         local ct=Duel.GetMatchingGroupCount(Card.IsType,tp,0,LOCATION_MZONE,nil,TYPE_LINK)
-        if ct==0 then return end
         Duel.BreakEffect()
-        if Duel.Draw(p,ct+1,REASON_EFFECT)==ct+1 then
+        if Duel.Draw(p,ct+1,REASON_EFFECT)==ct+1 and ct ~= 0 then
             local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,p,LOCATION_HAND,0,nil)
             if #g==0 then return end
             Duel.Hint(HINT_SELECTMSG,p,HINTMSG_TODECK)
