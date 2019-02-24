@@ -1,4 +1,5 @@
 --ダメージ・ダイエット
+--Damage Diet
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -36,7 +37,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 end
 function s.activate2(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetFlagEffect(tp,id)~=0 then return end
+	if Duel.GetFlagEffect(tp,id+1)~=0 then return end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CHANGE_DAMAGE)
@@ -45,7 +46,7 @@ function s.activate2(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetValue(s.val)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
-	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
+	Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 end
 function s.rdcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep==tp
