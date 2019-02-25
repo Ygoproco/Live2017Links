@@ -53,7 +53,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	for tc in aux.Next(g) do
 		zone = zone | tc:GetLinkedZone()
 	end
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and zone & 0x1f~=0 and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)>0 then
+	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)>0 and c:IsRelateToEffect(e) and zone & 0x1f~=0 then
 		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP,zone & 0x1f)
 	end
 end
