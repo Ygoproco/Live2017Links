@@ -23,9 +23,9 @@ function s.cfilter(c)
 	return c:IsFaceup() and c:GetLevel()==4
 end
 function s.spcon(e,c)
-	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 	if c==nil then return true end
 	local tp=c:GetControler()
+	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)>0
 		and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>0
