@@ -29,7 +29,7 @@ function s.rescon(sg,e,tp,mg)
 	for i, set in ipairs(t) do
 		if sg:IsExists(Card.IsSetCard,1,nil,set) then count = count + 1 end
 	end
-	return sg == 1 or count > 1
+	return #sg == 1 or count > 1
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,nil)
