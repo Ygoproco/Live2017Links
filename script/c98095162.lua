@@ -42,7 +42,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function s.spcheck(g,lc,tp)
-	return g:GetClassCount(Card.GetRace,lc,SUMMON_TYPE_LINK,tp)==#g and g:GetClassCount(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)==1
+	return g:GetClassCount(Card.GetRace,lc,SUMMON_TYPE_LINK,tp)==#g and g:CheckSameProperty(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)
 end
 function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
@@ -89,4 +89,3 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
-
