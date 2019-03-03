@@ -32,7 +32,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function s.syncheck(g,sc,tp)
-	return g:GetClassCount(Card.GetAttribute,sc,SUMMON_TYPE_SYNCHRO,tp)==1
+	return g:CheckSameProperty(Card.GetAttribute,sc,SUMMON_TYPE_SYNCHRO,tp)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_GRAVE,0,nil,TYPE_TUNER)

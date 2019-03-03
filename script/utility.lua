@@ -1381,6 +1381,19 @@ function Auxiliary.WitchcraftDiscardCost(f,minc,maxc)
 				end
 			end
 end
+--function to check if a card are same atribute.
+function Group.CheckSameProperty(g,f,...)
+	local prop
+	local arg = {...}
+	for tc in aux.Next(g) do
+		if not prop then
+			prop = f(tc,table.unpack(arg))
+		else
+			prop = prop & f(tc,table.unpack(arg))
+		end
+	end
+	return prop ~= 0, prop
+end
 
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
