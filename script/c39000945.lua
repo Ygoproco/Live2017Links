@@ -133,7 +133,7 @@ function s.srcon(e,tp,eg,ep,ev,re,r,rp)
 	return ct>0 and c:IsReason(REASON_BATTLE)
 end
 function s.srfilter(c)
-	return c:IsAbleToHand() and c:IsSetCard(0x229)
+	return c:IsAbleToHand() and c:IsSetCard(0x12a)
 end
 function s.srtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
