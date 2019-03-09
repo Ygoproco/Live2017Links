@@ -44,7 +44,7 @@ function s.naop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	local c=re:GetHandler()
-	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_SPELL) and rp==tp and c:IsSetCard(0x115) then
+	if re:IsActiveType(TYPE_SPELL) and rp==tp and c:IsSetCard(0x115) then
 		Duel.Hint(HINT_CARD,0,id)
 		Duel.Recover(tp,100,REASON_EFFECT)
 	end
