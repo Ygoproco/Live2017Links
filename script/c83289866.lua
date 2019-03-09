@@ -53,6 +53,7 @@ function s.tfcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.tftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0 end
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,e:GetHandler(),1,tp,0)
 end
 function s.tfop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
