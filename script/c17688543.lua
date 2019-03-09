@@ -14,6 +14,15 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.filter(c,e,tp)
+	if c:IsHasEffect(EFFECT_SPSUMMON_CONDITION) then
+		local sc = c:IsHasEffect(EFFECT_SPSUMMON_CONDITION)
+		local v = sc:GetValue()
+		if type(v) == 'function' and not v(sc,e,tp,SUMMON_TYPE_SPECIAL) then
+			return false
+		elseif v == 0 then
+			return false
+		end
+	end
 	return c:IsType(TYPE_MONSTER) and (not c:IsHasEffect(EFFECT_REVIVE_LIMIT) or c:IsStatus(STATUS_PROC_COMPLETE))
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
