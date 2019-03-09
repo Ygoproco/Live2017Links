@@ -61,6 +61,7 @@ function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
 function s.drop(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Draw(p,d,REASON_EFFECT)
 end
@@ -83,7 +84,7 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local bc=e:GetLabelObject()
 	if bc:IsRelateToBattle() and bc:IsControler(1-tp) then 
-		Duel.Remove(bc,0,REASON_EFFECT)		
+		Duel.Remove(bc,POS_FACEUP,REASON_EFFECT)		
 	end
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)

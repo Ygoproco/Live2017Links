@@ -26,7 +26,7 @@ function s.evilcond(c)
 	return c:IsFaceup() and c:IsCode(CARD_EVIL_EYE_SELENE)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc:IsAbleToHand() end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsAbleToHand() end
 	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToHand,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	local fc=Duel.IsExistingMatchingCard(s.evilcond,tp,LOCATION_SZONE,0,1,nil)
 	local ct=1
