@@ -41,9 +41,9 @@ function Auxiliary.PendCondition()
 				if c==nil then return true end
 				local tp=c:GetControler()
 				local rpz=Duel.GetFieldCard(tp,LOCATION_PZONE,1)
+				if rpz==nil or c==rpz or Duel.GetFlagEffect(tp,10000000)>0 then return false end
 				local lscale=c:GetLeftScale()
 				local rscale=rpz:GetRightScale()
-				if rpz==nil or c==rpz or Duel.GetFlagEffect(tp,10000000)>0 then return false end
 				local loc=0
 				if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then loc=loc+LOCATION_HAND end
 				if Duel.GetLocationCountFromEx(tp)>0 then loc=loc+LOCATION_EXTRA end
