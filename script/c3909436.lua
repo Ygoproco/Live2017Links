@@ -51,7 +51,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetDescription(aux.Stringid(id,3))
 		e1:SetValue(s.aclimit1)
 	elseif e:GetLabel()==1 then
-		e1:SetDescription(aux.Stringid(id,5))
+		e1:SetDescription(aux.Stringid(id,4))
 		e1:SetValue(s.aclimit2)
 	else
 		e1:SetDescription(aux.Stringid(id,5))
