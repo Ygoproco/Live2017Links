@@ -1,5 +1,5 @@
 --シンデレラ
---Cinderella
+--Prinzessin
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -95,7 +95,7 @@ function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local ec=tg:Filter(s.equal,nil,e:GetLabelObject()):GetFirst()
 	local tc=tg:Filter(aux.NOT(s.equal),nil,e:GetLabelObject()):GetFirst()
-	if Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and ec:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if ec:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Equip(tp,ec,tc)
 	end
 end
