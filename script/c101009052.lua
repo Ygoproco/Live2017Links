@@ -47,7 +47,7 @@ function s.indtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 end
 function s.indop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(aux.FaceupFilterFunction(Card.IsRace,RACE_CYBERSE),tp,LOCATION_MZONE,0,nil)
+	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsRace,RACE_CYBERSE),tp,LOCATION_MZONE,0,nil)
 	if #g==0 then return end
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(e:GetHandler())
