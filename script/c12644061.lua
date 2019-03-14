@@ -47,7 +47,12 @@ function s.tg(e,c)
 	if not c:IsSetCard(0x1034) then return false end
 	if c:GetFlagEffect(1)==0 then
 		c:RegisterFlagEffect(1,0,0,0)
-		local eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		local eff
+		if c:IsLocation(LOCATION_MZONE) then
+			eff={Duel.GetPlayerEffect(c:GetControler(),EFFECT_NECRO_VALLEY)}
+		else
+			eff={c:GetCardEffect(EFFECT_NECRO_VALLEY)}
+		end
 		c:ResetFlagEffect(1)
 		for _,te in ipairs(eff) do
 			local op=te:GetOperation()
