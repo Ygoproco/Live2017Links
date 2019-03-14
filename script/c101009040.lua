@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.mfilter(c,lc,sumtype,tp)
-	return c:IsSetCard(0x22b,lc,sumtype,tp) and c:IsLevelBelow(4)
+	return c:IsLinkSetCard(0x112) and c:IsLevelBelow(4)
 end
 function s.regcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
