@@ -47,7 +47,7 @@ function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsLocation(LOCATION_GRAVE) then tc,ec=ec,tc end
 	if tc:IsFaceup() then
 		Duel.Equip(tp,ec,tc,true)
-		local e1=Effect.CreateEffect(c)
+		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_EQUIP_LIMIT)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
@@ -55,7 +55,7 @@ function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetLabelObject(tc)
 		ec:RegisterEffect(e1)
 		--atkup
-		local e2=Effect.CreateEffect(c)
+		local e2=Effect.CreateEffect(e:GetHandler())
 		e2:SetType(EFFECT_TYPE_EQUIP)
 		e2:SetCode(EFFECT_UPDATE_ATTACK)
 		e2:SetValue(500)
