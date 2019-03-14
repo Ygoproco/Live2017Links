@@ -44,7 +44,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 end
 function s.afilter(c)
-	return c:IsType(TYPE_XYZ) and c:IsFaceup() 
+	return c:IsType(TYPE_XYZ) and c:IsFaceup() and c:IsStatus(STATUS_SPSUMMON_TURN)
 end
 function s.spcon2(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter,1,nil,tp) and aux.exccon(e) 
