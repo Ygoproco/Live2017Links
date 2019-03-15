@@ -12,6 +12,9 @@ function GetID()
     local s_id=tonumber(string.sub(str,2))
     return scard,s_id
 end
+function Card.IsNonEffectMonster(c)
+	return c:IsType(TYPE_MONSTER) and not c:IsType(TYPE_EFFECT)
+end
 
 local chkoverlay=Duel.CheckRemoveOverlayCard
 Duel.CheckRemoveOverlayCard=function(player, self, opponent, count, reason, group)
