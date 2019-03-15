@@ -51,7 +51,6 @@ end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	if not (rp==1-tp and re:IsHasProperty(EFFECT_FLAG_CARD_TARGET)) then return false end
 	local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
-	Debug.Message(g:IsExists(s.negfilter,1,nil,tp))
 	return g and g:IsExists(s.negfilter,1,nil,tp) and Duel.IsChainNegatable(ev)
 end
 function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
