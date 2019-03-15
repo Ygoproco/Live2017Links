@@ -71,6 +71,6 @@ end
 function s.actfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x22b) and c:IsType(TYPE_LINK) and c:IsLinkAbove(3)
 end
-function s.actcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(s.actfilter,tp,LOCATION_MZONE,0,1,nil)
+function s.actcon(e)
+	return Duel.IsExistingMatchingCard(s.actfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
