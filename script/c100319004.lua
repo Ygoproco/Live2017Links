@@ -3,7 +3,7 @@
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
-	--special summon
+    --special summon
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
     e1:SetType(EFFECT_TYPE_FIELD)
@@ -24,7 +24,7 @@ function s.initial_effect(c)
 end
 function s.spcon(e,c)
     if c==nil then return true end
-    return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 and
+    return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),LOCATION_MZONE,0)==0 and
         Duel.IsExistingMatchingCard(Card.IsRace,c:GetControler(),LOCATION_HAND,0,1,c,RACE_CYBERSE)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
