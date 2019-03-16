@@ -1,5 +1,5 @@
 --天威龍－シュターナ
---Skyforce Dragon - Shutana
+--Tianwei Dragon - Sh'tanna
 --Scripted by Hatter
 local s,id=GetID()
 function s.initial_effect(c)
