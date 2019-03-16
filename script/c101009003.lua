@@ -36,7 +36,7 @@ function s.spzone(tp)
 	for c in aux.Next(g) do
 		zone=zone|c:GetLinkedZone(tp)
 	end
-	return zone
+	return zone&0x1f
 end
 function s.condition(e,c)
 	if c==nil then return true end
