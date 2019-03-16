@@ -44,7 +44,7 @@ function s.indcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsPreviousPosition(POS_FACEUP) and c:IsLocation(LOCATION_GRAVE)
 end
 function s.indtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsRace,RACE_CYBERSE),tp,LOCATION_MZONE,0,1,nil) end
 end
 function s.indop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsRace,RACE_CYBERSE),tp,LOCATION_MZONE,0,nil)

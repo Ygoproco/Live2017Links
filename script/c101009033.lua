@@ -9,6 +9,7 @@ function s.initial_effect(c)
 	e1:SetCode(EFFECT_DISABLE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+	e1:SetCondition(s.discon)
 	e1:SetTarget(s.distg)
 	c:RegisterEffect(e1)
 	--special summon
@@ -21,6 +22,9 @@ function s.initial_effect(c)
     	e2:SetTarget(s.sptg)
     	e2:SetOperation(s.spop)
     	c:RegisterEffect(e2)
+end
+function s.discon(e)
+	return e:GetHandler():GetSequence()<5
 end
 function s.distg(e,c)
 	return c:GetSequence()>4

@@ -30,14 +30,14 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if not tc or not tc:IsRelateToEffect(e) then return end
+	if not tc or not tc:IsRelateToEffect(e) or not tc:IsControler(tp) then return end
 	local zone=tc:GetLinkedZone(tp)&0x1f
 	if Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_CONTROL,zone)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 		local nseq=math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,LOCATION_MZONE,~zone),2)
 		Duel.MoveSequence(tc,nseq)
 		local ct=tc:GetLink()
-		if ct>0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+		if ct>0 and Duel.IsPlayerCanDiscardDeck(tp,ct) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 			Duel.BreakEffect()
 			Duel.DiscardDeck(tp,ct,REASON_EFFECT)
 		end

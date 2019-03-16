@@ -18,7 +18,7 @@ function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and r&REASON_EFFECT~=0 and rp==ep
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,30459350) end
 	Duel.SetTargetCard(eg)
 	if eg and eg:IsExists(Card.IsType,1,nil,TYPE_MONSTER) then
 		Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,eg:GetFirst():GetAttack())
