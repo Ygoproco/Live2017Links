@@ -42,11 +42,8 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function s.cfilter(c)
-	return c:IsFaceup() and not c:IsType(TYPE_EFFECT)
-end
 function s.negfilter(c,tp)
-	return c:IsFaceup() and c:IsNonEffectMonster() and c:IsControler(tp)
+	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsNonEffectMonster() and c:IsControler(tp)
 end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	if not (rp==1-tp and re:IsHasProperty(EFFECT_FLAG_CARD_TARGET)) then return false end
