@@ -12,14 +12,15 @@ function s.initial_effect(c)
 	e1:SetTarget(s.distg)
 	c:RegisterEffect(e1)
 	--special summon
-    local e2=Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id,0))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_BATTLE_DESTROYED)
-    e2:SetTarget(s.sptg)
-    e2:SetOperation(s.spop)
-    c:RegisterEffect(e2)
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+    	e2:SetCode(EVENT_BATTLE_DESTROYED)
+	e2:SetCountLimit(1,id)
+    	e2:SetTarget(s.sptg)
+    	e2:SetOperation(s.spop)
+    	c:RegisterEffect(e2)
 end
 function s.distg(e,c)
 	return c:GetSequence()>4
@@ -37,6 +38,6 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
     local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
     if #g>0 then
-        Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_ATTACK)
+        Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
     end
 end
