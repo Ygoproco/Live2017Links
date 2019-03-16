@@ -1,6 +1,7 @@
 --天威龍－ナハタ
 --Skyforce Dragon - Nahata
 --Scripted by Hatter
+--Fixed by Larry126
 local s,id=GetID()
 function s.initial_effect(c)
 	--spsummon
@@ -22,6 +23,7 @@ function s.initial_effect(c)
 	e2:SetCountLimit(1,id+100)
 	e2:SetCondition(s.atcon)
 	e2:SetCost(aux.bfgcost)
+	e2:SetTarget(s.atg)
 	e2:SetOperation(s.atop)
 	c:RegisterEffect(e2)
 end
@@ -41,15 +43,20 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.atcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
-	local b=Duel.GetAttackTarget()
-	return (a:IsControler(tp) and not a:IsType(TYPE_EFFECT)) or (b:IsControler(tp) and not b:IsType(TYPE_EFFECT))
+	local d=Duel.GetAttackTarget()
+	if not d or a:GetControler()==d:GetControler() then return false end
+	if a:IsControler(tp) and not a:IsType(TYPE_EFFECT) then e:SetLabelObject(d) return true
+	elseif d:IsControler(tp) and not d:IsType(TYPE_EFFECT) then e:SetLabelObject(a) return true end
+	return false
+end
+function s.atg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetTargetCard(e:GetLabelObject())
+	e:SetLabelObject(nil)
 end
 function s.atop(e,tp,eg,ep,ev,re,r,rp)
-	local tc
-	if Duel.GetAttacker():IsControler(tp) then tc=Duel.GetAttackTarget()
-	elseif Duel.GetAttackTarget():IsControler(tp) then tc=Duel.GetAttacker()
-	end
-	if tc:IsFaceup() and tc:IsRelateToBattle() then
+	local tc=Duel.GetFirstTarget()
+	if tc:IsFaceup() and tc:IsRelateToEffect(e) and tc:IsRelateToBattle() then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
