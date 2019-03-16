@@ -42,7 +42,7 @@ end
 function s.atcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local b=Duel.GetAttackTarget()
-	return (a:IsControler(tp) and not a:IsType(TYPE_EFFECT)) or (b:IsControler(tp) and not b:IsType(TYPE_EFFECT))
+	return a and b and ((a:IsControler(tp) and a:IsFaceup() and not a:IsType(TYPE_EFFECT)) or (b:IsControler(tp) and b:IsFaceup() and not b:IsType(TYPE_EFFECT)))
 end
 function s.atop(e,tp,eg,ep,ev,re,r,rp)
 	local tc

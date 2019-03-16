@@ -30,11 +30,11 @@ function s.initial_effect(c)
 	e3:SetOperation(s.drop)
 	c:RegisterEffect(e3)
 end
-function s.efilter(e,te)
+function s.immfilter(e,te)
 	return te:IsActiveType(TYPE_MONSTER)
 end
 function s.drfilter(c,tp)
-	return c:GetSummonPlayer()~=tp
+	return c:GetSummonPlayer()~=tp and c:IsType(TYPE_EFFECT)
 end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.drfilter,1,nil,tp)
