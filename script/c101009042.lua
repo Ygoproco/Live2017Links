@@ -29,7 +29,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)   
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x22b) and c:IsAbleToHand()
+	return c:IsSetCard(0x22b) and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.thfilter(chkc) end

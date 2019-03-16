@@ -31,7 +31,7 @@ function s.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0x22b) and c:IsType(TYPE_LINK)
 end
 function s.spzone(tp)
-	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,0,nil)
+	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	local zone=0
 	for c in aux.Next(g) do
 		zone=zone|c:GetLinkedZone(tp)
@@ -46,8 +46,7 @@ function s.condition(e,c)
 end
 function s.spval(e,c)
 	local tp=e:GetHandlerPlayer()
-	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,0,nil)
-	local zone=s.spzone(tp,g)
+	local zone=s.spzone(tp)
 	return 0,zone
 end
 function s.spfilter(c,e,tp,zone)
