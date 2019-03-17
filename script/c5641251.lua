@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_LVCHANGE+CATEGORY_DESTROY)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+	e3:SetCode(EVENT_BATTLE_CONFIRM)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCost(s.lvlcost)
 	e3:SetCondition(s.lvlcon)
@@ -49,7 +49,7 @@ function s.acttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 			return
 		end
 	end
-	if Duel.CheckEvent(EVENT_PRE_DAMAGE_CALCULATE) then
+	if Duel.CheckEvent(EVENT_BATTLE_CONFIRM) then
 		if s.lvlcon(e,tp,eg,ep,ev,re,r,rp)
 			and s.lvlcost(e,tp,eg,ep,ev,re,r,rp,0)
 			and Duel.SelectYesNo(tp,94) then
