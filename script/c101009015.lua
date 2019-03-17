@@ -1,5 +1,5 @@
 --天威龍－ナハタ
---Skyforce Dragon - Nahata
+--Tianwei Dragon - Nahata
 --Scripted by Hatter
 local s,id=GetID()
 function s.initial_effect(c)
@@ -43,7 +43,7 @@ end
 function s.atcon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
-	if not d or a:GetControler()==d:GetControler() then return false end
+	if not d or a:GetControler()==d:GetControler() or d:IsFacedown() then return false end
 	if a:IsControler(tp) and not a:IsType(TYPE_EFFECT) then e:SetLabelObject(d) return true
 	elseif d:IsControler(tp) and not d:IsType(TYPE_EFFECT) then e:SetLabelObject(a) return true end
 	return false
