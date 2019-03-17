@@ -43,7 +43,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.cfilter(c,e,tp)
-	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP) and c:IsNonEffectMonster() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP) and not IsType(TYPE_TOKEN) 
+		and c:IsNonEffectMonster() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return s.cfilter(chkc,e,tp) end
