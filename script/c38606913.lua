@@ -77,28 +77,28 @@ function s.damact(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
-		e1:SetCode(EVENT_LEAVE_FIELD)
-		e1:SetRange(LOCATION_MZONE)
+		e1:SetCode(EVENT_LEAVE_FIELD_P)
 		e1:SetOperation(s.shchk)
 		e1:SetLabelObject(tc)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(e1)
+		e1:SetReset(RESET_PHASE+PHASE_END)
+		Duel.RegisterEffect(e1,tp)
 		local e2=Effect.CreateEffect(c)
 		e2:SetDescription(aux.Stringid(id,2))
 		e2:SetCategory(CATEGORY_DAMAGE)
-		e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+		e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e2:SetCode(EVENT_BATTLE_DESTROYING)
 		e2:SetCondition(s.shcon)
-		e2:SetTarget(s.dmtg)
 		e2:SetOperation(s.damop)
 		e2:SetLabelObject(tc)
-		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,3))
-		tc:RegisterEffect(e2)
+		e2:SetReset(RESET_PHASE+PHASE_END)
+		Duel.RegisterEffect(e2,tp)
+		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_LEAVE-RESET_TOGRAVE+RESET_PHASE+PHASE_END,0,1)
+		tc:CreateEffectRelation(e1)
 	end
 end
 function s.shchk(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
+	if not tc or not tc:IsRelateToEffect(e) then return end
 	local bt=tc:GetBattleTarget()
 	for tc in aux.Next(eg) do
 		if bt==tc and tc:GetCounter(0x1038) > 0 then
@@ -111,15 +111,9 @@ function s.shcon(e,tp,eg,ep,ev,re,r,rp)
 	local bt=tc:GetBattleTarget()
 	return tc and tc:GetFlagEffect(id)~=0 and bt and bt:GetFlagEffect(id+2) ~= 0
 end
-function s.dmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	local tc=e:GetLabelObject():GetBattleTarget()
-	local atk=tc:GetBaseAttack()
-	Duel.SetTargetPlayer(1-tp)
-	Duel.SetTargetParam(atk)
-	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,atk)
-end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
-	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	Duel.Damage(p,d,REASON_EFFECT)
+	local tc=e:GetLabelObject()
+	local bt=tc:GetBattleTarget()
+	local atk=bt:GetBaseAttack()
+	Duel.Damage(1-tp,atk,REASON_EFFECT)
 end
