@@ -11,6 +11,8 @@ function s.initial_effect(c)
     e1:SetTarget(s.target)
     e1:SetOperation(s.activate)
     c:RegisterEffect(e1)
+   	if not AshBlossomTable then AshBlossomTable={} end
+    table.insert(AshBlossomTable,e1)
 end
 function s.filter1(c,e)
     return c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
