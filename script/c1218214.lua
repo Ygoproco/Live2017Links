@@ -57,7 +57,10 @@ end
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	if Duel.DiscardHand(tp,s.disfilter,1,1,REASON_EFFECT)~=0 then
-		Duel.Draw(tp,1,REASON_EFFECT)
+		local ct=Duel.GetOperatedGroup():FilterCount(Card.IsLocation,nil,LOCATION_GRAVE)
+		if ct>0 then
+			Duel.Draw(tp,1,REASON_EFFECT)
+		end
 	end
 end
 function s.thfilter(c)
