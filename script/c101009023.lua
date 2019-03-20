@@ -3,6 +3,7 @@
 --Script by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
+	c:EnableCounterPermit(0x1f)
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
