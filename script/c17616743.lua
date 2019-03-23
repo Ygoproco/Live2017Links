@@ -29,7 +29,8 @@ end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK
+	local loc=LOCATION_HAND+LOCATION_GRAVE
+	if s.selchk(tp) then loc=loc+LOCATION_DECK end
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,loc,0,1,1,nil,e,tp)
 	if #g>0 then 
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
