@@ -13,7 +13,7 @@ function GetID()
     return scard,s_id
 end
 function Card.IsNonEffectMonster(c)
-	return c:IsType(TYPE_MONSTER) and not c:IsType(TYPE_EFFECT)
+	return c:IsType(TYPE_MONSTER) and (not c:IsType(TYPE_EFFECT) or (c:IsType(TYPE_DUAL) and not c:IsStatus(EFFECT_DUAL_STATUS)))
 end
 
 local chkoverlay=Duel.CheckRemoveOverlayCard
