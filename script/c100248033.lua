@@ -54,7 +54,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler() 
 	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_EXTRA+LOCATION_GRAVE,0,nil)
 	if aux.SelectUnselectGroup(g,e,tp,2,2,s.rescon,0) then
-		local sg=aux.SelectUnselectGroup(g,e,tp,2,2,s.rescon,1,tp,HINTMSG_SPSUMMON)
+		local sg=aux.SelectUnselectGroup(g,e,tp,2,2,s.rescon,1,tp,HINTMSG_SELECT)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local tg=sg:Filter(s.spchk,nil,e,tp):Select(tp,1,1,nil)
 		if Duel.SpecialSummon(tg,0,tp,tp,false,false,POS_FACEUP)~=0 then
