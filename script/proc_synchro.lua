@@ -149,8 +149,8 @@ function Auxiliary.SynchroCheckP31(c,g,tsg,ntsg,sg,f1,sub1,f2,sub2,min1,max1,min
 	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
 		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
-			local sg1=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			if sg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then return false end
+			local sg1=g:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 			rg:Merge(sg1)
 		end
 	end
@@ -159,7 +159,7 @@ function Auxiliary.SynchroCheckP31(c,g,tsg,ntsg,sg,f1,sub1,f2,sub2,min1,max1,min
 	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
+			if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then return false end
 		end
 	end
 	if not mgchk then
@@ -229,8 +229,8 @@ function Auxiliary.SynchroCheckP32(c,g,tsg,ntsg,sg,f2,sub2,min2,max2,req2,reqm,l
 	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
 		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
-			local sg2=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			if sg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then return false end
+			local sg2=g:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 			rg:Merge(sg2)
 		end
 	end
@@ -239,7 +239,7 @@ function Auxiliary.SynchroCheckP32(c,g,tsg,ntsg,sg,f2,sub2,min2,max2,req2,reqm,l
 	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
+			if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then return false end
 		end
 	end
 	if not mgchk then
@@ -303,9 +303,9 @@ function Auxiliary.SynchroCheckP41(c,tg,ntg,tsg,ntsg,sg,min1,max1,min2,max2,req1
 	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
 		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
-			local sg1=tg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
-			local sg2=ntg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			if sg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then return false end
+			local sg1=tg:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
+			local sg2=ntg:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 			trg:Merge(sg1)
 			ntrg:Merge(sg2)
 		end
@@ -315,7 +315,7 @@ function Auxiliary.SynchroCheckP41(c,tg,ntg,tsg,ntsg,sg,min1,max1,min2,max2,req1
 	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
+			if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then return false end
 		end
 	end
 	if not mgchk then
@@ -374,8 +374,8 @@ function Auxiliary.SynchroCheckP42(c,ntg,tsg,ntsg,sg,min2,max2,req2,reqm,lv,sc,t
 	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
 		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
-			local sg2=ntg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			if sg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then return false end
+			local sg2=ntg:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 			ntrg:Merge(sg2)
 		end
 	end
@@ -384,7 +384,7 @@ function Auxiliary.SynchroCheckP42(c,ntg,tsg,ntsg,sg,min2,max2,req2,reqm,lv,sc,t
 	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
+			if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then return false end
 		end
 	end
 	if not mgchk then
@@ -777,8 +777,8 @@ function Auxiliary.MajesticSynchroCheck1(c,g,sg,card1,card2,card3,lv,sc,tp,pg,f1
 	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
 		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
-			local sg1=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			if sg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then return false end
+			local sg1=g:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 			rg:Merge(sg1)
 		end
 	end
@@ -787,7 +787,7 @@ function Auxiliary.MajesticSynchroCheck1(c,g,sg,card1,card2,card3,lv,sc,tp,pg,f1
 	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
+			if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then return false end
 		end
 	end
 	if c:IsHasEffect(EFFECT_HAND_SYNCHRO+EFFECT_SYNCHRO_CHECK) then
@@ -1075,8 +1075,8 @@ function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,pg,f1,f2,.
 	if c:IsHasEffect(EFFECT_SYNCHRO_MAT_RESTRICTION) then
 		local eff={c:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if sg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then return false end
-			local sg1=g:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+			if sg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then return false end
+			local sg1=g:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 			rg:Merge(sg1)
 		end
 	end
@@ -1085,7 +1085,7 @@ function Auxiliary.DarkSynchroCheck1(c,g,sg,card1,card2,plv,nlv,sc,tp,pg,f1,f2,.
 	for tc in aux.Next(g2) do
 		local eff={tc:GetCardEffect(EFFECT_SYNCHRO_MAT_RESTRICTION)}
 		for _,f in ipairs(eff) do
-			if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then return false end
+			if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then return false end
 		end
 	end
 	if c:IsHasEffect(EFFECT_HAND_SYNCHRO+EFFECT_SYNCHRO_CHECK) then
