@@ -34,14 +34,11 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_ONFIELD,0,nil) --group to return
 	if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then --returns the group
 		local ct=Duel.GetOperatedGroup():FilterCount(s.rtfilter,nil,tp) --gets the returned group
-		Debug.Message('The number of g members is '..#g)
-		Debug.Message('The number of ct members is '..ct)
-			Debug.Message(ct==#g)
-			if ct==#g then --checks if returned the whole group
-				local ct=5-Duel.GetFieldGroupCount(tp,LOCATION_HAND,0) --gets what i could draw
-				if ct>0 and Duel.IsPlayerCanDraw(tp,ct) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then --if I can AND want to draw
-					Duel.Draw(tp,ct,REASON_EFFECT) 
-				end
+		if ct==#g then --checks if returned the whole group
+			local ct=5-Duel.GetFieldGroupCount(tp,LOCATION_HAND,0) --gets what I could draw
+			if ct>0 and Duel.IsPlayerCanDraw(tp,ct) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then --if I can AND want to draw
+				Duel.Draw(tp,ct,REASON_EFFECT) 
 			end
+		end
 	end
 end
