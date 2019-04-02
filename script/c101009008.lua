@@ -56,19 +56,24 @@ end
 function s.rmfilter(c)
 	return c:IsRace(RACE_SPELLCASTER) and c:IsAbleToRemove() and (c:IsFaceup() or c:IsLocation(LOCATION_HAND))
 end
-function s.lvfilter(c)
+function s.lvfilter(c,tp)
 	return c:IsFaceup() and c:IsHasLevel() and c:IsSetCard(0x31) and Duel.IsExistingMatchingCard(s.rmfilter,tp,LOCATION_MZONE+LOCATION_GRAVE+LOCATION_HAND,0,1,c)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and s.lvfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(s.lvfilter,tp,LOCATION_MZONE,0,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and s.lvfilter(chkc,tp) end
+	if chk==0 then return Duel.IsExistingTarget(s.lvfilter,tp,LOCATION_MZONE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,0,1,1,nil)
+	Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,0,0)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	local ch=Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1))
+	local ch
+	if tc:GetLevel()==1 then
+		ch=Duel.SelectOption(tp,aux.Stringid(id,0))
+	else
+		ch=Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1))
+	end
 	local rg
 	if ch==0 then
 		rg=Duel.SelectMatchingCard(tp,s.rmfilter,tp,LOCATION_MZONE+LOCATION_HAND+LOCATION_GRAVE,0,1,99,tc)
@@ -82,7 +87,11 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UPDATE_LEVEL)
 			e1:SetValue(ct)
-			e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+			if tc==e:GetHandler() then
+				e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
+			else
+				e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+			end
 			if ch==1 then
 				ct=-ct
 			end

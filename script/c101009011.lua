@@ -104,10 +104,10 @@ function s.scop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCode(EFFECT_CHANGE_LSCALE)
 		e1:SetValue(11)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
-		c:RegisterEffect(e1)
+		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_CHANGE_RSCALE)
-		c:RegisterEffect(e2)
+		tc:RegisterEffect(e2)
 		local e3=Effect.CreateEffect(c)
 		e3:SetType(EFFECT_TYPE_FIELD)
 		e3:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
@@ -120,7 +120,7 @@ function s.scop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.splimit(e,c)
-	return not c:IsType(TYPE_SYNCHRO) and c:IsLocation(LOCATION_EXTRA)
+	return not c:IsSetCard(0xb3)
 end
 function s.sthcond(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
