@@ -1,5 +1,5 @@
 --妖仙獣 飯綱鞭
---Yosenju Izunamuchi
+--Yosenju Izun
 --scripted by AlphaKreitn
 local s,id=GetID()
 function s.initial_effect(c)
@@ -37,6 +37,7 @@ function s.crcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
 function s.crop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	--activate limit
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
