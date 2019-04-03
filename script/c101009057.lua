@@ -14,25 +14,25 @@ function c101009057.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.filter(c)
-	return c:IsFaceup() and c:IsSetCard(0xb3)
+	return c:IsFaceup() and c:IsSetCard(0xb3) and (c:IsType(TYPE_MONSTER) or c:IsType(TYPE_PENDULUM))
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,0,nil)
+	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_ONFIELD,0,nil)
 	return g:GetClassCount(Card.GetCode)>=3
 end
 function s.thfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xb3) and c:IsAbleToHand()
+	return c:IsFaceup() and c:IsSetCard(0xb3) and (c:IsType(TYPE_MONSTER) or c:IsType(TYPE_PENDULUM)) and c:IsAbleToHand()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_MZONE,0,1,nil) end
-	local g=Duel.GetMatchingGroup(s.thfilter,tp,LOCATION_MZONE,0,nil)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_ONFIELD,0,1,nil) end
+	local g=Duel.GetMatchingGroup(s.thfilter,tp,LOCATION_ONFIELD,0,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,#g,0,0)
 end
 function s.rtfilter(c,p)
 	return c:IsLocation(LOCATION_HAND) and c:IsControler(p)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,0,nil) --group to return
+	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_ONFIELD,0,nil) --group to return
 	if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then --returns the group
 		local ct=Duel.GetOperatedGroup():FilterCount(s.rtfilter,nil,tp) --gets the returned group
 		if ct==#g then --checks if returned the whole group
