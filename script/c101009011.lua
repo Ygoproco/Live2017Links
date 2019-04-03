@@ -67,7 +67,7 @@ function c101009011.initial_effect(c)
 	c:RegisterEffect(e7)
 	--return itself to hand
 	local e8=Effect.CreateEffect(c)
-	e8:SetDescription(aux.Stringid(id,2))
+	e8:SetDescription(aux.Stringid(id,4))
 	e8:SetCategory(CATEGORY_TOHAND)
 	e8:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e8:SetRange(LOCATION_MZONE)

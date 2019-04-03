@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function s.filter(c)
+function s.filter(c,tp)
 	if not (c:IsAttackAbove(0) and c:IsDefenseAbove(0)) then return false end
 	local total=c:GetBaseAttack()+c:GetBaseDefense()
 	return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil,total)
@@ -24,8 +24,8 @@ function s.thfilter(c,total)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToHand() and c:GetBaseAttack()+c:GetBaseDefense()==total
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.filter,1,false,nil,nil) end
-	local sg=Duel.SelectReleaseGroupCost(tp,s.filter,1,1,false,nil,nil)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.filter,1,false,nil,nil,tp) end
+	local sg=Duel.SelectReleaseGroupCost(tp,s.filter,1,1,false,nil,nil,tp)
 	local total=sg:GetFirst():GetBaseAttack()+sg:GetFirst():GetBaseDefense()
 	e:SetLabel(total)
 	Duel.Release(sg,REASON_COST)
