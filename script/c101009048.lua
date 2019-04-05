@@ -44,7 +44,7 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return e:IsAttackAbove(800) end
+	if chk==0 then return c:IsAttackAbove(800) end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
