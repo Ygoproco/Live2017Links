@@ -71,7 +71,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetReset(RESET_PHASE+PHASE_END,2)
 	e3:SetTargetRange(1,0)
-	Duel.RegisterEffect(e3,pp)
+	Duel.RegisterEffect(e3,p)
 end
 function s.aclimit(e,re,tp)
 	return re:IsActiveType(TYPE_MONSTER) and not re:GetHandler():IsImmuneToEffect(e)
