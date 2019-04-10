@@ -65,7 +65,7 @@ function s.filter2(c,e,tp,type)
 	return c:IsType(TYPE_FUSION|TYPE_SYNCHRO|TYPE_XYZ|TYPE_LINK) and not c:IsType(type) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.target2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.filter1(chkc,e,tp) end
 	if chk==0 then return Duel.IsExistingTarget(s.filter1,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE) > -1 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
