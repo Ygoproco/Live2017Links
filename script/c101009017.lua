@@ -38,7 +38,7 @@ function s.sumop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.estg(e,c)
-	return c:IsSetCard(0x22e) and not c:IsCode(id)
+	return c:IsSetCard(0x22e)
 end
 function s.cfilter(c)
 	return c:GetSequence()<5
