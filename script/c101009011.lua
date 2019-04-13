@@ -59,11 +59,7 @@ function c101009011.initial_effect(c)
 	c:RegisterEffect(e6)
 	local e7=e6:Clone()
 	e7:SetCode(EVENT_TO_DECK)
-	--[[e7:SetCondition(s.atkcond2)
-		This condition makes so it doesn't
-		trigger if the card is sent to the Extra deck
-		currently, it will.
-	--]]
+	e7:SetCondition(s.atkcond2)
 	c:RegisterEffect(e7)
 	--return itself to hand
 	local e8=Effect.CreateEffect(c)
@@ -103,7 +99,7 @@ function s.scop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CHANGE_LSCALE)
 		e1:SetValue(11)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_CHANGE_RSCALE)
@@ -157,7 +153,6 @@ function s.atkfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0xb3)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local g=Duel.GetMatchingGroup(s.atkfilter,tp,LOCATION_MZONE,0,nil)
 	local tc=g:GetFirst()
 	while tc do

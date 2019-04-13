@@ -57,7 +57,8 @@ end
 function s.thop(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil,tc:GetCode()) then
-		local h=Duel.GetFirstMatchingCard(s.thfilter,tp,LOCATION_DECK,0,nil,tc:GetCode())
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+		local h=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,tc:GetCode())
 		Duel.SendtoHand(h,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,h)
 	end
