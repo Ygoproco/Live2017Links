@@ -25,7 +25,7 @@ end
 function s.check(sg,e,tp,mg)
 	if #sg<6 then return false end
 	local loc=0
-	if aux.ChkfMMZ(1)(sg,e,tp,mg) then loc=loc+LOCATION_MZONE end
+	if aux.ChkfMMZ(1)(sg,e,tp,mg) then loc=loc+LOCATION_DECK end
 	if Duel.GetLocationCountFromEx(tp,tp,sg)>0 then loc=loc+LOCATION_EXTRA end
 	for _,ty in ipairs(TYPE_ARRAY) do
 		if not sg:IsExists(Card.IsType,1,nil,ty) then return false end
@@ -48,7 +48,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.BreakEffect()
 		local rc=rg:GetFirst():GetOriginalRace()
 		local loc=0
-		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then loc=loc+LOCATION_MZONE end
+		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then loc=loc+LOCATION_DECK end
 		if Duel.GetLocationCountFromEx(tp)>0 then loc=loc+LOCATION_EXTRA end
 		if loc==0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
