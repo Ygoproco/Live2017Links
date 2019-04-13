@@ -37,6 +37,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		g:Remove(Card.IsCode,nil,tc1:GetCode())
 		local tg=Group.FromCards(tc1)
 		if g:GetCount()>0 and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
+			and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 			and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			tc2=g:Select(tp,1,1,nil):GetFirst()
