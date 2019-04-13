@@ -39,7 +39,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(e1)
 end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and rp~=tp 
+	return not e:GetHandler():IsStatus(STATUS_CHAINING+STATUS_BATTLE_DESTROYED) and rp~=tp 
 		and re:IsActiveType(TYPE_MONSTER) and Duel.IsChainNegatable(ev)
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)

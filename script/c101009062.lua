@@ -9,7 +9,7 @@ function s.initial_effect(c)
 	e1:SetCategory(CATEGORY_TOHAND)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,id+1)
+	e1:SetCountLimit(1,id+EFFECT_COUNT_CODE_OATH)
 	e1:SetCost(s.cost)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.activate)
@@ -44,7 +44,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoHand(sg,nil,REASON_EFFECT)
 end
 function s.lvfilter(c)
-	return c:IsRace(RACE_WINDBEAST) and c:IsType(TYPE_MONSTER) and c:IsLevelAbove(2)
+	return c:IsRace(RACE_WINDBEAST) and c:IsType(TYPE_MONSTER) and c:IsLevelAbove(2) and not c:IsPublic()
 end
 function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.lvfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end

@@ -31,6 +31,7 @@ end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetDecktopGroup(tp,8)
 	if chk==0 then return g:FilterCount(Card.IsAbleToRemoveAsCost,nil)==8 end
+	Duel.DisableShuffleCheck()
 	Duel.Remove(g,POS_FACEDOWN,REASON_COST)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
