@@ -26,7 +26,7 @@ function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	if not tc then return false end
 	if tc:IsControler(1-tp) then tc=Duel.GetAttackTarget() end
 	e:SetLabelObject(tc)
-	return tc and tc~=e:GetHandler() and tc:IsRelateToBattle() and Duel.GetAttackTarget()~=nil
+	return tc and tc~=e:GetHandler() and tc:IsSetCard(0x11a) and tc:IsRelateToBattle() and Duel.GetAttackTarget()~=nil
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
