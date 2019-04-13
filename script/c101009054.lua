@@ -19,7 +19,7 @@ function s.initial_effect(c)
 	e2:SetValue(0x119)
 	c:RegisterEffect(e2)
 end
-function s.filter(c,e,tp,code)
+function s.filter(c,e,tp)
 	return c:IsSetCard(0x119) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
