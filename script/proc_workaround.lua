@@ -315,6 +315,9 @@ end
 function Card.IsHasLevel(c)
 	return c:GetLevel()>0
 end
+function Card.IsSummonLocation(c,loc)
+	return c:GetSummonLocation()&loc~=0
+end
 
 --Checks whether the card is located at any of the sequences passed as arguments.
 function Card.IsSequence(c,...)
