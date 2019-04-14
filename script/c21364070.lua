@@ -1,8 +1,8 @@
 --魔妖仙獣 独眼群主
---Mayosenju Hitotsumenomuraji
+--Mayosenju Hitot
 --scripted by Naim
 local s,id=GetID()
-function c101009011.initial_effect(c)
+function s.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--change scale
