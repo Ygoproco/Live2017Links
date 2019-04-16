@@ -24,14 +24,14 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimt(1,id+100)
+    e3:SetCountLimit(1,id+100)
     e3:SetCost(s.spcost)
     e3:SetTarget(s.sptg)
     e3:SetOperation(s.spop)
     c:RegisterEffect(e3)
 end
 function s.thfilter(c)
-    return c:IsFaceup() and c:IsSetCode(0x8) and c:IsAbleToHand()
+    return c:IsFaceup() and c:IsSetCard(0x8) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_REMOVED) and s.thfilter(chkc) end
