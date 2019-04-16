@@ -53,7 +53,7 @@ function s.rmfilter(c)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(s.rmfilter,tp,LOCATION_DECK,0,1,nil) end
-    Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,0,0)
+    Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,tp,LOCATION_DECK)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)

@@ -31,7 +31,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 function s.thfilter(c)
-    return c:IsFaceup() and c:IsSetCard(0x8) and c:IsAbleToHand()
+    return c:IsFaceup() and c:IsSetCard(0x8) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_REMOVED) and s.thfilter(chkc) end
