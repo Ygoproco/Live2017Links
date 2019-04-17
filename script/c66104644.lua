@@ -109,7 +109,7 @@ function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.ctop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and c:IsFaceuo() then
+	if c:IsRelateToEffect(e) and c:IsFaceup() then
 		c:AddCounter(COUNTER_SPELL,1)
 	end
 end
