@@ -69,7 +69,7 @@ function s.tdrop(e,tp,eg,ep,ev,re,r,rp)
 	if ct>0 then
 		Duel.SortDecktop(tp,tp,ct)
 		for i=1,ct do
-			local mg=Duel.GetDecktopGroup(p,1)
+			local mg=Duel.GetDecktopGroup(tp,1)
 			Duel.MoveSequence(mg:GetFirst(),1)
 		end
 		Duel.BreakEffect()
