@@ -64,7 +64,7 @@ function s.tdrop(e,tp,eg,ep,ev,re,r,rp)
 	if #g==0 then return end
 	local sg=aux.SelectUnselectGroup(g,e,tp,1,g:GetClassCount(Card.GetCode),s.rescon,1,tp,HINTMSG_TODECK)
 	Duel.ConfirmCards(1-tp,sg)
-	Duel.SendtoDeck(sg,nil,0,REASON_EFFECT)
+	Duel.SendtoDeck(sg,nil,1,REASON_EFFECT)
 	local ct=#Duel.GetOperatedGroup()
 	if ct>0 then
 		Duel.SortDecktop(tp,tp,ct)
