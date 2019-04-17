@@ -73,6 +73,6 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local tg=g:Select(tp,n,n,nil)
 	if #tg>0 then 
-		Duel.Destroy(g,REASON_EFFECT)
+		Duel.Destroy(tg,REASON_EFFECT)
 	end
 end
