@@ -77,7 +77,7 @@ end
 function s.extraop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	local cid=CARDS_SPIRIT_MESSAGE[c:GetFlagEffect(cid)+1]
+	local cid=CARDS_SPIRIT_MESSAGE[c:GetFlagEffect(id)+1]
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
 	local g=Duel.SelectMatchingCard(tp,Card.IsCode,tp,LOCATION_DECK+LOCATION_HAND,0,1,1,nil,cid)
 	local tc=g:GetFirst()
