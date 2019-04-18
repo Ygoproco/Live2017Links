@@ -109,6 +109,10 @@ function s.extraop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,0)
 	end
 end
+function s.efilter(e,te)
+	local tc=te:GetHandler()
+	return not tc:IsCode(94212438)
+end
 function s.cfilter1(c,tp)
 	return c:IsControler(tp) and (c:IsCode(id) or c:IsSetCard(0x1c))
 end
