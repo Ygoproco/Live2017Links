@@ -28,7 +28,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetReset(RESET_PHASE+PHASE_END)
 	e2:SetTargetRange(1,0)
-	Duel.RegisterEffect(e3,tp)
+	Duel.RegisterEffect(e2,tp)
 end
 function s.filter(c,e,tp)
 	return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
