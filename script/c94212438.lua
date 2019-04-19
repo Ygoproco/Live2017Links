@@ -111,7 +111,7 @@ function s.extraop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.efilter(e,te)
 	local tc=te:GetHandler()
-	return not tc:IsCode(94212438)
+	return not tc:IsCode(id)
 end
 function s.cfilter1(c,tp)
 	return c:IsControler(tp) and (c:IsCode(id) or c:IsSetCard(0x1c))
