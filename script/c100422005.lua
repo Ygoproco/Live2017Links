@@ -150,3 +150,7 @@ function s.extraop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end
 end
+function s.efilter(e,te)
+	local tc=te:GetHandler()
+	return not tc:IsCode(94212438)
+end
