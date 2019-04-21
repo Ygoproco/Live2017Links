@@ -47,10 +47,10 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.filter(c,tp)
 	local rc=c:GetReasonCard()
-	return (rc:IsSetCard(0x22c) and rc:IsControler(tp)
+	return rc:IsSetCard(0x22c) and rc:IsControler(tp)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-		return eg:IsExists(s.filter,1,nil,tp)	
+	return eg:IsExists(s.filter,1,nil,tp)	
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
