@@ -1,5 +1,5 @@
--- Ｂ・Ｆ－霊弓のアズサ
--- Battlewasp - Azusa the Ghost Bow
+--B・F－霊弓のアズサ
+--Battlewasp - Azusa the Ghost Bow
 local s,id=GetID()
 function s.initial_effect(c)
 	--synchro summon
@@ -47,10 +47,11 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.filter(c,tp)
 	local rc=c:GetReasonCard()
-	return rc:IsSetCard(0x22c) and rc:IsControler(tp)
+	return (rc:IsSetCard(0x22c) and rc:IsControler(tp)) 
+		or (c:IsSetCard(0x22c) and c:IsControler(tp))
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.filter,1,nil,tp)	
+	return eg:IsExists(s.filter,1,nil,tp)   
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
