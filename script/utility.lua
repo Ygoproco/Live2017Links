@@ -171,13 +171,16 @@ function Card.RegisterEffect(c,e,forced,...)
 	end
 	if e:GetCode()==EFFECT_ADD_LINK_CODE or e:GetCode()==EFFECT_ADD_LINK_SETCODE then
 		tmp(e,true)
-		if e:GetCode()==EFFECT_ADD_LINK_CODE  then e:SetCode(EFFECT_ADD_FUSION_CODE) end
-		if e:GetCode()==EFFECT_ADD_LINK_SETCODE  then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_CODE then e:SetCode(EFFECT_ADD_FUSION_CODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_SETCODE then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
 	end
 	tmp = nil
 	--1 == 511002571 - access to effects that activate that detach an Xyz Material as cost
 	--2 == 511001692 - access to Cardian Summoning conditions/effects
-	regeff(c,e,forced)
+	local reg_e = regeff(c,e,forced)
+	if not reg_e then
+		return nil
+	end
 	local reg={...}
 	local resetflag,resetcount=e:GetReset()
 	for _,val in ipairs(reg) do
@@ -221,6 +224,7 @@ function Card.RegisterEffect(c,e,forced,...)
 			return res
 		end)
 	end
+	return reg_e
 end
 function Card.IsColumn(c,seq,tp,loc)
 	if not c:IsOnField() then return false end
