@@ -18,7 +18,6 @@ function s.initial_effect(c)
 	e1:SetTarget(s.damtg)
 	e1:SetOperation(s.damop)
 	c:RegisterEffect(e1)
-	
 	--special summon
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
@@ -52,7 +51,7 @@ function s.filter(c,tp)
 		or (c:IsSetCard(0x22c) and c:IsControler(tp))
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.filter,1,nil,tp)   
+	return not eg:IsContains(e:GetHandler()) and eg:IsExists(s.filter,1,nil,tp)   
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
