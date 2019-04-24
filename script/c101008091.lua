@@ -28,7 +28,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)	
 end
-function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.atkcon(e,c)
+	local tp=e:GetHandlerPlayer()
 	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x122),tp,LOCATION_MZONE,0,1,nil)
 end
 function s.filter(c,e,tp)
