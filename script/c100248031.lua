@@ -22,14 +22,14 @@ function s.initial_effect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetTarget(s.sptg)
-	e2:SetTarget(s.spop)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 	--atk
 	local e3=e1:Clone()
 	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_ATKCHANGE)
 	e3:SetTarget(s.atktg)
-	e3:SetTarget(s.atkop)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3,false,REGISTER_FLAG_DETACH_XMAT)
 end
 s.xyz_number=60
@@ -75,11 +75,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCode(EFFECT_SKIP_M1)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetTargetRange(1,0)
-	if Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_MAIN1 then
-		e1:SetReset(RESET_PHASE+PHASE_MAIN1+RESET_SELF_TURN,2)
-	else
-		e1:SetReset(RESET_PHASE+PHASE_MAIN1+RESET_SELF_TURN)
-	end
+	e1:SetCondition(s.skpmp1cond)
+	e1:SetReset(RESET_PHASE+PHASE_END+RESET_SELF_TURN,2)
+	e1:SetLabel(Duel.GetTurnCount())
 	Duel.RegisterEffect(e1,tp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -87,6 +85,10 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
+end
+function s.skpmp1cond(e,tp,eg,ep,ev,re,r,rp)
+	local label=e:GetLabel()
+	return label and label~=Duel.GetTurnCount()
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil) end
