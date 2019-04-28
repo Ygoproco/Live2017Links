@@ -1,5 +1,5 @@
 --天威龍－シュターナ
---Tianwei Dragon - Sh'tanna
+--Tenyi Dragon Sthana
 --Scripted by Hatter
 local s,id=GetID()
 function s.initial_effect(c)
@@ -46,6 +46,7 @@ function s.cfilter(c,e,tp)
 	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE)
 		and c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP) and not c:IsType(TYPE_TOKEN) 
 		and c:IsNonEffectMonster() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		and not c:IsLocation(LOCATION_EXTRA)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return s.cfilter(chkc,e,tp) end
