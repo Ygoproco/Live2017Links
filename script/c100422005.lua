@@ -28,7 +28,6 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetLabel(CARD_DESTINY_BOARD)
 	e3:SetCost(s.plcost)
 	e3:SetTarget(s.pltg)
 	e3:SetOperation(s.plop)
@@ -43,36 +42,16 @@ end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE+LOCATION_REMOVED) and chkc:IsControler(tp) and s.thfilter(chkc) end
 	if chk==0 then return true end
-	local b1=s.cost(e,tp,eg,ep,ev,re,r,rp,0) and s.thtg(e,tp,eg,ep,ev,re,r,rp,0)
-	local b2=s.plcost(e,tp,eg,ep,ev,re,r,rp,0) and s.pltg(e,tp,eg,ep,ev,re,r,rp,0)
-	if (b1 or b2) and Duel.SelectEffectYesNo(tp,e:GetHandler()) then
-		if b1 and b2 then
-			op=Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1))
-		elseif b1 then
-			op=Duel.SelectOption(tp,aux.Stringid(id,0))
-		else
-			op=Duel.SelectOption(tp,aux.Stringid(id,1))+1
-		end
-		if op==0 then
-			s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-			s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-			e:SetCategory(CATEGORY_TOHAND)
-			e:SetProperty(EFFECT_FLAG_CARD_TARGET)
-			e:SetLabel(0)
-			e:SetOperation(s.thop)
-		else
-			s.plcost(e,tp,eg,ep,ev,re,r,rp,chk)
-			s.pltg(e,tp,eg,ep,ev,re,r,rp,chk)
-			e:SetCategory(CATEGORY_TOFIELD)
-			e:SetProperty(0)
-			e:SetLabel(CARD_DESTINY_BOARD)
-			e:SetOperation(s.plop)
-			e:SetValue(s.extraop)
-		end
+	local b=s.cost(e,tp,eg,ep,ev,re,r,rp,0) and s.thtg(e,tp,eg,ep,ev,re,r,rp,0)
+	if b and Duel.SelectEffectYesNo(tp,e:GetHandler()) then
+		s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+		s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+		e:SetCategory(CATEGORY_TOHAND)
+		e:SetProperty(EFFECT_FLAG_CARD_TARGET)
+		e:SetOperation(s.thop)
 	else
 		e:SetCategory(0)
 		e:SetProperty(0)
-		e:SetLabel(0)
 		e:SetOperation(nil)
 	end
 end
