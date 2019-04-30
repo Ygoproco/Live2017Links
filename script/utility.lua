@@ -1297,7 +1297,7 @@ function Auxiliary.FilterFaceupFunction(f,...)
 end
 --Filter for unique on field Malefic monsters
 function Auxiliary.MaleficUniqueFilter(cc)
-local mt=cc:GetMetatable()
+	local mt=cc:GetMetatable()
 	local t= mt.has_malefic_unique or {}
 	t[cc]=true
 	mt.has_malefic_unique=t
