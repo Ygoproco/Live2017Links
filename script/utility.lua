@@ -12,6 +12,12 @@ RACE_DIVINE=RACE_DEVINE
 SUMMON_TYPE_TRIBUTE=SUMMON_TYPE_ADVANCE
 SUMMON_TYPE_GEMINI=SUMMON_TYPE_DUAL
 
+function Card.GetMetatable(c)
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	return mt
+end
+
 Group.__band = function (o1,o2)
 	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
 	o1=o1:Clone()
