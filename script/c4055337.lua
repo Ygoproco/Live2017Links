@@ -1,5 +1,5 @@
 --オルフェゴール・トロイメア
---Orcustrated Knightmare
+--Orcust Knightmare
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
-	e2:SetHintTiming(0,TIMING_END_PHASE)
+	e2:SetHintTiming(TIMING_DAMAGE_STEP,TIMING_DAMAGE_STEP+TIMING_END_PHASE)
 	e2:SetCondition(s.atkcon2)
 	c:RegisterEffect(e2)
 end
@@ -38,6 +38,7 @@ function s.atkcon1(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.atkcon2(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsPlayerAffectedByEffect(tp,CARD_ORPHEGEL_BABEL)
+		and (Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated())
 end
 function s.filter(c)
 	return c:IsRace(RACE_MACHINE) and c:IsAttribute(ATTRIBUTE_DARK) and not c:IsCode(id) and c:IsAbleToGrave()
