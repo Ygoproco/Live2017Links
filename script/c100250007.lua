@@ -33,8 +33,8 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local rc=g:RandomSelect(tp,1):GetFirst()
 	if Duel.Remove(rc,POS_FACEUP,REASON_EFFECT)~=1 or not c:IsRelateToEffect(e) then return end
 	Duel.BreakEffect()
-	if rc:IsType(TYPE_MONSTER) then
-		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+	if rc:GetType()&TYPE_MONSTER+TYPE_LINK==TYPE_MONSTER+TYPE_LINK then
+		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false) then
 			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 		end
 	else
