@@ -1,10 +1,6 @@
 --
---A Danger Equip Spell which name we do not know at the moment
---scripted by Naim with the following effect:
---[[
-Equip only to a “Danger!” monster.
-The equipped monster gains 800 ATK/DEF, cannot be destroyed by card effects, and can declare up to 2 attacks on monsters during the Battle Phase.
---]]
+--Danger! Feets of Strength!
+--Scripted by Naim
 local s,id=GetID()
 function s.initial_effect(c)
 	aux.AddEquipProcedure(c,nil,aux.FilterBoolFunction(Card.IsSetCard,0x11e))

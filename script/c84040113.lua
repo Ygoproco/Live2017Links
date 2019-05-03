@@ -1,12 +1,6 @@
 --
 --Muddy Mudragon
---scripted by Naim with the following effect:
---[[
-1 tuner + 1 or more non-Tuner monsters
-This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, but the other Fusion Material(s) must be correct.
-You can Fusion Summon 1 Fusion Monster from your Extra Deck, for this use monsters you control as Fusion Material, including this card.
-You can only use this effect of “Muddy Mudragon” once per turn.
-]]
+--Scripted by Naim
 local s,id=GetID()
 function s.initial_effect(c)
 	--synchro summon
