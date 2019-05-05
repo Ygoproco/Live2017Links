@@ -75,7 +75,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetOperation(s.actop)
 		e1:SetLabelObject(tc)
 		Duel.RegisterEffect(e1,tp)
-		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,2))
+		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_CONTROL,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,2))
 	end
 end
 function s.actcon(e,tp,eg,ep,ev,re,r,rp)
