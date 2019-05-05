@@ -48,7 +48,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.BreakEffect()
 			local ct=Duel.Destroy(dg,REASON_EFFECT)
 			if ct>0 then
-				Duel.Recover(tp,ct*500)
+				Duel.Recover(tp,ct*500,REASON_EFFECT)
 			end
 		end
 	end
