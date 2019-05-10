@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_GRAVE,0,1,nil,TYPE_UNION)
+	return Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_GRAVE,0,1,nil,TYPE_UNION) and Duel.IsAbleToEnterBP()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local f=aux.FilterFaceupFunction(Card.IsSetCard,0x122)
