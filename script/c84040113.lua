@@ -19,12 +19,16 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1+id)
+	e2:SetCondition(s.spcon)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 end
 function s.subcon(e)
 	return e:GetHandler():IsLocation(LOCATION_ONFIELD+LOCATION_GRAVE)
+end
+function s.spcon(e)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 function s.spfilter1(c,e)
 	return c:IsOnField() and not c:IsImmuneToEffect(e)
