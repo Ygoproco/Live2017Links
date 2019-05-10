@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_DECK,0,1,nil) end
 	--not c:IsType(TYPE_EXTRA)
 	s.announce_filter={TYPE_EXTRA,OPCODE_ISTYPE,OPCODE_NOT}
 	local ac=Duel.AnnounceCardFilter(tp,table.unpack(s.announce_filter))
@@ -29,12 +29,12 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local tc=Duel.SelectMatchingCard(tp,s.rmfilter,tp,LOCATION_DECK,0,1,1,nil,ac)
-	if tc and Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)~=0 then
+	if tc and Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_REMOVED) then
 		local c=e:GetHandler()
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_FIELD)
 		e1:SetCode(EFFECT_DISABLE)
-		e1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+		e1:SetTargetRange(LOCATION_ONFIELD,LOCATION_ONFIELD)
 		e1:SetTarget(s.distg)
 		e1:SetLabel(tc:GetOriginalCode())
 		e1:SetReset(RESET_PHASE+PHASE_END)

@@ -29,7 +29,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)	
 end
 function s.tgcon(e)
-	return e:GetHandler():IsLinkState()
+	return e:GetHandler():GetLinkedGroupCount()>0
 end
 function s.cfilter(c,tp,zone)
 	local seq=c:GetPreviousSequence()
@@ -41,7 +41,7 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter,1,nil,tp,e:GetHandler():GetLinkedZone())
 end
 function s.spfilter(c,e,tp)
-	return c:IsRace(RACE_INSECT) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsRace(RACE_INSECT) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -52,7 +52,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
-	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP) then
+	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
@@ -60,5 +60,6 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_REDIRECT)
 		e1:SetValue(LOCATION_REMOVED)
 		tc:RegisterEffect(e1,true)
+		Duel.SpecialSummonComplete()
 	end
 end
