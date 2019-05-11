@@ -9,6 +9,9 @@ function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetHintTiming(0,TIMING_ATTACK)
+	e1:SetTarget(s.sptg0)
+	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--Special Summon
 	local e2=Effect.CreateEffect(c)
@@ -34,12 +37,29 @@ function s.initial_effect(c)
 	e3:SetOperation(s.tgop)
 	c:RegisterEffect(e3)
 end
-function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	local d=Duel.GetAttackTarget()
-	return d and d:IsControler(tp) and d:IsFaceup() and d:IsSetCard(0x22c)
-end
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x22c) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+end
+function s.sptg0(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	if Duel.CheckEvent(EVENT_BE_BATTLE_TARGET) then
+		local a=Duel.GetAttacker()
+		local d=Duel.GetAttackTarget()
+		if d:IsFaceup() and d:IsSetCard(0x22c) and d:IsControler(tp)
+			and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+			and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,e,tp)
+			and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+			e:SetCategory(CATEGORY_SPECIAL_SUMMON)
+			Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_HAND)
+			Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
+		end
+	else
+		e:SetCategory(0)
+	end
+end
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	local d=Duel.GetAttackTarget()
+	return d and d:IsControler(tp) and d:IsFaceup() and d:IsSetCard(0x22c) and Duel.GetFlagEffect(tp,id)==0
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,e,tp) end
