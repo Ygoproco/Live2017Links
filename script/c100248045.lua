@@ -11,7 +11,6 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,TIMING_ATTACK)
 	e1:SetTarget(s.sptg0)
-	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--Special Summon
 	local e2=Effect.CreateEffect(c)
@@ -50,6 +49,7 @@ function s.sptg0(e,tp,eg,ep,ev,re,r,rp,chk)
 			and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,e,tp)
 			and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 			e:SetCategory(CATEGORY_SPECIAL_SUMMON)
+			e:SetOperation(s.spop)
 			Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_HAND)
 			Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		end
