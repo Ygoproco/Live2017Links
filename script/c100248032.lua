@@ -37,6 +37,7 @@ function s.initial_effect(c)
 	e4:SetOperation(s.mtop)
 	c:RegisterEffect(e4,false,REGISTER_FLAG_DETACH_XMAT)
 end
+s.xyz_number=76
 function s.attval(e,c)
 	local att=0
 	local og=e:GetHandler():GetOverlayGroup()
