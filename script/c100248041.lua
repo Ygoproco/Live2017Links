@@ -77,14 +77,14 @@ function s.tnop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_EXTRA_ATTACK)
 	e1:SetValue(1)
-	e1:SetReset(RESET_EVENT+0x1fe0000)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e1)
 end
 function s.atcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
 function s.attg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.NOT(aux.FilterFaceupFunction(Card.IsStatus,STATUS_BATTLE_DESTROYED)),tp,0,LOCATION_MZONE,1,nil) end
 end
 function s.atop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
@@ -93,7 +93,7 @@ function s.atop(e,tp,eg,ep,ev,re,r,rp)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UPDATE_ATTACK)
-			e1:SetReset(RESET_EVENT+0x1fe0000)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			e1:SetValue(-1000)
 			sc:RegisterEffect(e1)
 			local e2=e1:Clone()
@@ -121,7 +121,9 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Damage(p,d,REASON_EFFECT)
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
-	s[0]=false
+	if ep~=e:GetHandler():GetControler() then
+		s[0]=false
+	end
 end
 function s.clear(e,tp,eg,ep,ev,re,r,rp)
 	s[0]=true
