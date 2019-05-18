@@ -31,7 +31,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return ep~=tp and bit.band(r,REASON_BATTLE)==0 and re and re:GetHandler():IsSetCard(0x22c) and not (re:GetHandler()==e:GetHandler())
+	return ep~=tp and bit.band(r,REASON_BATTLE)==0 and re and re:GetHandler():IsSetCard(0x12f) and not (re:GetHandler()==e:GetHandler())
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
@@ -46,8 +46,8 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.filter(c,tp)
 	local rc=c:GetReasonCard()
-	return (rc:IsSetCard(0x22c) and rc:IsControler(tp)) 
-		or (c:IsSetCard(0x22c) and c:IsControler(tp))
+	return (rc:IsSetCard(0x12f) and rc:IsControler(tp)) 
+		or (c:IsSetCard(0x12f) and c:IsControler(tp))
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return not eg:IsContains(e:GetHandler()) and eg:IsExists(s.filter,1,nil,tp)   

@@ -82,13 +82,13 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
     if Duel.GetAttackTarget()~=nil then return end
     local c=e:GetHandler()
     c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE,0,1)
-    eg:GetFirst():RegisterFlagEffect(id+100,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE,0,1)
+    eg:GetFirst():RegisterFlagEffect(id+1,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE,0,1)
 end
 function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
     return e:GetHandler():GetFlagEffect(id)>0
 end
 function s.filter(c)
-    return c:GetFlagEffect(id+100)>0
+    return c:GetFlagEffect(id+1)>0
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
     local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)

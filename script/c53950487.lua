@@ -54,7 +54,7 @@ function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp
 end
 function s.damfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x22c)
+	return c:IsFaceup() and c:IsSetCard(0x12f)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.damfilter,tp,LOCATION_MZONE,0,1,nil) end

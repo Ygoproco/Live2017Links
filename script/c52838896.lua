@@ -40,7 +40,7 @@ function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return not c:IsRace(RACE_INSECT) and c:IsLocation(LOCATION_EXTRA)
 end
 function s.filter(c,e,tp)
-	return c:IsSetCard(0x22c) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x12f) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)

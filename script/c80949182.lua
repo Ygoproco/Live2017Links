@@ -38,7 +38,7 @@ function s.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e4:SetCode(EVENT_PHASE+PHASE_BATTLE)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetCountLimit(1,id+100)
+	e4:SetCountLimit(1,id+1)
 	e4:SetCondition(s.damcon)
 	e4:SetTarget(s.damtg)
 	e4:SetOperation(s.damop)
@@ -106,7 +106,7 @@ function s.damcon(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetTurnPlayer()==tp and s[0]
 end
 function s.filter(c)
-	return c:IsSetCard(0x22c) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0x12f) and c:IsType(TYPE_MONSTER)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_GRAVE,0,1,nil) end
