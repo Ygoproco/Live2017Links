@@ -44,7 +44,7 @@ function s.filter(c)
 	return c:IsRace(RACE_MACHINE) and c:IsAttribute(ATTRIBUTE_DARK) and not c:IsCode(id) and c:IsAbleToGrave()
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-    if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and chkc:IsFaceup() end
+    if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
     if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil)
          and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil) end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
