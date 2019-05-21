@@ -1,4 +1,6 @@
 --E－HERO マリシャス・デビル
+--Evil HERO Malicious Fiend
+local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
