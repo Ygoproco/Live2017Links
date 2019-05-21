@@ -9,6 +9,7 @@ function s.initial_effect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
+	e1:SetCountLimit(1,id)
 	e1:SetCost(s.thcost)
 	e1:SetTarget(s.thtg)
 	e1:SetOperation(s.thop)
@@ -20,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetCondition(s.atkcon)
 	c:RegisterEffect(e2)
 end
-s.listed_names{CARD_DARK_FUSION}
+s.listed_names={CARD_DARK_FUSION}
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:IsAbleToGraveAsCost() and c:IsDiscardable() end
