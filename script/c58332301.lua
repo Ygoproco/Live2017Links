@@ -29,6 +29,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 s.dark_calling=true
+s.listed_names={CARD_DARK_FUSION}
 function s.splimit(e,se,sp,st)
 	return st==SUMMON_TYPE_FUSION+0x10
 end
