@@ -59,16 +59,16 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	if off==1 then return end
 	local op=Duel.SelectOption(tp,table.unpack(ops))
-	if op==1 then
+	if op==0 then
 		local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_ONFIELD,nil)
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,LOCATION_ONFIELD)
-	elseif op==2 then
+	elseif op==1 then
 		local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_HAND,nil)
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,LOCATION_HAND)
-	elseif op==3 then
+	elseif op==2 then
 		local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_GRAVE,nil)
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,LOCATION_GRAVE)
-	elseif op==4 then
+	elseif op==3 then
 		local g=Duel.GetDecktopGroup(1-tp,1)
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,LOCATION_DECK)
 	end
