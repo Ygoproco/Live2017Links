@@ -23,7 +23,9 @@ function s.cfilter(c)
 	return c:IsFacedown() and c:IsAbleToRemove()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_EXTRA,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_EXTRA,0,1,nil)
+		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,tp,LOCATION_EXTRA)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
@@ -31,8 +33,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_EXTRA,0,nil)
 	if #g==0 then return end
 	local rc=g:RandomSelect(tp,1):GetFirst()
-	if Duel.Remove(rc,POS_FACEUP,REASON_EFFECT)~=1 or not c:IsRelateToEffect(e) then return end
-	Duel.BreakEffect()
+	if Duel.Remove(rc,POS_FACEUP,REASON_EFFECT)~=1 or not rc:IsLocation(LOCATION_REMOVED) or not c:IsRelateToEffect(e) then return end
 	if rc:GetType()&TYPE_MONSTER+TYPE_LINK==TYPE_MONSTER+TYPE_LINK then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false) then
 			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
