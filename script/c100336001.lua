@@ -43,7 +43,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_EXTRA,nil)
 		if #g==0 then return end
 		Duel.BreakEffect()
-		Duel.ConfirmCards(tp,g)
+		Duel.ConfirmCards(tp,Duel.GetFieldGroup(tp,0,LOCATION_EXTRA))
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 		local sg=g:Select(tp,1,1,nil)
 		Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
