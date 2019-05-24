@@ -38,11 +38,11 @@ end
 function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsAbleToChangeControler() end
-	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(Card.IsAbleToChangeControler,tp,0,LOCATION_MZONE,1,nil) end
+	if chk==0 then return ft>0 and Duel.IsExistingTarget(Card.IsAbleToChangeControler,tp,0,LOCATION_MZONE,1,nil) end
 	local ct=math.min(ft,2)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToChangeControler,tp,0,LOCATION_MZONE,1,ct,nil)
-	Duel.SetOperationInfo(0,CATEGORY_CONTROL,#g,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_CONTROL,g,#g,0,0)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -77,7 +77,7 @@ function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return not c:IsSetCard(0x83) and c:IsLocation(LOCATION_EXTRA)
+	return not c:IsSetCard(0x83)
 end
 function s.atktg(e,c)
 	return not c:IsType(TYPE_XYZ)
