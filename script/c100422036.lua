@@ -17,7 +17,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCost(aux.bfgcost)
-	e2:SetOperatoin(s.tgop)
+	e2:SetOperation(s.tgop)
 	c:RegisterEffect(e2)
 end
 function s.spfilter(c)
