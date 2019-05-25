@@ -72,8 +72,6 @@ function s.discon(e)
 	return e:GetOwner():IsHasCardTarget(e:GetHandler())
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
-	Debug.Message(re:GetHandler()==e:GetLabelObject())
-	Debug.Message(re:GetHandler():GetFlagEffect(id+1)~=0)
 	if re:GetHandler()==e:GetLabelObject() and re:GetHandler():GetFlagEffect(id+1)~=0 then
 		Duel.NegateEffect(ev)
 	end
