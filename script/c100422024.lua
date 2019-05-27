@@ -13,6 +13,8 @@ function s.initial_effect(c)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	Duel.AddCustomActivityCounter(id,ACTIVITY_SPSUMMON,s.counterfilter)
+	if not AshBlossomTable then AshBlossomTable={} end
+	table.insert(AshBlossomTable,e1)
 end
 s.listed_names={78275321}
 function s.counterfilter(c)
