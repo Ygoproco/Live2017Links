@@ -31,8 +31,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	Debug.Message(re:GetHandler():IsAbleToRemove())
-	Debug.Message(re:GetHandler():IsRelateToEffect(re))
 	return rp~=tp and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsRelateToEffect(re)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
