@@ -58,7 +58,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		if ct>0 then
 			local c=e:GetHandler()
 			if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
-			local og=ct1
+			local og=ct1:Filter(Card.IsLocation,nil,LOCATION_GRAVE)
 			local atk=0
 			for tc in aux.Next(og) do
 				local oatk=math.max(tc:GetTextAttack(),0)
