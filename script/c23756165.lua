@@ -1,3 +1,4 @@
+--Allure Queen LV5
 --魅惑の女王 LV5
 local s,id=GetID()
 function s.initial_effect(c)
@@ -19,7 +20,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
 	e2:SetLabelObject(e1)
-	c:RegisterEffect(e2)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_ALLURE_LVUP)
 end
 s.lvupcount=2
 s.lvup={50140163,87257460}
