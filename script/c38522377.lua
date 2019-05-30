@@ -53,11 +53,12 @@ end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(s.atkfilter,nil,e)
 	Duel.SendtoGrave(g,REASON_EFFECT)
-	local ct=Duel.GetOperatedGroup():FilterCount(Card.IsLocation,nil,LOCATION_GRAVE)
+	local ct1=Duel.GetOperatedGroup()
+	local ct=ct1:FilterCount(Card.IsLocation,nil,LOCATION_GRAVE)
 		if ct>0 then
 			local c=e:GetHandler()
 			if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
-			local og=ct
+			local og=ct1:Filter(Card.IsLocation,nil,LOCATION_GRAVE)
 			local atk=0
 			for tc in aux.Next(og) do
 				local oatk=math.max(tc:GetTextAttack(),0)
