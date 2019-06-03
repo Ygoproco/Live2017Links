@@ -1409,6 +1409,14 @@ function Group.CheckSameProperty(g,f,...)
 	end
 	return prop ~= 0, prop
 end
+--Special Summon limit for the Evil HEROes
+function Auxiliary.EvilHeroLimit(e,se,sp,st)
+	local chk=SUMMON_TYPE_FUSION+0x10
+	if Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(),EFFECT_SUPREME_CASTLE) then
+		chk=SUMMON_TYPE_FUSION
+	end
+	return st&chk==chk
+end
 
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
