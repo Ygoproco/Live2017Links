@@ -44,10 +44,10 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return true end
 	local b=s.cost(e,tp,eg,ep,ev,re,r,rp,0) and s.thtg(e,tp,eg,ep,ev,re,r,rp,0)
 	if b and Duel.SelectEffectYesNo(tp,e:GetHandler()) then
-		s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-		s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 		e:SetCategory(CATEGORY_TOHAND)
 		e:SetProperty(EFFECT_FLAG_CARD_TARGET)
+		s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+		s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 		e:SetOperation(s.thop)
 	else
 		e:SetCategory(0)
