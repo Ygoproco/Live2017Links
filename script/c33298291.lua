@@ -1,5 +1,5 @@
 --獣湧き肉躍り
---
+--Drumming with Excitement
 --Scripted by Eerie Code
 local s,id=GetID()
 local LOCATION_HDG = LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE

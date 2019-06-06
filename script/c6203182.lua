@@ -1,5 +1,5 @@
 --一惜二跳
---
+--Two Toads with One Hop
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
