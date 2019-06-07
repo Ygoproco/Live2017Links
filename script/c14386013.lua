@@ -20,19 +20,21 @@ function s.initial_effect(c)
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
-	e2:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+1)
 	e2:SetCondition(aux.exccon)
 	e2:SetCost(aux.bfgcost)
 	e2:SetTarget(s.tdrtg)
 	e2:SetOperation(s.tdrop)
 	c:RegisterEffect(e2)
 end
+s.listed_names={CARD_DESTINY_BOARD}
+s.listed_series={0x1c}
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 function s.thfilter(c)
-	return (c:IsCode(94212438) or c:IsRace(RACE_FIEND) and c:GetLevel()==8) and c:IsAbleToHand()
+	return (c:IsCode(CARD_DESTINY_BOARD) or c:IsRace(RACE_FIEND) and c:GetLevel()==8) and c:IsAbleToHand()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
@@ -47,7 +49,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.tdfilter(c)
-	return (c:IsCode(94212438) or c:IsSetCard(0x1c)) and c:IsAbleToDeck()
+	return (c:IsCode(CARD_DESTINY_BOARD) or c:IsSetCard(0x1c)) and c:IsAbleToDeck()
 end
 function s.rescon(sg,e,tp,mg) 
 	return sg:GetClassCount(Card.GetCode)==#sg

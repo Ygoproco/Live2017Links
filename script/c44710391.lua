@@ -44,6 +44,7 @@ function s.initial_effect(c)
 	e5:SetOperation(s.thop)
 	c:RegisterEffect(e5)
 end
+s.listed_series={0x21}
 function s.indcon(e)
 	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsLevel,10),0,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 end

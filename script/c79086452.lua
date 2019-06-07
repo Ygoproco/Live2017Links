@@ -20,6 +20,7 @@ function s.initial_effect(c)
 	e2:SetOperation(s.tgop)
 	c:RegisterEffect(e2)
 end
+s.listed_series={0x83}
 function s.spfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x83)
 end
