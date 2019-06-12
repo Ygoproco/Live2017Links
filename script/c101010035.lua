@@ -59,11 +59,13 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsRelateToBattle() then return end
 	local tc=Duel.GetFirstTarget()
+	local value=tc:GetBaseAttack()
+	if value<0 then value=0 end
 	if tc and tc:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
-		e1:SetValue(tc:GetBaseAttack())
+		e1:SetValue(value)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 	end
