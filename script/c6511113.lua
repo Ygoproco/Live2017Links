@@ -129,12 +129,10 @@ function s.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 			for tc in aux.Next(g) do
 				tc:RegisterFlagEffect(id+1,RESET_CHAIN,0,1)
 			end
-			return true
+			return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST)
 		else
 			return false
 		end
-		return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST)
-			and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil,e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,s.filter3,tp,LOCATION_DECK,0,1,1,nil)
