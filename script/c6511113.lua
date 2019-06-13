@@ -118,7 +118,7 @@ function s.filter2(c,e,tp,eg,ep,ev,re,r,rp)
 	else return false end
 end
 function s.filter3(c)
-	return c:GetFlagEffect(id) > 0
+	return c:GetFlagEffect(id+1) > 0
 end
 function s.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -127,7 +127,7 @@ function s.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 		local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_DECK,0,nil,e,tp,eg,ep,ev,re,r,rp)
 		if #g>0 then
 			for tc in aux.Next(g) do
-				tc:RegisterFlagEffect(id,RESET_CHAIN,0,1)
+				tc:RegisterFlagEffect(id+1,RESET_CHAIN,0,1)
 			end
 			return true
 		else
