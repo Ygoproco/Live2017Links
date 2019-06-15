@@ -21,24 +21,25 @@ function s.initial_effect(c)
     e2:SetCondition(s.actcon)
     c:RegisterEffect(e2)
 end
-function s.cfilter(c)
-    return c:IsFaceup() and c:IsSetCard(0x12b) and c:IsType(TYPE_LINK)
+function s.cfilter(c,tp)
+    return c:IsFaceup() and c:IsSetCard(0x12b) and c:IsType(TYPE_LINK) and c:IsControler(tp)
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-    return s.cfilter(eg:GetFirst())
+    return s.cfilter(eg:GetFirst(),tp)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return true end
+	if chk==0 then return eg:GetFirst():IsRelateToBattle() end
     Duel.SetTargetPlayer(1-tp)
-    Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,0)
+    Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,eg:GetFirst():GetLink()*400)
 end
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
     local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
     local ac=eg:GetFirst()
     Duel.Damage(p,ac:GetLink()*400,REASON_EFFECT)
-    if Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_MZONE,0,nil):IsExists(Card.IsLinkAbove,1,nil,2)
+    if Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_MZONE,0,nil,tp):IsExists(Card.IsLinkAbove,1,nil,2)
         and ac:GetBattleTarget():IsType(TYPE_LINK) and ac:GetLink()>0 then
-        Duel.Damage(p,ac:GetBattleTarget():GetLink()*500,REASON_EFFECT)
+        Duel.BreakEffect()
+		Duel.Damage(p,ac:GetBattleTarget():GetLink()*500,REASON_EFFECT)
     end
 end
 function s.actfilter(c)
