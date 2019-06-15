@@ -113,6 +113,16 @@ function Auxiliary.GetExtraMaterials(tp,mustg,sc,summon_type)
 			table.insert(t,{eg,efun,te})
 		end
 	end
+	local eff2={Duel.GetPlayerEffect(1-tp,EFFECT_EXTRA_MATERIAL)}
+	for _,te in ipairs(eff2) do
+		if te:GetCode()==EFFECT_EXTRA_MATERIAL then
+			local eg=te:GetValue()(0,summon_type,te,tp,sc)-mustg
+			eg:KeepAlive()
+			tg=tg+eg
+			local efun=te:GetOperation() and te:GetOperation() or aux.TRUE
+			table.insert(t,{eg,efun,te})
+		end
+	end
 	return t,tg
 end
 function Auxiliary.CheckValidExtra(c,tp,sg,mg,lc,emt,filt)
