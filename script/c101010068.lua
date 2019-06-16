@@ -26,14 +26,18 @@ function s.cfilter(c,tp)
 	return c:IsFaceup() and c:IsType(TYPE_LINK) and c:IsSetCard(0x12b) and c:IsAbleToRemoveAsCost()
 		and Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,c)
 end
+function s.rescon(sg,e,tp,mg)
+	return Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,sg)
+end
 function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil,tp) end
 	local ct=99
 	local tgct=Duel.GetTargetCount(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	local mct=Duel.GetMatchingGroupCount(s.cfilter,tp,LOCATION_MZONE,0,1,nil,tp)
 	if tgct==mct then ct=mct-1 end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_MZONE,0,1,ct,nil,tp)
+	if ct==0 then ct=1 end
+	local mg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_MZONE,0,nil)
+	local g=aux.SelectUnselectGroup(mg,e,tp,1,ct,s.rescon,1,tp,HINTMSG_REMOVE,nil,nil)
 	if Duel.Remove(g,POS_FACEUP,REASON_COST+REASON_TEMPORARY)==#g then
 		g:KeepAlive()
 		e:SetLabelObject(g)
