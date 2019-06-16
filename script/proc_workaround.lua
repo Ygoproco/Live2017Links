@@ -335,18 +335,14 @@ end
 --Workaround for the Link Summon using opponent's monsters effect of the Hakai monsters
 function Auxiliary.HakaiLinkFilter(c,e,tp,f,of)
 	if not of(c) then return false end
-	return Duel.IsExistingMatchingCard(Auxiliary.HakaiLinkSummonFilter(f),tp,LOCATION_EXTRA,0,1,nil,e:GetHandler(),tp)
+	return Duel.IsExistingMatchingCard(Auxiliary.HakaiLinkSummonFilter(f),tp,LOCATION_EXTRA,0,1,nil,e:GetHandler(),c,tp)
 end
 function Auxiliary.HakaiLinkSummonFilter(f)
-	return	function(c,mc,tp)
+	return	function(c,mc,tc,tp)
 				if not (c:IsType(TYPE_LINK) and c:IsLinkAbove(2)) then return false end
 				if Duel.GetLocationCountFromEx(tp,tp,mc,c)<1 then return false end
 				if f and not f(c) then return false end
-				if c:IsSpecialSummonable(SUMMON_TYPE_LINK) then
-					return true
-				else
-					return false
-				end
+				return mc:IsCanBeLinkMaterial(c,tp) and tc:IsCanBeLinkMaterial(c,tp) and c:IsSpecialSummonable(SUMMON_TYPE_LINK)
 			end
 end
 function Auxiliary.HakaiLinkExtra(chk,summon_type,e,...)
@@ -431,7 +427,7 @@ function Auxiliary.HakaiLinkOperation(f)
 				e2:SetValue(Auxiliary.HakaiLinkExtra)
 				tc:RegisterEffect(e2)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local g=Duel.SelectMatchingCard(tp,Auxiliary.HakaiLinkSummonFilter(f),tp,LOCATION_EXTRA,0,1,1,nil,c,tp)
+				local g=Duel.SelectMatchingCard(tp,Auxiliary.HakaiLinkSummonFilter(f),tp,LOCATION_EXTRA,0,1,1,nil,c,tc,tp)
 				if #g>0 then
 					Duel.SpecialSummonRule(tp,g:GetFirst(),SUMMON_TYPE_LINK)
 				end
