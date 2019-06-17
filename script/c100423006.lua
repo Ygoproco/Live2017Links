@@ -1,10 +1,8 @@
 --斬機ディヴィジョン
---Zan-Ki Divison
+--Processlayer Division
 --Logical Nonsense
-
 --Substitute ID
 local s,id=GetID()
-
 function s.initial_effect(c)
 	--Special summon from hand/GY
 	local e1=Effect.CreateEffect(c)
@@ -31,9 +29,8 @@ function s.initial_effect(c)
 end
 	--Part of "Zan-Ki" archetype
 s.listed_series={0x231}
-
 	--Check for your cyberse monster in EMZ
-function s.costfilter(c)
+function s.costfilter(c,tp)
 	return c:GetSequence()>=5 and c:IsRace(RACE_CYBERSE) and c:IsControler(tp)
 end
 	--Tributing cost
@@ -44,7 +41,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 	--Check for level 4 or lower cyberse monster
 function s.spfilter(c,e,tp)
-	return c:IsLevelBelow(4) and c:IsRace(RACE_CYBERSE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsLevel(4) and c:IsRace(RACE_CYBERSE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -61,13 +58,13 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_HAND,0,nil,e,tp)
 	local g2=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.spfilter),tp,LOCATION_GRAVE,0,nil,e,tp)
 	local sg=Group.CreateGroup()
-	if g1:GetCount()>0 and (g2:GetCount()==0 or Duel.SelectYesNo(tp,aux.Stringid(id,1))) then
+	if g1:GetCount()>0 and (g2:GetCount()==0 or Duel.SelectYesNo(tp,aux.Stringid(id,2))) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg1=g1:Select(tp,1,1,nil)
 		sg:Merge(sg1)
 		ft=ft-1
 	end
-	if g2:GetCount()>0 and ft>0 and (sg:GetCount()==0 or Duel.SelectYesNo(tp,aux.Stringid(id,2))) then
+	if g2:GetCount()>0 and ft>0 and (sg:GetCount()==0 or Duel.SelectYesNo(tp,aux.Stringid(id,3))) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg2=g2:Select(tp,1,1,nil)
 		sg:Merge(sg2)
