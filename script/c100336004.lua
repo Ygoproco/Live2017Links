@@ -41,6 +41,7 @@ end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and Duel.Destroy(c,REASON_EFFECT)>0 then
+		Duel.BreakEffect()
 		Duel.Damage(tp,2000,REASON_EFFECT,true)
 		Duel.Damage(1-tp,2000,REASON_EFFECT,true)
 		Duel.RDComplete()
