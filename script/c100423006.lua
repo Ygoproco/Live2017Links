@@ -1,5 +1,5 @@
 --斬機ディヴィジョン
---Zan-Ki Divison
+--Processlayer Division
 --Logical Nonsense
 --Substitute ID
 local s,id=GetID()
@@ -30,7 +30,7 @@ end
 	--Part of "Zan-Ki" archetype
 s.listed_series={0x231}
 	--Check for your cyberse monster in EMZ
-function s.costfilter(c)
+function s.costfilter(c,tp)
 	return c:GetSequence()>=5 and c:IsRace(RACE_CYBERSE) and c:IsControler(tp)
 end
 	--Tributing cost
