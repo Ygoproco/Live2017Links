@@ -1,4 +1,4 @@
---破械童子アルハ
+--破械童子ラキア
 --Hakai Douji Rakia
 --Scripted by AlphaKretin
 local s,id=GetID()
@@ -30,7 +30,8 @@ function s.initial_effect(c)
 end
 s.listed_series={0x230}
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,0,1,1) end
+	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) end
+	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
