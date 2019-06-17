@@ -29,7 +29,6 @@ function s.initial_effect(c)
 end
 	--Part of "Zan-Ki" archetype
 s.listed_series={0x231}
-
 	--Check for your cyberse monster in EMZ
 function s.costfilter(c)
 	return c:GetSequence()>=5 and c:IsRace(RACE_CYBERSE) and c:IsControler(tp)
@@ -42,7 +41,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 	--Check for level 4 or lower cyberse monster
 function s.spfilter(c,e,tp)
-	return c:IsLevelBelow(4) and c:IsRace(RACE_CYBERSE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsLevel(4) and c:IsRace(RACE_CYBERSE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
