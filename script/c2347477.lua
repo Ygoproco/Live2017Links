@@ -26,8 +26,12 @@ function s.initial_effect(c)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
 end
+function s.extrafilter(c,tp)
+	return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
+end
 function s.extracon(c,e,tp,sg,mg,lc,og,chk)
-	return (sg+mg):Filter(Card.IsLocation,nil,LOCATION_MZONE):IsExists(Card.IsRace,og,1,RACE_CYBERSE) and
+	local g=(sg+mg):Filter(Card.IsLocation,nil,LOCATION_MZONE)
+	return (sg+mg):Filter(s.extrafilter,nil,e:GetHandlerPlayer()):IsExists(Card.IsRace,og,1,RACE_CYBERSE) and
 	#(sg&sg:Filter(s.flagcheck,nil))<2
 end
 function s.flagcheck(c)
@@ -77,4 +81,3 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
