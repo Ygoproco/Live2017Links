@@ -1,5 +1,5 @@
 --斬機超階乗
---Zan-Ki Superfactorial
+--Processlayer Superfactorial
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -86,7 +86,18 @@ function s.synop(e,tp,eg,ep,ev,re,r,rp)
     g:RemoveCard(tun)
     local syng=Duel.GetMatchingGroup(s.synfilter,tp,LOCATION_EXTRA,0,nil,tun,g,true)
     if #syng>0 then
-        Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	g:AddCard(tun)
+	for tc in aux.Next(g) do
+		local e2=Effect.CreateEffect(e:GetHandler())
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+		e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e2:SetReset(RESET_EVENT+RESETS_REDIRECT)
+		e2:SetValue(LOCATION_DECKSHF)
+		tc:RegisterEffect(e2)
+	end
+	g:RemoveCard(tun)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
         local syn=syng:Select(tp,1,1,nil):GetFirst()
         Duel.SynchroSummon(tp,syn,tun,g)
     end
