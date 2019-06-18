@@ -86,40 +86,48 @@ function s.synop(e,tp,eg,ep,ev,re,r,rp)
     g:RemoveCard(tun)
     local syng=Duel.GetMatchingGroup(s.synfilter,tp,LOCATION_EXTRA,0,nil,tun,g,true)
     if #syng>0 then
-	g:AddCard(tun)
-	for tc in aux.Next(g) do
-		local e2=Effect.CreateEffect(e:GetHandler())
-		e2:SetType(EFFECT_TYPE_SINGLE)
-		e2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
-		e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e2:SetReset(RESET_EVENT+RESETS_REDIRECT)
-		e2:SetValue(LOCATION_DECKSHF)
-		tc:RegisterEffect(e2)
-	end
-	g:RemoveCard(tun)
+	Auxiliary.SynchroSend=5
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
         local syn=syng:Select(tp,1,1,nil):GetFirst()
         Duel.SynchroSummon(tp,syn,tun,g)
     end
 end
-function s.xyzfilter(c,mg)
-	return c:IsSetCard(0x231) and c:IsXyzSummonable(mg,3,3)
+function s.xyzfilter(c,mg,i)
+	return c:IsSetCard(0x231) and c:IsXyzSummonable(mg,i,i)
 end
-function s.xrescon(exg)
+function s.xrescon(exg,i)
 	return function(sg,e,tp,mg)
-		return aux.dncheck(sg,e,tp,mg) and exg:IsExists(Card.IsXyzSummonable,1,nil,sg,3,3)
+		return aux.dncheck(sg,e,tp,mg) and exg:IsExists(Card.IsXyzSummonable,1,nil,sg,i,i)
 	end
 end
 function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_GRAVE,0,nil,e,tp)
-	local exg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,mg)
-	if chk==0 then return Duel.IsPlayerCanSpecialSummonCount(tp,2)
-		and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>2
-		and Duel.GetLocationCountFromEx(tp)>0
-		and aux.SelectUnselectGroup(mg,e,tp,3,3,s.xrescon(exg),0) end
-	local sg=aux.SelectUnselectGroup(mg,e,tp,3,3,s.xrescon(exg),chk,tp,HINTMSG_SPSUMMON)
+	for i=1,3 do
+		_G['xyz'..i]=Duel.IsExistingMatchingCard(function(c)
+			local mt=_G["c"..c:GetOriginalCodeRule()]
+			return mt.minxyzct==i
+		end,tp,LOCATION_EXTRA,0,1,nil)
+	end
+	if chk==0 then
+		for i=1,3 do
+			local exg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,mg,i)
+			_G['xyz'..i]=_G['xyz'..i]
+			and Duel.IsPlayerCanSpecialSummonCount(tp,2)
+			and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
+			and Duel.GetLocationCount(tp,LOCATION_MZONE)>i-1
+			and Duel.GetLocationCountFromEx(tp)>0
+			and aux.SelectUnselectGroup(mg,e,tp,i,i,s.xrescon(exg,i),0)
+		end
+		return xyz1 or xyz2 or xyz3
+	end
+	local n={}
+	if xyz1 then table.insert(n,1) end
+	if xyz2 then table.insert(n,2) end
+	if xyz3 then table.insert(n,3) end
+	local xmin,xmax=math.min(table.unpack(n)),math.max(table.unpack(n))
+	local exg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,mg,xmin)
+	local sg=aux.SelectUnselectGroup(mg,e,tp,xmin,xmax,s.xrescon(exg,xmin),chk,tp,HINTMSG_SPSUMMON)
 	Duel.SetTargetCard(sg)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,sg,3,0,0)
 end
@@ -127,7 +135,7 @@ function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<3 then return end
 	local g=Duel.GetTargetCards(e):Filter(s.relfilter,nil,e,tp)
-	if #g<3 then return end
+	if not (#g>0) then return end
 	for tc in aux.Next(g) do
 		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(e:GetHandler())
