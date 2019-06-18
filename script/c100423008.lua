@@ -42,7 +42,7 @@ function s.efilter(e,te)
 end
 function s.dcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return ep~=tp and Duel.GetAttacker()==c and c:GetBattleTarget()~=nil
+	return ep~=tp and c:IsRelateToBattle() and c:GetSequence()>4 and c:GetBattleTarget()~=nil
 end
 function s.dop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DoubleBattleDamage(ep)
