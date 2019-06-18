@@ -1,5 +1,5 @@
 --塊斬機ラプラシア
---Cluster Zan-Ki Laplacian
+--Batch Processlayer Laplacian
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -11,6 +11,7 @@ function s.initial_effect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOGRAVE)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.con)
