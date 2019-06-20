@@ -86,6 +86,6 @@ function s.damfilter(c)
 	return c:IsType(TYPE_LINK) and c:IsSetCard(0x12b)
 end
 function s.damval(e,re,val,r,rp,rc)
-	local ct=Duel.GetMatchingGroup(s.damfilter,tp,LOCATION_GRAVE,0,nil):GetSum(Card.GetLink)*1000
+	local ct=Duel.GetMatchingGroup(s.damfilter,e:GetHandlerPlayer(),LOCATION_GRAVE,0,nil):GetSum(Card.GetLink)*1000
 	if val<=ct then return 0 else return val end
 end
