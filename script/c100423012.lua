@@ -104,13 +104,11 @@ function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chkc then return false end
     local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_GRAVE,0,nil,e,tp)
     local exg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil)
-	Debug.Message(#exg)
 	local min=math.min(math.min(Duel.GetLocationCount(tp,LOCATION_MZONE),Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and 1 or 99),1)
-	Debug.Message(min)
     if chk==0 then return min>0 and Duel.IsPlayerCanSpecialSummonCount(tp,2)
         and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
         and Duel.GetLocationCountFromEx(tp)>0
-        and aux.SelectUnselectGroup(mg,e,tp,3,3,s.xrescon(exg),0) end
+        and aux.SelectUnselectGroup(mg,e,tp,1,3,s.xrescon(exg),0) end
     local sg=aux.SelectUnselectGroup(mg,e,tp,1,3,s.xrescon(exg),chk,tp,HINTMSG_SPSUMMON,s.xrescon(exg))
     Duel.SetTargetCard(sg)
     Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,sg,#sg,0,0)
