@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1,id)
 	e1:SetCondition(s.linkcond)
-    e1:AddHakaiLinkEffect(aux.FilterBoolFunction(Card.IsAttribute,ATTRIBUTE_DARK),aux.FilterBoolFunction(Card.IsSummonType,SUMMON_TYPE_SPECIAL))
+    e1:AddHakaiLinkEffect(s.lkfilter,aux.FilterBoolFunction(Card.IsSummonType,SUMMON_TYPE_SPECIAL))
     c:RegisterEffect(e1)
     --special summon
     local e2=Effect.CreateEffect(c)
@@ -28,6 +28,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 s.listed_series={0x1230}
+function s.lkfilter(c)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:GetCode()~=id
+end
 function s.lcheck(g,lc,sumtype,tp)
     return g:IsExists(Card.IsLinkSetCard,1,nil,0x1230)
 end
