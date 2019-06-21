@@ -929,6 +929,7 @@ function Auxiliary.MajesticSynCondition(f1,cbt1,f2,cbt2,f3,cbt3,...)
 				if c==nil then return true end
 				min = min or Auxiliary.SynchroSummonMinCount
 				max = max or Auxiliary.SynchroSummonMaxCount
+				if (min and min>3) or (max and max<3) then return false end
 				local tp=c:GetControler()
 				local lv=c:GetLevel()
 				local g
@@ -978,6 +979,7 @@ function Auxiliary.MajesticSynTarget(f1,cbt1,f2,cbt2,f3,cbt3,...)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk,c,smat,mg,min,max)
 				min = min or Auxiliary.SynchroSummonMinCount
 				max = max or Auxiliary.SynchroSummonMaxCount
+				if (min and min>3) or (max and max<3) then return false end
 				local sg=Group.CreateGroup()
 				local lv=c:GetLevel()
 				local mgchk
@@ -1249,6 +1251,7 @@ function Auxiliary.DarkSynCondition(f1,f2,plv,nlv,...)
 				if c==nil then return true end
 				min = min or Auxiliary.SynchroSummonMinCount
 				max = max or Auxiliary.SynchroSummonMaxCount
+				if (min and min>3) or (max and max<3) then return false end
 				local plv=plv
 				local nlv=nlv
 				if plv==nil then
@@ -1305,6 +1308,7 @@ function Auxiliary.DarkSynTarget(f1,f2,plv,nlv,...)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk,c,smat,mg,min,max)
 				min = min or Auxiliary.SynchroSummonMinCount
 				max = max or Auxiliary.SynchroSummonMaxCount
+				if (min and min>3) or (max and max<3) then return false end
 				local sg=Group.CreateGroup()
 				local plv=plv
 				local nlv=nlv
