@@ -16,6 +16,25 @@ function Card.IsNonEffectMonster(c)
 	return c:IsType(TYPE_MONSTER) and not c:IsType(TYPE_EFFECT)
 end
 
+local syncheck = Card.IsSynchroSummonable
+Card.IsSynchroSummonable=function(c,tun,mg,min,max)
+	Auxiliary.SynchroSummonMinCount = min
+	Auxiliary.SynchroSummonMaxCount = max
+	local res = syncheck(c,tun,mg)
+	Auxiliary.SynchroSummonMinCount = nil
+	Auxiliary.SynchroSummonMaxCount = nil
+	return res
+end
+local synsum = Duel.SynchroSummon
+Duel.SynchroSummon=function(tp,syn,tun,g,min,max)
+	Auxiliary.SynchroSummonMinCount = min
+	Auxiliary.SynchroSummonMaxCount = max
+	local res = synsum(tp,syn,tun,g)
+	Auxiliary.SynchroSummonMinCount = nil
+	Auxiliary.SynchroSummonMaxCount = nil
+	return res
+end
+
 local chkoverlay=Duel.CheckRemoveOverlayCard
 Duel.CheckRemoveOverlayCard=function(player, self, opponent, count, reason, group)
 	if not group then
