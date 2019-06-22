@@ -24,6 +24,7 @@ function s.initial_effect(c)
 	e2:SetOperation(s.regop)
 	c:RegisterEffect(e2)
 end
+s.listed_series={0x102}
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
@@ -57,7 +58,7 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 		e1:SetCode(EVENT_PHASE+PHASE_END)
-		e1:SetCountLimit(1,id+100)
+		e1:SetCountLimit(1,id+1)
 		e1:SetRange(LOCATION_GRAVE)
 		e1:SetTarget(s.sptg)
 		e1:SetOperation(s.spop)

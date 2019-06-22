@@ -19,6 +19,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.desop)
 	c:RegisterEffect(e1)
 end
+s.listed_series={0x102}
 function s.lcheck(g,lc)
 	return g:IsExists(Card.IsLinkSetCard,1,nil,0x102)
 end
