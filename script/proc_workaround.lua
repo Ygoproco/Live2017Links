@@ -463,3 +463,20 @@ function Effect.AddHakaiLinkEffect(e,f,of)
 	e:SetTarget(Auxiliary.HakaiLinkTarget(f,of))
 	e:SetOperation(Auxiliary.HakaiLinkOperation(f))
 end
+--fix "unaffected" vs "cannot activate"
+local ereg=Card.RegisterEffect
+function Card.RegisterEffect(c,oe,...)
+	if oe:GetCode()==EFFECT_CANNOT_ACTIVATE then
+		local val=oe:GetValue()
+		if type(val)=="function" then
+			oe:SetValue(function(e,re,tp)
+				return val(e,re,tp) and not re:GetHandler():IsImmuneToEffect(e)
+			end)
+		else
+			oe:SetValue(function(e,re,tp)
+				return not re:GetHandler():IsImmuneToEffect(e)
+			end)
+		end
+	end
+	return ereg(c,oe,...)
+end
