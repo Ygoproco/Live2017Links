@@ -56,19 +56,14 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	--recover
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,1))
-	e1:SetType(EFFECT_TYPE_IGNITION)
-	e1:SetRange(LOCATION_MZONE)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetCode(EVENT_RELEASE)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetCountLimit(1,id+100)
-	e1:SetCost(s.rccost)
 	e1:SetTarget(s.rctg)
 	e1:SetOperation(s.rcop)
 	e1:SetReset(RESET_EVENT+0xfe0000)
 	c:RegisterEffect(e1)
-end
-function s.rccost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsReleasable() end
-	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function s.rctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
