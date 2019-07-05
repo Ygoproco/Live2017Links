@@ -11,6 +11,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCondition(s.spcon)
 	e1:SetOperation(s.spop)
+	e1:SetValue(1)
 	c:RegisterEffect(e1)
 	--normal summon
 	local e2=Effect.CreateEffect(c)
@@ -56,14 +57,18 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	--recover
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,1))
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_RELEASE)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetCountLimit(1,id+100)
+	e1:SetCondition(s.rccon)
 	e1:SetTarget(s.rctg)
 	e1:SetOperation(s.rcop)
-	e1:SetReset(RESET_EVENT+0xfe0000)
 	c:RegisterEffect(e1)
+end
+function s.rccon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:GetSummonType()==SUMMON_TYPE_SPECIAL+1
 end
 function s.rctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
