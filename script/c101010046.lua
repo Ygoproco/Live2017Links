@@ -56,7 +56,7 @@ function s.tgfilter(c,e,tp,ft)
 		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCode())
 end
 function s.spfilter(c,e,tp,code)
-	return c:IsSetCard(0x19) and not c:IsCode(code) and c:IsCanBeSpecialSummoned(e,130,tp,false,false)
+	return c:IsSetCard(0x19) and not c:IsOriginalCodeRule(code) and c:IsCanBeSpecialSummoned(e,130,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
@@ -73,7 +73,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local rt=Duel.SendtoDeck(rc,nil,2,REASON_EFFECT)
 	if rt==0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,rc:GetCode()):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,rc:GetOriginalCodeRule()):GetFirst()
 	if tc and Duel.SpecialSummon(tc,130,tp,tp,false,false,POS_FACEUP)>0 then
 		tc:RegisterFlagEffect(tc:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD_DISABLE,0,0)
 	end
