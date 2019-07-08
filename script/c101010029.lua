@@ -24,7 +24,7 @@ function s.sccon(e,tp,eg,ep,ev,re,r,rp)
 		and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2)
 end
 function s.scfilter1(c,tp,mc)
-	return c:IsFaceup() and not c:IsType(TYPE_TUNER) 
+	return c:IsFaceup()
 		and Duel.IsExistingMatchingCard(s.scfilter2,tp,LOCATION_EXTRA,0,1,nil,tp,mc,Group.FromCards(c))
 end
 function s.scfilter2(c,tp,tc,mg)
