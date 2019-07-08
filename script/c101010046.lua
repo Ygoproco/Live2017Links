@@ -53,7 +53,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.tgfilter(c,e,tp,ft)
 	return c:IsFaceup() and c:IsSetCard(0x19) and c:IsAbleToDeck() and (ft>-1 or c:GetSequence()<5)
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCode())
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalCodeRule())
 end
 function s.spfilter(c,e,tp,code)
 	return c:IsSetCard(0x19) and not c:IsOriginalCodeRule(code) and c:IsCanBeSpecialSummoned(e,130,tp,false,false)
