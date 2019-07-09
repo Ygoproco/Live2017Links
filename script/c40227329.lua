@@ -81,8 +81,8 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=not e:GetHandler():IsHasEffect(EFFECT_DIRECT_ATTACK)
-	local b2=Duel.GetFlagEffect(1-tp,id+100)==0
-	local b3=Duel.GetFlagEffect(1-tp,id+200)==0
+	local b2=Duel.GetFlagEffect(1-tp,id+1)==0
+	local b3=Duel.GetFlagEffect(1-tp,id+2)==0
 	if chk==0 then return b1 or b2 or b3 end
 	local stab={}
 	local dtab={}
@@ -115,7 +115,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 	elseif op==0x2 then
-		Duel.RegisterFlagEffect(1-tp,id+100,RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,aux.Stringid(id,3))
+		Duel.RegisterFlagEffect(1-tp,id+1,RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,aux.Stringid(id,3))
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_FIELD)
 		e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -125,7 +125,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e2,tp)
 	else
-		Duel.RegisterFlagEffect(1-tp,id+200,RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,aux.Stringid(id,4))
+		Duel.RegisterFlagEffect(1-tp,id+2,RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,aux.Stringid(id,4))
 		local e3=Effect.CreateEffect(c)
 		e3:SetType(EFFECT_TYPE_FIELD)
 		e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
