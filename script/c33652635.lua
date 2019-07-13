@@ -1,10 +1,10 @@
--- 剣闘獣ドミティアノス
---Gladial Beast Domitianus
+--剣闘獣ドミティアノス
+--Gladiator Beast Domitianus
 local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMixN(c,true,true,101010013,1,aux.FilterBoolFunction(Card.IsFusionSetCard,0x19),2)
+	aux.AddFusionProcMixN(c,true,true,88996322,1,aux.FilterBoolFunction(Card.IsFusionSetCard,0x19),2)
 	aux.AddContactFusion(c,s.contactfil,s.contactop,s.splimit)
 	--negate
 	local e1=Effect.CreateEffect(c)
