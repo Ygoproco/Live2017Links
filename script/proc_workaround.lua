@@ -469,3 +469,12 @@ function Effect.AddHakaiLinkEffect(e,f,of)
 	e:SetTarget(Auxiliary.HakaiLinkTarget(f,of))
 	e:SetOperation(Auxiliary.HakaiLinkOperation(f))
 end
+
+--Necessary for lighter handling of Dvergs, Generaid of Iron
+function Group.GetClass(g,f,...)
+    local t={}
+    for tc in aux.Next(g) do
+        table.insert(t,f(tc,table.unpack({...})))
+    end
+    return t
+end
