@@ -1276,7 +1276,7 @@ function Auxiliary.EnableCheckReincarnation(c)
 	end
 end
 function Auxiliary.ReincarnationCheckTarget(e,c)
-	return c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_LINK)
+	return c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK)
 end
 function Auxiliary.ReincarnationRitualFilter(c,id,tp)
 	return c:IsCode(id) and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE)
@@ -1289,6 +1289,8 @@ function Auxiliary.ReincarnationCheckValue(e,c)
 		rc=g:IsExists(Card.IsLinkCode,1,nil,id)
 	elseif c:IsType(TYPE_FUSION) then
 		rc=g:IsExists(Card.IsFusionCode,1,nil,id)
+	elseif c:IsType(TYPE_SYNCHRO+TYPE_XYZ) then
+		rc=g:IsExists(Card.IsCode,1,nil,id)
 	elseif c:IsType(TYPE_RITUAL) then
 		rc=g:IsExists(aux.ReincarnationRitualFilter,1,nil,id,c:GetControler())
 	end
