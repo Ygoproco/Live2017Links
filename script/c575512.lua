@@ -8,17 +8,21 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	--synchro summon
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetCondition(s.sccon)
-	e2:SetCost(s.sccost)
 	e2:SetTarget(s.sctg)
-	e2:SetOperation(s.scop)
+	e2:SetOperation(s.scop1)
 	c:RegisterEffect(e2)
+	local e2b=e2:Clone()
+	e2b:SetDescription(aux.Stringid(id,0))
+	e2b:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2b:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2b:SetCode(EVENT_CUSTOM+id)
+	e2b:SetProperty(EFFECT_FLAG_DELAY)
+	e2b:SetOperation(s.scop2)
+	c:RegisterEffect(e2b)
 	--atkup
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
@@ -37,11 +41,6 @@ end
 function s.sccon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.scfilter,1,nil,tp)
 end
-function s.sccost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return c:GetFlagEffect(id)==0 end
-	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
-end
 function s.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0xc1)
 end
@@ -52,7 +51,13 @@ function s.sctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
-function s.scop(e,tp,eg,ep,ev,re,r,rp)
+function s.scop1(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetFlagEffect(tp,id)==0 then
+		Duel.RegisterFlagEffect(tp,id,RESET_CHAIN,0,1)
+		Duel.RaiseEvent(eg,EVENT_CUSTOM+id,e,0,tp,ep,0)
+	end
+end
+function s.scop2(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local mg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,0,nil)
 	local g=Duel.GetMatchingGroup(Card.IsSynchroSummonable,tp,LOCATION_EXTRA,0,nil,nil,mg)
@@ -86,7 +91,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(e:GetLabel())
-		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 	end
 end
