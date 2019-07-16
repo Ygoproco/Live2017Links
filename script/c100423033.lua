@@ -33,6 +33,9 @@ end
 function s.atkval(e,c)
 	return c:GetOverlayCount()*1000
 end
+function s.filter(c)
+	return not c:IsType(TYPE_TOKEN)
+end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
@@ -57,7 +60,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.BreakEffect()
 	for _,p in pairs(ps) do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
-		local g=Duel.SelectMatchingCard(p,aux.TRUE,p,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,c)
+		local g=Duel.SelectMatchingCard(p,s.filter,p,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,c)
 		if #g>0 then
 			Duel.Overlay(c,g)
 		end
