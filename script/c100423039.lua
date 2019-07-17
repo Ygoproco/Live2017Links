@@ -22,7 +22,7 @@ function s.filter(c,sg,tp)
 		and Duel.IsExistingMatchingCard(s.matfilter,tp,LOCATION_HAND+LOCATION_MZONE+LOCATION_GRAVE,0,#sg,sg,c)
 end
 function s.matfilter(c,tc)
-	return c:IsSetCard(0x232) and (c:IsFaceup() or not c:IsLocation(LOCATION_MZONE)) and c~=tc
+	return c:IsSetCard(0x232) and c:IsType(TYPE_MONSTER) and (c:IsFaceup() or not c:IsLocation(LOCATION_MZONE)) and c~=tc
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsSetCard,1,false,s.check,nil,0x232) end
