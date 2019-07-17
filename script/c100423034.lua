@@ -20,7 +20,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
-    --token
+	--token
 	local e3=Effect.CreateEffect(c)
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
@@ -71,32 +71,42 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft<=0 or not Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0x232,TYPES_TOKEN,1500,1500,4,RACE_FAIRY,ATTRIBUTE_LIGHT) then return end
 	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
+	local fid=c:GetFieldID()
+	local g=Group.CreateGroup()
 	for i=1,ft do
 		local token=Duel.CreateToken(tp,id+100)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_ATTACK)
-		token:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e1:SetCode(EVENT_PHASE+PHASE_END)
-		e1:SetCountLimit(1)
-		e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-		e1:SetLabelObject(token)
-		e1:SetCondition(s.descon)
-		e1:SetOperation(s.desop)
-		Duel.RegisterEffect(e1,tp)
+		token:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1,fid)
+		g:AddCard(token)
 	end
 	Duel.SpecialSummonComplete()
+	g:KeepAlive()
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_PHASE+PHASE_END)
+	e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e1:SetCountLimit(1)
+	e1:SetLabel(fid)
+	e1:SetLabelObject(g)
+	e1:SetCondition(s.descon)
+	e1:SetOperation(s.desop)
+	Duel.RegisterEffect(e1,tp)
+end
+function s.desfilter(c,fid)
+	return c:GetFlagEffectLabel(id)==fid
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	if tc:GetFlagEffect(id)~=0 then
-		return true
-	else
+	local g=e:GetLabelObject()
+	if not g:IsExists(s.desfilter,1,nil,e:GetLabel()) then
+		g:DeleteGroup()
 		e:Reset()
 		return false
-	end
+	else return true end
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
+	local g=e:GetLabelObject()
+	local tc=g:Filter(s.desfilter,nil,e:GetLabel())
 	Duel.Destroy(tc,REASON_EFFECT)
 end
+
+
