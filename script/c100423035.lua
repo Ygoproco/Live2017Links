@@ -38,7 +38,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,rc)
 		local sg=aux.SelectUnselectGroup(g,e,tp,1,2,s.rescon,1,tp,HINTMSG_ATOHAND)
 		if #sg>0 and Duel.SendtoHand(sg,nil,REASON_EFFECT)~=0 then
-			Duel.ConfirmCards(1-tp,g)
+			Duel.ConfirmCards(1-tp,sg)
 			Duel.ShuffleDeck(tp)
 			Duel.BreakEffect()
 			Duel.SendtoDeck(rc,nil,1,REASON_EFFECT)
