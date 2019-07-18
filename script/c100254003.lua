@@ -60,6 +60,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
 		return #pg<=1 and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler())>0
 		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,e:GetHandler(),pg)
+	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
