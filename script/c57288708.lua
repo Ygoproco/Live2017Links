@@ -1,4 +1,4 @@
---星遺物－『星杯
+--星遺物－『星杯』
 --World Legacy - "World Chalice"
 local s,id=GetID()
 function s.initial_effect(c)
@@ -33,7 +33,7 @@ function s.initial_effect(c)
 	e3:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_GRAVE)
-	e3:SetCountLimit(1,id+)
+	e3:SetCountLimit(1,id+100)
 	e3:SetCondition(aux.exccon)
 	e3:SetCost(aux.bfgcost)
 	e3:SetTarget(s.thtg)
