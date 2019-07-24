@@ -67,5 +67,5 @@ function s.sumlimit(e,c)
 	return c:IsCode(e:GetLabel())
 end
 function s.aclimit(e,re,tp)
-	return re:GetHandler():IsCode(e:GetLabel()) and re:IsActiveType(TYPE_MONSTER) and not re:GetHandler():IsImmuneToEffect(e)
+	return re:GetHandler():IsCode(e:GetLabel()) and re:IsActiveType(TYPE_MONSTER)
 end
