@@ -33,6 +33,7 @@ function s.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1,EFFECT_COUNT_CODE_SINGLE)
+	e3:SetCost(s.announcecost)
 	e3:SetTarget(s.rcvtg)
 	e3:SetOperation(s.rcvop)
 	c:RegisterEffect(e3)
@@ -44,6 +45,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetCountLimit(1,EFFECT_COUNT_CODE_SINGLE)
+	e4:SetCost(s.announcecost)
 	e4:SetTarget(s.dmgtg)
 	e4:SetOperation(s.dmgop)
 	c:RegisterEffect(e4)
@@ -61,10 +63,13 @@ end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
+function s.announcecost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
+end
 function s.rcvtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetCounter(COUNTER_CAULDRON)>0 end
-	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	local val=c:GetCounter(COUNTER_CAULDRON)*500
 	Duel.SetTargetPlayer(tp)
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,val)
@@ -78,7 +83,6 @@ end
 function s.dmgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetCounter(COUNTER_CAULDRON)>0 end
-	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	local dam=c:GetCounter(COUNTER_CAULDRON)*300
 	Duel.SetTargetPlayer(1-tp)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,dam)
