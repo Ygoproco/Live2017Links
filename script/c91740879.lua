@@ -30,6 +30,7 @@ function s.initial_effect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_RECOVER)
 	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1,EFFECT_COUNT_CODE_SINGLE)
 	e3:SetTarget(s.rcvtg)
@@ -63,6 +64,7 @@ end
 function s.rcvtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetCounter(COUNTER_CAULDRON)>0 end
+	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	local val=c:GetCounter(COUNTER_CAULDRON)*500
 	Duel.SetTargetPlayer(tp)
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,val)
@@ -76,6 +78,7 @@ end
 function s.dmgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetCounter(COUNTER_CAULDRON)>0 end
+	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	local dam=c:GetCounter(COUNTER_CAULDRON)*300
 	Duel.SetTargetPlayer(1-tp)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,dam)

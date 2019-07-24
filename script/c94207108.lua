@@ -31,7 +31,7 @@ function s.initial_effect(c)
 end
 s.listed_series={0x12b}
 function s.spcon1(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetBattleTarget() and not e:GetHandler():GetBattleTarget():IsControler(tp)
+	return e:GetHandler():GetBattleTarget()
 end
 function s.spfilter1(c,e,tp)
 	return c:IsSetCard(0x12b) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -90,7 +90,7 @@ function s.eqcon(e,tp,eg,ep,ev,re,r,rp)
 		return false
 	else return true end
 end
-function s.eqop(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,PLAYER_ALL,id)
 	local c=e:GetHandler()
 	local tc=e:GetLabelObject()
