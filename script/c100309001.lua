@@ -1,5 +1,5 @@
 --ゴッドフェニックス・ギア・フリード
---Godphoenix Gearfried
+--God Phoenix Gearfried
 --Scripted by Logical Nonsense and AlphaKretin
 
 --Substitute ID
@@ -69,10 +69,14 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummon(c,1,tp,tp,false,false,POS_FACEUP)
 end
 function s.eqcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetAttacker()==e:GetHandler()
+	local g=e:GetHandler():GetEquipGroup():Filter(s.eqconfilter,nil)
+	return Duel.GetAttacker()==e:GetHandler() and #g==0
+end
+function s.eqconfilter(c)
+	return c:GetFlagEffect(id)~=0 
 end
 function s.eqfilter(c,tp)
-	return c:CheckUniqueOnField(tp) and not c:IsForbidden()
+	return c:IsFaceup() and (c:IsControler(tp) or c:IsAbleToChangeControler()) and c:CheckUniqueOnField(tp) and not c:IsForbidden()
 end
 function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.eqfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler(),tp)

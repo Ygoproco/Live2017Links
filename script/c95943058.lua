@@ -1,5 +1,6 @@
 --E－HERO ヘル・ゲイナー
 --Evil HERO Infernal Gainer
+local s,id=GetID()
 function s.initial_effect(c)
 	--extra atk
 	local e1=Effect.CreateEffect(c)
