@@ -19,7 +19,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--s/t recycle
 	local e3=Effect.CreateEffect(c)
-	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetCategory(CATEGORY_TOHAND)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -56,7 +56,7 @@ function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chk==0 then return Duel.IsExistingTarget(s.thfilter,tp,LOCATION_GRAVE,0,1,nil) end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOHAND)
     local g=Duel.SelectTarget(tp,s.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
-    Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,0,0)
+    Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()

@@ -51,7 +51,6 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 	--Special summon from hand and/or GY
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if ft==0 then return end
 	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end

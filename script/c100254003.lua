@@ -41,11 +41,10 @@ end
 s.listed_series={0x119}
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return not c:IsReason(REASON_REPLACE) and c:CheckRemoveOverlayCard(tp,1,REASON_EFFECT) end
-	if Duel.SelectEffectYesNo(tp,c,96) then
-		c:RemoveOverlayCard(tp,1,1,REASON_EFFECT)
-		return true
-	else return false end
+	if chk==0 then return c:IsReason(REASON_BATTLE+REASON_EFFECT) and not c:IsReason(REASON_REPLACE)
+		and c:CheckRemoveOverlayCard(tp,1,REASON_EFFECT) end
+	c:RemoveOverlayCard(tp,1,1,REASON_EFFECT)
+	return true
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
@@ -65,14 +64,12 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
 	if Duel.GetLocationCountFromEx(tp,tp,c)>0 and c:IsFaceup() and c:IsRelateToEffect(e) and c:IsControler(tp) and not c:IsImmuneToEffect(e) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,c,pg)
 		local sc=g:GetFirst()
 		if sc then
-			Duel.BreakEffect()
 			local mg=c:GetOverlayGroup()
 			if #mg~=0 then
 				Duel.Overlay(sc,mg)

@@ -28,7 +28,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDiscardDeck(1-tp,3) end
+	if chk==0 then return Duel.IsPlayerCanDiscardDeck(tp,3) end
 	Duel.SetOperationInfo(0,CATEGORY_DECKDES,0,0,tp,3)
 end
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
