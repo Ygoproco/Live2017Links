@@ -108,8 +108,8 @@ function s.ngcon(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.IsChainNegatable(ev)
 end
 	--Check for equip spell
-function s.ngfilter(c,e,tp)
-	return c:IsType(TYPE_EQUIP) and c:IsAbleToGraveAsCost()
+function s.ngfilter(c)
+	return c:IsFaceup() and c:IsType(TYPE_EQUIP) and c:IsAbleToGraveAsCost()
 end
 	--Cost of sending equip to GY
 function s.ngcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -121,6 +121,9 @@ end
 function s.ngtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
+	if re:GetHandler():IsRelateToEffect(re) then
+		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
+	end
 end
 	--Negate the activation of monster effect and destroy it
 function s.ngop(e,tp,eg,ep,ev,re,r,rp)
