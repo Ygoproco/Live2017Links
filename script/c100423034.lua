@@ -56,8 +56,11 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
         Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
     end
 end
+function s.tkfilter(c,tp)
+	return c:IsFaceup() and c:IsSetCard(0x232) and c:GetSummonPlayer()==tp
+end
 function s.tkcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()~=tp and eg:IsExists(Card.IsSetCard,1,nil,0x232)
+	return Duel.GetTurnPlayer()~=tp and eg:IsExists(s.tkfilter,1,nil,tp)
 end
 function s.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0x232,TYPES_TOKEN,1500,1500,4,RACE_FAIRY,ATTRIBUTE_LIGHT) 
@@ -109,5 +112,3 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:Filter(s.desfilter,nil,e:GetLabel())
 	Duel.Destroy(tc,REASON_EFFECT)
 end
-
-
