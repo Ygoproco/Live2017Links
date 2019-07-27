@@ -27,10 +27,10 @@ function s.initial_effect(c)
 	e3:SetOperation(s.damop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={101009089}
-s.listed_series={0x233}
+s.listed_names={74665651}
+s.listed_series={0x131}
 function s.filter(c,tp)
-	return c:IsCode(101009089) and c:GetActivateEffect():IsActivatable(tp)
+	return c:IsCode(74665651) and c:GetActivateEffect():IsActivatable(tp)
 end
 function s.tftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,tp) end
@@ -54,7 +54,7 @@ function s.tfop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.damfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x233) and c:IsAttribute(ATTRIBUTE_DARK)
+	return c:IsFaceup() and c:IsSetCard(0x131) and c:IsAttribute(ATTRIBUTE_DARK)
 end
 function s.cfilter(c,tp)
 	return c:GetSummonPlayer()==tp

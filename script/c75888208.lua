@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetHintTiming(0,0x1c0+TIMING_MAIN_END)
-	e2:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+1)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCondition(s.dspcon)
 	e2:SetCost(s.dspcost)
@@ -29,14 +29,14 @@ function s.initial_effect(c)
 	e2:SetOperation(s.dspop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={101009085,101009089}
-s.listed_series={0x233}
+s.listed_names={49389190,74665651}
+s.listed_series={0x131}
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	if not re then return false end
-	return re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x233)
+	return re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x131)
 end
 function s.spfilter(c,e,tp)
-	return c:IsSetCard(0x233) and not c:IsCode(id) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x131) and not c:IsCode(id) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -54,7 +54,7 @@ end
 function s.dspcon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	return not e:GetHandler():IsStatus(STATUS_CHAINING)
-		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,101009089),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
+		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,74665651),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 		and (ph==PHASE_MAIN1 or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or ph==PHASE_MAIN2)
 end
 function s.dspcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -62,7 +62,7 @@ function s.dspcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function s.dspfilter(c,e,tp)
-	return c:IsCode(101009085) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(49389190) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.dsptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)

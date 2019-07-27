@@ -23,13 +23,13 @@ function s.initial_effect(c)
 	e2:SetOperation(s.repop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={101009089,101009090}
-s.listed_series={0x233}
+s.listed_names={74665651,1050355}
+s.listed_series={0x131}
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x233),tp,LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x131),tp,LOCATION_MZONE,0,1,nil)
 end
 function s.filter(c,e)
-	return c:IsFaceup() and c:IsCode(101009089,101009090) 
+	return c:IsFaceup() and c:IsCode(74665651,1050355) 
 		and c:IsCanBeEffectTarget(e) and c:IsAbleToDeck()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -53,7 +53,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.repfilter(c,tp)
-	return c:IsFaceup() and c:IsControler(tp) and c:IsOnField() and c:IsSetCard(0x233)
+	return c:IsFaceup() and c:IsControler(tp) and c:IsOnField() and c:IsSetCard(0x131)
 		and not c:IsReason(REASON_REPLACE) and c:IsReason(REASON_EFFECT+REASON_BATTLE)
 end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)

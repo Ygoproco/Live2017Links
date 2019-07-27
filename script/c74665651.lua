@@ -34,10 +34,10 @@ function s.initial_effect(c)
 	e4:SetValue(aux.tgoval)
 	c:RegisterEffect(e4)
 end
-s.listed_names={101009090}
-s.listed_series={0x233}
+s.listed_names={1050355}
+s.listed_series={0x131}
 function s.filter(c,tp)
-	return c:IsCode(101009090) and c:GetActivateEffect():IsActivatable(tp)
+	return c:IsCode(1050355) and c:GetActivateEffect():IsActivatable(tp)
 end
 function s.tftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,tp) end
@@ -61,14 +61,14 @@ function s.tfop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.imfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x233) and c:IsAttribute(ATTRIBUTE_LIGHT)
+	return c:IsFaceup() and c:IsSetCard(0x131) and c:IsAttribute(ATTRIBUTE_LIGHT)
 end
 function s.limcond(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.imfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil) 
 end
 function s.atfilter(c,lv)
-	return c:IsFaceup() and c:IsSetCard(0x233) and c:GetLevel()>lv
+	return c:IsFaceup() and c:IsSetCard(0x131) and c:GetLevel()>lv
 end
 function s.atlimit(e,c)
-	return c:IsFaceup() and c:IsSetCard(0x233) and Duel.IsExistingMatchingCard(s.atfilter,c:GetControler(),LOCATION_MZONE,0,1,nil,c:GetLevel())
+	return c:IsFaceup() and c:IsSetCard(0x131) and Duel.IsExistingMatchingCard(s.atfilter,c:GetControler(),LOCATION_MZONE,0,1,nil,c:GetLevel())
 end
