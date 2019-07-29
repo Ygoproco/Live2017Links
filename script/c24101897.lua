@@ -60,7 +60,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	if not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x8d),tp,LOCATION_MZONE,0,1,e:GetHandler()) then return end
+	if not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x8d),tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler()) then return end
 	local g=eg:Filter(s.filter,nil,e)
 	Duel.ChangePosition(g,POS_FACEDOWN_DEFENSE)
 end
