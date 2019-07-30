@@ -1,5 +1,5 @@
 --オラゴンメイドのお出迎え
---Reception of the Dragonmaids
+--Dragonmaid Reception
 --Scripted by Hel
 local s,id=GetID()
 function s.initial_effect(c)
@@ -34,7 +34,7 @@ function s.initial_effect(c)
 	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e5:SetCode(EVENT_TO_GRAVE+EFFECT_CANNOT_BE_EFFECT_TARGET)
 	e5:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_IGNORE_IMMUNE)
-	e5:SetRange(LOCATION_MZONE)
+	e5:SetRange(LOCATION_SZONE)
 	e5:SetTargetRange(LOCATION_MZONE,0)
 	e5:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x235))
 	e5:SetValue(aux.tgoval)
