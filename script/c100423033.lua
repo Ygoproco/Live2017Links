@@ -65,6 +65,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			if #og>0 then
 			    Duel.SendtoGrave(og,REASON_RULE)
 			end
+			g:GetFirst():CancelToGrave()
 		    Duel.Overlay(c,g)
 		end
 	end
