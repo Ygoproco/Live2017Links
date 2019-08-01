@@ -36,17 +36,16 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and Duel.IsExistingTarget(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,s.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,LOCATION_GRAVE)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-		local c=e:GetHandler()
-		local tc=Duel.GetFirstTarget()
-		if tc:IsRelateToEffect(e) then
-			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
-		end
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
 function s.spfilter2(c,e,tp)
-	return c:GetLevel()==7 and c:IsSetCard(0x235) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsLevel(7) and c:IsSetCard(0x235) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
