@@ -31,7 +31,7 @@ function s.initial_effect(c)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 end
-s.listed_series={0x231}
+s.listed_series={0x132}
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
 end
@@ -105,7 +105,7 @@ function s.op(filter)
 	end
 end
 function s.mmfilter(c)
-	return c:IsSetCard(0x231) and c:IsAbleToHand()
+	return c:IsSetCard(0x132) and c:IsAbleToHand()
 end
 s.mmtg=s.tg(s.mmfilter)
 s.mmop=s.op(s.mmfilter)
@@ -120,7 +120,7 @@ end
 s.sttg=s.tg(s.stfilter)
 s.stop=s.op(s.stfilter)
 function s.spfilter(c,e,tp)
-	return c:IsSetCard(0x231) and c:IsLevel(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x132) and c:IsLevel(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,nil) end
