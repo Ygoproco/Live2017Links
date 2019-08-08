@@ -1,4 +1,4 @@
---Brotherhood of the Fire Fist - Antilope
+--Brotherhood of the Fire Fist - Eland
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -54,7 +54,7 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
-		and ep~=tp and re:IsActiveType(TYPE_MONSTER) and Duel.IsChainNegatable(ev)
+		and ep~=tp and re:IsActiveType(TYPE_MONSTER) and Duel.IsChainDisablable(ev)
 end
 function s.cfilter(c)
 	return c:IsFaceup() and (c:IsSetCard(0x79) or c:IsSetCard(0x7c)) and not c:IsCode(id) and c:IsAbleToGraveAsCost()
