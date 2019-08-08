@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,id)
-	e1:SetCondition(s.spcon)
+	e1:SetCondition(aux.zptcon(nil))
 	e1:SetTarget(s.sptg1)
 	e1:SetOperation(s.spop1)
 	c:RegisterEffect(e1)
@@ -36,16 +36,10 @@ s.listed_series={0x234}
 function s.lcheck(g,lc,tp)
 	return g:GetClassCount(Card.GetLinkCode)==#g
 end
-function s.spcheck(sg,e,tp,mg)
-	return sg:GetClassCount(Card.GetCode)==#sg
-end
-function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return aux.zptcon(e,tp,eg,ep,ev,re,r,rp) and not eg:IsContains(e:GetHandler())
-end
 function s.spfilter(c,e,tp,zone)
 	return c:IsLevelBelow(4) and c:IsSetCard(0x234) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp,zone)
 end
-function s.sptg1(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg1(e,tp,eg,ep,ev,re,r,rp,chk
 	if chk==0 then return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,e:GetHandler():GetLinkedZone(tp)) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE)
 end
