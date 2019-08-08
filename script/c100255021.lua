@@ -2,7 +2,7 @@
 --Scripted by Hel
 local s,id=GetID()
 function s.initial_effect(c)
---negate
+	--negate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
