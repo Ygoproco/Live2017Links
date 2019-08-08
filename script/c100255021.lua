@@ -14,10 +14,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.filter1(c)
-	return c:IsFaceup() and c:IsCode(0x79) and c:IsType(TYPE_MONSTER)
+	return c:IsFaceup() and c:IsSetCard(0x79) and c:IsType(TYPE_MONSTER)
 end
 function s.filter2(c)
-	return c:IsFaceup() and c:IsCode(0x7c) and (c:IsType(TYPE_SPELL) or c:IsType(TYPE_TRAP))
+	return c:IsFaceup() and c:IsSetCard(0x7c) and (c:IsType(TYPE_SPELL) or c:IsType(TYPE_TRAP))
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.IsChainNegatable(ev)
