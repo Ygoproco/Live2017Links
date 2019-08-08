@@ -69,7 +69,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.repfilter(c,tp)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_ONFIELD)
+	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsSetCard(0x79) and c:IsFaceup()
 		and c:IsReason(REASON_EFFECT) and not c:IsReason(REASON_REPLACE)
 		and c:GetReasonPlayer()~=tp
 end
