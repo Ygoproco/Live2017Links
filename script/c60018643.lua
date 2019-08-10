@@ -32,6 +32,7 @@ function s.initial_effect(c)
 		Duel.RegisterEffect(ge1,0)
 	end
 end
+s.listed_series={0x101}
 function s.resetop(e,tp,eg,ep,ev,re,r,rp)
 	s.attr_list[0]=0
 	s.attr_list[1]=0
@@ -51,9 +52,13 @@ end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return eg:IsContains(chkc) and s.thcfilter(chkc,e,tp) end
 	if chk==0 then return eg:IsExists(s.thcfilter,1,nil,e,tp) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local sg=eg:FilterSelect(tp,s.thcfilter,1,1,nil,e,tp)
-	Duel.SetTargetCard(sg)
+	if #eg==1 then
+		Duel.SetTargetCard(eg)
+	else
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
+		local sg=eg:FilterSelect(tp,s.thcfilter,1,1,nil,e,tp)
+		Duel.SetTargetCard(sg)
+	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
