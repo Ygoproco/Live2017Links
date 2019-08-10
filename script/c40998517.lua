@@ -7,7 +7,7 @@ function s.initial_effect(c)
 	--destroy
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
-    e1:SetCategory(CATEGORY_DESTROY)
+    e1:SetCategory(CATEGORY_DESTROY+CATEGORY_DRAW)
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetCountLimit(1,id)
