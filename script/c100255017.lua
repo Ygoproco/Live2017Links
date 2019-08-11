@@ -7,7 +7,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--Must be properly summoned before reviving
 	c:EnableReviveLimit()
-	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsRace,RACE_BEASTWARRIOR),2,2)
+	aux.AddLinkProcedure(c,aux.FilterBoolFunctionEx(Card.IsLinkSetCard,0x79),2,2)
 	--Cannot be attack target
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -32,13 +32,9 @@ function s.initial_effect(c)
 end
 	--Part of "Fire Fist" archetype
 s.listed_series={0x79}
-	--Check for "Fire Fist" monster
-function s.tgfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x79)
-end
 	--If this card is pointing to "Fire Fist"
 function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetLinkedGroup():IsExists(s.tgfilter,1,nil)
+	return e:GetHandler():GetLinkedGroup():IsExists(aux.FilterFaceupFunction(Card.IsSetCard,0x79),1,nil)
 end
 	--Check for "Fire Formation" S/T for cost
 function s.ctfilter(c)
@@ -47,7 +43,7 @@ end
 	--Activation legality
 function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
-	if chkc then return chkc:GetLocation()==LOCATION_MZONE and chkc:GetControler()~=tp and chkc:IsControlerCanBeChanged() end
+	if chkc then return chkc:GetLocation()==LOCATION_MZONE and chkc:GetControler()==1-tp and chkc:IsControlerCanBeChanged() end
 	local nc=Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_ONFIELD,0,1,nil)
 	if chk==0 then 
 		local zone=c:GetLinkedZone()&0x1f
