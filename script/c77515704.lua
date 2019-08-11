@@ -51,9 +51,11 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		op=Duel.SelectOption(tp,aux.Stringid(id,2))+1
 	end
 	if op==0 then
+		e:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 		e:SetOperation(s.athop)
 		Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 	else
+		e:SetCategory(CATEGORY_TOHAND)
 		e:SetOperation(s.rthop)
 		Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,1-tp,LOCATION_ONFIELD)
 	end
