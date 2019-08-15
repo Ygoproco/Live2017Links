@@ -25,6 +25,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.target)
 	c:RegisterEffect(e2)
 end
+	--Use effect at the same time it was flipped
 function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	if s.cost(e,tp,eg,ep,ev,re,r,rp,0) and s.target(e,tp,eg,ep,ev,re,r,rp,0) and Duel.SelectYesNo(tp,94) then
@@ -123,7 +124,7 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 and Duel.Release(g,REASON_EFFECT)>0 then
 		local tc=g:GetFirst()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local sg=Duel.SelectMatchingCard(tp,s.filter3,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+		local sg=Duel.SelectMatchingCard(tp,s.filter3,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp)
 		if #sg>0 then
 			Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
 			if (tc:GetPreviousTypeOnField()&TYPE_EFFECT>0) then
