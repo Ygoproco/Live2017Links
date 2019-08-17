@@ -49,6 +49,12 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 end
+function s.operationvalueatk(c)
+    return math.max(c:GetBaseAttack(),0)
+end
+function s.operationvaluedef(c)
+    return math.max(c:GetBaseDefense(),0)
+end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
@@ -61,6 +67,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		local def=og:GetSum(Card.GetBaseDefense)
 		if not Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,0x4011,atk,def,11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp) then return end
 		Duel.BreakEffect()
+		local atk=og:GetSum(s.operationvalueatk)
+        	local def=og:GetSum(s.operationvaluedef)
 		local token=Duel.CreateToken(tp,id+100)
 		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(c)
