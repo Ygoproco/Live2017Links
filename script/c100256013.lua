@@ -63,12 +63,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local og=Duel.GetOperatedGroup()
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)>0
 		and Duel.GetMZoneCount(1-tp,nil,tp)>0 then
-		local atk=og:GetSum(Card.GetBaseAttack)
-		local def=og:GetSum(Card.GetBaseDefense)
-		if not Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,0x4011,atk,def,11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp) then return end
-		Duel.BreakEffect()
 		local atk=og:GetSum(s.operationvalueatk)
         	local def=og:GetSum(s.operationvaluedef)
+		if not Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,0x4011,atk,def,11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp) then return end
+		Duel.BreakEffect()
 		local token=Duel.CreateToken(tp,id+100)
 		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(c)
