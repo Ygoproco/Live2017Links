@@ -1,5 +1,5 @@
 --ダークネス・シムルグ
---Darkness Simorgh
+--Simorgh of Darkness
 --Scripted by ahtelel
 local s,id=GetID()
 function s.initial_effect(c)
@@ -58,7 +58,7 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and Duel.IsChainNegatable(ev)
 end
 function s.cfilter(c)
-	return c:IsFaceup() and c:IsRace(RACE_WINDBEAST) and c:IsAttribute(ATTRIBUTE_WIND) 
+	return c:IsRace(RACE_WINDBEAST) and c:IsAttribute(ATTRIBUTE_WIND) 
 		 and not c:IsStatus(STATUS_BATTLE_DESTROYED)
 end
 function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
