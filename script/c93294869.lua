@@ -34,18 +34,19 @@ function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
-	local ft=Duel.GetLocationCount(tp,LOCATION_SZONE)
-	if ft<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 	local g=Duel.SelectMatchingCard(tp,s.filter1,tp,LOCATION_DECK,0,1,1,nil)
-	local sg=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_DECK,0,nil)
-	if e:GetLabel()==1 and sg:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
-		g:AddCard(sg:Select(tp,1,1,nil):GetFirst())
-	end
 	if #g>0 then
 		Duel.SSet(tp,g)
 		Duel.ConfirmCards(1-tp,g)
+		local sg=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_DECK,0,nil)
+		if e:GetLabel()==1 and #sg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
+			local tg=sg:Select(tp,1,1,nil)
+			Duel.SSet(tp,tg)
+			Duel.ConfirmCards(1-tp,tg)
+		end
 	end
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
