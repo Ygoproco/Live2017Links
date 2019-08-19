@@ -363,6 +363,9 @@ end
 --for zone checking (zone is the zone, tp is referencial player)
 function Auxiliary.IsZone(c,zone,tp)
 	local rzone = c:IsControler(tp) and (1 <<c:GetSequence()) or (1 << (16+c:GetSequence()))
+	if c:IsSequence(5,6) then
+		rzone = rzone | (c:IsControler(tp) and (1 << (16 + 11 - c:GetSequence())) or (1 << (11 - c:GetSequence())))
+	end
 	return (rzone & zone) > 0
 end
 
