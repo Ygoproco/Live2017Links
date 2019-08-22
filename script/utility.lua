@@ -11,7 +11,7 @@ RACE_PSYCHIC=RACE_PSYCHO
 RACE_DIVINE=RACE_DEVINE
 SUMMON_TYPE_TRIBUTE=SUMMON_TYPE_ADVANCE
 SUMMON_TYPE_GEMINI=SUMMON_TYPE_DUAL
-EFFECT_LIGHT_INTERVENTION=EFFECT_DEVINE_LIGHT
+EFFECT_LIGHT_OF_INTERVENTION=EFFECT_DEVINE_LIGHT
 
 function Card.GetMetatable(c)
 	local code=c:GetOriginalCode()
@@ -1431,17 +1431,17 @@ function Auxiliary.EvilHeroLimit(e,se,sp,st)
 	return st&chk==chk
 end
 --Functions to automate consistent start-of-duel activations for Duel Modes like Speed Duel, Sealed Duel
-function Auxiliary.EnableExtraRule(c,card,init,...)
+function Auxiliary.EnableExtraRules(c,card,init,...)
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_ADJUST)
     e1:SetCountLimit(1)
     e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_NO_TURN_RESET)
     e1:SetRange(0xff)
-    e1:SetOperation(Auxiliary.EnableExtraRuleOperation(card,init,...))
+    e1:SetOperation(Auxiliary.EnableExtraRulesOperation(card,init,...))
     c:RegisterEffect(e1)
 end
-function Auxiliary.EnableExtraRuleOperation(card,init,...)
+function Auxiliary.EnableExtraRulesOperation(card,init,...)
     local arg = {...}
     return function(e,tp,eg,ep,ev,re,r,rp)
         local c = e:GetHandler()
