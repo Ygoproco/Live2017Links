@@ -11,6 +11,7 @@ RACE_PSYCHIC=RACE_PSYCHO
 RACE_DIVINE=RACE_DEVINE
 SUMMON_TYPE_TRIBUTE=SUMMON_TYPE_ADVANCE
 SUMMON_TYPE_GEMINI=SUMMON_TYPE_DUAL
+EFFECT_LIGHT_INTERVENTION=EFFECT_DEVINE_LIGHT
 
 function Card.GetMetatable(c)
 	local code=c:GetOriginalCode()
@@ -1441,6 +1442,7 @@ function Auxiliary.EnableExtraRule(c,card,init,...)
     c:RegisterEffect(e1)
 end
 function Auxiliary.EnableExtraRuleOperation(card,init,...)
+    local arg = {...}
     return function(e,tp,eg,ep,ev,re,r,rp)
         local c = e:GetHandler()
         local p = c:GetControler()
@@ -1455,7 +1457,7 @@ function Auxiliary.EnableExtraRuleOperation(card,init,...)
         if not card.global_active_check then
             Duel.ConfirmCards(1-p, c)
             if Duel.SelectYesNo(p,aux.Stringid(4014,6)) and Duel.SelectYesNo(1-p,aux.Stringid(4014,6)) then
-            	init(c,...)
+            	init(c,table.unpack(arg))
             end
             card.global_active_check = true
         end
