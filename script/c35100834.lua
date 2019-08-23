@@ -70,3 +70,4 @@ function s.atkval(e,c)
 	local tc=c:GetEquipGroup():Filter(s.idfilter,nil):GetFirst()
 	if tc then return tc:GetAttack()*2 else return 0 end
 end
+

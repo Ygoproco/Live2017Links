@@ -21,14 +21,14 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_CHAINING)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+1)
 	e2:SetCondition(s.negcon)
 	e2:SetCost(s.negcost)
 	e2:SetTarget(s.negtg)
 	e2:SetOperation(s.negop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={100255019}
+s.listed_names={93754402}
 s.listed_series={0x79,0x7c}
 function s.setcfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsDiscardable()

@@ -72,3 +72,4 @@ end
 function s.atkval(e,c)
 	return c:GetEquipGroup():FilterCount(s.atkfilter,nil)*1000
 end
+
