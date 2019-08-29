@@ -44,16 +44,16 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		return #g>0 and Duel.GetMZoneCount(tp,g,tp)>0 and Duel.GetMZoneCount(1-tp,g,tp)>0
 			and Duel.IsPlayerCanSpecialSummonCount(tp,2)
 			and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-			and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,0x4011,g:GetSum(Card.GetBaseAttack),g:GetSum(Card.GetBaseDefense),11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp)
+			and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,0x4011,g:GetSum(Card.GetBaseAttack),g:GetSum(Card.GetBaseDefense),11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 end
 function s.operationvalueatk(c)
-    return math.max(c:GetBaseAttack(),0)
+	return math.max(c:GetBaseAttack(),0)
 end
 function s.operationvaluedef(c)
-    return math.max(c:GetBaseDefense(),0)
+	return math.max(c:GetBaseDefense(),0)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -64,10 +64,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)>0
 		and Duel.GetMZoneCount(1-tp,nil,tp)>0 then
 		local atk=og:GetSum(s.operationvalueatk)
-        	local def=og:GetSum(s.operationvaluedef)
-		if not Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0,0x4011,atk,def,11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp) then return end
+			local def=og:GetSum(s.operationvaluedef)
+		if not Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,0x4011,atk,def,11,RACE_ROCK,ATTRIBUTE_LIGHT,POS_FACEUP,1-tp) then return end
 		Duel.BreakEffect()
-		local token=Duel.CreateToken(tp,id+100)
+		local token=Duel.CreateToken(tp,id+1)
 		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -82,5 +82,5 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetReset(RESET_EVENT+RESETS_STANDARD)
 		token:RegisterEffect(e2)
 		Duel.SpecialSummonComplete()
-	end	
+	end 
 end
