@@ -69,3 +69,4 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Remove(og,POS_FACEUP,REASON_EFFECT)
 	end
 end
+
