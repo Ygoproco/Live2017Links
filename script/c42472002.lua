@@ -1,8 +1,9 @@
+--聖せい騎き士しコルネウス
 --Noble Knight Custennin
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
-	--special summon
+	--Special Summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -11,7 +12,7 @@ function s.initial_effect(c)
 	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.spcon)
 	c:RegisterEffect(e1)
-	--gain
+	--Extra Normal Summon
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
@@ -68,7 +69,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
 	e1:SetTargetRange(LOCATION_HAND+LOCATION_MZONE,0)
-	e1:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x107a))
+	--e1:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x107a))
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
