@@ -1,3 +1,4 @@
+--終幕の光
 --Final Light
 local s, id = GetID()
 function s.initial_effect(c)
@@ -65,7 +66,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	local count = Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
 	if count > 0 then
-		local g2, ft2 = Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_GRAVE,nil,e,1-tp), math.min(Duel.GetLocationCount(1-tp,LOCATION_MZONE),count)		
+		local g2, ft2 = Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_GRAVE,nil,e,1-tp), math.min(Duel.GetLocationCount(1-tp,LOCATION_MZONE),count)	 
 		if #g2 > 0 and ft2 > 0 and Duel.SelectYesNo(1-tp,aux.Stringid(id,1)) then
 			Duel.BreakEffect()
 			if Duel.IsPlayerAffectedByEffect(1-tp,CARD_BLUEEYES_SPIRIT) then ft2 = 1 end
