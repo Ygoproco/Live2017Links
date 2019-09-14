@@ -95,10 +95,6 @@ function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
 	return #g>0 and g:FilterCount(s.drfilter,nil)==#g and s.filter(e:GetHandler())
 end
-	--Check for monsters' ATK higher than original ATK
-function s.atkfilter(c)
-	return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_MZONE,0,1,nil)
-end
 	--Activation legality
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_MZONE,0,nil)
