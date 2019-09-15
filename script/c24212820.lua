@@ -59,16 +59,16 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and Duel.IsPlayerCanSpecialSummonMonster(tp,id,0x10db,0x21,300,600,4,RACE_WARRIOR,ATTRIBUTE_DARK) then
 		Duel.SpecialSummonStep(c,1,tp,tp,true,false,POS_FACEUP_DEFENSE)
-			c:AddMonsterAttribute(TYPE_EFFECT)
-			c:AddMonsterAttributeComplete()
-			--redirect
-			local e2=Effect.CreateEffect(c)
-			e2:SetType(EFFECT_TYPE_SINGLE)
-			e2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
-			e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e2:SetReset(RESET_EVENT+RESETS_REDIRECT)
-			e2:SetValue(LOCATION_REMOVED)
-			c:RegisterEffect(e2,true)
+		c:AddMonsterAttribute(TYPE_EFFECT)
+		c:AddMonsterAttributeComplete()
+		--redirect
+		local e2=Effect.CreateEffect(c)
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+		e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e2:SetReset(RESET_EVENT+RESETS_REDIRECT)
+		e2:SetValue(LOCATION_REMOVED)
+		c:RegisterEffect(e2,true)
 		Duel.SpecialSummonComplete()
 	end
 end
