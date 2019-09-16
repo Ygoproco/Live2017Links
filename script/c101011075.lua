@@ -32,6 +32,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 		local tc=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_MZONE,0,1,1,nil):GetFirst()
 		if tc then
+			rc:CancelToGrave()
 			Duel.Overlay(tc,Group.FromCards(rc))
 		end
 	end
