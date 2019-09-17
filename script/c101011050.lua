@@ -76,13 +76,14 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
     if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
     local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
-    if #g>0 then
-        local attr=g:GetFirst():GetAttribute()
+    local attr
+	if #g>0 then
+        attr=g:GetFirst():GetAttribute()
         Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
         s.attr_list[tp]=s.attr_list[tp]|attr
     end
 	for _,str in aux.GetAttributeStrings(attr) do
-		c:RegisterFlagEffect(0,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,0,str)
+		e:GetHandler():RegisterFlagEffect(0,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,0,str)
 	end
 end
 function s.splimit(e,c)
