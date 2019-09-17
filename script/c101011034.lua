@@ -1,4 +1,4 @@
--ウォーターリヴァイアサン＠イグニスター
+--ウォーターリヴァイアサン＠イグニスター
 --Water Leviathan @Ignister
 --Scripted by Larry126
 local s,id=GetID()
