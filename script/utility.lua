@@ -1463,7 +1463,27 @@ function Auxiliary.EnableExtraRulesOperation(card,init,...)
         end
     end
 end
-
+--function to perform "Either add it to the hand or send to the GY"
+function Auxiliary.ToHandOrGY(card,player)
+	if card then
+		local b1=card:IsAbleToHand()
+		local b2=card:IsAbleToGrave()
+		local op
+		if b1 and b2 then
+			op=Duel.SelectOption(player,1001,1004)
+		elseif b1 then
+			op=Duel.SelectOption(player,1001)
+		else
+			op=Duel.SelectOption(player,1004)+1
+		end
+		if op==0 then
+			Duel.SendtoHand(card,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-player,card)
+		else
+			Duel.SendtoGrave(card,REASON_EFFECT)
+		end
+	end
+end
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
 	local f2 = loadfile("expansions/script/"..file)
