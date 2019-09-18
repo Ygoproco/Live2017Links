@@ -1463,26 +1463,37 @@ function Auxiliary.EnableExtraRulesOperation(card,init,...)
         end
     end
 end
---function to perform "Either add it to the hand or send to the GY"
-function Auxiliary.ToHandOrGY(card,player)
-	if card then
-		local b1=card:IsAbleToHand()
-		local b2=card:IsAbleToGrave()
-		local op
-		if b1 and b2 then
-			op=Duel.SelectOption(player,1001,1004)
-		elseif b1 then
-			op=Duel.SelectOption(player,1001)
-		else
-			op=Duel.SelectOption(player,1004)+1
-		end
-		if op==0 then
-			Duel.SendtoHand(card,nil,REASON_EFFECT)
-			Duel.ConfirmCards(1-player,card)
-		else
-			Duel.SendtoGrave(card,REASON_EFFECT)
-		end
-	end
+--[[Function to perform "Either add it to the hand or do X"
+Required:
+card: affected card to be moved; -player: player performing the operation
+Optional:
+check: condition for the secondary action, if not provided the default action is "Send it to the GY"; oper: secondary action; str: stirng to be used in the secondary option
+]]
+function Auxiliary.ToHandOrElse(card,player,check,oper,str,...)
+    if card then
+        if not check then check=Card.IsAbleToGrave end
+        if not oper then oper=aux.thoeSend end
+        if not str then str=574 end
+        local b1=card:IsAbleToHand()
+        local b2=check(card,...)
+        local opt
+        if b1 and b2 then
+            opt=Duel.SelectOption(player,573,str)
+        elseif b1 then
+            opt=Duel.SelectOption(player,573)
+        else
+            opt=Duel.SelectOption(player,str)+1
+        end
+        if opt==0 then
+            Duel.SendtoHand(card,nil,REASON_EFFECT)
+            Duel.ConfirmCards(1-player,card)
+        else
+            oper(card,...)
+        end
+    end
+end
+function Auxiliary.thoeSend(card)
+    Duel.SendtoGrave(card,REASON_EFFECT)
 end
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
