@@ -29,7 +29,7 @@ function s.initial_effect(c)
 	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e4:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
+	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP)
 	e4:SetCode(EVENT_DESTROYED)
 	e4:SetCountLimit(1,id+100)
 	e4:SetCondition(s.spcon)
@@ -84,31 +84,32 @@ function s.spfilter(c)
 	return c:GetOriginalType()&TYPE_DUAL==TYPE_DUAL
 end
 function s.spfilter2(c,e,tp)
-	return c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:IsType(TYPE_DUAL)
+	return c:IsLocation(LOCATION_GRAVE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:IsType(TYPE_DUAL)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=e:GetLabelObject():GetLabelObject()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if chk==0 then return ft>0
 		and g:IsExists(s.spfilter2,1,nil,e,tp) end
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,ft,0,0)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local g=e:GetLabelObject():GetLabelObject()
-		if ft<=0 or g:GetCount()==0 or (ft>1 and g:GetCount()>1 and Duel.IsPlayerAffectedByEffect(tp,59822133)) then return end
-		if g:GetCount()>ft then
-			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-			g=g:Select(tp,ft,ft,nil)
+	if ft<=0 or #g==0 then return end
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
+	if #g>ft then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		g=g:Select(tp,ft,ft,nil)
+	end
+	local tc=g:GetFirst()
+	while tc do
+		if Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
+			tc:EnableDualState()
+			tc:RegisterFlagEffect(0,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,64)
 		end
-		local tc=g:GetFirst()
-		while tc do
-			if Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
-				tc:EnableDualState()
-				tc:RegisterFlagEffect(0,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,64)
-			end
-			tc=g:GetNext()
-		end
-		Duel.SpecialSummonComplete()
+		tc=g:GetNext()
+	end
+	Duel.SpecialSummonComplete()
 end
