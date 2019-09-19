@@ -78,7 +78,7 @@ end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=e:GetLabelObject():GetLabelObject()
-	return c:IsReason(REASON_BATTLE) or (rp=1-tp and c:IsReason(REASON_EFFECT)) and g:IsExists(s.spfilter,1,nil)
+	return c:IsReason(REASON_BATTLE) or (rp==1-tp and c:IsReason(REASON_EFFECT)) and g:IsExists(s.spfilter,1,nil)
 end
 function s.spfilter(c)
 	return c:GetOriginalType()&TYPE_DUAL==TYPE_DUAL
