@@ -1,4 +1,5 @@
 --真竜戦士イグニスH
+--Ignis Heat, the True Dracowarrior
 local s,id=GetID()
 function s.initial_effect(c)
 	--summon with s/t
@@ -113,20 +114,18 @@ function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
-	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
-	local tc=g:GetFirst()
-	if tc then
-		local b1=tc:IsAbleToHand()
-		local b2=tc:GetActivateEffect():IsActivatable(tp) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		if b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(id,2))) then
-			Duel.SendtoHand(tc,nil,REASON_EFFECT)
-			Duel.ConfirmCards(1-tp,tc)
-		else
-			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
-			local te=tc:GetActivateEffect()
-			local tep=tc:GetControler()
-			local cost=te:GetCost()
-			if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
-		end
-	end
+	local tc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
+	aux.ToHandOrElse(tc,tp,function(c)
+					local te=tc:GetActivateEffect()
+					return te:IsActivatable(tp) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 end,
+					function(c)
+						Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
+						local te=tc:GetActivateEffect()
+						local tep=tc:GetControler()
+						local cost=te:GetCost()
+						if cost
+							then cost(te,tep,eg,ep,ev,re,r,rp,1)
+						end
+					end,
+					aux.Stringid(id,3))
 end
