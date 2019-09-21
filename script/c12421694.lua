@@ -50,6 +50,10 @@ function s.naop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 end
+function s.lpcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:GetFlagEffect(id)>0
+end
 function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	local c=re:GetHandler()
 	if re:IsActiveType(TYPE_SPELL) and rp==tp and c:IsSetCard(0x115) then
