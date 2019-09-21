@@ -58,9 +58,9 @@ function s.operationvaluedef(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
 	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsReleasable),tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	if Duel.Release(g,REASON_EFFECT)==0 then return end
+	if not c:IsRelateToEffect(e) then return end
 	local og=Duel.GetOperatedGroup()
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)>0
 		and Duel.GetMZoneCount(1-tp,nil,tp)>0 then
