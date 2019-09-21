@@ -52,7 +52,7 @@ function s.naop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.lpcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetFlagEffect(id)>0
+	return c:GetFlagEffect(1)>0
 end
 function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	local c=re:GetHandler()
