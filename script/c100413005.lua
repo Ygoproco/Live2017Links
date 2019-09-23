@@ -1,6 +1,6 @@
 --マジシャンズ・コンビネーション
 --Magicians' Combination
---Scripted barry126y L
+--Scripted by Larry126
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
