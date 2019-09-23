@@ -78,6 +78,7 @@ function s.gyop(e,tp,eg,ep,ev,re,r,rp)
     if c:IsRelateToEffect(e) and Duel.SendtoGrave(c,REASON_EFFECT)~=0 and c:IsLocation(LOCATION_GRAVE) then
         local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.spfilter),tp,LOCATION_GRAVE,0,nil,e,tp)
         if #g>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
+            Duel.BreakEffect()
             Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
             local sg=g:Select(tp,1,1,nil)
             Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
