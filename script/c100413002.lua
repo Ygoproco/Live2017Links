@@ -91,7 +91,7 @@ function s.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(s.drcfilter,tp,LOCATION_ONFIELD+LOCATION_HAND,0,1,nil) end
     local ft=Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)
     local g=Duel.GetMatchingGroup(s.drcfilter,tp,LOCATION_ONFIELD+LOCATION_HAND,0,nil)
-    local ct=math.min(ft-1,#g)
+    local ct=math.min(ft,#g)
     local sg=g:Select(tp,1,math.min(ct,2),nil)
     e:SetLabel(#sg)
     Duel.SendtoGrave(sg,REASON_COST)
