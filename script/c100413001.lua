@@ -1,5 +1,5 @@
---魁炎星王－ソウコ
---Dark Magicians
+--超魔導師－ブラック・マジシャンズ
+--Dark Magicians - The Ultimate Wizards
 --scripted by CyberCatman
 local s,id=GetID()
 function s.initial_effect(c)
@@ -10,9 +10,9 @@ function s.initial_effect(c)
 	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetCategory(CATEGORY_DRAW)
 	e4:SetCode(EVENT_CHAINING)
-	e4:SetType(EFFECT_TYPE_QUICK_O)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
+	e4:SetProperty(EFFECT_FLAG_DELAY)
 	e4:SetCountLimit(1)
 	e4:SetCondition(s.drcon)
 	e4:SetTarget(s.drtg)
@@ -25,18 +25,18 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetCode(EVENT_DESTROYED)
-	e3:SetCondition(s.spcon)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
+s.material={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
+s.material_setcode={0x10a2,0x20a2,0x30a2}
 s.listed_names={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
 function s.ffilter(c,fc,sumtype,tp)
-    return (c:IsCode(CARD_DARK_MAGICIAN) or c:IsCode(CARD_DARK_MAGICIAN_GIRL)) or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
+    return (c:IsFusionCode(CARD_DARK_MAGICIAN) or c:IsFusionCode(CARD_DARK_MAGICIAN_GIRL)) or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
 end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
-		and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and Duel.IsPlayerCanDraw(tp,1)
+	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and Duel.IsPlayerCanDraw(tp,1)
 end
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
@@ -48,7 +48,6 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	if Duel.Draw(p,d,REASON_EFFECT)~=0 then
 		local tc=Duel.GetOperatedGroup():GetFirst()
-		Duel.BreakEffect()
 		if tc:IsType(TYPE_SPELL+TYPE_TRAP) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 			Duel.SSet(tp,tc)
 			Duel.ConfirmCards(1-tp,tc)
@@ -72,25 +71,29 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 				tc:RegisterEffect(e1)
 			end
 		end
-		Duel.ShuffleHand(tp)
 	end
 end
-function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT+REASON_BATTLE)~=0
-end
-function s.spfilter(c,e,tp)
-	return (c:IsCode(CARD_DARK_MAGICIAN) or c:IsCode(CARD_DARK_MAGICIAN_GIRL)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+function s.spfilter(c,e,tp,code)
+	return c:IsCode(code) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
+	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
+		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp,CARD_DARK_MAGICIAN) 
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp,CARD_DARK_MAGICIAN_GIRL) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
-		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
+		or Duel.GetLocationCount(tp,LOCATION_MZONE)<2 then return end
+	local g1=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp,CARD_DARK_MAGICIAN)
+	local g2=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.spfilter),tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp,CARD_DARK_MAGICIAN_GIRL)
+	if #g1>0 and #g2>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local sg1=g1:Select(tp,1,1,nil)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local sg2=g2:Select(tp,1,1,nil)
+		sg1:Merge(sg2)
+		Duel.SpecialSummon(sg1,0,tp,tp,true,false,POS_FACEUP)
 	end
 end
