@@ -1,6 +1,6 @@
 --武神帝－スサノヲ
 --Bujintei Susanowo
---local s,id=GetID()
+local s,id=GetID()
 function s.initial_effect(c)
 	c:SetUniqueOnField(1,0,id)
 	--xyz summon
