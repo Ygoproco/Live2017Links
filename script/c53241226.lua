@@ -67,3 +67,4 @@ end
 function s.repval(e,re,r,rp)
     return (r&REASON_BATTLE+REASON_EFFECT)~=0
 end
+
