@@ -78,7 +78,7 @@ function s.atkcon2(e,tp,eg,ep,ev,re,r,rp)
 	return rp==tp and e:GetHandler():GetFlagEffect(1)>0 and re:GetHandler():IsSetCard(0x236) and re:GetHandler():IsType(TYPE_MONSTER)
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x236),tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x236),tp,LOCATION_MZONE,0,1,nil) end
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
