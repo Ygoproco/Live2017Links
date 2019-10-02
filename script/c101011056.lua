@@ -8,12 +8,11 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
-	--search
+	--declare attribute
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e2:SetCountLimit(1,id)
 	e2:SetRange(LOCATION_SZONE)
+	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.nacon)
 	e2:SetTarget(s.natg)
 	e2:SetOperation(s.naop)
@@ -21,7 +20,7 @@ function s.initial_effect(c)
 	--increase atk
 	local e3=Effect.CreateEffect(c)
 	e3:SetCategory(CATEGORY_ATKCHANGE)
-	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetCode(EVENT_SPECIAL_SUMMON)
 	e3:SetCountLimit(1,id+100)
@@ -59,6 +58,7 @@ function s.natg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.naop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
 	local att=e:GetLabel()
 	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsAttribute),tp,0,LOCATION_MZONE,nil,att)
 	for tc in aux.Next(g) do
@@ -66,15 +66,18 @@ function s.naop(e,tp,eg,ep,ev,re,r,rp,chk)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_CANNOT_ACTIVATE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_PHASE+PHASE_END)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1,true)
 	end
 end
 function s.atkcon1(e,tp,eg,ep,ev,re,r,rp)
-	return rp~=tp
+	return rp==1-tp
 end
 function s.atkcon2(e,tp,eg,ep,ev,re,r,rp)
 	return rp==tp and e:GetHandler():GetFlagEffect(1)>0 and re:GetHandler():IsSetCard(0x236)
+end
+function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x236),tp,LOCATION_MZONE,0,1,nil) end
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
