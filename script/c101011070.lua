@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetTargetRange(0,1)
-	e2:SetValue(1)
+	e2:SetValue(s.aclimit)
 	e2:SetCondition(s.actcon)
 	c:RegisterEffect(e2)
 	--target lock
@@ -38,7 +38,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e4:SetRange(LOCATION_GRAVE)
 	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
-	e4:SetCountLimit(1,id+100)
+	e4:SetCountLimit(1,id)
 	e4:SetCondition(s.spcon)
 	e4:SetCost(aux.bfgcost)
 	e4:SetTarget(s.sptg)
@@ -46,6 +46,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 s.listed_series={0x236}
+function s.aclimit(e,re,tp)
+	return re:IsHasType(EFFECT_TYPE_ACTIVATE)
+end
 function s.cfilter(c,tp)
 	return c:IsFaceup() and c:IsSetCard(0x236) and c:IsControler(tp)
 end
@@ -65,36 +68,36 @@ function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 s.atkfilter=aux.FilterFaceupFunction(Card.IsSetCard,0x236)
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return true end
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetTargetRange(0,LOCATION_MZONE)
-    e1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
-    e1:SetValue(s.atlimit)
-    e1:SetReset(RESET_PHASE+PHASE_END)
-    Duel.RegisterEffect(e1,tp)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetTargetRange(0,LOCATION_MZONE)
+	e1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+	e1:SetValue(s.atlimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
 end
 function s.atlimit(e,c)
-    return s.atkfilter(c)
+	return s.atkfilter(c)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=Duel.GetTurnPlayer()
 end
 function s.spfilter(c,e,tp)
-    return c:IsSetCard(0x236) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x236) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-        and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
-    Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-    if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-    local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-    if #g>0 then
-        Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
-    end
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+	if #g>0 then
+		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
