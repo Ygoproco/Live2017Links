@@ -20,9 +20,10 @@ function s.initial_effect(c)
 	--increase atk
 	local e3=Effect.CreateEffect(c)
 	e3:SetCategory(CATEGORY_ATKCHANGE)
-	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
-	e3:SetCode(EVENT_SPECIAL_SUMMON)
+	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1,id+100)
 	e3:SetCondition(s.atkcon1)
 	e3:SetTarget(s.atktg)
@@ -50,7 +51,7 @@ function s.natg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
 	local att=0
 	local t=g:GetClass(Card.GetAttribute)
-	for _,i in table.ipairs(t) do
+	for _,i in ipairs(t) do
 		att=att|i
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
@@ -61,7 +62,7 @@ function s.naop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local att=e:GetLabel()
-	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsAttribute),tp,0,LOCATION_MZONE,nil,att)
+	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsAttribute,att),tp,0,LOCATION_MZONE,nil)
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
