@@ -107,7 +107,7 @@ end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.IsExistingMatchingCard(s.gfilter,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,nil,1,tp,LOCATION_GRAVE)
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
@@ -115,7 +115,7 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.gfilter,tp,LOCATION_GRAVE,0,nil)
+	local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.gfilter),tp,LOCATION_GRAVE,0,nil)
 	local sg=g:Select(tp,1,1,nil)
 	if #sg>0 and Duel.SendtoDeck(sg,nil,1,REASON_EFFECT)>0 and sg:GetFirst():IsLocation(LOCATION_DECK) then
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
