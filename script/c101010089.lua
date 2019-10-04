@@ -58,12 +58,12 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
     local chkf=tp
-    local mg1=Duel.GetFusionMaterial(tp):Filter(s.filter1,nil,e)
+    local mg1=Duel.GetFusionMaterial(tp):Filter(s.filter1,nil,e):Filter(Card.IsOnField,nil)
     if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_DREAM_MIRROR_JOY),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil) then
-        mg1:Merge(Duel.GetMatchingGroup(s.filter1,tp,LOCATION_HAND,0,nil,e))
+		mg1:Merge(Duel.GetMatchingGroup(s.filter1,tp,LOCATION_HAND,0,nil,e))
     end
     if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_DREAM_MIRROR_TERROR),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil) then
-        mg1:Merge(Duel.GetMatchingGroup(s.exfilter1,tp,LOCATION_GRAVE,0,nil,e))
+		mg1:Merge(Duel.GetMatchingGroup(s.exfilter1,tp,LOCATION_GRAVE,0,nil,e))
     end
     local sg1=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil,chkf)
     local mg2=nil
