@@ -20,14 +20,13 @@ function s.filter2(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
 	local g1=Duel.GetMatchingGroup(Card.IsAttackPos,tp,0,LOCATION_MZONE,nil)
-	local g2=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,c)
+	local g2=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil)
 	if chk==0 then return #g1>0 or #g2>0 end
-	if #g1>0 and not #g2>0 then
+	if #g1>0 and #g2<=0 then
 		e:SetLabel(0) 
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,#g1,0,0)
-	elseif #g2>0 and not #g1>0 then
+	elseif #g2>0 and #g1<=0 then
 		e:SetLabel(1)
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g2,#g2,0,0)
 	else
@@ -46,7 +45,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetLabel()==0 then
 		g=Duel.GetMatchingGroup(Card.IsAttackPos,tp,0,LOCATION_MZONE,nil)
 	else 
-		g=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,aux.ExceptThisCard(e)) 
+		g=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil) 
 	end
 	if #g>0 then
 		Duel.Destroy(g,REASON_EFFECT)
