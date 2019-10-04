@@ -1,5 +1,5 @@
 --ライトニング・ストーム
---Raigeki Storm
+--Lightning Storm
 --scripted by Hatter
 local s,id=GetID()
 function s.initial_effect(c)
@@ -16,15 +16,12 @@ end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_ONFIELD,0,1,nil)
 end
-function s.filter1(e,tp,eg,ep,ev,re,r,rp)
-	return c:IsAttackPos()
-end
-function s.filter2(e,tp,eg,ep,ev,re,r,rp)
+function s.filter2(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	local g1=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_MZONE,nil)
+	local g1=Duel.GetMatchingGroup(Card.IsAttackPos,tp,0,LOCATION_MZONE,nil)
 	local g2=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,c)
 	if chk==0 then return #g1>0 or #g2>0 end
 	if #g1>0 and not #g2>0 then
@@ -47,7 +44,7 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g
 	if e:GetLabel()==0 then
-		g=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_MZONE,nil)
+		g=Duel.GetMatchingGroup(Card.IsAttackPos,tp,0,LOCATION_MZONE,nil)
 	else 
 		g=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,aux.ExceptThisCard(e)) 
 	end
