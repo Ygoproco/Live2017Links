@@ -53,8 +53,10 @@ function s.filter(c,e,tp,m,ft)
 	if c.mat_filter then
 		mg=mg:Filter(c.mat_filter,nil)
 	end
-	return ft>0 and mg:IsContains(e:GetHandler())
-		and mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel()-e:GetHandler():GetLevel(),c)
+	if ft>0 and mg:IsContains(e:GetHandler()) then
+		mg:RemoveCard(e:GetHandler())
+		return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel()-e:GetHandler():GetLevel(),c)
+	end
 end
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
