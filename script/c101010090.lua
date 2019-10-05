@@ -28,6 +28,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
     local tg2=g:Select(tp,1,1,nil)
     local cs={tg1:GetFirst(),tg2:GetFirst()}
+    if tp==1 then
+		cs={tg2:GetFirst(),tg1:GetFirst()}
+	end
     for p=0,1 do
         local tc=cs[p+1]
         local fc=Duel.GetFieldCard(p,LOCATION_SZONE,5)
