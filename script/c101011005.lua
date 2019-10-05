@@ -27,9 +27,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 s.listed_names={101011054}
-s.listed_series={0x234}
+s.listed_series={0x135}
 function s.cfilter(c)
-    return c:IsFaceup() and c:IsSetCard(0x234)
+    return c:IsFaceup() and c:IsSetCard(0x135)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
@@ -51,7 +51,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
     e:SetLabelObject(g:GetFirst())
 end
 function s.thfilter(c)
-    return c:IsSetCard(0x234) and c:IsLevelAbove(5) and c:IsAbleToHand()
+    return c:IsSetCard(0x135) and c:IsLevelAbove(5) and c:IsAbleToHand()
 end
 function s.thfilter2(c)
     return c:IsCode(101011054) and c:IsAbleToHand()

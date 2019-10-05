@@ -33,10 +33,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 	--List "@Ignister" and "A.I." archetypes in the card text
-s.listed_series={0x234,0x235}
+s.listed_series={0x135,0x235}
 	--Check for "@Ignister" monster
 function s.thfilter(c)
-	return c:IsSetCard(0x234) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+	return c:IsSetCard(0x135) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 	--Activation legality
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

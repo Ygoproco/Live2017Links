@@ -42,7 +42,7 @@ function s.initial_effect(c)
         Duel.RegisterEffect(ge1,0)
     end    
 end
-s.listed_series={0x234}
+s.listed_series={0x135}
 function s.resetop(e,tp,eg,ep,ev,re,r,rp)
     s.attr_list[0]=0
     s.attr_list[1]=0
@@ -55,7 +55,7 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     return not Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function s.spfilter(c,e,tp)
-    return c:IsSetCard(0x234) and c:IsLevelBelow(4) and s.attr_list[tp]&c:GetAttribute()==0
+    return c:IsSetCard(0x135) and c:IsLevelBelow(4) and s.attr_list[tp]&c:GetAttribute()==0
         and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -90,7 +90,7 @@ function s.splimit(e,c)
     return not c:IsRace(RACE_CYBERSE)
 end
 function s.rmfilter(c,tp)
-    return c:IsSetCard(0x234) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
+    return c:IsSetCard(0x135) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
 function s.setcost(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(s.rmfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,1,e:GetHandler(),tp) end

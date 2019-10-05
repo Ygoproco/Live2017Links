@@ -22,7 +22,7 @@ function s.initial_effect(c)
 	e2:SetOperation(s.repop)
 	c:RegisterEffect(e2)
 end
-s.listed_series={0x234}
+s.listed_series={0x135}
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local bc=Duel.GetAttackTarget()
 	if not bc then return false end
@@ -61,7 +61,7 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	s.damage(Duel.GetAttackTarget())
 end
 function s.repfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x234) and c:IsLocation(LOCATION_MZONE)
+	return c:IsFaceup() and c:IsSetCard(0x135) and c:IsLocation(LOCATION_MZONE)
 		and c:IsControler(tp) and c:IsReason(REASON_BATTLE)
 end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)

@@ -29,12 +29,12 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 	--Part of "@Ignister" archetype
-s.listed_series={0x234}
+s.listed_series={0x135}
 	--Lists "A.I. Love Fusion"
 s.listed_names={101011053}
 	--Look for "@Ignister" monster
 function s.filter(c)
-	return c:IsSetCard(0x234) and c:IsFaceup()
+	return c:IsSetCard(0x135) and c:IsFaceup()
 end
 	--Check for "@Ignister" monster in monster zones
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)

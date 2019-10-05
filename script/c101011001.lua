@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e3:SetOperation(s.lvop)
     c:RegisterEffect(e3)
 end
-s.listed_series={0x234,0x235}
+s.listed_series={0x135,0x235}
 function s.thfilter(c)
     return c:IsSetCard(0x235) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
 end
@@ -46,7 +46,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
     end
 end
 function s.filter(c)
-    return c:IsFaceup() and c:IsSetCard(0x234) and not c:IsLevel(4) and c:IsLevelAbove(1)
+    return c:IsFaceup() and c:IsSetCard(0x135) and not c:IsLevel(4) and c:IsLevelAbove(1)
 end
 function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and s.filter(chkc) end

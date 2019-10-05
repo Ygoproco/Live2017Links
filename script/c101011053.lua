@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-s.listed_series={0x234}
+s.listed_series={0x135}
 function s.filter(c,e)
 	return c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
 end
@@ -29,7 +29,7 @@ function s.fcheck(tp,sg,fc)
 	return ct<=1 and (ct==0 or sg:IsExists(s.ffilter,1,nil,tp,fc))
 end
 function s.ffilter(c,tp,fc)
-	return c:IsFusionSetCard(0x234) and c:IsControler(tp)
+	return c:IsFusionSetCard(0x135) and c:IsControler(tp)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then

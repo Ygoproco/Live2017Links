@@ -37,19 +37,19 @@ function s.initial_effect(c)
 	e3:SetValue(s.repval)
 	c:RegisterEffect(e3)
 end
-s.listed_series={0x234}
+s.listed_series={0x135}
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	c:RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsSetCard,0x234),tp,LOCATION_MZONE,0,nil)>0
+	if chk==0 then return Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsSetCard,0x135),tp,LOCATION_MZONE,0,nil)>0
 		and Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,1,1-tp,LOCATION_MZONE)
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
-	local ct=Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsSetCard,0x234),tp,LOCATION_MZONE,0,nil)
+	local ct=Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsSetCard,0x135),tp,LOCATION_MZONE,0,nil)
 	if ct<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local g=Duel.SelectMatchingCard(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,ct,nil)
