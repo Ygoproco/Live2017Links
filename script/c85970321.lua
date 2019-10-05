@@ -62,7 +62,8 @@ function s.cedop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.cedop2(e,tp,eg,ep,ev,re,r,rp)
-	if eg and eg:IsExists(s.cfilter,1,nil) and Duel.CheckEvent(EVENT_SPSUMMON_SUCCESS) then
+	local _,g=Duel.CheckEvent(EVENT_SPSUMMON_SUCCESS,true)
+	if g and g:IsExists(s.cfilter,1,nil) and Duel.CheckEvent(EVENT_SPSUMMON_SUCCESS) then
 		Duel.SetChainLimitTillChainEnd(s.chlimit)
 	end
 end
