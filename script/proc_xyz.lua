@@ -121,23 +121,23 @@ function Auxiliary.XyzRecursionChk1(c,mg,xyz,tp,min,max,minc,maxc,sg,matg,ct,mat
 		xct=xct+1
 	end
 	local xmatct=matct+1
-	local eff={c:GetCardEffect(73941492+TYPE_XYZ)}
+	local eff={c:GetCardEffect(EFFECT_XYZ_MAT_RESTRICTION)}
 	for i,f in ipairs(eff) do
-		if matg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
+		if matg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then
 			mg:Merge(rg)
 			return false
 		end
-		local sg2=mg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+		local sg2=mg:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 		rg:Merge(sg2)
 		mg:Sub(sg2)
 	end
-	local g2=matg:Filter(Card.IsHasEffect,nil,73941492+TYPE_XYZ)
+	local g2=matg:Filter(Card.IsHasEffect,nil,EFFECT_XYZ_MAT_RESTRICTION)
 	if g2:GetCount()>0 then
 		local tc=g2:GetFirst()
 		while tc do
-			local eff={tc:GetCardEffect(73941492+TYPE_XYZ)}
+			local eff={tc:GetCardEffect(EFFECT_XYZ_MAT_RESTRICTION)}
 			for i,f in ipairs(eff) do
-				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
+				if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then
 					mg:Merge(rg)
 					return false
 				end
@@ -222,23 +222,23 @@ function Auxiliary.XyzRecursionChk2(c,mg,xyz,tp,minc,maxc,sg,matg,ct,mustbemat,e
 	local rg=Group.CreateGroup()
 	if c:IsHasEffect(511001175) and not sg:IsContains(c:GetEquipTarget()) then return false end
 	local xct=ct+1
-	local eff={c:GetCardEffect(73941492+TYPE_XYZ)}
+	local eff={c:GetCardEffect(EFFECT_XYZ_MAT_RESTRICTION)}
 	for i,f in ipairs(eff) do
-		if matg:IsExists(Auxiliary.TuneMagFilter,1,c,f,f:GetValue()) then
+		if matg:IsExists(Auxiliary.HarmonizingMagFilter,1,c,f,f:GetValue()) then
 			mg:Merge(rg)
 			return false
 		end
-		local sg2=mg:Filter(function(c) return not Auxiliary.TuneMagFilterFus(c,f,f:GetValue()) end,nil)
+		local sg2=mg:Filter(function(c) return not Auxiliary.HarmonizingMagFilterFus(c,f,f:GetValue()) end,nil)
 		rg:Merge(sg2)
 		mg:Sub(sg2)
 	end
-	local g2=sg:Filter(Card.IsHasEffect,nil,73941492+TYPE_XYZ)
+	local g2=sg:Filter(Card.IsHasEffect,nil,EFFECT_XYZ_MAT_RESTRICTION)
 	if g2:GetCount()>0 then
 		local tc=g2:GetFirst()
 		while tc do
-			local eff={tc:GetCardEffect(73941492+TYPE_XYZ)}
+			local eff={tc:GetCardEffect(EFFECT_XYZ_MAT_RESTRICTION)}
 			for i,f in ipairs(eff) do
-				if Auxiliary.TuneMagFilter(c,f,f:GetValue()) then
+				if Auxiliary.HarmonizingMagFilter(c,f,f:GetValue()) then
 					mg:Merge(rg)
 					return false
 				end
@@ -371,10 +371,10 @@ function Auxiliary.MatNumChkF2(tg,lv,xyz)
 	end
 	return true
 end
-function Auxiliary.TuneMagFilter(c,e,f)
+function Auxiliary.HarmonizingMagFilter(c,e,f)
 	return f and not f(e,c)
 end
-function Auxiliary.TuneMagFilterXyz(c,e,f)
+function Auxiliary.HarmonizingMagFilterXyz(c,e,f)
 	return not f or f(e,c) or c:IsHasEffect(511002116) or c:IsHasEffect(511001175)
 end
 function Auxiliary.XyzCondition(f,lv,minc,maxc,mustbemat,exchk)

@@ -175,7 +175,7 @@ function s.penop1(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
 	end
 	ft1=math.min(ft1,tg:FilterCount(Card.IsLocation,nil,LOCATION_HAND))
 	ft2=math.min(ft2,tg:FilterCount(Card.IsLocation,nil,LOCATION_EXTRA))
-	local ect=cCARD_SUMMON_GATE and Duel.IsPlayerAffectedByEffect(tp,CARD_SUMMON_GATE) and cCARD_SUMMON_GATE[tp]
+	local ect=_G["c" .. CARD_SUMMON_GATE] and Duel.IsPlayerAffectedByEffect(tp,CARD_SUMMON_GATE) and _G["c" .. CARD_SUMMON_GATE][tp]
 	if ect and ect<ft2 then ft2=ect end
 	while true do
 		local ct1=tg:FilterCount(Card.IsLocation,nil,LOCATION_HAND)
@@ -240,8 +240,8 @@ function s.penop2(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
 	if lscale>rscale then lscale,rscale=rscale,lscale end
 	local ft=Duel.GetLocationCountFromEx(tp)
 	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
-	local ect=cCARD_SUMMON_GATE and Duel.IsPlayerAffectedByEffect(tp,CARD_SUMMON_GATE) and cCARD_SUMMON_GATE[tp]
-	if ect~=nil then ft=math.min(ft,ect) end
+	local ect=_G["c" .. CARD_SUMMON_GATE] and Duel.IsPlayerAffectedByEffect(tp,CARD_SUMMON_GATE) and _G["c" .. CARD_SUMMON_GATE][tp]
+	if ect then ft=math.min(ft,ect) end
 	if og then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local g=og:FilterSelect(tp,s.penfilter,0,ft,nil,e,tp,lscale,rscale)

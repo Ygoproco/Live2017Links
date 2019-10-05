@@ -1,3 +1,4 @@
+--隠れ里－忍法修練の地
 --Hidden Village of Ninjitsu Arts
 --Scripted by Eerie Code
 local s,id=GetID()
@@ -61,8 +62,9 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 and tc:IsLocation(LOCATION_HAND) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_FIELD)
-		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
 		e1:SetCode(EFFECT_CANNOT_ACTIVATE)
+		e1:SetDescription(aux.Stringid(id,1))
 		e1:SetTargetRange(1,0)
 		e1:SetValue(s.aclimit)
 		e1:SetLabelObject(tc)
@@ -72,7 +74,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.aclimit(e,re,tp)
 	local tc=e:GetLabelObject()
-	return re:GetHandler():IsCode(tc:GetCode()) and not re:GetHandler():IsImmuneToEffect(e)
+	return re:GetHandler():IsCode(tc:GetCode())
 end
 function s.repfilter(c,tp,rp)
 	return c:IsFaceup() and ((c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2b)) or c:IsSetCard(0x61))

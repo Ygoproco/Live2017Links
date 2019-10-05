@@ -1,5 +1,5 @@
 --闇鋼龍ダークネスメタル
---Darkness Metal, the Dark Steel Dragon
+--Darkness Metal, the Dragon of Dark Steel
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -18,8 +18,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.spcheck(g,lc,tp)
-	return g:GetClassCount(Card.GetRace,lc,SUMMON_TYPE_LINK,tp)==1
-		and g:GetClassCount(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)==1
+	return g:CheckSameProperty(Card.GetRace,lc,SUMMON_TYPE_LINK,tp) and g:CheckSameProperty(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)
 end
 function s.filter(c,e,tp,zone)
 	return (c:IsFaceup() or not c:IsLocation(LOCATION_REMOVED))
@@ -43,12 +42,12 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
-		e1:SetReset(RESET_EVENT+0xfe0000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD)
 		tc:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
-		e2:SetReset(RESET_EVENT+0xfe0000)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD)
 		tc:RegisterEffect(e2)
 		local e3=Effect.CreateEffect(c)
 		e3:SetType(EFFECT_TYPE_SINGLE)
@@ -65,6 +64,12 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e4:SetTarget(s.splimit)
 		e4:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e4,tp)
+		local e5=Effect.CreateEffect(c)
+		e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+		e5:SetDescription(aux.Stringid(id,1))
+		e5:SetReset(RESET_PHASE+PHASE_END)
+		e:SetTargetRange(1,0)
+		Duel.RegisterEffect(e5,tp)
 	end
 	Duel.SpecialSummonComplete()
 end

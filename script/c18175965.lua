@@ -1,4 +1,5 @@
 --ガーディアン・デスサイス
+--Guardian Dreadscythe
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
@@ -106,8 +107,10 @@ function s.sptg2(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if Duel.DiscardHand(tp,nil,1,1,REASON_EFFECT)==0 then return end
-	if c:IsRelateToEffect(e) then
-		Duel.SpecialSummon(c,0,tp,tp,true,true,POS_FACEUP)
+	if Duel.DiscardHand(tp,nil,1,1,REASON_EFFECT)~=0 then
+		local ct=Duel.GetOperatedGroup():FilterCount(Card.IsLocation,nil,LOCATION_GRAVE)
+		if ct>0 and c:IsRelateToEffect(e) then
+			Duel.SpecialSummon(c,0,tp,tp,true,true,POS_FACEUP)
+		end
 	end
 end

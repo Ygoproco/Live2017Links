@@ -1,3 +1,4 @@
+--ヴェンデット・バスタード
 --Vendread Battlelord
 --Scripted by Eerie Code
 local s,id=GetID()
@@ -48,26 +49,26 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e1:SetTargetRange(0,1)
 	if e:GetLabel()==0 then
-		e1:SetDescription(aux.Stringid(id,2))
+		e1:SetDescription(aux.Stringid(id,3))
 		e1:SetValue(s.aclimit1)
 	elseif e:GetLabel()==1 then
-		e1:SetDescription(aux.Stringid(id,3))
+		e1:SetDescription(aux.Stringid(id,4))
 		e1:SetValue(s.aclimit2)
 	else
-		e1:SetDescription(aux.Stringid(id,4))
+		e1:SetDescription(aux.Stringid(id,5))
 		e1:SetValue(s.aclimit3)
 	end
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.aclimit1(e,re,tp)
-	return re:IsActiveType(TYPE_MONSTER) and not re:GetHandler():IsImmuneToEffect(e)
+	return re:IsActiveType(TYPE_MONSTER)
 end
 function s.aclimit2(e,re,tp)
-	return re:IsActiveType(TYPE_SPELL) and not re:GetHandler():IsImmuneToEffect(e)
+	return re:IsActiveType(TYPE_SPELL)
 end
 function s.aclimit3(e,re,tp)
-	return re:IsActiveType(TYPE_TRAP) and not re:GetHandler():IsImmuneToEffect(e)
+	return re:IsActiveType(TYPE_TRAP)
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

@@ -4,7 +4,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	aux.EnablePendulumAttribute(c)
-	c:EnableCounterPermit(0x1)
+	c:EnableCounterPermit(COUNTER_SPELL)
 	--destroy & search
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
@@ -79,16 +79,16 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_SPELL) and e:GetHandler():GetFlagEffect(1)>0 then
-		e:GetHandler():AddCounter(0x1,2)
+		e:GetHandler():AddCounter(COUNTER_SPELL,2)
 	end
 end
 function s.incon(e)
-	return Duel.GetCounter(e:GetHandlerPlayer(),1,0,0x1)>=4
+	return Duel.GetCounter(e:GetHandlerPlayer(),1,0,COUNTER_SPELL)>=4
 end
 function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x1,4,REASON_COST) end
-	Duel.RemoveCounter(tp,1,0,0x1,4,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,COUNTER_SPELL,4,REASON_COST) end
+	Duel.RemoveCounter(tp,1,0,COUNTER_SPELL,4,REASON_COST)
 end
 function s.rmfilter(c)
 	return c:IsAbleToRemove()
@@ -103,7 +103,7 @@ end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)~=0 and c:IsFaceup() and c:IsRelateToEffect(e) then
+	if tc:IsRelateToEffect(e) and Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_REMOVED) and c:IsFaceup() and c:IsRelateToEffect(e) then
 		local atk=tc:GetBaseAttack()
 		if atk<0 then atk=0 end
 		local e1=Effect.CreateEffect(c)
@@ -114,4 +114,3 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 		c:RegisterEffect(e1)
 	end
 end
-

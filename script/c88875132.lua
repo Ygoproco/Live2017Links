@@ -1,5 +1,5 @@
 --爆走軌道フライング・ペガサス
---Runaway Railcar Flying Pegasus
+--Flying Pegasus Railroad Stampede
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -38,7 +38,8 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.spfilter(chkc,e,tp) end
 	if chk==0 then return Duel.IsExistingTarget(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	Duel.Hint(HINT_SELECTMSG,tp,551)
+	--updated due to calling HINTMSG_FACEUP not working
 	local g=Duel.SelectTarget(tp,s.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
@@ -72,6 +73,12 @@ function s.lvcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetTarget(s.atktg)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+	local e3=Effect.CreateEffect(e:GetHandler())
+	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	e3:SetDescription(aux.Stringid(id,3))
+	e3:SetReset(RESET_PHASE+PHASE_END)
+	e3:SetTargetRange(1,0)
+	Duel.RegisterEffect(e3,tp)
 end
 function s.atktg(e,c)
 	return not c:IsType(TYPE_XYZ)
@@ -84,7 +91,8 @@ function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lv=c:GetLevel()
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.lvfilter(chkc,lv) end
 	if chk==0 then return Duel.IsExistingTarget(s.lvfilter,tp,LOCATION_MZONE,0,1,c,lv) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
+	Duel.Hint(HINT_SELECTMSG,tp,551)
+	--updated due to calling HINTMSG_FACEUP not working
 	Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,0,1,1,c,lv)
 end
 function s.lvop(e,tp,eg,ep,ev,re,r,rp)

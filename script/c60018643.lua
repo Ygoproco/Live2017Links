@@ -32,6 +32,7 @@ function s.initial_effect(c)
 		Duel.RegisterEffect(ge1,0)
 	end
 end
+s.listed_series={0x101}
 function s.resetop(e,tp,eg,ep,ev,re,r,rp)
 	s.attr_list[0]=0
 	s.attr_list[1]=0
@@ -51,22 +52,30 @@ end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return eg:IsContains(chkc) and s.thcfilter(chkc,e,tp) end
 	if chk==0 then return eg:IsExists(s.thcfilter,1,nil,e,tp) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local sg=eg:FilterSelect(tp,s.thcfilter,1,1,nil,e,tp)
-	Duel.SetTargetCard(sg)
+	if #eg==1 then
+		Duel.SetTargetCard(eg)
+	else
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
+		local sg=eg:FilterSelect(tp,s.thcfilter,1,1,nil,e,tp)
+		Duel.SetTargetCard(sg)
+	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
+	local att=tc:GetAttribute()
 	if not c:IsRelateToEffect(e) then return end
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,tc:GetAttribute())
+		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,att)
 		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
-			s.attr_list[tp]=s.attr_list[tp]|tc:GetAttribute()
+			s.attr_list[tp]=s.attr_list[tp]|att
+		end
+		for _,str in aux.GetAttributeStrings(att) do
+			c:RegisterFlagEffect(0,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_CLIENT_HINT,1,0,str)
 		end
 	end
 	local e1=Effect.CreateEffect(e:GetHandler())

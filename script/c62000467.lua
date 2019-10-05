@@ -22,7 +22,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(0,1)
-	e2:SetValue(s.aclimit)
+	e2:SetValue(1)
 	e2:SetCondition(s.actcon)
 	c:RegisterEffect(e2)
 	--special summon
@@ -41,9 +41,6 @@ function s.initial_effect(c)
 end
 function s.indtg(e,c)
 	return c:IsSetCard(0x19) and Duel.GetAttacker()==c
-end
-function s.aclimit(e,re,tp)
-	return not re:GetHandler():IsImmuneToEffect(e)
 end
 function s.actcon(e)
 	local tc=Duel.GetAttacker()
@@ -91,4 +88,3 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummonComplete()
 	end
 end
-

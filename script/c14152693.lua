@@ -40,7 +40,10 @@ function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.DiscardHand(tp,s.drfilter,1,1,REASON_EFFECT,nil)~=0 then
-		Duel.Draw(tp,1,REASON_EFFECT)
+		local ct=Duel.GetOperatedGroup():FilterCount(Card.IsLocation,nil,LOCATION_GRAVE)
+		if ct>0 then
+			Duel.Draw(tp,1,REASON_EFFECT)
+		end
 	end
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)

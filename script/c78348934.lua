@@ -1,4 +1,5 @@
 --破壊剣士の宿命
+--Karma of the Destruction Swordsman
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -49,6 +50,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 		Duel.SelectTarget(tp,s.filter2,tp,0,LOCATION_MZONE+LOCATION_GRAVE,1,2,g1:GetFirst(),rc)
 	end
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g1,1,0,LOCATION_GRAVE)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)

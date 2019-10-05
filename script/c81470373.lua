@@ -92,8 +92,10 @@ function s.ntcon(e,c,minc)
 	return minc==0 and c:GetLevel()>4 and Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 end
 function s.gyop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
-	Duel.Damage(tp,1000,REASON_EFFECT)
+	local cr=e:GetHandler()
+	if Duel.SendtoGrave(cr,REASON_EFFECT)~=0 and cr:IsLocation(LOCATION_GRAVE) then
+		Duel.Damage(tp,1000,REASON_EFFECT)
+	end
 end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return c:IsLocation(LOCATION_EXTRA) and not c:IsAttribute(ATTRIBUTE_DARK)

@@ -13,6 +13,7 @@ function s.initial_effect(c)
 	if not GhostBelleTable then GhostBelleTable={} end
 	table.insert(GhostBelleTable,e1)
 end
+s.listed_names={CARD_DARK_FUSION}
 function s.filter0(c)
 	return c:IsLocation(LOCATION_HAND) and c:IsAbleToRemove()
 end

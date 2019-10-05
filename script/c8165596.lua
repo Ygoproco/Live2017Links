@@ -27,7 +27,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.negtg)
 	e2:SetOperation(s.negop)
 	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)	
-	--search
+	--search or attach
 	local e3=Effect.CreateEffect(c)
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e3:SetDescription(aux.Stringid(id,1))
@@ -35,6 +35,7 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetCountLimit(1,id+1)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetHintTiming(0,TIMING_END_PHASE)
 	e3:SetCondition(s.condition)
 	e3:SetTarget(s.target)
 	e3:SetOperation(s.operation)
@@ -83,11 +84,11 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_DECK,0,1,1,nil)
 	local tc=g:GetFirst()
-	if tc and (tc:IsAbleToHand() and Duel.SelectYesNo(tp,aux.Stringid(id,2))) then
-		Duel.SendtoHand(tc,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,tc)
-	else
-		Duel.Overlay(c,Group.FromCards(tc))
-	end
+	aux.ToHandOrElse(tc,tp,function()
+						return true end,
+						function()
+						Duel.Overlay(e:GetHandler(),Group.FromCards(tc)) end,
+						aux.Stringid(id,3)
+						)
 end
 

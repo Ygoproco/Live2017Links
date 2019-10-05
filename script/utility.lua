@@ -4,12 +4,20 @@ POS_FACEUP_DEFENCE=POS_FACEUP_DEFENSE
 POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
 TYPE_EXTRA=TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK
+TYPES_TOKEN=TYPE_MONSTER+TYPE_NORMAL+TYPE_TOKEN
 ATTRIBUTE_DIVINE=ATTRIBUTE_DEVINE
 RACE_WINGEDBEAST=RACE_WINDBEAST
 RACE_PSYCHIC=RACE_PSYCHO
 RACE_DIVINE=RACE_DEVINE
 SUMMON_TYPE_TRIBUTE=SUMMON_TYPE_ADVANCE
 SUMMON_TYPE_GEMINI=SUMMON_TYPE_DUAL
+EFFECT_LIGHT_OF_INTERVENTION=EFFECT_DEVINE_LIGHT
+
+function Card.GetMetatable(c)
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	return mt
+end
 
 Group.__band = function (o1,o2)
 	if userdatatype(o1)~="Group" then o1,o2=o2,o1 end
@@ -106,6 +114,16 @@ function Auxiliary.GetExtraMaterials(tp,mustg,sc,summon_type)
 			table.insert(t,{eg,efun,te})
 		end
 	end
+	local eff2={Duel.GetPlayerEffect(1-tp,EFFECT_EXTRA_MATERIAL)}
+	for _,te in ipairs(eff2) do
+		if te:GetCode()==EFFECT_EXTRA_MATERIAL then
+			local eg=te:GetValue()(0,summon_type,te,tp,sc)-mustg
+			eg:KeepAlive()
+			tg=tg+eg
+			local efun=te:GetOperation() and te:GetOperation() or aux.TRUE
+			table.insert(t,{eg,efun,te})
+		end
+	end
 	return t,tg
 end
 function Auxiliary.CheckValidExtra(c,tp,sg,mg,lc,emt,filt)
@@ -170,13 +188,18 @@ function Card.RegisterEffect(c,e,forced,...)
 	end
 	if e:GetCode()==EFFECT_ADD_LINK_CODE or e:GetCode()==EFFECT_ADD_LINK_SETCODE then
 		tmp(e,true)
-		if e:GetCode()==EFFECT_ADD_LINK_CODE  then e:SetCode(EFFECT_ADD_FUSION_CODE) end
-		if e:GetCode()==EFFECT_ADD_LINK_SETCODE  then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_CODE then e:SetCode(EFFECT_ADD_FUSION_CODE) end
+		if e:GetCode()==EFFECT_ADD_LINK_SETCODE then e:SetCode(EFFECT_ADD_FUSION_SETCODE) end
 	end
 	tmp = nil
 	--1 == 511002571 - access to effects that activate that detach an Xyz Material as cost
 	--2 == 511001692 - access to Cardian Summoning conditions/effects
-	regeff(c,e,forced)
+	--4 ==  12081875 - access to Thunder Dragon effects that activate by discarding
+	--8 == 511310036 - access to Allure Queen effects that activate by sending themselves to GY
+	local reg_e = regeff(c,e,forced)
+	if not reg_e then
+		return nil
+	end
 	local reg={...}
 	local resetflag,resetcount=e:GetReset()
 	for _,val in ipairs(reg) do
@@ -191,6 +214,8 @@ function Card.RegisterEffect(c,e,forced,...)
 			e2:SetCode(511001692)
 		elseif val==4 then
 			e2:SetCode(12081875)
+		elseif val==8 then
+			e2:SetCode(511310036)
 		end
 		e2:SetLabelObject(e)
 		e2:SetLabel(c:GetOriginalCode())
@@ -220,6 +245,7 @@ function Card.RegisterEffect(c,e,forced,...)
 			return res
 		end)
 	end
+	return reg_e
 end
 function Card.IsColumn(c,seq,tp,loc)
 	if not c:IsOnField() then return false end
@@ -445,7 +471,7 @@ function Auxiliary.EnableDualAttribute(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_ADD_TYPE)
-	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_IGNORE_IMMUNE)
 	e2:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
 	e2:SetCondition(aux.DualNormalCondition)
 	e2:SetValue(TYPE_NORMAL)
@@ -575,7 +601,7 @@ function Auxiliary.IsCodeListed(c,...)
 end
 --card effect disable filter(target)
 function Auxiliary.disfilter1(c)
-	return c:IsFaceup() and not c:IsDisabled() and (not c:IsType(TYPE_NORMAL) or c:GetOriginalType()&TYPE_EFFECT~=0)
+	return c:IsFaceup() and not c:IsDisabled() and (not c:IsNonEffectMonster() or c:GetOriginalType()&TYPE_EFFECT~=0)
 end
 --condition of EVENT_BATTLE_DESTROYING
 function Auxiliary.bdcon(e,tp,eg,ep,ev,re,r,rp)
@@ -1251,7 +1277,7 @@ function Auxiliary.EnableCheckReincarnation(c)
 	end
 end
 function Auxiliary.ReincarnationCheckTarget(e,c)
-	return c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_LINK)
+	return c:IsType(TYPE_FUSION+TYPE_RITUAL+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK)
 end
 function Auxiliary.ReincarnationRitualFilter(c,id,tp)
 	return c:IsCode(id) and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE)
@@ -1264,6 +1290,8 @@ function Auxiliary.ReincarnationCheckValue(e,c)
 		rc=g:IsExists(Card.IsLinkCode,1,nil,id)
 	elseif c:IsType(TYPE_FUSION) then
 		rc=g:IsExists(Card.IsFusionCode,1,nil,id)
+	elseif c:IsType(TYPE_SYNCHRO+TYPE_XYZ) then
+		rc=g:IsExists(Card.IsCode,1,nil,id)
 	elseif c:IsType(TYPE_RITUAL) then
 		rc=g:IsExists(aux.ReincarnationRitualFilter,1,nil,id,c:GetControler())
 	end
@@ -1286,12 +1314,12 @@ function Auxiliary.FilterFaceupFunction(f,...)
 end
 --Filter for unique on field Malefic monsters
 function Auxiliary.MaleficUniqueFilter(cc)
+	local mt=cc:GetMetatable()
+	local t= mt.has_malefic_unique or {}
+	t[cc]=true
+	mt.has_malefic_unique=t
 	return 	function(c)
-				if Duel.IsPlayerAffectedByEffect(0,75223115) then
-					return c:GetCode()==cc:GetCode()
-				else
-					return c:IsSetCard(0x23)
-				end
+				return not Duel.IsPlayerAffectedByEffect(c:GetControler(),75223115) and c:IsSetCard(0x23)
 			end
 end
 --Procedure for Malefic monsters' Special Summon (includes handling of Malefic Paradox Gear)
@@ -1352,11 +1380,11 @@ function Auxiliary.zptcon(filter)
 end
 --Discard cost for Witchcraft monsters, supports the replacements from the Continuous Spells
 function Auxiliary.WitchcraftDiscardFilter(c)
-	return c:IsHasEffect(100412024) and c:IsAbleToGraveAsCost()
+	return c:IsHasEffect(EFFECT_WITCHCRAFT_REPLACE) and c:IsAbleToGraveAsCost()
 end
 function Auxiliary.WitchcraftDiscardGroup(minc)
 	return	function(sg,e,tp,mg)
-				if sg:IsExists(Card.IsHasEffect,1,nil,100412024) then
+				if sg:IsExists(Card.IsHasEffect,1,nil,EFFECT_WITCHCRAFT_REPLACE) then
 					return #sg==1
 				else
 					return #sg>=minc
@@ -1371,8 +1399,8 @@ function Auxiliary.WitchcraftDiscardCost(f,minc,maxc)
 				if chk==0 then return Duel.IsExistingMatchingCard(f,tp,LOCATION_HAND,0,minc,nil) or Duel.IsExistingMatchingCard(Auxiliary.WitchcraftDiscardFilter,tp,LOCATION_ONFIELD,0,1,nil) end
 				local g=Duel.GetMatchingGroup(f,tp,LOCATION_HAND,0,nil)
 				g:Merge(Duel.GetMatchingGroup(Auxiliary.WitchcraftDiscardFilter,tp,LOCATION_ONFIELD,0,nil))
-				local sg=Auxiliary.SelectUnselectGroup(g,e,tp,1,maxc,Auxiliary.WitchcraftDiscardGroup(minc),1,tp,aux.Stringid(100412024,2))
-				if sg:IsExists(Card.IsHasEffect,1,nil,100412024) then
+				local sg=Auxiliary.SelectUnselectGroup(g,e,tp,1,maxc,Auxiliary.WitchcraftDiscardGroup(minc),1,tp,aux.Stringid(EFFECT_WITCHCRAFT_REPLACE,2))
+				if sg:IsExists(Card.IsHasEffect,1,nil,EFFECT_WITCHCRAFT_REPLACE) then
 					local id=sg:GetFirst():GetOriginalCode()
 					Duel.SendtoGrave(sg,REASON_COST)
 					Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
@@ -1381,7 +1409,92 @@ function Auxiliary.WitchcraftDiscardCost(f,minc,maxc)
 				end
 			end
 end
-
+--function to check if a card are same atribute.
+function Group.CheckSameProperty(g,f,...)
+	local prop
+	local arg = {...}
+	for tc in aux.Next(g) do
+		if not prop then
+			prop = f(tc,table.unpack(arg))
+		else
+			prop = prop & f(tc,table.unpack(arg))
+		end
+	end
+	return prop ~= 0, prop
+end
+--Special Summon limit for the Evil HEROes
+function Auxiliary.EvilHeroLimit(e,se,sp,st)
+	local chk=SUMMON_TYPE_FUSION+0x10
+	if Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(),EFFECT_SUPREME_CASTLE) then
+		chk=SUMMON_TYPE_FUSION
+	end
+	return st&chk==chk
+end
+--Functions to automate consistent start-of-duel activations for Duel Modes like Speed Duel, Sealed Duel
+function Auxiliary.EnableExtraRules(c,card,init,...)
+    local e1=Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_ADJUST)
+    e1:SetCountLimit(1)
+    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_NO_TURN_RESET)
+    e1:SetRange(0xff)
+    e1:SetOperation(Auxiliary.EnableExtraRulesOperation(card,init,...))
+    c:RegisterEffect(e1)
+end
+function Auxiliary.EnableExtraRulesOperation(card,init,...)
+    local arg = {...}
+    return function(e,tp,eg,ep,ev,re,r,rp)
+        local c = e:GetHandler()
+        local p = c:GetControler()
+        Duel.DisableShuffleCheck()
+        Duel.SendtoDeck(c, nil, -2, REASON_RULE)
+        local ct = Duel.GetMatchingGroupCount(nil, p, LOCATION_HAND + LOCATION_DECK, 0, c)
+        if (Duel.IsDuelType(SPEED_DUEL) and ct < 20 or ct < 40)
+            and Duel.SelectYesNo(1 - p, aux.Stringid(4014, 5)) then
+            Duel.Win(1 - p, 0x55)
+        end
+        if c:IsPreviousLocation(LOCATION_HAND) then Duel.Draw(p, 1, REASON_RULE) end
+        if not card.global_active_check then
+            Duel.ConfirmCards(1-p, c)
+            if Duel.SelectYesNo(p,aux.Stringid(4014,6)) and Duel.SelectYesNo(1-p,aux.Stringid(4014,6)) then
+            	init(c,table.unpack(arg))
+            end
+            card.global_active_check = true
+        end
+    end
+end
+--[[Function to perform "Either add it to the hand or do X"
+Required:
+card: affected card to be moved; -player: player performing the operation
+Optional:
+check: condition for the secondary action, if not provided the default action is "Send it to the GY"; oper: secondary action; str: stirng to be used in the secondary option
+]]
+function Auxiliary.ToHandOrElse(card,player,check,oper,str,...)
+    if card then
+        if not check then check=Card.IsAbleToGrave end
+        if not oper then oper=aux.thoeSend end
+        if not str then str=574 end
+        local b1=card:IsAbleToHand()
+        local b2=check(card,...)
+        local opt
+        if b1 and b2 then
+            opt=Duel.SelectOption(player,573,str)
+        elseif b1 then
+            opt=Duel.SelectOption(player,573)
+        else
+            opt=Duel.SelectOption(player,str)+1
+        end
+        if opt==0 then
+            Duel.SendtoHand(card,nil,REASON_EFFECT)
+            Duel.ConfirmCards(1-player,card)
+        else
+            oper(card,...)
+        end
+    end
+end
+function Auxiliary.thoeSend(card)
+    Duel.SendtoGrave(card,REASON_EFFECT)
+end
 function loadutility(file)
 	local f1 = loadfile("expansions/live2017links/script/"..file)
 	local f2 = loadfile("expansions/script/"..file)

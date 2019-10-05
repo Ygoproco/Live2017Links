@@ -1,5 +1,5 @@
 --魔導研究所
---Magic Lab
+--Mythical Institution
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -38,7 +38,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 function s.ctfilter(c,tp)
-    return c:IsPreviousPosition(POS_FACEUP) 
+    return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD)
         and (c:GetPreviousTypeOnField()&TYPE_PENDULUM)~=0 and c:IsPreviousSetCard(0x10d) 
         and c:GetPreviousControler()==tp and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end

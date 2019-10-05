@@ -1,4 +1,5 @@
 --サイボーグドクター
+--Cyborg Doctor
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -14,7 +15,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.rfilter(c,e,tp,ft)
-	return c:IsType(TYPE_TUNER) (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp)) 
+	return c:IsType(TYPE_TUNER) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp))) and (c:IsFaceup() or c:IsControler(tp)) 
 		and Duel.IsExistingTarget(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,c:GetLevel(),c:GetAttribute())
 end
 function s.spfilter(c,e,tp,lv,att)
