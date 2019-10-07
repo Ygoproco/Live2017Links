@@ -113,7 +113,7 @@ function s.ritfilter2(c,lv,mg,sg,sc,rittype)
 	return mg2:IsExists(s.ritfilter3,1,sg,lv,sg+c,sc,rittype)
 end
 function s.ritfilter3(c,lv,sg,sc,rittype)
-	if rittype=="equal" then
+	if rittype==RITPROC_EQUAL then
 		return (sg+c):CheckWithSumEqual(Card.GetRitualLevel,lv,3,3,sc)
 	else
 		Duel.SetSelectedCard(sg+c)

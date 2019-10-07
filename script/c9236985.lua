@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.filter(c,e,tp,lp)
-	if c:GetType()&0x81~=0x81 or not c:IsSetCard(0x3a) 
+	if not c:IsRitualMonster() or not c:IsSetCard(0x3a) 
 		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,true,false) then return false end
 	return lp>c:GetLevel()*500
 end
