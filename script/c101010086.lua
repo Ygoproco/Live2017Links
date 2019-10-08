@@ -2,7 +2,7 @@
 --Scripted by Hel
 local s,id=GetID()
 function s.initial_effect(c)
-	--destroy
+	--direct
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
@@ -20,7 +20,7 @@ function s.initial_effect(c)
 	e2:SetHintTiming(0,TIMING_MAIN_END+TIMING_BATTLE_START+TIMING_BATTLE_END)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+100)
 	e2:SetCondition(s.spcon)
 	e2:SetCost(s.spcost)
 	e2:SetTarget(s.sptg)
