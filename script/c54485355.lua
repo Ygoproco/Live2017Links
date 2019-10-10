@@ -71,7 +71,8 @@ function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.eqcheck(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetLabelObject() then e:GetLabelObject():DeleteGroup() end
-	local g=e:GetHandler():GetEquipGroup():Filter(spfilter,nil)
+	local g=e:GetHandler():GetEquipGroup()
+	if g then g=g:Filter(s.spfilter,nil) end
 	g:KeepAlive()
 	e:SetLabelObject(g)
 end
