@@ -57,8 +57,8 @@ function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return c:IsAbleToGrave() and re:GetHandler():IsControlerCanBeChanged() end
 	Duel.SetOperationInfo(0,CATEGORY_COIN,nil,0,rp,1)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,c,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_CONTROL,eg,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_NEGATE,re:GetHandler(),1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_CONTROL,re:GetHandler(),1,0,0)
 end
 function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -70,7 +70,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
 	else
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-			Duel.GetControl(eg,1-rp)
+			Duel.GetControl(re:GetHandler(),1-rp)
 		end
 	end
 end
