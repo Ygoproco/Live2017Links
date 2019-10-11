@@ -33,7 +33,6 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=Duel.SendtoGrave(sg,REASON_COST)
 	e:SetLabel(ct)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,ct)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
 function s.spfilter(c,e,tp,ls,rs)
 	return ((c:IsSetCard(0x98) and c:IsType(TYPE_PENDULUM)) or c:IsSetCard(0x99) or c:IsSetCard(0x9f))
