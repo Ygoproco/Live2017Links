@@ -97,12 +97,15 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if s.fustg(e,tp,eg,ep,ev,re,r,rp,0) then 
+		Duel.BreakEffect()
 		s.fusop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if s.syntg(e,tp,eg,ep,ev,re,r,rp,0) then 
+		Duel.BreakEffect()
 		s.synop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if s.xyztg(e,tp,eg,ep,ev,re,r,rp,0) then 
+		Duel.BreakEfect()
 		s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
