@@ -73,7 +73,7 @@ end
 function s.fusop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_GRAVE,0,1,1,nil,e,0,tp,false,false,POS_FACEUP_DEFENSE)
+	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
@@ -97,12 +97,15 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if s.fustg(e,tp,eg,ep,ev,re,r,rp,0) then 
+		Duel.BreakEffect()
 		s.fusop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if s.syntg(e,tp,eg,ep,ev,re,r,rp,0) then 
+		Duel.BreakEffect()
 		s.synop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if s.xyztg(e,tp,eg,ep,ev,re,r,rp,0) then 
+		Duel.BreakEfect()
 		s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
