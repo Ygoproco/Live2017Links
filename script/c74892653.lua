@@ -39,6 +39,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.scop)
 	c:RegisterEffect(e3)
 end
+s.synchro_tuner_required=1
+s.synchro_nt_required=1
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=ep and Duel.GetCurrentChain()==0
 end

@@ -55,6 +55,9 @@ function s.initial_effect(c)
 	e5:SetValue(s.valcheck)
 	c:RegisterEffect(e5)
 end
+s.listed_names={44508094}
+s.synchro_tuner_required=1
+s.synchro_nt_required=1
 function s.mtcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsAbleToEnterBP() and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=5
 end
