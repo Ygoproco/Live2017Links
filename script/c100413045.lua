@@ -93,14 +93,12 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	end
 	if g:IsExists(Card.IsType,1,nil,TYPE_PENDULUM) then
 		local e4=Effect.CreateEffect(c)
-		e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 		e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e4:SetCode(EVENT_PHASE+PHASE_END)
-		e4:SetRange(LOCATION_MZONE)
 		e4:SetCountLimit(1)
 		e4:SetOperation(s.thop)
-		e4:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		c:RegisterEffect(e4)
+		e4:SetReset(RESET_PHASE+PHASE_END)
+		Duel.RegisterEffect(e4,tp)
 	end
 end
 function s.aclimit(e,re,tp)
