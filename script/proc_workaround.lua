@@ -415,16 +415,14 @@ function Auxiliary.HakaiLinkTarget(f,of)
 					e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 					e2:SetTargetRange(1,0)
 					e2:SetValue(Auxiliary.HakaiLinkExtra)
-					local reg = oc:RegisterEffect(e2,true)
+					oc:RegisterEffect(e2,true)
 					table.insert(oeff,e2)
 				end
 				if chkc then
 					local b=chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and Auxiliary.HakaiLinkFilter(chkc,e,tp,f,of)
 					e1:Reset()
 					for _,oe in ipairs(oeff) do
-						if reg then
-							oe:Reset()
-						end
+						oe:Reset()
 					end
 					return b
 				end
@@ -464,7 +462,7 @@ function Auxiliary.HakaiLinkOperation(f)
 				e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 				e2:SetTargetRange(1,0)
 				e2:SetValue(Auxiliary.HakaiLinkExtra)
-				 local reg = tc:RegisterEffect(e2,true)
+				local reg = tc:RegisterEffect(e2,true)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 				local g=Duel.SelectMatchingCard(tp,Auxiliary.HakaiLinkSummonFilter(f),tp,LOCATION_EXTRA,0,1,1,nil,c,tc,tp)
 				if #g>0 then
