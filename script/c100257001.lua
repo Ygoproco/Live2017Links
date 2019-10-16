@@ -96,9 +96,13 @@ end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,5,5,nil)
-	if #g~=5 or Duel.Remove(g,POS_FACEDOWN,REASON_EFFECT)~=5 then
-		Duel.SendtoGrave(c,REASON_EFFECT)
+	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,nil)
+	if #g<5 then Duel.SendtoGrave(c,REASON_EFFECT) end
+	if #g>=5 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+		local sg=g:Select(tp,5,5,nil)
+		if #sg~=5 or Duel.Remove(sg,POS_FACEDOWN,REASON_EFFECT)~=5 then
+			Duel.SendtoGrave(c,REASON_EFFECT)
+		end
 	end
 end
