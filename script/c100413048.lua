@@ -85,7 +85,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetTargetRange(1,0)
 			e1:SetValue(s.damval)
 			e1:SetReset(RESET_PHASE+PHASE_END)
-			Duel.RegisterEffect(e1,1-rp)
+			Duel.RegisterEffect(e1,p)
 		end
 	end
 end
