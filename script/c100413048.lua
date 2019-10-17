@@ -7,7 +7,7 @@ function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetOperation(s.rmop)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 	--Negate attack
 	local e2=Effect.CreateEffect(c)
@@ -21,9 +21,9 @@ end
 function s.rmfilter(c)
 	return c:IsType(TYPE_SPELL) and c:IsAbleToRemove()
 end
-function s.rmop(e,tp,eg,ep,ev,re,r,rp)
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local rg=Group.CreateGroup()
-	for p=tp,1-tp do
+	for p=0,1 do
 		if Duel.IsExistingMatchingCard(s.rmfilter,p,LOCATION_GRAVE,0,1,nil) and Duel.SelectYesNo(p,aux.Stringid(id,1)) then
 			Duel.Hint(HINT_SELECTMSG,p,HINTMSG_REMOVE)
 			local g=Duel.SelectMatchingCard(p,s.rmfilter,p,LOCATION_GRAVE,0,1,5,nil)
@@ -33,7 +33,7 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	if #rg>0 and Duel.Remove(rg,POS_FACEDOWN,REASON_EFFECT)>0 then
 		local og=Duel.GetOperatedGroup()
 		for tc in aux.Next(og) do
-			tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,0)
+			tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
 		end
 	end
 end
@@ -41,7 +41,6 @@ function s.thfilter(c)
 	return c:GetFlagEffect(id)~=0 and c:IsAbleToHand()
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
 	local at=Duel.GetAttacker()
 	local p=1-at:GetControler()
 	if Duel.IsExistingMatchingCard(s.thfilter,p,LOCATION_REMOVED,0,1,nil) and Duel.SelectYesNo(p,aux.Stringid(id,2)) then
@@ -51,11 +50,11 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		local tc=tg:GetFirst()
 		if tc:IsDiscardable(REASON_EFFECT) and Duel.SelectYesNo(p,aux.Stringid(id,3)) then
 			Duel.BreakEffect()
-			Duel.SendtoGrave(tc,nil,REASON_EFFECT+REASON_DISCARD)
+			Duel.SendtoGrave(tc,REASON_EFFECT+REASON_DISCARD)
 			Duel.NegateAttack()
 		else
 			--double damage
-			local e1=Effect.CreateEffect(c)
+			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 			e1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
 			e1:SetOperation(s.damop)
