@@ -11,10 +11,11 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	--Negate attack
 	local e2=Effect.CreateEffect(c)
-	e2:SetCategory(CATEGORY_TOHAND)
+	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_HANDES)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e2:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e2:SetRange(LOCATION_FZONE)
+	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
 end
@@ -39,6 +40,13 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.thfilter(c)
 	return c:GetFlagEffect(id)~=0 and c:IsAbleToHand()
+end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	local at=Duel.GetAttacker()	
+	local p=1-at:GetControler()
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,p,LOCATION_REMOVED)
+	Duel.SetOperationInfo(0,CATEGORY_HANDES,nil,1,p,LOCATION_HAND)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
