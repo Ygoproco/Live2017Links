@@ -27,8 +27,13 @@ function s.initial_effect(c)
 	e4:SetOperation(s.operation)
 	c:RegisterEffect(e4)
 end
+function s.cfilter(c)
+	return c:IsRitualMonster()
+end
 function s.val(e,c)
-	return Duel.GetMatchingGroupCount(Card.IsType,e:GetHandlerPlayer(),LOCATION_GRAVE,0,nil,TYPE_RITUAL)*300
+	local g=Duel.GetFieldGroup(e:GetHandlerPlayer(),LOCATION_GRAVE,0)
+	local sg=g:Filter(s.cfilter,nil)
+	return sg:GetCount()*300
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsDiscardable() end
@@ -86,4 +91,3 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
 	tc:CompleteProcedure()
 end
-
