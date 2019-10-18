@@ -15,7 +15,7 @@ end
 s.types={TYPE_RITUAL,TYPE_FUSION,TYPE_SYNCHRO,TYPE_XYZ,TYPE_LINK}
 function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		for p=tp,1-tp do
+		for p=0,1 do
 			for _,t in ipairs(s.types) do
 				if Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsType,t),p,LOCATION_MZONE,0,2,nil) then
 					return true
@@ -47,7 +47,7 @@ function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	local draw={}
 	draw[0]=false
 	draw[1]=false
-	for p=tp,1-tp do
+	for p=0,1 do
 		local g=Duel.GetMatchingGroup(Card.IsFaceup,p,LOCATION_MZONE,0,nil)
 		for _,t in ipairs(s.types) do
 			if g:FilterCount(Card.IsType,nil,t)==1 then
