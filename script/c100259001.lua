@@ -97,7 +97,6 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		local atk=g:GetFirst():GetTextAttack()
 		if atk<0 then atk=0 end
 		if Duel.Destroy(g:GetFirst(),REASON_EFFECT)~=0 then
-			Duel.BreakEffect()
 			Duel.Damage(1-tp,atk,REASON_EFFECT)
 		end
 	end
