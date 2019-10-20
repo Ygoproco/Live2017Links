@@ -4,7 +4,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddFusionProcMix(c,true,true,s.ffilter,aux.FilterBoolFunctionEx(Card.IsRace,RACE_SPELLCASTER))
+	aux.AddFusionProcMix(c,true,true,{CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL},aux.FilterBoolFunctionEx(Card.IsRace,RACE_SPELLCASTER))
 	--draw
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
@@ -39,9 +39,6 @@ end
 s.material={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
 s.material_setcode={0x10a2,0x20a2,0x30a2}
 s.listed_names={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
-function s.ffilter(c,fc,sumtype,tp)
-    return (c:IsFusionCode(CARD_DARK_MAGICIAN) or c:IsFusionCode(CARD_DARK_MAGICIAN_GIRL)) or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
-end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and e:GetHandler():GetFlagEffect(1)>0
 end

@@ -5,7 +5,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcMix(c,true,true,CARD_DARK_MAGICIAN,s.ffilter)
+	aux.AddFusionProcMix(c,true,true,CARD_DARK_MAGICIAN,{CARD_REDEYES_B_DRAGON,s.ffilter})
 	--register effect
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
@@ -47,11 +47,11 @@ function s.initial_effect(c)
 	e4:SetOperation(s.disop)
 	c:RegisterEffect(e4)
 end
-s.material={CARD_DARK_MAGICIAN,74677422}
-s.listed_names={CARD_DARK_MAGICIAN,74677422}
+s.material={CARD_DARK_MAGICIAN,CARD_REDEYES_B_DRAGON}
+s.listed_names={CARD_DARK_MAGICIAN,CARD_REDEYES_B_DRAGON}
 s.material_setcode={0x3b,0x10a2}
 function s.ffilter(c,fc,sumtype,tp)
-	return c:IsFusionCode(74677422) or (c:IsRace(RACE_DRAGON,fc,sumtype,tp) and c:IsType(TYPE_EFFECT,fc,sumtype,tp))
+    return c:IsRace(RACE_DRAGON,fc,sumtype,tp) and c:IsType(TYPE_EFFECT,fc,sumtype,tp)
 end
 function s.valcheck(e,c)
 	local g=c:GetMaterial()
