@@ -28,7 +28,7 @@ function s.immcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
 function s.immcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost()and Duel.GetFlagEffect(tp,id)==0 end
+	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() and Duel.GetFlagEffect(tp,id)==0 end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
 function s.immop(e,tp,eg,ep,ev,re,r,rp)
