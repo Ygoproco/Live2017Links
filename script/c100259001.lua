@@ -59,7 +59,8 @@ function s.valcheck(e,c)
 	e:GetLabelObject():SetLabel(ct)
 end
 function s.regcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) --and e:GetLabel()>0
+	local c=e:GetHandler()
+	return c:IsSummonType(SUMMON_TYPE_FUSION) and c:GetMaterial():FilterCount(Card.IsType,nil,TYPE_NORMAL)>0
 end
 function s.chkfilter(c,label)
 	return c:GetFlagEffect(label)>0
