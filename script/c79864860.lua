@@ -48,7 +48,7 @@ function s.atkval(e,c)
 	return g:GetSum(Card.GetBaseAttack)
 end
 function s.disfilter(c)
-	return c:GetSummonLocation(LOCATION_EXTRA)
+	return c:GetSummonLocation()==LOCATION_EXTRA
 end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=ep and Duel.GetCurrentChain()==0 and eg:IsExists(s.disfilter,1,nil) and e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
