@@ -55,3 +55,4 @@ function s.condition(cid)
                 return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,cid),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
             end
 end
+

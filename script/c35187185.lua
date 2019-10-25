@@ -32,7 +32,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_DESTROYED)
     e3:SetProperty(EFFECT_FLAG_DELAY)
-    e3:SetCountLimit(1,id+100)
+    e3:SetCountLimit(1,id+1)
     e3:SetCondition(s.spcon)
     e3:SetTarget(s.sptg)
     e3:SetOperation(s.spop)
@@ -82,3 +82,4 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
         Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
     end
 end
+

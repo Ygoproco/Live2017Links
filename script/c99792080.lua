@@ -20,14 +20,14 @@ function s.initial_effect(c)
 	e2:SetHintTiming(0,TIMING_MAIN_END+TIMING_BATTLE_START+TIMING_BATTLE_END)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+1)
 	e2:SetCondition(s.spcon)
 	e2:SetCost(s.spcost)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={101010085,CARD_DREAM_MIRROR_JOY}
+s.listed_names={62393472,CARD_DREAM_MIRROR_JOY}
 s.listed_series={0x131}
 function s.acon(e,tp,eg,ep,ev,re,r,rp)
 	if not re then return false end
@@ -55,7 +55,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function s.spfilter(c,e,tp)
-	return c:IsCode(101010085) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(62393472) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
@@ -71,3 +71,4 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+

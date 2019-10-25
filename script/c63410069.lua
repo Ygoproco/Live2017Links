@@ -65,3 +65,4 @@ function s.scop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SynchroSummon(tp,sg:GetFirst(),c)
 	end
 end
+

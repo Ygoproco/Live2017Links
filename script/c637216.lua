@@ -50,3 +50,4 @@ function s.splimit(tc)
 		return c:GetOriginalRace()~=tc:GetOriginalRace()
 	end
 end
+

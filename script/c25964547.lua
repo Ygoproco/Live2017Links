@@ -41,3 +41,4 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
         Duel.MoveToField(tc,tp,p,LOCATION_SZONE,POS_FACEUP,true)
     end
 end
+

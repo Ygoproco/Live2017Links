@@ -53,3 +53,4 @@ function s.activate2(e,tp,eg,ep,ev,re,r,rp,chk)
     Duel.NegateSummon(eg)
     Duel.Destroy(eg,REASON_EFFECT)
 end
+
