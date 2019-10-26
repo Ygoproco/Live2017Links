@@ -1,4 +1,5 @@
 --邪神アバター
+--The Wicked Avatar
 local s,id=GetID()
 function s.initial_effect(c)
 	--summon with 3 tribute
