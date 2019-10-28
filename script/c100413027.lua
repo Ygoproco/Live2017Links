@@ -33,13 +33,10 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
     Duel.NegateActivation(ev)
 	Duel.BreakEffect()
     if not c:IsRelateToEffect(e) then return end
-    --if not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
     if c:IsSSetable(true) and e:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		Duel.BreakEffect()
         c:CancelToGrave()
         Duel.ChangePosition(c,POS_FACEDOWN)
         Duel.RaiseEvent(c,EVENT_SSET,e,REASON_EFFECT,tp,tp,0)
-    else
-        c:CancelToGrave(false)
     end
 end
