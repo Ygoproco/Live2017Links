@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddShaddollFusionProcMix(c,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x9d),ATTRIBUTE_LIGHT)
+	aux.AddFusionProcMix(c,true,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x9d),s.matfilter)
 	--cannot spsummon
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -43,6 +43,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 s.material_setcode=0x9d
+s.listed_series={0x9d}
+function s.matfilter(c,lc,sumtype,tp)
+	return c:IsAttribute(ATTRIBUTE_LIGHT,lc,sumtype,tp) or c:IsHasEffect(4904633)
+end
 function s.tgfilter(c)
 	return c:IsSetCard(0x9d) and c:IsAbleToGrave()
 end
