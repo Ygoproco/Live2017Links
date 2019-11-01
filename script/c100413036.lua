@@ -45,7 +45,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.cfilter(c)
-	return (c:IsSetCard(0x59) or c:IsSetCard(0x82)) and not c:IsCode(id)
+	return (c:IsSetCard(0x59) or c:IsSetCard(0x82)) and c:IsFaceup() and not c:IsCode(id)
 end
 function s.gycon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
