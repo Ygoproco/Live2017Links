@@ -22,6 +22,7 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
+	e2:SetHintTiming(0,TIMING_MAIN_END)
     e2:SetCountLimit(1,id+1)
     e2:SetCondition(s.spcon)
     e2:SetTarget(s.sptg)
@@ -86,4 +87,3 @@ end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
     Duel.ReturnToField(e:GetLabelObject())
 end
-

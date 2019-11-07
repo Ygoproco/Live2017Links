@@ -33,11 +33,11 @@ function s.initial_effect(c)
 	e3:SetOperation(s.spop2)
 	c:RegisterEffect(e3)
 end
-function s.cfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x115) and c:IsControler(tp) and not c:IsCode(id)
+function s.cfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0x115) and not c:IsCode(id)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil,tp)
+	return eg:IsExists(s.cfilter,1,nil)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
