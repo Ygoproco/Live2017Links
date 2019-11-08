@@ -15,7 +15,6 @@ function s.initial_effect(c)
 	e1:SetCountLimit(1,id)
 	e1:SetHintTiming(0,TIMING_MAIN_END)
 	e1:SetCondition(s.spcon)
-	e1:SetCost(s.spcost)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
@@ -38,33 +37,28 @@ function s.spcheck(g,lc,tp)
 	return g:GetClassCount(Card.GetRace,lc,SUMMON_TYPE_LINK,tp)>1
 end
 function s.mzfilter(c,tp)
-	return c:IsControler(tp) and c:GetSequence()<5 and c:IsRace(RACE_PLANT)
+	return c:IsRace(RACE_PLANT) and (c:IsControler(tp) or c:IsFaceup())
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
-function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if c:GetSequence()<5 then ft=ft+1 end
-	if chk==0 then return ft>-1 and c:IsReleasable() and Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,c)
-		and (ft>0 or Duel.CheckReleaseGroupCost(tp,s.mzfilter,1,false,nil,c,tp)) end
-	local rg=nil
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	if ft>0 then
-		rg=Duel.SelectReleaseGroupCost(tp,s.mzfilter,1,1,false,nil,c,tp)
-	end
-	rg:AddCard(c)
-	Duel.Release(rg,REASON_COST)
+function s.exkfilter(c,sg,tp)
+	return Duel.GetLocationCountFromEx(tp,tp,sg,c)>0 
+end
+function s.excheck(sg,tp,exg,mg)
+	return mg:IsExists(s.exkfilter,1,nil,sg,tp)
 end
 function s.spfilter(c,e,tp)
 	return (c:IsSetCard(0x123) or c:IsRace(RACE_PLANT)) and c:IsType(TYPE_SYNCHRO)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_SYNCHRO,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local mg=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
 	if chk==0 then
-		return Duel.GetLocationCountFromEx(tp)>0
-			and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
+		return Duel.GetLocationCountFromEx(tp)>-1 and Duel.CheckReleaseGroupCost(tp,s.mzfilter,1,false,s.excheck,nil,mg,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.mzfilter,1,1,false,s.excheck,nil,mg,tp)
+	g:AddCard(e:GetHandler())
+	Duel.Release(g,REASON_COST)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
