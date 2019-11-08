@@ -1,5 +1,5 @@
 --星鍵士リイヴ
---World Legacy Keyholder Lib
+--Lib the World Keymaster
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
@@ -65,7 +65,7 @@ function s.cfilter(c)
 	return c:IsSetCard(0xfe) and c:IsType(TYPE_MONSTER)
 end
 function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_GRAVE,0,1,nil)
+	return not Duel.IsExistingMatchingCard(s.cfilter,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil)
 end
 function s.tdcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
