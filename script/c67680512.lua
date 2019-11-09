@@ -1,5 +1,5 @@
 --破械神ラギア
---Hakaishin Ragia
+--Unchained Soul of Rage
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -8,11 +8,12 @@ function s.initial_effect(c)
     --link summon
     local e1=Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id,0))
-	e1:SetType(EFFECT_TYPE_QUICK_O)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetRange(LOCATION_MZONE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1,id)
-	e1:SetCondition(s.linkcond)
+    e1:SetHintTiming(0,0x1c0+TIMING_MAIN_END)
+    e1:SetCondition(s.linkcond)
     e1:AddHakaiLinkEffect(s.lkfilter,aux.FilterBoolFunction(Card.IsSummonType,SUMMON_TYPE_SPECIAL))
     c:RegisterEffect(e1)
     --special summon

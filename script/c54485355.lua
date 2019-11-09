@@ -72,13 +72,14 @@ end
 function s.eqcheck(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetLabelObject() then e:GetLabelObject():DeleteGroup() end
 	local g=e:GetHandler():GetEquipGroup()
+	if g then g=g:Filter(s.spfilter,nil) end
 	g:KeepAlive()
 	e:SetLabelObject(g)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=e:GetLabelObject():GetLabelObject()
-	return c:IsReason(REASON_BATTLE) or (rp==1-tp and c:IsReason(REASON_EFFECT)) and g:IsExists(s.spfilter,1,nil)
+	return c:IsReason(REASON_BATTLE) or (rp==1-tp and c:IsReason(REASON_EFFECT)) and c:IsPreviousLocation(LOCATION_MZONE)
 end
 function s.spfilter(c)
 	return c:GetOriginalType()&TYPE_DUAL==TYPE_DUAL

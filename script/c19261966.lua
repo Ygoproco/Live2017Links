@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddShaddollFusionProcMix(c,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x9d),ATTRIBUTE_WATER)
+	aux.AddFusionProcMix(c,true,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x9d),s.matfilter)
 	--splimit
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -32,6 +32,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 s.material_setcode=0x9d
+s.listed_series={0x9d}
+function s.matfilter(c,lc,sumtype,tp)
+	return c:IsAttribute(ATTRIBUTE_WATER,lc,sumtype,tp) or c:IsHasEffect(4904633)
+end
 function s.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return se:IsActiveType(TYPE_SPELL+TYPE_TRAP) and se:IsHasType(EFFECT_TYPE_ACTIONS) 
 		and c:IsLocation(LOCATION_GRAVE+LOCATION_HAND)

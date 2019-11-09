@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddShaddollFusionProcMix(c,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x9d),ATTRIBUTE_WIND)
+	aux.AddFusionProcMix(c,true,true,aux.FilterBoolFunction(Card.IsFusionSetCard,0x9d),s.matfilter)
 	--cannot spsummon
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -34,6 +34,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 s.material_setcode=0x9d
+s.listed_series={0x9d}
+function s.matfilter(c,lc,sumtype,tp)
+	return c:IsAttribute(ATTRIBUTE_WIND,lc,sumtype,tp) or c:IsHasEffect(4904633)
+end
 function s.indtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) end
 	if chk==0 then return Duel.IsExistingTarget(nil,tp,LOCATION_MZONE,0,1,nil) end

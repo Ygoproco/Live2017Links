@@ -1,11 +1,18 @@
 --超魔導師－ブラック・マジシャンズ
---Dark Magicians - The Ultimate Wizards
+--The Dark Magicians
 --scripted by CyberCatman
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	aux.AddFusionProcMix(c,true,true,s.ffilter,aux.FilterBoolFunctionEx(Card.IsRace,RACE_SPELLCASTER))
+	aux.AddFusionProcMix(c,true,true,{CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL},aux.FilterBoolFunctionEx(Card.IsRace,RACE_SPELLCASTER))
 	--draw
+	local e0=Effect.CreateEffect(c)
+	e0:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+	e0:SetCode(EVENT_CHAINING)
+	e0:SetRange(LOCATION_MZONE)
+	e0:SetOperation(aux.chainreg)
+	c:RegisterEffect(e0)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DRAW)
@@ -32,11 +39,8 @@ end
 s.material={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
 s.material_setcode={0x10a2,0x20a2,0x30a2}
 s.listed_names={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
-function s.ffilter(c,fc,sumtype,tp)
-    return (c:IsFusionCode(CARD_DARK_MAGICIAN) or c:IsFusionCode(CARD_DARK_MAGICIAN_GIRL)) or c:IsHasEffect(EFFECT_FUSION_SUBSTITUTE)
-end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
-	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and Duel.IsPlayerCanDraw(tp,1)
+	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and e:GetHandler():GetFlagEffect(1)>0
 end
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end

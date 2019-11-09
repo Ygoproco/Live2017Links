@@ -32,6 +32,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
+s.listed_names={CARD_DARK_MAGICIAN,71625222}
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return ep==tp
 end

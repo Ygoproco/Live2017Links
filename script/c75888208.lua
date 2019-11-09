@@ -53,8 +53,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.dspcon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
-	return not e:GetHandler():IsStatus(STATUS_CHAINING)
-		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,74665651),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
+	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,74665651),tp,LOCATION_FZONE,LOCATION_FZONE,1,nil)
 		and (ph==PHASE_MAIN1 or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or ph==PHASE_MAIN2)
 end
 function s.dspcost(e,tp,eg,ep,ev,re,r,rp,chk)
