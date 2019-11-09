@@ -77,3 +77,4 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.DoubleBattleDamage(ep)
 	end
 end
+

@@ -19,7 +19,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCountLimit(1,id+100)
+    e2:SetCountLimit(1,id+1)
     e2:SetCost(s.drcost)
     e2:SetTarget(s.drtg)
     e2:SetOperation(s.drop)
@@ -107,3 +107,4 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
     local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
     Duel.Draw(p,d,REASON_EFFECT)
 end
+

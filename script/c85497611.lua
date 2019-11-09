@@ -78,3 +78,4 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,sg)
 	end
 end
+

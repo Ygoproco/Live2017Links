@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetCountLimit(1,id+100)
+	e3:SetCountLimit(1,id+1)
 	e3:SetCondition(s.condition(s.cfilter2))
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
@@ -36,7 +36,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e4:SetRange(LOCATION_SZONE)
-	e4:SetCountLimit(1,id+200)
+	e4:SetCountLimit(1,id+2)
 	e4:SetCondition(s.condition(s.cfilter3))
 	e4:SetTarget(s.sptg2)
 	e4:SetOperation(s.spop2)
@@ -130,3 +130,4 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 		end
 	
 end
+

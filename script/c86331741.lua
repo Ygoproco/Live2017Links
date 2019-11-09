@@ -102,3 +102,4 @@ function s.ngop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e3)
 	end
 end
+

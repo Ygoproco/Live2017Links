@@ -87,3 +87,4 @@ end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ChainAttack()
 end
+

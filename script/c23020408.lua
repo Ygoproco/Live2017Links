@@ -59,3 +59,4 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=Duel.GetMatchingGroup(s.drfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,LOCATION_ONFIELD+LOCATION_GRAVE,nil):GetClassCount(Card.GetCode)
 	Duel.Draw(p,ct,REASON_EFFECT)
 end
+

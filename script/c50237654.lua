@@ -101,3 +101,4 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(sg1,0,tp,tp,true,false,POS_FACEUP)
 	end
 end
+

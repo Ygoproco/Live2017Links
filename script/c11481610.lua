@@ -61,3 +61,4 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SetLP(tp,math.max(lp,0))
 	end
 end
+

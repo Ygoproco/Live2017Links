@@ -16,14 +16,14 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+1)
 	e2:SetTarget(s.lvtg)
 	e2:SetOperation(s.lvop)
 	c:RegisterEffect(e2)
 end
-s.listed_series={0x238,0x54,0x59,0x82,0x8f}
+s.listed_series={0x139,0x54,0x59,0x82,0x8f}
 function s.filter(c)
-	return c:IsSetCard(0x238) and not c:IsCode(id) and c:IsAbleToHand()
+	return c:IsSetCard(0x139) and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
@@ -66,3 +66,4 @@ function s.lvop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+
