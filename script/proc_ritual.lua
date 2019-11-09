@@ -96,7 +96,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,forcedgroup,stag
 							mg=mg:Filter(tc.mat_filter,tc,tp)
 						end
 						if ft>0 then
-							local lv=(lv and (type(lv)=="function" and lv()) or lv) or rc:GetLevel()
+							local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							if _type==RITPROC_EQUAL then
 								mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,99,tc)
@@ -107,7 +107,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,forcedgroup,stag
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							mat=mg:FilterSelect(tp,Auxiliary.RPEFilterF,1,1,nil,tp,mg,tc,lv)
 							Duel.SetSelectedCard(mat)
-							local lv=(lv and (type(lv)=="function" and lv()) or lv) or rc:GetLevel()
+							local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							local mat2
 							if _type==RITPROC_EQUAL then
