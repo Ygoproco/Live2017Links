@@ -54,7 +54,6 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 		local tc=Duel.GetOperatedGroup():GetFirst()
 		if tc:IsType(TYPE_SPELL+TYPE_TRAP) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 			Duel.SSet(tp,tc)
-			Duel.ConfirmCards(1-tp,tc)
 			if tc:IsType(TYPE_QUICKPLAY) then
 				if EFFECT_QP_ACT_IN_SET_TURN then
 					local e1=Effect.CreateEffect(e:GetHandler())
