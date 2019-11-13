@@ -3,20 +3,32 @@
 --Scripted by AlphaKretin
 local s,id=GetID()
 function s.initial_effect(c)
-	c:EnableReviveLimit()
 	--link summon
+	c:EnableReviveLimit()
 	aux.AddLinkProcedure(c,nil,2,nil,s.spcheck)
-	--Equip
+	--cannot be used as link material
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_IGNITION)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
-	e1:SetCountLimit(1,id)
-	e1:SetTarget(s.eqtg)
-	e1:SetOperation(s.eqop)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
+	e1:SetCondition(s.lkcon)
+	e1:SetValue(1)
 	c:RegisterEffect(e1)
+	--Equip
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetCategory(CATEGORY_EQUIP)
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
+	e2:SetCountLimit(1,id)
+	e2:SetTarget(s.eqtg)
+	e2:SetOperation(s.eqop)
+	c:RegisterEffect(e2)
+end
+function s.lkcon(e)
+	local c=e:GetHandler()
+	return c:IsStatus(STATUS_SPSUMMON_TURN) and c:IsSummonType(SUMMON_TYPE_LINK)
 end
 function s.spcheck(g,lc,tp)
 	return g:CheckSameProperty(Card.GetRace,lc,SUMMON_TYPE_LINK,tp) or g:CheckSameProperty(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)
