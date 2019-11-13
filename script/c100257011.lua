@@ -19,7 +19,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.spcheck(g,lc,tp)
-	return g:CheckSameProperty(Card.GetRace,lc,SUMMON_TYPE_LINK,tp) and g:CheckSameProperty(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)
+	return g:CheckSameProperty(Card.GetRace,lc,SUMMON_TYPE_LINK,tp) or g:CheckSameProperty(Card.GetAttribute,lc,SUMMON_TYPE_LINK,tp)
 end
 function s.filter(c,tp)
 	return c:IsFaceup() and Duel.IsExistingMatchingCard(s.eqfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,tp,c)
