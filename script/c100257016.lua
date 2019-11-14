@@ -84,19 +84,18 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g1,g2=Duel.GetFirstTarget()
 	local ex,g1=Duel.GetOperationInfo(0,CATEGORY_DESTROY)
 	local ex,g2=Duel.GetOperationInfo(0,CATEGORY_ATKCHANGE)
-	if g1:GetFirst():IsRelateToEffect(e) then
-		Duel.Destroy(g1,REASON_EFFECT)
-	end
-	local tc=g2:GetFirst()
-	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
-		e1:SetValue(0)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		tc:RegisterEffect(e1)
-		local e2=e1:Clone()
-		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
-		tc:RegisterEffect(e2)
+	if g1:GetFirst():IsRelateToEffect(e) and Duel.Destroy(g1,REASON_EFFECT)>0 then
+		local tc=g2:GetFirst()
+		if tc:IsFaceup() and tc:IsRelateToEffect(e) then
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_SET_ATTACK_FINAL)
+			e1:SetValue(0)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+			tc:RegisterEffect(e1)
+			local e2=e1:Clone()
+			e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
+			tc:RegisterEffect(e2)
+		end
 	end
 end
