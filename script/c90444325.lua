@@ -49,14 +49,17 @@ end
 function s.filter(c,e,tp,m,ft)
 	if not c:IsRitualMonster() or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
-	if c:IsCode(21105106) then return c:ritual_custom_condition(mg,ft) end
+	if c.ritual_custom_condition then
+		return c:ritual_custom_condition(mg,ft)
+	end
 	if c.mat_filter then
 		mg=mg:Filter(c.mat_filter,nil)
 	end
 	if ft>0 and mg:IsContains(e:GetHandler()) then
-		mg:RemoveCard(e:GetHandler())
-		return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel()-e:GetHandler():GetLevel(),c)
+		Duel.SetSelectedCard(e:GetHandler())
+		return mg:CheckWithSumGreater(Card.GetRitualLevel,c:GetLevel(),c)
 	end
+	return false
 end
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
@@ -81,20 +84,16 @@ function s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=tg:GetFirst()
 	if tc then
 		mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
-		mg:RemoveCard(c)
-		if tc:IsCode(21105106) then
+		if tc.ritual_custom_operation then
 			tc:ritual_custom_operation(mg)
 			local mat=tc:GetMaterial()
 			Duel.ReleaseRitualMaterial(mat)
 		else
+			Duel.SetSelectedCard(e:GetHandler())
 			if tc.mat_filter then
 				mg=mg:Filter(tc.mat_filter,nil)
 			end
-			local mat=Group.FromCards(c)
-			if c:GetRitualLevel(tc)<tc:GetLevel() then
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				mat=mat+mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetLevel()-c:GetLevel(),tc)
-			end
+			local mat=Group.FromCards(c)+mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetLevel(),tc)
 			tc:SetMaterial(mat)
 			Duel.ReleaseRitualMaterial(mat)
 		end
