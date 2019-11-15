@@ -23,7 +23,7 @@ function s.matfilter(c,lc,stype,tp)
 end
 function s.spfilter(c,e,tp)
 	return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and Duel.IsExistingMatchingCard(s.pfilter,tp,LOCATION_HAND+LOCATION_EXTRA,0,1,1,nil,c:GetCode())
+		and Duel.IsExistingMatchingCard(s.pfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil,c:GetCode())
 end
 function s.pfilter(c,cd)
 	return c:IsSetCard(0x10ec) and c:IsType(TYPE_PENDULUM)
@@ -42,7 +42,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-		local g=Duel.SelectMatchingCard(tp,s.pfilter,tp,LOCATION_HAND+LOCATION_EXTRA,0,1,1,nil,tc:GetCode())
+		local g=Duel.SelectMatchingCard(tp,s.pfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil,tc:GetCode())
 		if #g>0 then
 			Duel.MoveToField(g:GetFirst(),tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 		end
