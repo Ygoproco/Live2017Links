@@ -50,7 +50,7 @@ function s.filter(c,e,tp,m,ft)
 	if not c:IsRitualMonster() or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	if c.ritual_custom_condition then
-		return c:ritual_custom_condition(mg,ft)
+		return c:ritual_custom_condition(mg,ft,Group.FromCards(e:GetHandler()),RITPROC_GREATER)
 	end
 	if c.mat_filter then
 		mg=mg:Filter(c.mat_filter,nil)
@@ -85,7 +85,7 @@ function s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	if tc then
 		mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 		if tc.ritual_custom_operation then
-			tc:ritual_custom_operation(mg)
+			tc:ritual_custom_operation(mg,Group.FromCards(c),RITPROC_GREATER)
 			local mat=tc:GetMaterial()
 			Duel.ReleaseRitualMaterial(mat)
 		else
