@@ -124,7 +124,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 						tc:SetMaterial(mat)
 					end
 					if extraop then
-						extraop(mat,e,tp,eg,ep,ev,re,r,rp)
+						extraop(mat,e,tp,eg,ep,ev,re,r,rp,tc)
 					else
 						Duel.ReleaseRitualMaterial(mat)
 					end
