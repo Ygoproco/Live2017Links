@@ -103,9 +103,9 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 							local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							if _type==RITPROC_EQUAL then
-								mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,99,tc)
+								mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,99,tc)+forcedgroup
 							else
-								mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,lv,tc)
+								mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,lv,tc)+forcedgroup
 							end
 						else
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
