@@ -92,7 +92,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					mg:Merge(mg2-tc)
 					if tc.ritual_custom_operation then
-						tc.ritual_custom_operation(mg,forcedgroup,_type)
+						tc:ritual_custom_operation(mg,forcedgroup,_type)
 						mat=tc:GetMaterial()
 					else
 						if tc.mat_filter then
