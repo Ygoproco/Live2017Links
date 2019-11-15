@@ -29,7 +29,7 @@ end
 function s.val(e,c)
 	local g=Duel.GetFieldGroup(e:GetHandlerPlayer(),LOCATION_GRAVE,0)
 	local sg=g:Filter(s.cfilter,nil)
-	return sg:GetCount()*300
+	return #sg*300
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsDiscardable() end
