@@ -13,7 +13,7 @@ function Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
 	end
 end
 --Ritual Summon
-function Auxiliary.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,)
+function Auxiliary.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
 	--lv can be a function (like GetLevel/GetOriginalLevel), fixed level, if nil it defaults to GetLevel
 	local e1=Effect.CreateEffect(c)
 	if desc then
