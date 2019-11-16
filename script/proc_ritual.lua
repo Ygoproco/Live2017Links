@@ -12,6 +12,8 @@ function Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
 		end
 	end
 end
+--The current total level to match for the monster being summoned, to be used with monsters that can be used as whole tribute
+Auxiliary.RitualSummoningLevel=nil
 --Ritual Summon
 function Auxiliary.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
 	--lv can be a function (like GetLevel/GetOriginalLevel), fixed level, if nil it defaults to GetLevel
@@ -35,6 +37,8 @@ function Auxiliary.AddRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilt
 end
 function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
+	local lv=(lv and (type(lv)=="function" and lv()) or lv) or c:GetLevel()
+	Auxiliary.RitualSummoningLevel=lv
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2-c)
 	if c.ritual_custom_condition then
@@ -47,8 +51,9 @@ function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv)
 		forcedselection=aux.AND(c.ritual_custom_check,forcedselection or aux.TRUE)
 	end
 	local sg=Group.CreateGroup()
-	local lv=(lv and (type(lv)=="function" and lv()) or lv) or c:GetLevel()
-	return Auxiliary.RitualCheck(nil,sg,mg,tp,c,lv,forcedselection,e,_type)
+	local res=Auxiliary.RitualCheck(nil,sg,mg,tp,c,lv,forcedselection,e,_type)
+	Auxiliary.RitualSummoningLevel=nil
+	return res
 end
 function Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -108,6 +113,8 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPFilter,tp,location,0,1,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv)
 				if #tg>0 then
 					local tc=tg:GetFirst()
+					local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
+					Auxiliary.RitualSummoningLevel=lv
 					local mat=nil
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					mg:Merge(mg2-tc)
@@ -121,7 +128,6 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 						if tc.mat_filter then
 							mg=mg:Filter(tc.mat_filter,tc,tp)
 						end
-						local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
 						if ft>0 and not forcedselection and not Auxiliary.RitualExtraCheck or not mg:IsExists(aux.NOT(Card.IsLocation),1,nil,LOCATION_ONFIELD+LOCATION_HAND) then
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							if _type==RITPROC_EQUAL then
@@ -149,6 +155,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 					else
 						customoperation(mat:Clone(),e,tp,eg,ep,ev,re,r,rp,tc)
 					end
+					Auxiliary.RitualSummoningLevel=nil
 				end
 			end
 end
