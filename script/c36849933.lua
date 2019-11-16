@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.drop)
 	c:RegisterEffect(e1)
 	--Ritual Summon
-	local e2=aux.CreateRitualProc(c,RITPROC_GREATER,nil,nil,aux.Stringid(id,1),nil,nil,nil,nil,nil,function(e)return Group.FromCards(e:GetHandler()) end)
+	local e2=aux.CreateRitualProc(c,RITPROC_GREATER,nil,nil,aux.Stringid(id,1),nil,nil,nil,nil,nil,function(e,tp,g,sc)return g:IsContains(e:GetHandler()) end)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetHintTiming(0,TIMING_MAIN_END)

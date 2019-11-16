@@ -33,34 +33,22 @@ function Auxiliary.AddRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilt
 	c:RegisterEffect(e1)
 	return e1
 end
-function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedgroup,ft,lv)
+function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
 	mg:Merge(m2-c)
 	if c.ritual_custom_condition then
-		return c:ritual_custom_condition(mg,ft,forcedgroup,_type)
+		return c:ritual_custom_condition(mg,forcedselection,_type)
 	end
 	if c.mat_filter then
 		mg=mg:Filter(c.mat_filter,c,tp)
 	end
-	if ft>0 then
-		Duel.SetSelectedCard(forcedgroup)
-		local lv=(lv and (type(lv)=="function" and lv()) or lv) or c:GetLevel()
-		if _type==RITPROC_EQUAL then
-			return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,1,99,c)
-		else
-			return mg:CheckWithSumGreater(Card.GetRitualLevel,lv,c)
-		end
-	else
-		return mg:IsExists(Auxiliary.RPFilterF,1,nil,tp,mg,c,lv)
+	if c.ritual_custom_check then
+		forcedselection=aux.AND(c.ritual_custom_check,forcedselection or aux.TRUE)
 	end
-end
-function Auxiliary.RPFilterF(c,tp,mg,rc,lv)
-	if c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 then
-		Duel.SetSelectedCard(forcedgroup+c)
-		local lv=(lv and (type(lv)=="function" and lv()) or lv) or rc:GetLevel()
-		return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,99,rc)
-	else return false end
+	local sg=Group.CreateGroup()
+	local lv=(lv and (type(lv)=="function" and lv()) or lv) or c:GetLevel()
+	return Auxiliary.RitualCheck(nil,sg,mg,tp,c,lv,forcedselection,e,_type)
 end
 function Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -68,58 +56,81 @@ function Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,lo
 				if chk==0 then
 					local mg=Duel.GetRitualMaterial(tp)
 					local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp,chk) or Group.CreateGroup()
-					local forcedgroup=forcedselection and forcedselection(e,tp,mg,mg2) or Group.CreateGroup()
 					Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
-					local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-					return ft>-1 and Duel.IsExistingMatchingCard(Auxiliary.RPFilter,tp,location,0,1,nil,filter,_type,e,tp,mg,mg2,forcedgroup,ft,lv)
+					return Duel.IsExistingMatchingCard(Auxiliary.RPFilter,tp,location,0,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv)
 				end
 				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,location)
 			end
+end
+function Auxiliary.RitualCheck(c,sg,mg,tp,sc,lv,forcedselection,e,_type)
+	if c then
+		sg:AddCard(c)
+	end
+	local res=false
+	Duel.SetSelectedCard(sg)
+	if _type==RITPROC_EQUAL then
+		res=mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,#sg,sc)
+	else
+		res=mg:CheckWithSumGreater(Card.GetRitualLevel,lv,sc)
+	end
+	res=(res and Duel.GetMZoneCount(tp,sg,tp)>0 and (not forcedselection or forcedselection(e,tp,sg,sc))) or
+			mg:IsExists(Auxiliary.RitualCheck,1,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
+	if c then
+		sg:RemoveCard(c)
+	end
+	return res
+end
+function Auxiliary.RitualSelectMaterials(sc,mg,forcedselection,lv,tp,e,_type)
+	local sg=Group.CreateGroup()
+	while true do
+		local cg=mg:Filter(Auxiliary.RitualCheck,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
+		if #cg==0 then break end
+		local finish=Auxiliary.RitualCheck(nil,sg,sg,tp,sc,lv,forcedselection,e,_type)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+		local tc=cg:SelectUnselect(sg,tp,finish,finish,lv)
+		if not tc then break end
+		if not sg:IsContains(tc) then
+			sg:AddCard(tc)
+		else
+			sg:RemoveCard(tc)
+		end
+	end
+	return sg
 end
 function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection)
 	return	function(e,tp,eg,ep,ev,re,r,rp)
 				location = location or LOCATION_HAND
 				local mg=Duel.GetRitualMaterial(tp)
 				local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp) or Group.CreateGroup()
-				local forcedgroup=forcedselection and forcedselection(e,tp,mg,mg2) or Group.CreateGroup()
 				Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
 				local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPFilter,tp,location,0,1,1,nil,filter,_type,e,tp,mg,mg2,forcedgroup,ft,lv)
+				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPFilter,tp,location,0,1,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv)
 				local tc=tg:GetFirst()
 				if tc then
 					local mat=nil
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					mg:Merge(mg2-tc)
 					if tc.ritual_custom_operation then
-						tc:ritual_custom_operation(mg,forcedgroup,_type)
+						tc:ritual_custom_operation(mg,forcedselection,_type)
 						mat=tc:GetMaterial()
 					else
+						if tc.ritual_custom_check then
+							forcedselection=aux.AND(tc.ritual_custom_check,forcedselection or aux.TRUE)
+						end
 						if tc.mat_filter then
 							mg=mg:Filter(tc.mat_filter,tc,tp)
 						end
-						if ft>0 then
-							Duel.SetSelectedCard(forcedgroup)
-							local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
+						local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
+						if ft>0 and not forcedselection and not Auxiliary.RitualExtraCheck then
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							if _type==RITPROC_EQUAL then
-								mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,99,tc)+forcedgroup
+								mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,#mg,tc)
 							else
-								mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,lv,tc)+forcedgroup
+								mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,lv,tc)
 							end
 						else
-							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-							mat=mg:FilterSelect(tp,Auxiliary.RPEFilterF,1,1,nil,tp,mg,tc,lv)
-							Duel.SetSelectedCard(mat)
-							local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
-							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-							local mat2
-							if _type==RITPROC_EQUAL then
-								mat2=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,0,99,tc)
-							else
-								mat2=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,lv,tc)
-							end
-							mat:Merge(mat2)
+							mat=Auxiliary.RitualSelectMaterials(tc,mg,forcedselection,lv,tp,e,_type)
 						end
 						tc:SetMaterial(mat)
 					end
