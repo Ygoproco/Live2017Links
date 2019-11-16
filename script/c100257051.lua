@@ -75,7 +75,7 @@ function s.svfilter(c,tp)
 end
 function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) and Duel.CheckReleaseGroupCost(tp,aux.TRUE,1,false,nil,nil)
-	local b2=Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.CheckReleaseGroupCost(tp,aux.TRUE,2,false,nil,nil)
+	local b2=Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) and Duel.GetLocationCount(tp,LOCATION_MZONE)>=0 and Duel.CheckReleaseGroupCost(tp,aux.TRUE,2,false,nil,nil)
 	local b3=Duel.IsExistingMatchingCard(s.svfilter,tp,LOCATION_GRAVE,0,1,nil) and Duel.CheckReleaseGroupCost(tp,aux.TRUE,3,false,nil,nil)
 	if chk==0 then return b1 or b2 or b3 end
 	local stab={}
