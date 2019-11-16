@@ -7,6 +7,7 @@ function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetCondition(s.condition)
 	c:RegisterEffect(e1)
 	--Limited Link Summon
 	local e2=Effect.CreateEffect(c)
@@ -26,6 +27,12 @@ function s.initial_effect(c)
 	e3:SetCondition(s.descon)
 	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
+end
+function s.cfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0x135)
+end
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(Card.IsSummonType,1,nil,SUMMON_TYPE_LINK)
