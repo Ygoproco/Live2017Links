@@ -5,7 +5,7 @@ function s.initial_effect(c)
 	local e1=aux.AddRitualProc(c,RITPROC_EQUAL,s.cfilter,nil,nil,s.extrafil,nil,s.filter,nil,nil,s.customoperation)
 end
 function s.cfilter(c,e,tp,m,ft)
-	return c:IsSetCard(0x106) and c:IsPublic()
+	return c:IsSetCard(0x106) and not c:IsPublic()
 end
 function s.filter(c,e,tp)
 	return c:IsFaceup() and c:IsSetCard(0x106) and Duel.IsPlayerCanRelease(tp,c)
