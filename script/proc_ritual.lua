@@ -122,7 +122,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 							mg=mg:Filter(tc.mat_filter,tc,tp)
 						end
 						local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
-						if ft>0 and not forcedselection and not Auxiliary.RitualExtraCheck then
+						if ft>0 and not forcedselection and not Auxiliary.RitualExtraCheck or not mg:IsExists(aux.NOT(Card.IsLocation),1,nil,LOCATION_ONFIELD+LOCATION_HAND) then
 							Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 							if _type==RITPROC_EQUAL then
 								mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,#mg,tc)
