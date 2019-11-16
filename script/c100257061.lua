@@ -82,7 +82,8 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 end
 	--Check for flag
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()~=tp and Duel.GetTurnCount()~=e:GetLabel()
+	local tc=e:GetLabelObject()
+	return Duel.GetTurnPlayer()~=tp and Duel.GetTurnCount()~=e:GetLabel() and tc:GetFlagEffect(id)~=0
 end
 	--Destroy the set "Artifact" card
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
