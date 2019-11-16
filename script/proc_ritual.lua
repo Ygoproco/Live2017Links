@@ -67,14 +67,14 @@ function Auxiliary.RitualCheck(c,sg,mg,tp,sc,lv,forcedselection,e,_type)
 		sg:AddCard(c)
 	end
 	local res=false
-	Duel.SetSelectedCard(sg)
 	if _type==RITPROC_EQUAL then
-		res=mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,#sg,sc)
+		res=sg:CheckWithSumEqual(Card.GetRitualLevel,lv,#sg,#sg,sc)
 	else
+		Duel.SetSelectedCard(sg)
 		res=mg:CheckWithSumGreater(Card.GetRitualLevel,lv,sc)
 	end
 	res=(res and Duel.GetMZoneCount(tp,sg,tp)>0 and (not forcedselection or forcedselection(e,tp,sg,sc))) or
-			mg:IsExists(Auxiliary.RitualCheck,1,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
+		mg:IsExists(Auxiliary.RitualCheck,1,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
 	if c then
 		sg:RemoveCard(c)
 	end
@@ -86,7 +86,7 @@ function Auxiliary.RitualSelectMaterials(sc,mg,forcedselection,lv,tp,e,_type)
 		local cg=mg:Filter(Auxiliary.RitualCheck,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
 		if #cg==0 then break end
 		local finish=Auxiliary.RitualCheck(nil,sg,sg,tp,sc,lv,forcedselection,e,_type)
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TRIBUTE)
 		local tc=cg:SelectUnselect(sg,tp,finish,finish,lv)
 		if not tc then break end
 		if not sg:IsContains(tc) then
@@ -135,7 +135,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 						tc:SetMaterial(mat)
 					end
 					if extraop then
-						extraop(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+						extraop(mat:Clone(),e,tp,eg,ep,ev,re,r,rp,tc)
 					else
 						Duel.ReleaseRitualMaterial(mat)
 					end

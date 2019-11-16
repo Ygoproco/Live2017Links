@@ -22,7 +22,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.spfilter(c,e,tp,mc)
-	return c:IsSetCard(0xb4) and c:IsRitualMonster() and (not c.ritual_custom_check or c.ritual_custom_check(e,tp,g,Group.FromCards(mc)))
+	return c:IsSetCard(0xb4) and c:IsRitualMonster() and (not c.ritual_custom_check or c.ritual_custom_check(e,tp,Group.FromCards(mc),c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true)
 		and mc:IsCanBeRitualMaterial(c)
 end
