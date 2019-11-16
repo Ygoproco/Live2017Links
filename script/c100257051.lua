@@ -64,9 +64,6 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetTargetRange(1,0)
 	Duel.RegisterEffect(e2,tp)
 end
-function s.splimit(e,c,sump,sumtype,sumpos,targetp)
-	return c:IsType(TYPE_LINK)
-end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return bit.band(sumtype,SUMMON_TYPE_LINK)==SUMMON_TYPE_LINK
 end
