@@ -1,13 +1,16 @@
 --高等儀式術
 local s,id=GetID()
 function s.initial_effect(c)
-	local e1=aux.CreateRitualProc(c,RITPROC_EQUAL,nil,nil,nil,s.extrafil,nil,s.forcedgroup)
+	local e1=aux.CreateRitualProc(c,RITPROC_EQUAL,nil,nil,nil,s.extrafil,s.extraop,s.forcedgroup)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_DECKDES)
 	c:RegisterEffect(e1)
 end
 function s.extrafil(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetFieldGroup(tp,LOCATION_DECK,0)
 end
+function s.extraop(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+	return Duel.SendtoGrave(mat,REASON_EFFECT+REASON_MATERIAL+REASON_RITUAL)
+end
 function s.forcedgroup(c,e,tp)
-	return c:IsLocation(LOCAITON_DECK) and c:IsType(TYPE_NORMAL)
+	return c:IsLocation(LOCATION_DECK) and c:IsType(TYPE_NORMAL) and c:IsAbleToGrave()
 end
