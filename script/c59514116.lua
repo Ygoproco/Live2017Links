@@ -16,6 +16,17 @@ function s.initial_effect(c)
 	aux.AddRitualProc(c,RITPROC_GREATER,nil,nil,aux.Stringid(id,1),nil,nil,nil,nil,nil,function(e,tp,sg,sc) return sg:IsExists(Card.IsCode,1,nil,CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL) end)
 end
 s.listed_names={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
+function s.filter1(c,e)
+	return not c:IsImmuneToEffect(e)
+end
+function s.filter2(c,e,tp,m,f,chkf,g)
+	return c:IsType(TYPE_FUSION) and (not f or f(c))
+		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false)
+		and #g>0 and g:IsExists(s.filter3,1,nil,m,c,chkf)
+end
+function s.filter3(c,m,fusc,chkf)
+	return fusc:CheckFusionMaterial(m,c,chkf)
+end
 function s.fusiontg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=tp
