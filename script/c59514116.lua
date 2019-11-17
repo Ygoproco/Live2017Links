@@ -13,106 +13,9 @@ function s.initial_effect(c)
 	e1:SetOperation(s.fusionop)
 	c:RegisterEffect(e1)
 	--Ritual
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e2:SetType(EFFECT_TYPE_ACTIVATE)
-	e2:SetCode(EVENT_FREE_CHAIN)
-	e2:SetTarget(s.ritualtg)
-	e2:SetOperation(s.ritualop)
-	c:RegisterEffect(e2)
+	aux.AddRitualProc(c,RITPROC_GREATER,nil,nil,aux.Stringid(id,1),nil,nil,nil,nil,nil,function(e,tp,sg,sc) return sg:IsExists(Card.IsCode,1,nil,CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL) end)
 end
 s.listed_names={CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL}
-function s.rFilter(c,e,tp,m,ft)
-	if not c:IsRitualMonster() or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
-	local mg=m:Filter(Card.IsCanBeRitualMaterial,c,c)
-	if c.ritual_custom_condition then
-		return c.ritual_custom_condition(mg,ft,"greater")
-	end
-	if c.mat_filter then
-		mg=mg:Filter(c.mat_filter,c,tp)
-	end
-	local g=mg:Filter(Card.IsCode,nil,CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL)
-	if ft>0 then
-		return g:IsExists(s.dmfilter,1,nil,tp,mg,c)
-	else
-		return mg:IsExists(s.rFilterF,1,nil,tp,mg,c,g)
-	end
-end
-function s.rFilterF(c,tp,mg,rc,g)
-	if c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 then
-		return g:IsExists(s.dmfilter,1,nil,tp,mg,rc,c)
-	else return false end
-end
-function s.dmfilter(c,tp,mg,rc,fc)
-	local g=Group.FromCards(c,fc)
-	Duel.SetSelectedCard(g)
-	return mg:CheckWithSumGreater(Card.GetRitualLevel,rc:GetOriginalLevel(),rc)
-end
-function s.ritualtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then
-		local mg=Duel.GetRitualMaterial(tp)
-		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-		return ft>-1 and Duel.IsExistingMatchingCard(s.rFilter,tp,LOCATION_HAND,0,1,nil,e,tp,mg,ft)
-	end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
-end
-function s.ritualop(e,tp,eg,ep,ev,re,r,rp)
-	local mg=Duel.GetRitualMaterial(tp)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,s.rFilter,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg,ft):GetFirst()
-	if tc then
-		mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
-		local mat=nil
-		if tc.ritual_custom_operation then
-			tc:ritual_custom_operation(mg,"greater")
-			mat=tc:GetMaterial()
-		else
-			if tc.mat_filter then
-				mg=mg:Filter(tc.mat_filter,tc,tp)
-			end
-			local g=mg:Filter(Card.IsCode,nil,CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL)
-			if ft>0 then
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				local matdm=g:FilterSelect(tp,s.dmfilter,1,1,nil,tp,mg,tc)
-				Duel.SetSelectedCard(matdm)
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetOriginalLevel(),tc)
-				mat:Merge(matdm)
-			else
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				mat=mg:FilterSelect(tp,s.rFilterF,1,1,nil,tp,mg,tc,g)
-				local matdm=Group.CreateGroup()
-				if not mat:IsExists(Card.IsCode,nil,1,CARD_DARK_MAGICIAN,CARD_DARK_MAGICIAN_GIRL) then
-					Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-					matdm=g:FilterSelect(tp,s.dmfilter,1,1,nil,tp,mg,tc,mat:GetFirst())
-				end
-				mat:Merge(matdm)
-				Duel.SetSelectedCard(mat)
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				local mat2=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetOriginalLevel(),tc)
-				mat:Merge(mat2)
-			end
-			tc:SetMaterial(mat)
-		end
-		Duel.ReleaseRitualMaterial(mat)
-		Duel.BreakEffect()
-		Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
-		tc:CompleteProcedure()
-	end
-end
-function s.filter1(c,e)
-	return not c:IsImmuneToEffect(e)
-end
-function s.filter2(c,e,tp,m,f,chkf,g)
-	return c:IsType(TYPE_FUSION) and (not f or f(c))
-		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false)
-		and #g>0 and g:IsExists(s.filter3,1,nil,m,c,chkf)
-end
-function s.filter3(c,m,fusc,chkf)
-	return fusc:CheckFusionMaterial(m,c,chkf)
-end
 function s.fusiontg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=tp
@@ -166,4 +69,3 @@ function s.fusionop(e,tp,eg,ep,ev,re,r,rp)
 		tc:CompleteProcedure()
 	end
 end
-

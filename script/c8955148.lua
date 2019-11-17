@@ -2,7 +2,7 @@
 -- Litmus Doom Ritual
 local s,id=GetID()
 function s.initial_effect(c)
-	aux.AddRitualProcGreaterCode(c,72566043)
+	aux.AddRitualProcGreaterCode(c,8,nil,72566043)
 	--to deck
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)

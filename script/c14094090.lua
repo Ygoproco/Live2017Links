@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.ritual_filter(c)
-	return c:IsType(TYPE_RITUAL) and c:IsSetCard(0x10cf)
+	return c:IsRitualMonster() and c:IsSetCard(0x10cf)
 end
 function s.cfilter(c,att)
 	return c:IsAttribute(att) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
