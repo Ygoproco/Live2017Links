@@ -77,13 +77,14 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END+RESET_OPPO_TURN)
 		end
 		Duel.RegisterEffect(e1,tp)
+		tc:CreateEffectRelation(e1)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
 	--Check for flag
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	return Duel.GetTurnPlayer()~=tp and Duel.GetTurnCount()~=e:GetLabel() and tc:GetFlagEffect(id)~=0
+	return Duel.GetTurnPlayer()~=tp and Duel.GetTurnCount()~=e:GetLabel() and tc:IsRelateToEffect(e)
 end
 	--Destroy the set "Artifact" card
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
