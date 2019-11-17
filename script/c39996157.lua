@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
-	aux.AddRitualProcGreater(c,s.ritual_filter)
+	aux.AddRitualProcGreater(c,aux.FilterBoolFunction(Card.IsSetCard,0x2093))
 	--destroy replace
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -12,9 +12,6 @@ function s.initial_effect(c)
 	e2:SetValue(s.repval)
 	e2:SetOperation(s.repop)
 	c:RegisterEffect(e2)
-end
-function s.ritual_filter(c)
-	return c:IsRitualMonster() and c:IsSetCard(0x2093)
 end
 function s.repfilter(c,tp)
 	return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsAttribute(ATTRIBUTE_LIGHT)

@@ -11,7 +11,7 @@ end
 function s.mfilter(c)
 	if c:IsPreviousLocation(LOCATION_MZONE) then
 		local code=c:GetPreviousCodeOnField()
-		return code == 88176533 or code == 24175232
+		return code==88176533 or code==24175232
 	else
 		return c:IsCode(88176533,24175232)
 	end

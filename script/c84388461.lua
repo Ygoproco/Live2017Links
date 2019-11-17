@@ -9,7 +9,6 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE+LOCATION_HAND)
 	e1:SetCountLimit(1,id)
-	e1:SetCondition(s.rcon)
 	e1:SetCost(s.cost)
 	c:RegisterEffect(e1)
 	--splimit
@@ -21,6 +20,10 @@ function s.initial_effect(c)
 	e2:SetTargetRange(1,0)
 	e2:SetTarget(s.splimit)
 	c:RegisterEffect(e2)
+end
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsReleasable() end
+	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp)
 	if c:IsSetCard(0xb4) or c:IsSetCard(0xc4) then return false end

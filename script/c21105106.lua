@@ -91,9 +91,6 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,LOCATION_ONFIELD+LOCATION_GRAVE,e:GetHandler())
 	Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 end
-function s.filter(c,tp,forcedgroup)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and not forcedgroup:IsExists(Card.IsRace,1,nil,c:GetRace())
-end
 function s.ritual_custom_check(e,tp,g,c)
 	return #g==3 and g:GetClassCount(Card.GetRace)==3 and g:IsExists(Card.IsLocation,3,nil,LOCATION_ONFIELD)
 end

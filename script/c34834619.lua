@@ -1,4 +1,5 @@
 --光子竜降臨
+--Luminous Dragon Ritual
 local s,id=GetID()
 function s.initial_effect(c)
 	aux.AddRitualProcEqualCode(c,4,nil,85346853)
@@ -12,6 +13,8 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
+	if not GhostBelleTable then GhostBelleTable={} end
+	table.insert(GhostBelleTable,e1)
 end
 function s.mtfilter(c,e)
 	return c:GetLevel()>0 and c:IsAbleToRemove() and not c:IsImmuneToEffect(e) and aux.SpElimFilter(c,true)
