@@ -15,7 +15,7 @@ end
 --The current total level to match for the monster being summoned, to be used with monsters that can be used as whole tribute
 Auxiliary.RitualSummoningLevel=nil
 --Ritual Summon
-function Auxiliary.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
+function Auxiliary.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
 	--lv can be a function (like GetLevel/GetOriginalLevel), fixed level, if nil it defaults to GetLevel
 	local e1=Effect.CreateEffect(c)
 	if desc then
@@ -26,16 +26,16 @@ function Auxiliary.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matf
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetTarget(Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection))
-	e1:SetOperation(Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation))
+	e1:SetTarget(Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection,specificmatfilter))
+	e1:SetOperation(Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter))
 	return e1
 end
-function Auxiliary.AddRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
-	local e1=aux.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
+function Auxiliary.AddRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
+	local e1=aux.CreateRitualProc(c,_type,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
 	c:RegisterEffect(e1)
 	return e1
 end
-function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv)
+function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv,specificmatfilter)
 	if not c:IsRitualMonster() or (filter and not filter(c)) or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
 	local lv=(lv and (type(lv)=="function" and lv()) or lv) or c:GetLevel()
 	Auxiliary.RitualSummoningLevel=lv
@@ -47,6 +47,9 @@ function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv)
 	if c.mat_filter then
 		mg=mg:Filter(c.mat_filter,c,tp)
 	end
+	if specificmatfilter then
+		mg=mg:Filter(specificmatfilter,nil,c,mg,tp)
+	end
 	if c.ritual_custom_check then
 		forcedselection=aux.AND(c.ritual_custom_check,forcedselection or aux.TRUE)
 	end
@@ -55,14 +58,14 @@ function Auxiliary.RPFilter(c,filter,_type,e,tp,m,m2,forcedselection,lv)
 	Auxiliary.RitualSummoningLevel=nil
 	return res
 end
-function Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection)
+function Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection,specificmatfilter)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
 				location = location or LOCATION_HAND
 				if chk==0 then
 					local mg=Duel.GetRitualMaterial(tp)
 					local mg2=extrafil and extrafil(e,tp,eg,ep,ev,re,r,rp,chk) or Group.CreateGroup()
 					Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
-					return Duel.IsExistingMatchingCard(Auxiliary.RPFilter,tp,location,0,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv)
+					return Duel.IsExistingMatchingCard(Auxiliary.RPFilter,tp,location,0,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv,specificmatfilter)
 				end
 				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,location)
 			end
@@ -102,7 +105,7 @@ function Auxiliary.RitualSelectMaterials(sc,mg,forcedselection,lv,tp,e,_type)
 	end
 	return sg
 end
-function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
+function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
 	return	function(e,tp,eg,ep,ev,re,r,rp)
 				location = location or LOCATION_HAND
 				local mg=Duel.GetRitualMaterial(tp)
@@ -110,7 +113,7 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 				Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
 				local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPFilter,tp,location,0,1,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv)
+				local tg=Duel.SelectMatchingCard(tp,Auxiliary.RPFilter,tp,location,0,1,1,nil,filter,_type,e,tp,mg,mg2,forcedselection,lv,specificmatfilter)
 				if #tg>0 then
 					local tc=tg:GetFirst()
 					local lv=(lv and (type(lv)=="function" and lv()) or lv) or tc:GetLevel()
@@ -118,6 +121,9 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 					local mat=nil
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					mg:Merge(mg2-tc)
+					if specificmatfilter then
+						mg=mg:Filter(specificmatfilter,nil,tc,mg,tp)
+					end
 					if tc.ritual_custom_operation then
 						tc:ritual_custom_operation(mg,forcedselection,_type)
 						mat=tc:GetMaterial()
@@ -160,8 +166,8 @@ function Auxiliary.RPOperation(filter,_type,lv,extrafil,extraop,matfilter,stage2
 			end
 end
 --Ritual Summon, geq fixed lv
-function Auxiliary.AddRitualProcGreater(c,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
-	return aux.AddRitualProc(c,RITPROC_GREATER,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
+function Auxiliary.AddRitualProcGreater(c,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
+	return aux.AddRitualProc(c,RITPROC_GREATER,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
 end
 function Auxiliary.AddRitualProcCode(c,_type,lv,desc,...)
 	if not c:IsStatus(STATUS_COPYING_EFFECT) and c.fit_monster==nil then
@@ -175,8 +181,8 @@ function Auxiliary.AddRitualProcGreaterCode(c,lv,desc,...)
 	return Auxiliary.AddRitualProcCode(c,RITPROC_GREATER,lv,desc,...)
 end
 --Ritual Summon, equal to
-function Auxiliary.AddRitualProcEqual(c,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
-	return aux.AddRitualProc(c,RITPROC_EQUAL,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation)
+function Auxiliary.AddRitualProcEqual(c,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
+	return aux.AddRitualProc(c,RITPROC_EQUAL,filter,lv,desc,extrafil,extraop,matfilter,stage2,location,forcedselection,customoperation,specificmatfilter)
 end
 function Auxiliary.AddRitualProcEqualCode(c,lv,desc,...)
 	return Auxiliary.AddRitualProcCode(c,RITPROC_EQUAL,lv,desc,...)
