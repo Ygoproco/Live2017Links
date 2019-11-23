@@ -82,3 +82,4 @@ function s.actcon(e)
 	return a and a:IsControler(e:GetHandlerPlayer()) and a:IsSetCard(0x9b) 
 		and e:GetHandler():GetLinkedGroup():IsContains(a)
 end
+

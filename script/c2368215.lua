@@ -68,3 +68,4 @@ end
 function s.splimit(e,c)
 	return not c:IsSetCard(0x10ec)
 end
+

@@ -46,7 +46,7 @@ end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.filter(chkc) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0x12c,TYPES_TOKEN,-2,0,4,RACE_WYRM,ATTRIBUTE_LIGHT)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0x12c,TYPES_TOKEN,-2,0,4,RACE_WYRM,ATTRIBUTE_LIGHT)
 		and Duel.IsExistingTarget(s.filter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_MZONE,1,1,nil)
@@ -56,8 +56,8 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0x12c,TYPES_TOKEN,-2,0,4,RACE_WYRM,ATTRIBUTE_LIGHT) then
-		local token=Duel.CreateToken(tp,id+100)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0x12c,TYPES_TOKEN,-2,0,4,RACE_WYRM,ATTRIBUTE_LIGHT) then
+		local token=Duel.CreateToken(tp,id+1)
 		if Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP) then
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
@@ -69,3 +69,4 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+

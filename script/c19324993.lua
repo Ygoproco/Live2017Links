@@ -87,3 +87,4 @@ end
 function s.val(e,c)
 	return c:GetLevel()*100
 end
+

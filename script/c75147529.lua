@@ -98,3 +98,4 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		if tc:IsRelateToEffect(e) then Duel.SendtoGrave(tc,REASON_EFFECT) end
 	end
 end
+
