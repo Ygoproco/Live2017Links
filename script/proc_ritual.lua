@@ -70,7 +70,31 @@ function Auxiliary.RPTarget(filter,_type,lv,extrafil,extraop,matfilter,stage2,lo
 				Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,location)
 			end
 end
+function Auxiliary.RitualFastCheck(tp,lv,mg,sc,_type)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+		if _type==RITPROC_EQUAL then
+			return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,#mg,sc)
+		else
+			return mg:CheckWithSumGreater(Card.GetRitualLevel,lv,sc)
+		end
+	else
+		return mg:IsExists(Auxiliary.RPFilterF,1,nil,tp,mg,sc,lv,_type)
+	end
+end
+function Auxiliary.RPFilterF(c,tp,mg,sc,lv,_type)
+	if c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 then
+		Duel.SetSelectedCard(c)
+		if _type==RITPROC_EQUAL then
+			return mg:CheckWithSumEqual(Card.GetRitualLevel,lv,0,#mg,sc)
+		else
+			return mg:CheckWithSumGreater(Card.GetRitualLevel,lv,sc)
+		end
+	else return false end
+end
 function Auxiliary.RitualCheck(c,sg,mg,tp,sc,lv,forcedselection,e,_type)
+	if not c and not forcedselection and #sg==0 then
+		return Auxiliary.RitualFastCheck(e:GetHandlerPlayer(),lv,mg,sc,_type)
+	end
 	if c then
 		sg:AddCard(c)
 	end
