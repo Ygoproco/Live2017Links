@@ -10,7 +10,8 @@ function s.initial_effect(c)
     e1:SetOperation(s.evolreg)
     c:RegisterEffect(e1)
 end
-function s.evolreg(c)
+function s.evolreg(e)
+    local c=e:GetHandler()
     --defup
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
