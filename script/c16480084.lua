@@ -27,7 +27,7 @@ function s.regeff(c)
     e2:SetCondition(s.schcon)
     e2:SetTarget(s.schtg)
     e2:SetOperation(s.schop)
-    e2:SetReset(RESET_EVENT+0x7b0000)
+    e2:SetReset(RESETS_STANDARD-(RESET_DISABLE+RESET_TURN_SET+RESET_LEAVE+RESET_TOFIELD))
     c:RegisterEffect(e2)
 end
 function s.schcon(e,tp,eg,ep,ev,re,r,rp)
