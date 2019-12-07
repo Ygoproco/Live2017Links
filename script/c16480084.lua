@@ -1,4 +1,5 @@
 --エヴォルダー・ペルタ
+--Evolsaur Pelta
 local s,id=GetID()
 function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
@@ -10,7 +11,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.evoop)
 	c:RegisterEffect(e1)
 end
-function s.evoop(e,tp,eg,ep,ev,re,r,rp)
+function s.evoop(c)
 	local c=e:GetHandler()
 	--defup
 	local e1=Effect.CreateEffect(c)
@@ -44,7 +45,7 @@ end
 function s.schop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,s.sfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end

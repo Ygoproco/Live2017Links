@@ -1,4 +1,5 @@
 --エヴォルド・ラゴスクス
+--Evoltile Lagosucho
 local s,id=GetID()
 function s.initial_effect(c)
 	--send to grave
@@ -31,7 +32,7 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,s.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SendtoGrave(g,REASON_EFFECT)
 	end
 end
@@ -47,7 +48,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,156,tp,tp,false,false,POS_FACEUP)
 	end
 end

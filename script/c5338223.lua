@@ -1,4 +1,5 @@
 --強制進化
+--Evo-Force
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -42,7 +43,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if g:GetCount()>0 then
+	if #g>0 then
 		Duel.SpecialSummon(g,170,tp,tp,false,false,POS_FACEUP)
 	end
 end
