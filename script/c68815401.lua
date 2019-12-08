@@ -39,6 +39,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local dg1=Duel.SelectMatchingCard(tp,s.desfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
+	local dg2=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	if #dg1>0 then
 	Duel.HintSelection(dg1)
 	if Duel.Destroy(dg1,REASON_EFFECT)>0 and Duel.Destroy(dg2,REASON_EFFECT)>0
