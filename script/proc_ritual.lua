@@ -103,11 +103,22 @@ function Auxiliary.RitualCheck(c,sg,mg,tp,sc,lv,forcedselection,e,_type)
 		res=sg:CheckWithSumEqual(Card.GetRitualLevel,lv,#sg,#sg,sc)
 	else
 		Duel.SetSelectedCard(sg)
-		res=mg:CheckWithSumGreater(Card.GetRitualLevel,lv,sc)
+		res=sg:CheckWithSumGreater(Card.GetRitualLevel,lv,sc)
 	end
 	res=res and Duel.GetMZoneCount(tp,sg,tp)>0
 	local stop=false
-	if res and forcedselection then
+	if not res then
+		--todo, properly check for multi level monsters
+		-- local double=sg:Filter(function(c)return (c:GetRitualLevel(sc)>>16)~=0 end,nil)
+		local lvsum=sg:GetSum(function(c) return c:GetRitualLevel(sc)&0xffff end)
+		if c then
+			local lvc=c:GetRitualLevel(sc)
+			stop=lvsum-(lvc&0xffff)>lv
+		else
+			stop=lvsum>lv
+		end
+	end
+	if (not stop or res) and forcedselection then
 		res,stop=forcedselection(e,tp,sg,sc)
 	end
 	if not res and not stop then
@@ -120,9 +131,18 @@ function Auxiliary.RitualCheck(c,sg,mg,tp,sc,lv,forcedselection,e,_type)
 end
 function Auxiliary.RitualSelectMaterials(sc,mg,forcedselection,lv,tp,e,_type)
 	local sg=Group.CreateGroup()
+	local firstgroup
 	while true do
-		local cg=mg:Filter(Auxiliary.RitualCheck,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
+		local cg
+		if #sg==0 and firstgroup then
+			cg=firstgroup
+		else
+			cg=mg:Filter(Auxiliary.RitualCheck,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
+		end
 		if #cg==0 then break end
+		if #sg==0 and not firstgroup then
+			firstgroup=cg:Clone()
+		end
 		local finish=Auxiliary.RitualCheck(nil,sg,sg,tp,sc,lv,forcedselection,e,_type)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TRIBUTE)
 		local tc=cg:SelectUnselect(sg,tp,finish,finish,lv)
