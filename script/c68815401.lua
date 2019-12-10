@@ -38,8 +38,8 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	local dg1=Duel.GetMatchingGroup(s.filter1,tp,LOCATION_SZONE,0,nil)
-	if Duel.Destroy(dg1,REASON_EFFECT)>0 then
+	local dg1=Duel.GetMatchingGroup(s.filter1,tp,LOCATION_ONFIELD,0,nil)
+	if Duel.Destroy(dg1,REASON_COST)>0 then
 		local dg2=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 		if Duel.Destroy(dg2,REASON_EFFECT)>0
 			and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,1000,1000,3,RACE_PYRO,ATTRIBUTE_FIRE) then
