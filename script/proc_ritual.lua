@@ -119,7 +119,9 @@ function Auxiliary.RitualCheck(c,sg,mg,tp,sc,lv,forcedselection,e,_type)
 		end
 	end
 	if (not stop or res) and forcedselection then
-		res,stop=forcedselection(e,tp,sg,sc)
+		local _1,_2=forcedselection(e,tp,sg,sc)
+		res=res and _1
+		stop=stop or _2
 	end
 	if not res and not stop then
 		res=mg:IsExists(Auxiliary.RitualCheck,1,sg,sg,mg,tp,sc,lv,forcedselection,e,_type)
