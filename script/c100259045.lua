@@ -56,6 +56,7 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and Duel.IsExistingTarget(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local dg=Duel.SelectTarget(tp,s.disfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
+	e:SetLabelObject(dg:GetFirst())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local sg=Duel.SelectTarget(tp,s.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetChainLimit(s.chlimit)
@@ -67,22 +68,23 @@ function s.chlimit(e,ep,tp)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	local tc1=e:GetLabelObject()
 	local g=Duel.GetTargetCards(e)
-	local dc=g:Filter(Card.IsControler,nil,1-tp):GetFirst()
-	if dc and dc:IsFaceup() then
+	local tc2=g:GetFirst()
+	if tc2==tc1 then tc2=g:GetNext() end
+	if tc1 and tc1:IsFaceup() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		dc:RegisterEffect(e1)
+		tc1:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		dc:RegisterEffect(e2)
-		local sc=g:Filter(Card.IsLocation,nil,LOCATION_GRAVE):GetFirst()
-		if sc and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
-			Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
+		tc1:RegisterEffect(e2)
+		if tc2 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+			Duel.SpecialSummon(tc2,0,tp,tp,false,false,POS_FACEUP)
 		end
 	end
 end
