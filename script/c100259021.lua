@@ -6,6 +6,14 @@ function s.initial_effect(c)
 	--synchro summon
 	c:EnableReviveLimit()
 	aux.AddSynchroProcedure(c,nil,3,3,aux.NonTuner(Card.IsType,TYPE_SYNCHRO),1,1)
+	--must first be synchro summoned
+	local e0=Effect.CreateEffect(c)
+	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SINGLE_RANGE)
+	e0:SetType(EFFECT_TYPE_SINGLE)
+	e0:SetRange(LOCATION_EXTRA)
+	e0:SetCode(EFFECT_SPSUMMON_CONDITION)
+	e0:SetValue(aux.synlimit)
+	c:RegisterEffect(e0)
 	--atk
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
