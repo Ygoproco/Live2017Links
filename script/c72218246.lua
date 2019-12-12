@@ -75,7 +75,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.cfilter(c,tp)
-	return c:GetPreviousControler()==tp and c:IsReason(REASON_EFFECT)
+	return c:GetPreviousControler()==tp and c:IsReason(REASON_EFFECT) and c:IsType(TYPE_MONSTER)
 end
 function s.spcon2(e,tp,eg,ep,ev,re,r,rp)
 	return not eg:IsContains(e:GetHandler()) and eg:IsExists(s.cfilter,1,nil,tp)
