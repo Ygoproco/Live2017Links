@@ -44,7 +44,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	c:RegisterEffect(e1)
 end
 function s.thfilter(c)
-	return ((c:IsAttribute(ATTRIBUTE_FIRE) and c:IsRace(RACE_WARRIOR)) or c:IsType(TYPE_EQUIP))
+	return ((c:IsAttribute(ATTRIBUTE_FIRE) and c:IsRace(RACE_WARRIOR) and not c:IsCode(id)) or c:IsType(TYPE_EQUIP))
 		and (c:IsFaceup() or not c:IsLocation(LOCATION_REMOVED))
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
