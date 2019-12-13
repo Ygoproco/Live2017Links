@@ -58,7 +58,7 @@ end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local tc=Duel.GetAttacker()
     if tc:IsControler(1-tp) then tc=Duel.GetAttackTarget() end
-    return tc and tc:IsFaceup() and tc:IsSetCard(0x1034)]]
+    return tc and tc:IsFaceup() and tc:IsSetCard(0x1034)
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
