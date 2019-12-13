@@ -33,8 +33,11 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 			and Duel.GetLocationCount(tp,LOCATION_MZONE)>1) then return false end
 		local tc1=g:GetFirst()
 		local tc2=g:GetNext()
-		return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,g,tc1:GetLevel())
-			or Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,g,tc2:GetLevel())
+		local r1=Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,g,tc1:GetLevel())
+		Duel.AssumeReset()
+		local r2=Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,g,tc2:GetLevel())
+		Duel.AssumeReset()
+		return r1 or r2
 	end
 	Duel.SetTargetCard(g)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,2,0,0)	
@@ -71,5 +74,6 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if xyz then
 		if not s.spfilter(xyz,g,lv1) then s.spfilter(xyz,g,lv2) end
 		Duel.XyzSummon(tp,xyz,g)
+		Duel.AssumeReset()
 	end
 end
