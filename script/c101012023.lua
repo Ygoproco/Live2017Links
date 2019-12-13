@@ -27,7 +27,7 @@ function s.initial_effect(c)
 	e2:SetCondition(s.negcon1)
 	e2:SetCost(s.negcost)
 	e2:SetTarget(s.negtg)
-	e2:SetOperation(s.negop1)
+	e2:SetOperation(s.negop)
 	c:RegisterEffect(e2)
 	--Negate Monster
 	local e3=e2:Clone()
@@ -74,5 +74,3 @@ function s.negcon2(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_MONSTER) and Duel.IsChainNegatable(ev)
 		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,40428851),tp,LOCATION_ONFIELD,0,1,nil)
 end
-
-
