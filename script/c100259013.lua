@@ -1,7 +1,6 @@
 --究極宝玉獣 レインボー・ドラゴン
 --Rainbow Dragon, the Zenith Crystal Beast
 --Logical Nonsense
-
 --Substitute ID
 local s,id=GetID()
 function s.initial_effect(c)
@@ -39,7 +38,6 @@ function s.initial_effect(c)
 end
 	--Part of "Crystal Beast" archetype
 s.listed_series={0x1034}
-
 	--Destroyed while face-up in monster zone
 function s.repcon(e)
 	local c=e:GetHandler()
@@ -58,13 +56,9 @@ function s.repop(e,tp,eg,ep,ev,re,r,rp)
 end
 	--If an attack is declared, involving a "Crystal Beast" monster
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-    --[[local tc=Duel.GetAttacker()
+    local tc=Duel.GetAttacker()
     if tc:IsControler(1-tp) then tc=Duel.GetAttackTarget() end
-    e:SetLabelObject(tc)
     return tc and tc:IsFaceup() and tc:IsSetCard(0x1034)]]
-    local a=Duel.GetAttacker()
-	local d=Duel.GetAttackTarget()
-	return a and d and a:IsFaceup() and a:IsSetCard(0x1034) or d:IsFaceup() and d:IsSetCard(0x1034)
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
