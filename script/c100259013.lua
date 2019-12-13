@@ -56,9 +56,9 @@ function s.repop(e,tp,eg,ep,ev,re,r,rp)
 end
 	--If an attack is declared, involving a "Crystal Beast" monster
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-    local tc=Duel.GetAttacker()
-    if tc:IsControler(1-tp) then tc=Duel.GetAttackTarget() end
-    return tc and tc:IsFaceup() and tc:IsSetCard(0x1034)
+	local tc=Duel.GetAttacker()
+	local dc=Duel.GetAttackTarget()
+	return tc:IsSetCard(0x1034) or (dc and dc:IsSetCard(0x1034))
 end
 	--Activation legality
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
