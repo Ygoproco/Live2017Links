@@ -74,8 +74,8 @@ function s.atop(e,tp,eg,ep,ev,re,r,rp)
 		if op==0 then
 			local oc=tg:Select(tp,1,1,nil,e):GetFirst()
 			if oc:IsImmuneToEffect(e) then Duel.SendtoGrave(tc,REASON_RULE) end
-			if oc and tc:IsRelateToEffect(e) and oc:IsFaceup() and tc:IsRelateToEffect(e) then
-			Duel.Overlay(oc,tc)
+			if oc and oc:IsFaceup() then
+				Duel.Overlay(oc,tc)
 			end
 		else 
 			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
