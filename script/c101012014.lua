@@ -84,15 +84,15 @@ function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_DISCARD+REASON_COST)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 end
+	if chk==0 then return Duel.GetFieldGroupCount(1-tp,0,LOCATION_HAND)>0 end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_HAND)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local hg=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
 	if hg:GetCount()==0 then return end
 	Duel.ConfirmCards(tp,hg)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=hg:Select(tp,1,1,nil)
+	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_REMOVE)
+	local g=hg:Select(1-tp,1,1,nil)
 	local tc=g:GetFirst()
 	Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 	Duel.ShuffleHand(1-tp)
