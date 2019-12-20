@@ -66,13 +66,13 @@ function s.filter(c)
 end
 	--Activation legality
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.filter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and s.filter(chkc) end
 	if chk==0 then return e:IsHasType(EFFECT_TYPE_ACTIVATE)
 		and Duel.IsExistingTarget(s.filter,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
-	e:GetHandler():RegisterFlagEffect(id,RESET_PHASE+PHASE_END,EFFECT_FLAG_OATH,1)
+	e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,EFFECT_FLAG_OATH,1)
 end
 	--Equip to opponent's monster, it gains 500 ATK/DEF
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
@@ -80,7 +80,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsLocation(LOCATION_SZONE) then return end
 	if not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if tc:IsRelateToEffect(e) and tc:IsFaceup() and tc:IsControler(1-tp) then
 		Duel.Equip(tp,c,tc)
 		--ATK up
 		local e1=Effect.CreateEffect(c)
