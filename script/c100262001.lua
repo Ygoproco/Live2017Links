@@ -39,7 +39,7 @@ end
 function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local tc=Duel.SelectMatchingCard(tp,s.tgfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil):GetFirst()
-	if tc and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 and tc:IsHasLevel() then
+	if tc and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_GRAVE) and tc:IsHasLevel() then
 		local lv=tc:GetLevel()
 		e:GetHandler():UpdateLevel(lv,RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
 	end
