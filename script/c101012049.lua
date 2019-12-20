@@ -38,6 +38,15 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
+	e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+	e1:SetTargetRange(0xff,0xff)
+	e1:SetTarget(aux.TargetBoolFunction(Card.IsCode,48068379))
+	e1:SetValue(s.lklimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
 	local ft=math.min(Duel.GetLocationCount(tp,LOCATION_MZONE),e:GetLabel())
 	if ft<=0 or not Duel.IsPlayerCanSpecialSummonMonster(tp,48068379,0,TYPES_TOKEN,0,0,1,RACE_CYBERSE,ATTRIBUTE_LIGHT) then return end
 	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then ft=1 end
@@ -53,16 +62,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	for i=1,ct do
 		local token=Duel.CreateToken(tp,48068379)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
-		local e1=Effect.CreateEffect(c)
-		e1:SetDescription(aux.Stringid(id,1))
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CLIENT_HINT)
-		e1:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
-		e1:SetValue(1)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		token:RegisterEffect(e1,true)
 	end
 	Duel.SpecialSummonComplete()
+end
+function s.lklimit(e,c)
+	if not c then return false end
+	return c:IsControler(e:GetHandlerPlayer())
 end
 function s.valcheck(e,c)
 	e:GetLabelObject():SetLabel(c:GetMaterial():GetFirst():GetLink())
