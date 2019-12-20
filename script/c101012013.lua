@@ -44,6 +44,7 @@ function s.rvop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.NOT(Card.IsPublic),tp,0,LOCATION_HAND,nil)
 	if #g>0 then
 		Duel.ConfirmCards(tp,g)
+		Duel.ShuffleHand(1-tp)
 	end
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
