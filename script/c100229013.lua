@@ -34,7 +34,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
         local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsAttackBelow,tc:GetDefense()),tp,0,LOCATION_MZONE,nil)
         if Duel.Destroy(g,REASON_EFFECT)~=0 then
             Duel.BreakEffect()
-            Duel.SkipPhase(tp,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
+            local turnp=Duel.GetTurnPlayer()
+            Duel.SkipPhase(turnp,PHASE_BATTLE,RESET_PHASE+PHASE_END,1,1)
+            Duel.SkipPhase(turnp,PHASE_MAIN2,RESET_PHASE+PHASE_END,1)
         end
     end
 end
