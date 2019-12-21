@@ -44,12 +44,12 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 s.pendulum_level=7
-s.listed_series={0x23a,0x10db}
+s.listed_series={0x13b,0x10db}
 function s.ovfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x23a) and c:IsType(TYPE_XYZ)
+	return c:IsFaceup() and c:IsSetCard(0x13b) and c:IsType(TYPE_XYZ)
 end
 function s.spfilter(c,e,tp,mc,pg)
-	return c:IsFacedown() and (c:IsSetCard(0x23a) or c:IsSetCard(0x10db)) and c:IsType(TYPE_XYZ)
+	return c:IsFacedown() and (c:IsSetCard(0x13b) or c:IsSetCard(0x10db)) and c:IsType(TYPE_XYZ)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and mc:IsCanBeXyzMaterial(c,tp) and not c:IsCode(id)
 		and (not pg or #pg<=0 or pg:IsContains(mc))
