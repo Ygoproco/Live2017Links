@@ -235,11 +235,12 @@ function Card.RegisterEffect(c,e,forced,...)
 				res = target(e,...)
 			end
 			if res and e:GetHandler():IsLocation(LOCATION_EXTRA) then
+				aux.SummoningCard=e:GetHandler()
 				aux.ExtraSummon=true
 				local e1=Effect.GlobalEffect()
 				e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 				e1:SetCode(EVENT_ADJUST)
-				e1:SetOperation(function(e)aux.ExtraSummon=false e:Reset() end)
+				e1:SetOperation(function(e)aux.ExtraSummon=false aux.SummoningCard=nil e:Reset() end)
 				Duel.RegisterEffect(e1,0)
 			end
 			return res
