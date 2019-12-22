@@ -30,16 +30,16 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EVENT_BE_MATERIAL)
-	e3:SetCountLimit(1,id+100)
+	e3:SetCountLimit(1,id+1)
 	e3:SetCondition(s.efcon)
 	e3:SetOperation(s.efop)
 	c:RegisterEffect(e3)
 end
 	--Lists "Right Hand Shark"
-s.listed_names={100229009}
+s.listed_names={11845050}
 	--Check for "Right Hand Shark"
 function s.spfilter(c)
-	return c:IsFaceup() and c:IsCode(100229009)
+	return c:IsFaceup() and c:IsCode(11845050)
 end
 	--If you control "Right Hand Shark"
 function s.spcon(e,c)
