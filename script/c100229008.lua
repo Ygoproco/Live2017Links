@@ -37,8 +37,7 @@ function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and s.lvfilter(chkc,lv) end
 	if chk==0 then return Duel.IsExistingTarget(s.lvfilter,tp,LOCATION_MZONE,0,1,nil,lv) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,0,1,1,nil,lv)
-	local tc=Duel.GetFirstTarget()
+	local tc=Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,0,1,1,nil,lv):GetFirst()
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,tc:GetLevel()*200)
 end
 function s.lvop(e,tp,eg,ep,ev,re,r,rp)
