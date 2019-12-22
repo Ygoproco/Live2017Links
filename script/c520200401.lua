@@ -1,5 +1,5 @@
---New Master Rule: April 1, 2020 Update
---Scripted by kevinlul
+--Master Rules 2020 Revision
+--Scripted by edo9300 and kevinlul
 local s,id=GetID()
 function s.initial_effect(c)
 	aux.EnableExtraRules(c,s,s.op)
