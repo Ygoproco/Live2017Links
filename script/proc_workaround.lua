@@ -234,6 +234,15 @@ function registerpendulum()
 						end)
 	e1:SetValue(0xffffff)
 	Duel.RegisterEffect(e1,0)
+	local e1=geff()
+	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+	e1:SetCode(EVENT_SPSUMMON)
+	e1:SetCondition(function()
+						aux.ExtraSummon=false
+						aux.SummoningCard=nil
+						return false
+					end)
+	Duel.RegisterEffect(e1,0)
 end
 
 --Lair of Darkness
