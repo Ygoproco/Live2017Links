@@ -35,7 +35,7 @@ function s.matfilter(c,e,tp)
 	return c:IsSetCard(0x132) and c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.synfilter(c,mg,tp,chk)
-	return c:IsSetCard(0x132) and c:IsType(TYPE_SYNCHRO) and (not chk or Duel.GetLocationCountFromEx(tp,tp,nil,c)>0) and (not mg or c:IsSynchroSummonable(nil,mg,#mg,#mg))
+	return c:IsSetCard(0x132) and c:IsType(TYPE_SYNCHRO) and (not chk or Duel.GetLocationCountFromEx(tp,tp,mg,c)>0) and (not mg or c:IsSynchroSummonable(nil,mg,#mg,#mg))
 end
 function s.srescon(exg)
 	return function(sg,e,tp,mg)
