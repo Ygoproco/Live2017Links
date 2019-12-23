@@ -43,7 +43,7 @@ function s.srescon(exg)
 	end
 end
 function s.xyzfilter(c,mg,tp,chk)
-	return c:IsSetCard(0x132) and c:IsType(TYPE_XYZ) and (not chk or Duel.GetLocationCountFromEx(tp,tp,nil,c)>0) and (not mg or c:IsXyzSummonable(mg,#mg,#mg))
+	return c:IsSetCard(0x132) and c:IsType(TYPE_XYZ) and (not chk or Duel.GetLocationCountFromEx(tp,tp,mg,c)>0) and (not mg or c:IsXyzSummonable(mg,#mg,#mg))
 end
 function s.xrescon(exg)
 	return function(sg,e,tp,mg)
