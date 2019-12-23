@@ -76,7 +76,7 @@ end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,nil,e,tp)
-		return Duel.IsPlayerCanSpecialSummonCount(tp,3)
+		return Duel.IsPlayerCanSpecialSummonCount(tp,2)
 			and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 			and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
 			and aux.SelectUnselectGroup(g,e,tp,2,2,s.spcheck,0)
