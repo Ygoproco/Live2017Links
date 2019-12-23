@@ -39,7 +39,8 @@ function s.filter2(c,e,tp,mc,rk,pg)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local g=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_MZONE,0,nil,e):GetMaxGroup(Card.GetRank):Filter(s.filter1,nil,e,tp)
+	local g=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_MZONE,0,nil,e):GetMaxGroup(Card.GetRank)
+	g=g and g:Filter(s.filter1,nil,e,tp) or Group.CreateGroup()
 	if chkc then return g:IsContains(chkc) end
 	if chk==0 then return #g>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)

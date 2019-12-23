@@ -17,14 +17,14 @@ function s.initial_effect(c)
 	e2:SetCondition(s.setcon)
 	c:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
-    	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-    	e3:SetType(EFFECT_TYPE_SINGLE)
-    	e3:SetCode(EFFECT_LIMIT_SUMMON_PROC)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_LIMIT_SUMMON_PROC)
 	e3:SetDescription(aux.Stringid(id,1))
-    	e3:SetCondition(s.ttcon2)
-    	e3:SetOperation(s.ttop2)
-    	e3:SetValue(SUMMON_TYPE_ADVANCE)
-    	c:RegisterEffect(e3)
+    e3:SetCondition(s.ttcon2)
+    e3:SetOperation(s.ttop2)
+    e3:SetValue(SUMMON_TYPE_ADVANCE)
+    c:RegisterEffect(e3)
 	--tribute check
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE)
@@ -182,16 +182,14 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and c:IsSummonType(SUMMON_TYPE_ADVANCE)
 end
 function s.spfilter(c,e,tp)
-	return c:IsAttribute(ATTRIBUTE_EARTH | ATTRIBUTE_WATER | ATTRIBUTE_FIRE | ATTRIBUTE_WIND) 
-		and c:IsType(TYPE_FUSION | TYPE_SYNCHRO | TYPE_XYZ) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsAttribute(ATTRIBUTE_EARTH|ATTRIBUTE_WATER|ATTRIBUTE_FIRE|ATTRIBUTE_WIND) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0
+		and c:IsType(TYPE_FUSION|TYPE_SYNCHRO|TYPE_XYZ) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCountFromEx(tp)>0
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCountFromEx(tp)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
 	if #g>0 then

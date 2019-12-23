@@ -81,9 +81,10 @@ function s.spfilter(c,e,tp)
 end
 function s.sptg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
-		and (Duel.GetLocationCountFromEx(tp)>0)
-		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) 
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.GetLocationCountFromEx(tp)>0
+		and Duel.GetUsableMZoneCount(tp)>1 
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(s.spfilter,e,tp),tp,LOCATION_EXTRA,0,1,nil,e,tp)
 		and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,0,0)
@@ -91,8 +92,9 @@ end
 function s.spop1(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or not c:IsCanBeSpecialSummoned(e,0,tp,false,false) 
-		or Duel.GetLocationCount(tp,LOCATION_MZONE)<2
+		or Duel.GetLocationCount(tp,LOCATION_MZONE)<1
 		or Duel.GetLocationCountFromEx(tp)<1
+		or Duel.GetUsableMZoneCount(tp)<2
 		or Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then
 		return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
