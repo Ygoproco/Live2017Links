@@ -1,5 +1,6 @@
 Auxiliary={}
 aux=Auxiliary
+aux.MR41=true
 POS_FACEUP_DEFENCE=POS_FACEUP_DEFENSE
 POS_FACEDOWN_DEFENCE=POS_FACEDOWN_DEFENSE
 RACE_CYBERS=RACE_CYBERSE
@@ -1100,6 +1101,9 @@ function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,no
 					local tc=sg:GetFirst()
 					while tc do
 						local zone=tc:IsLocation(LOCATION_EXTRA) and emz or mmz
+						if not (c:IsType(TYPE_LINK) or (c:IsType(TYPE_PENDULUM) and c:IsPosition(POS_FACEUP))) then
+							zone=emz|mmz
+						end
 						if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
 						if func then
 							func(e,tp,eg,ep,ev,re,r,rp,tc)
@@ -1113,7 +1117,7 @@ function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,no
 end
 function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
 	local zones=0
-	if c:IsLocation(LOCATION_EXTRA) then
+	if aux.MR41 and c:IsLocation(LOCATION_EXTRA) and not (c:IsType(TYPE_LINK) or (c:IsType(TYPE_PENDULUM) and c:IsPosition(POS_FACEUP))) then
 		for i=0,6 do
 			local zone=0x1<<i
 			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
@@ -1121,12 +1125,29 @@ function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,n
 				zones=zones|zone
 			end
 		end
-	else
 		for i=0,4 do
 			local zone=0x1<<i
 			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
 				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
 				zones=zones|zone
+			end
+		end
+	else
+		if c:IsLocation(LOCATION_EXTRA) then
+			for i=0,6 do
+				local zone=0x1<<i
+				if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+					and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+					zones=zones|zone
+				end
+			end
+		else
+			for i=0,4 do
+				local zone=0x1<<i
+				if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+					and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+					zones=zones|zone
+				end
 			end
 		end
 	end
@@ -1134,7 +1155,7 @@ function Auxiliary.MainAndExtraGetSummonZones(c,mmz,emz,e,sumtype,sump,targetp,n
 end
 function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,nocheck,nolimit,pos,nc,...)
 	if not c then return true end
-	if c:IsLocation(LOCATION_EXTRA) then
+	if aux.MR41 and not (c:IsType(TYPE_LINK) or (c:IsType(TYPE_PENDULUM) and c:IsPosition(POS_FACEUP))) then
 		for i=0,6 do
 			local zone=0x1<<i
 			if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
@@ -1142,12 +1163,29 @@ function Auxiliary.MainAndExtraZoneCheckBool(c,mmz,emz,e,sumtype,sump,targetp,no
 				return true
 			end
 		end
-	else
 		for i=0,4 do
 			local zone=0x1<<i
 			if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
 				and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
 				return true
+			end
+		end
+	else
+		if c:IsLocation(LOCATION_EXTRA) then
+			for i=0,6 do
+				local zone=0x1<<i
+				if emz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+					and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+					return true
+				end
+			end
+		else
+			for i=0,4 do
+				local zone=0x1<<i
+				if mmz&zone==zone and c:IsCanBeSpecialSummoned(e,sumtype,sump,nocheck,nolimit,pos,targetp,zone) 
+					and Auxiliary.MainAndExtraZoneCheckBool(nc,mmz&~zone,emz&~zone,e,sumtype,sump,targetp,nocheck,nolimit,pos,...) then
+					return true
+				end
 			end
 		end
 	end
