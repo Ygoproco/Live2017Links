@@ -17,7 +17,7 @@ function s.ffilter(c,e)
 	return c:IsFusionCode(41230939,77625948,3019642) and c:IsCanBeFusionMaterial() and c:IsAbleToDeck()
 		and (not e or not c:IsImmuneToEffect(e))
 end
-function s.spfilter(c,e,tp)
+function s.spfilter(c,e,tp,sg)
 	return c:IsCode(40418351) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial()
 end
 function s.fcheck(c,sg,g,code,...)
@@ -29,14 +29,19 @@ function s.fcheck(c,sg,g,code,...)
 		return res
 	else return true end
 end
-function s.rescon(sg,e,tp,mg)
-	return Duel.GetLocationCountFromEx(tp,tp,sg)>0 and sg:IsExists(s.fcheck,1,nil,sg,Group.CreateGroup(),41230939,77625948,3019642)
+function s.chkfreezone(c,tp,sg)
+	return Duel.GetLocationCountFromEx(tp,tp,sg,c)>0
+end
+function s.rescon(ssg)
+	return function(sg,e,tp,mg)
+		return sg:IsExists(s.fcheck,1,nil,sg,Group.CreateGroup(),41230939,77625948,3019642) and ssg:IsExists(s.chkfreezone,1,nil,tp,sg)
+	end
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local mg=Duel.GetMatchingGroup(s.ffilter,tp,LOCATION_HAND+LOCATION_ONFIELD+LOCATION_GRAVE,0,nil)
 	if chk==0 then
-		if not Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) then return false end
-		return aux.SelectUnselectGroup(mg,e,tp,3,3,s.rescon,0)
+		local ssg=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
+		return aux.SelectUnselectGroup(mg,e,tp,3,3,s.rescon(ssg),0)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
@@ -45,7 +50,8 @@ function s.cfilter(c)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.ffilter),tp,LOCATION_HAND+LOCATION_ONFIELD+LOCATION_GRAVE,0,nil,e)
-	local sg=aux.SelectUnselectGroup(mg,e,tp,3,3,s.rescon,1,tp,HINTMSG_TODECK)
+	local ssg=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
+	local sg=aux.SelectUnselectGroup(mg,e,tp,3,3,s.rescon(ssg),1,tp,HINTMSG_TODECK)
 	if #sg<3 then return end
 	local cg=sg:Filter(s.cfilter,nil)
 	if #cg>0 then
@@ -54,7 +60,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SendtoDeck(sg,nil,2,REASON_EFFECT)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
+	local g=ssg:FilterSelect(tp,s.chkfreezone,1,1,nil)
 	if #g>0 then
 		Duel.SpecialSummon(g,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
 		g:GetFirst():CompleteProcedure()
