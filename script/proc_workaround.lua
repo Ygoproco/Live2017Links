@@ -74,6 +74,20 @@ function Duel.DiscardHand(player,filter,min,max,reason,excluded,...)
 end
 
 --things needed for steelswarm origin
+local iscanc=Card.IsCanBeSpecialSummoned
+Card.IsCanBeSpecialSummoned=function(...)
+	local c=...
+	local prev=aux.SummoningCard
+	local preve=aux.ExtraSummon
+	aux.SummoningCard=c
+	if c:IsLocation(LOCATION_EXTRA) then
+		aux.ExtraSummon=true
+	end
+	local res=iscanc(...)
+	aux.ExtraSummon=preve
+	aux.SummoningCard=prev
+	return res
+end
 local iscan=Duel.IsCanBeSpecialSummoned
 Duel.IsCanBeSpecialSummoned=function(c,...)
 	local prev=aux.SummoningCard
