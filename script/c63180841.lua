@@ -1,5 +1,5 @@
 --シューティング・スター・ドラゴン・TG-EX
---Shooting Star Dragon TG-EX
+--Shooting Star Dragon T.G. - Expansion
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)

@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_BATTLE_DESTROYING)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetCountLimit(1,id+100)
+	e2:SetCountLimit(1,id+1)
 	e2:SetCondition(s.descon)
 	e2:SetTarget(s.destg)
 	e2:SetOperation(s.desop)
@@ -36,7 +36,7 @@ function s.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetCode(EFFECT_DESTROY_REPLACE)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,id+200)
+	e3:SetCountLimit(1,id+2)
 	e3:SetTarget(s.desreptg)
 	c:RegisterEffect(e3)
 end
@@ -45,8 +45,8 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return ph>PHASE_MAIN1 and ph<PHASE_MAIN2 and (ph~=PHASE_DAMAGE or not Duel.IsDamageCalculated())
 end
 function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,nil,1,e:GetHandler()) end
-	local rg=Duel.SelectReleaseGroup(tp,nil,1,1,e:GetHandler())
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsAttackAbove,1,false,nil,e:GetHandler(),1) end
+	local rg=Duel.SelectReleaseGroupCost(tp,Card.IsAttackAbove,1,1,false,nil,e:GetHandler(),1)
 	e:SetLabel(rg:GetFirst():GetAttack())
 	Duel.Release(rg,REASON_COST)
 end

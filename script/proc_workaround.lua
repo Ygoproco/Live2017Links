@@ -76,18 +76,26 @@ end
 --things needed for steelswarm origin
 local iscan=Duel.IsCanBeSpecialSummoned
 Duel.IsCanBeSpecialSummoned=function(c,...)
+	local prev=aux.SummoningCard
+	local preve=aux.ExtraSummon
+	aux.SummoningCard=c
 	if c:IsLocation(LOCATION_EXTRA) then
 		aux.ExtraSummon=true
 	end
 	local res=iscan(c,...)
-	aux.ExtraSummon=false
+	aux.ExtraSummon=preve
+	aux.SummoningCard=prev
 	return res
 end
 local spstep = Duel.SpecialSummonStep
 Duel.SpecialSummonStep = function(c,...)
+	local prev=aux.SummoningCard
+	local preve=aux.ExtraSummon
+	aux.SummoningCard=c
 	aux.ExtraSummon = c:IsLocation(LOCATION_EXTRA)
 	local res = spstep(c,...)
-	aux.ExtraSummon = false
+	aux.ExtraSummon = preve
+	aux.SummoningCard=prev
 	return res
 end
 local spsum=Duel.SpecialSummon
@@ -113,9 +121,14 @@ Duel.SpecialSummon=function(o,...)
 end
 local lcex=Duel.GetLocationCountFromEx
 Duel.GetLocationCountFromEx=function(...)
+	local tp,rtp,sg,sc=...
+	local prev=aux.SummoningCard
+	local preve=aux.ExtraSummon
+	aux.SummoningCard=sc
 	aux.ExtraSummon=true
 	local res = lcex(...)
-	aux.ExtraSummon=false
+	aux.ExtraSummon=preve
+	aux.SummoningCard=prev
 	return res
 end
 
@@ -196,6 +209,16 @@ function registerpendulum()
 	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e1:SetCode(EVENT_ADJUST)
 	e1:SetOperation(function(e)if aux.SummoningGroup then aux.SummoningGroup:DeleteGroup() aux.SummoningGroup=nil end end)
+	Duel.RegisterEffect(e1,0)
+	local e1=geff()
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_BECOME_LINKED_ZONE)
+	e1:SetCondition(function()
+						return aux.MR41 and
+							(aux.ExtraSummon and aux.SummoningCard
+							and not (aux.SummoningCard:IsType(TYPE_LINK) or (aux.SummoningCard:IsType(TYPE_PENDULUM) and aux.SummoningCard:IsPosition(POS_FACEUP))))
+						end)
+	e1:SetValue(0xffffff)
 	Duel.RegisterEffect(e1,0)
 end
 

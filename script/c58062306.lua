@@ -30,7 +30,7 @@ function s.initial_effect(c)
 end
 	--Part of "Rose" archetype
 s.listed_series={0x123}
-s.listed_names={100229011}
+s.listed_names={84335863}
 	--If opponent controls a monster and you don't
 function s.spcon(e,c)
 	if c==nil then return true end
@@ -57,7 +57,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 	--Check for "White Rose Cloister"
 function s.thfilter1(c)
-	return c:IsCode(100229011) and c:IsAbleToHand()
+	return c:IsCode(84335863) and c:IsAbleToHand()
 end
 	--Activation legality
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
