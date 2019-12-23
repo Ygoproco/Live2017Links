@@ -18,11 +18,10 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	return true
 end
 function s.filter1(c,e,tp)
-	return c:IsSetCard(0xf4) and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c:GetOriginalAttribute())
-		and Duel.GetLocationCountFromEx(tp,tp,c)>0
+	return c:IsSetCard(0xf4) and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c:GetOriginalAttribute(),c)
 end
-function s.filter2(c,e,tp,att)
-	return c:IsSetCard(0xf4) and c:GetOriginalAttribute()~=att and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial()
+function s.filter2(c,e,tp,att,mc)
+	return Duel.GetLocationCountFromEx(tp,tp,mc,c)>0 and c:IsSetCard(0xf4) and c:GetOriginalAttribute()~=att and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -36,10 +35,11 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCountFromEx(tp)<=0 then return end
+	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,att)
+	if #g==0 then return end
 	local att=e:GetLabel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,att)
+	local g=g:Select(tp,1,1,nil)
 	local tc=g:GetFirst()
 	if tc then
 		tc:SetMaterial(nil)
