@@ -100,11 +100,11 @@ end
 function s.efop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=c:GetReasonCard()
-	local e1=Effect.CreateEffect(c)
+	local e1=Effect.CreateEffect(rc)
 	e1:SetDescription(aux.Stringid(id,2))
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
     e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1:SetValue(1)
-	rc:RegisterEffect(e1)
+	rc:RegisterEffect(e1,true)
 end
