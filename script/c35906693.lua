@@ -79,7 +79,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	else
 		e:SetCategory(0)
 		e:SetOperation(s.spop)
-		Duel.SelectTarget(tp,s.filter2,tp,LOCATION_MZONE,0,1,1,nil)
+		Duel.SelectTarget(tp,s.filter2,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
 	end
 end
 function s.eqcon(sg,e,tp,mg)
