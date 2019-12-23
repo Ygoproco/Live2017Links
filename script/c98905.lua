@@ -31,15 +31,14 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 		tc=sg:GetNext()
 	end
 end
-function s.filter(c,e,tp)
+function s.filter(c,e,tp,rp)
 	return c:GetFlagEffect(id)~=0 and c:IsLocation(LOCATION_GRAVE) and c:IsControler(tp)
 		and (c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()~=tp))
 		and c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,c:GetCode())
-		and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,c:GetCode(),rp)
 end
-function s.spfilter(c,e,tp,cd)
-	return c:IsType(TYPE_XYZ) and c:IsCode(cd) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+function s.spfilter(c,e,tp,cd,rp)
+	return c:IsType(TYPE_XYZ) and c:IsCode(cd) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)	and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return eg:IsContains(chkc) and s.filter(chkc,e,tp) end
