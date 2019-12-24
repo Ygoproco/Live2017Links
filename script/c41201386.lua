@@ -1,4 +1,5 @@
 --RUM－レイド・フォース
+--Rank-Up-Magic Raid Force
 function c41201386.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -25,7 +26,7 @@ end
 function c41201386.filter1(c,e,tp)
 	local rk=c:GetRank()
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.FromCards(c),tp,nil,nil,REASON_XYZ)
-	return (#pg<=0 or (#pg==1 and pg:IsContains(c))) c:IsFaceup() and (rk>0 or c:IsStatus(STATUS_NO_LEVEL))
+	return (#pg<=0 or (#pg==1 and pg:IsContains(c))) and c:IsFaceup() and (rk>0 or c:IsStatus(STATUS_NO_LEVEL))
 		and Duel.IsExistingMatchingCard(c41201386.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+1)
 end
 function c41201386.filter2(c,e,tp,mc,rk)
