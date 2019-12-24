@@ -27,7 +27,6 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.dacon)
-	e2:SetTarget(s.datg)
 	e2:SetOperation(s.daop)
 	c:RegisterEffect(e2)
 	--special summon
@@ -80,11 +79,6 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.dacon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetAttacker():GetControler()~=tp
-end
-function s.datg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc==Duel.GetAttacker() end
-	if chk==0 then return Duel.GetAttacker():IsCanBeEffectTarget(e) and not e:GetHandler():IsStatus(STATUS_CHAINING) end
-	Duel.SetTargetCard(Duel.GetAttacker())
 end
 function s.daop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateAttack()

@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetCategory(CATEGORY_TODECK)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
 	e2:SetCountLimit(1,id+100)
 	e2:SetCost(s.tdcost)
 	e2:SetTarget(s.tdtg)
@@ -39,7 +39,7 @@ function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_DISCARD+REASON_COST)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 end
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_HAND,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_HAND)
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)

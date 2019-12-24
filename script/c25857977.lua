@@ -70,7 +70,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UPDATE_LEVEL)
 			e1:SetValue(ct)
-			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 			c:RegisterEffect(e1)
 		end
 	end
@@ -113,7 +113,7 @@ function s.efop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.tdfilter(c)
-	return c:IsSetCard(0xae) and c:IsAbleToDeck()
+	return (c:IsFaceup() or c:IsLocation(LOCATION_GRAVE)) and c:IsSetCard(0xae) and c:IsAbleToDeck()
 end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_ONFIELD) and chkc:IsAbleToDeck() end

@@ -17,7 +17,7 @@ function s.initial_effect(c)
 	--to hand 
 	local e2=Effect.CreateEffect(c) 
 	e2:SetDescription(aux.Stringid(id,1)) 
-	e2:SetCategory(CATEGORY_DESTROY) 
+	e2:SetCategory(CATEGORY_TOHAND) 
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O) 
 	e2:SetCode(EVENT_DESTROYED) 
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET) 
@@ -47,9 +47,10 @@ end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 and tc:IsLocation(LOCATION_GRAVE) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTACK)
 		local sg=Duel.SelectMatchingCard(tp,s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,2,2,nil)
 		if #sg>0 then
-			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTACK)
+			Duel.HintSelection(g)
 			for card in aux.Next(sg) do
 				local e1=Effect.CreateEffect(e:GetHandler())
 				e1:SetType(EFFECT_TYPE_SINGLE)
