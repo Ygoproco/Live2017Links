@@ -1,5 +1,5 @@
 --水晶機巧－ハリファイバー
---Crystron Halifiber
+--Crystron Needlefiber
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -69,7 +69,7 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spfilter(c,e,tp)
 	local pg=aux.GetMustBeMaterialGroup(tp,Group.CreateGroup(),tp,c,nil,REASON_SYNCHRO)
-	return #pg<=0 and c:IsType(TYPE_SYNCHRO) and c:IsType(TYPE_TUNER) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0
+	return #pg<=0 and c:IsType(TYPE_SYNCHRO) and c:IsType(TYPE_TUNER) and Duel.GetLocationCountFromEx(tp,tp,e:GetHandler(),c)>0
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_SYNCHRO,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -86,4 +86,3 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		tc:CompleteProcedure()
 	end
 end
-
