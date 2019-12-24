@@ -1,5 +1,5 @@
 --No.27 弩級戦艦－ドレッドノイド
---Number 27: Dreadnought Warship Dreadnoid
+--Number 27: Dreadnought Dreadnoid
 local s,id=GetID()
 function s.initial_effect(c)
 	--xyz summon
@@ -51,7 +51,7 @@ end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_EXTRA,0,nil,e,tp)
-	if #g==0 c:IsFacedown() or not c:IsRelateToEffect(e) or c:IsControler(1-tp) or c:IsImmuneToEffect(e) then return end
+	if #g==0 or c:IsFacedown() or not c:IsRelateToEffect(e) or c:IsControler(1-tp) or c:IsImmuneToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=g:Select(tp,1,1,nil)
 	local sc=g:GetFirst()
