@@ -38,7 +38,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOHAND)
-	local g=Duel.SelectMatchingCard(s.filter,tp,LOCATION_GRAVE,0,1,1,nil) 
+	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_GRAVE,0,1,1,nil) 
 	if #g>0 then
 		if Duel.SendtoHand(g,tp,REASON_EFFECT)>0 then
 			local mg=Duel.GetMatchingGroup(Card.IsOnField,tp,LOCATION_MZONE,0,nil)
@@ -50,6 +50,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 	end
+	Duel.ConfirmCards(1-tp,g)
 	local e2=Effect.CreateEffect(e:GetHandler())
 	e2:SetType(EFFECT_TYPE_FIELD)
 	e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
