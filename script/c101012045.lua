@@ -22,7 +22,6 @@ function s.initial_effect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,id)
 	e2:SetCost(s.spcost)
@@ -34,7 +33,7 @@ function s.initial_effect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetProperty(EFFECT_FLAG_DELAY)
+	e3:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
 	e3:SetCode(EVENT_TO_GRAVE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,id+100)
@@ -95,7 +94,7 @@ end
 function s.cfilter(c,tp)
 	return c:IsType(TYPE_MONSTER)
 		and c:GetPreviousControler()==1-tp and c:IsPreviousLocation(LOCATION_MZONE) 
-		and c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()==tp
+		and c:IsReason(REASON_EFFECT) and not c:IsReason(REASON_REDIRECT) and c:GetReasonPlayer()==tp
 end
 	--Check for opponent's sent monster in GY/banished
 function s.ssfilter(c,e,tp)
