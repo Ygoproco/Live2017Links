@@ -101,7 +101,7 @@ function c96227613.thop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c96227613.desfilter(c,ec,tp)
+function c96227613.desfilter(c,ec,e,tp)
 	return c:IsFaceup() and Duel.IsExistingMatchingCard(c96227613.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,Group.FromCards(c,ec))
 end
 function c96227613.spfilter(c,e,tp,mc)
@@ -112,10 +112,10 @@ function c96227613.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
 	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) and chkc:IsFaceup() and chkc~=c end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
-		and Duel.IsExistingTarget(c96227613.desfilter,tp,LOCATION_ONFIELD,0,1,c,c,tp)
+		and Duel.IsExistingTarget(c96227613.desfilter,tp,LOCATION_ONFIELD,0,1,c,c,e,tp)
 		and Duel.IsExistingMatchingCard(c96227613.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,c96227613.desfilter,tp,LOCATION_ONFIELD,0,1,1,c,c,tp)
+	local g=Duel.SelectTarget(tp,c96227613.desfilter,tp,LOCATION_ONFIELD,0,1,1,c,c,e,tp)
 	g:AddCard(c)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,2,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
