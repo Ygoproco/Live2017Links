@@ -1,4 +1,5 @@
 --クリティウスの牙
+--The Fang of Critias
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -22,7 +23,7 @@ function s.tgfilter(c,e,tp,rp)
 	return c:IsType(TYPE_TRAP) and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,c:GetCode(),rp)
 end
 function s.spfilter(c,e,tp,code,rp)
-	return c:IsType(TYPE_FUSION) and c.material_trap and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0 c:IsCanBeSpecialSummoned(e,0,tp,true,false) and code==c.material_trap
+	return c:IsType(TYPE_FUSION) and c.material_trap and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0 and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and code==c.material_trap
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.tgfilter,tp,LOCATION_HAND+LOCATION_SZONE,0,1,nil,e,tp,rp) end
