@@ -16,6 +16,26 @@ function Card.IsNonEffectMonster(c)
 	return c:IsType(TYPE_MONSTER) and not c:IsType(TYPE_EFFECT)
 end
 
+--Cutter shark/Lantern shark
+Card.IsXyzLevel=function(c,xyz,lv)
+	local te=c:GetCardEffect(EFFECT_XYZ_LEVEL)
+	if not te then return c:IsLevel(lv) end
+	local val={te:GetValue()}
+	if type(val[1])=='function' then
+		val={val[1](te,c,xyz)}
+	end
+	if #val==1 then
+		return (val[1]&0xffff)==lv or (val[1]>>16)==lv
+	else
+		for _, value in ipairs(val) do
+			if value==lv then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 local syncheck = Card.IsSynchroSummonable
 Card.IsSynchroSummonable=function(c,tun,mg,min,max)
 	Auxiliary.SynchroSummonMinCount = min

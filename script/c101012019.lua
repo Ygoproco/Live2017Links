@@ -21,13 +21,6 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetValue(s.xyzlv)
 	c:RegisterEffect(e2)
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_SINGLE)
-	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e3:SetCode(511000189)
-	e3:SetValue(4)
-	e3:SetRange(LOCATION_MZONE)
-	c:RegisterEffect(e3)
 end
 function s.filter(c,e,tp)
 	return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_WATER)
@@ -74,7 +67,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.xyzlv(e,c,rc)
 	if rc:IsAttribute(ATTRIBUTE_WATER) then
-		return (5<<16)|3
+		return 5,3,e:GetHandler():GetLevel()
 	else
 		return e:GetHandler():GetLevel()
 	end

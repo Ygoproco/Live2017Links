@@ -24,13 +24,6 @@ function s.initial_effect(c)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetValue(s.xyzlv)
 	c:RegisterEffect(e3)
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_SINGLE)
-	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e4:SetCode(511000189)
-	e4:SetValue(4)
-	e4:SetRange(LOCATION_MZONE)
-	c:RegisterEffect(e4)
 end
 function s.spfilter(c,e,tp)
 	return (c:IsLevel(3) or c:IsLevel(4) or c:IsLevel(5)) and c:IsAttribute(ATTRIBUTE_WATER)
@@ -63,7 +56,7 @@ function s.splimit(e,c)
 end
 function s.xyzlv(e,c,rc)
 	if rc:IsAttribute(ATTRIBUTE_WATER) then
-		return (5<<16)|3
+		return 5,3,e:GetHandler():GetLevel()
 	else
 		return e:GetHandler():GetLevel()
 	end
