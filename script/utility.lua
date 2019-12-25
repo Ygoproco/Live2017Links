@@ -1100,7 +1100,7 @@ function Auxiliary.MainAndExtraSpSummonLoop(func,sumtype,sump,targetp,nocheck,no
 					local tc=sg:GetFirst()
 					while tc do
 						local zone=tc:IsLocation(LOCATION_EXTRA) and emz or mmz
-						if not (c:IsType(TYPE_LINK) or (c:IsType(TYPE_PENDULUM) and c:IsPosition(POS_FACEUP))) then
+						if not (tc:IsType(TYPE_LINK) or (tc:IsType(TYPE_PENDULUM) and tc:IsPosition(POS_FACEUP))) then
 							zone=emz|mmz
 						end
 						if not Duel.SpecialSummonStep(tc,sumtype,summonp,targettp,nocheck,nolimit,pos,zone) then return false end
