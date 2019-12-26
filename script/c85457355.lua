@@ -34,10 +34,10 @@ end
 function s.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
 	local lv=c:GetLevel()
-	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and s.lvfilter(chkc,lv) end
-	if chk==0 then return Duel.IsExistingTarget(s.lvfilter,tp,LOCATION_MZONE,0,1,nil,lv) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.lvfilter(chkc,lv) and chkc~=e:GetHandler() end
+	if chk==0 then return Duel.IsExistingTarget(s.lvfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,lv) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local tc=Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,0,1,1,nil,lv):GetFirst()
+	local tc=Duel.SelectTarget(tp,s.lvfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,lv):GetFirst()
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,tc:GetLevel()*200)
 end
 function s.lvop(e,tp,eg,ep,ev,re,r,rp)
