@@ -84,6 +84,7 @@ function s.efop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	e1:SetValue(1)
 	rc:RegisterEffect(e1,true)
 end
