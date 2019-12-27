@@ -59,7 +59,9 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.leaveop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_CARD,0,id)
 	local c=e:GetHandler()
 	local p=c:GetPreviousControler()
 	Duel.Damage(p,c:GetBaseAttack(),REASON_EFFECT)
+	e:Reset()
 end
