@@ -48,7 +48,7 @@ function s.espfilter(c,e,tp)
 		and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0 and c:IsCanBeSpecialSummoned(e,123,tp,true,false)
 end
 function s.esptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then returnDuel.IsExistingMatchingCard(s.espfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.espfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.espop(e,tp,eg,ep,ev,re,r,rp)
