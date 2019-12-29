@@ -1,5 +1,5 @@
 --戦華の詭－賈文
---Senka Machinator - Jia Wen
+--Senka Schemer - Jia Wen
 --Scripted by Naim
 local s,id=GetID()
 function s.initial_effect(c)
@@ -50,7 +50,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTACK)
 		local sg=Duel.SelectMatchingCard(tp,s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,2,2,nil)
 		if #sg>0 then
-			Duel.HintSelection(g)
+			Duel.HintSelection(sg)
 			for card in aux.Next(sg) do
 				local e1=Effect.CreateEffect(e:GetHandler())
 				e1:SetType(EFFECT_TYPE_SINGLE)
