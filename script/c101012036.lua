@@ -53,7 +53,7 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
 			e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 			e3:SetCode(EVENT_LEAVE_FIELD)
 			e3:SetOperation(s.leaveop)
-			e3:SetReset(RESET_EVENT+0xc020000)
+			e3:SetReset(RESET_EVENT+0xc020000+RESET_PHASE+PHASE_END)
 			tc:RegisterEffect(e3,true)
 		end
 	end
