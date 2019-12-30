@@ -60,7 +60,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SendtoDeck(sg,nil,2,REASON_EFFECT)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=ssg:FilterSelect(tp,s.chkfreezone,1,1,nil)
+	local g=ssg:FilterSelect(tp,s.chkfreezone,1,1,nil,tp,sg)
 	if #g>0 then
 		Duel.SpecialSummon(g,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
 		g:GetFirst():CompleteProcedure()
