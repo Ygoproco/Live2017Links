@@ -1497,8 +1497,14 @@ function Auxiliary.EnableExtraRulesOperation(card,init,...)
         if not card.global_active_check then
             Duel.ConfirmCards(1-p, c)
             if Duel.SelectYesNo(p,aux.Stringid(4014,6)) and Duel.SelectYesNo(1-p,aux.Stringid(4014,6)) then
-            	init(c,table.unpack(arg))
-            end
+				Duel.Hint(HINT_CARD,tp,c:GetCode())
+            	Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(4014,7))
+            	Duel.Hint(HINT_OPSELECTED,1-tp,aux.Stringid(4014,7))
+				init(c,table.unpack(arg))
+            else
+				Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(4014,8))
+				Duel.Hint(HINT_OPSELECTED,1-tp,aux.Stringid(4014,8))
+			end
             card.global_active_check = true
         end
     end
