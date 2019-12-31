@@ -1,9 +1,9 @@
 --王の影 ロプトル
---Generaider Shadow Loptr
+--Loptr, Shadow of the Generaider Boss
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
-	c:SetUniqueOnField(id,1,0)
+	c:SetUniqueOnField(1,0,id)
 	--atk/def up
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
