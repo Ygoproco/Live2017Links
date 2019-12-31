@@ -8,6 +8,8 @@ function s.initial_effect(c)
 	e1:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk,...)
 					if chk==0 and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x135),tp,LOCATION_MZONE,0,1,nil) then
 						e:SetLabel(1)
+					else
+						e:SetLabel(0)
 					end
 					return tg(e,tp,eg,ep,ev,re,r,rp,chk,...)
 				end)
