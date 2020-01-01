@@ -142,8 +142,9 @@ function Auxiliary.SetUnionState(c)
 		c:RegisterEffect(e2)
 	end
 end
-function Auxiliary.CheckUnionEquip(uc,tc)
+function Auxiliary.CheckUnionEquip(uc,tc,ign_ct)
+	if not ign_ct then ign_ct=0 end
 	ct1,ct2=tc:GetUnionCount()
-	if uc.old_union then return ct1==0
+	if uc.old_union then return ct1-ign_ct<=0
 	else return ct2==0 end
 end
