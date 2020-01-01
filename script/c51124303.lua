@@ -30,7 +30,7 @@ function s.rfilter(c,mc)
 	local mlv=mc:GetRitualLevel(c)
 	if mlv==mc:GetLevel() then return false end
 	local lv=c:GetLevel()
-	return lv==(mlv&0xffff) or lv==(mlv<<16)
+	return lv==(mlv&0xffff) or lv==(mlv>>16)
 end
 function s.filter(c,e,tp)
 	local sg=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_HAND,0,c,e,tp,c)
