@@ -1,4 +1,5 @@
 --No.53 偽骸神 Heart－eartH
+--Number 53: Heart-eartH
 local s,id=GetID()
 function s.initial_effect(c)
 	--xyz summon
@@ -66,7 +67,7 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and c:IsLocation(LOCATION_GRAVE)
 end
 function s.spfilter(c,e,tp,rp)
-	return c:IsCode(97403510) and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0 c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
+	return c:IsCode(97403510) and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0 and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
