@@ -1,77 +1,79 @@
 --輝望道
-function c62829077.initial_effect(c)
+--Shining Hope Road
+local s,id=GetID()
+function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c62829077.cost)
-	e1:SetTarget(c62829077.target)
-	e1:SetOperation(c62829077.activate)
+	e1:SetCost(s.cost)
+	e1:SetTarget(s.target)
+	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-function c62829077.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetActivityCount(tp,ACTIVITY_SPSUMMON)==0 end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
 	e1:SetTargetRange(1,0)
-	e1:SetTarget(c62829077.splimit)
+	e1:SetTarget(s.splimit)
 	e1:SetLabelObject(e)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
-function c62829077.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return se~=e:GetLabelObject()
 end
-function c62829077.filter(c,e,tp)
+function s.filter(c,e,tp)
 	return c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c62829077.xyzfilter(c,mg,tp,chk)
+function s.xyzfilter(c,mg,tp,chk)
 	return c:IsSetCard(0x7f) and c:IsXyzSummonable(mg,3,3) and (not chk or Duel.GetLocationCountFromEx(tp,tp,mg,c)>0)
 end
-function c62829077.mfilter1(c,mg,exg,tp)
-	return mg:IsExists(c62829077.mfilter2,1,c,c,mg,exg,tp)
+function s.mfilter1(c,mg,exg,tp)
+	return mg:IsExists(s.mfilter2,1,c,c,mg,exg,tp)
 end
-function c62829077.mfilter2(c,mc,mg,exg,tp)
-	return mg:IsExists(c62829077.mfilter3,1,c,c,mc,exg,tp)
+function s.mfilter2(c,mc,mg,exg,tp)
+	return mg:IsExists(s.mfilter3,1,c,c,mc,exg,tp)
 end
-function c61314842.zonecheck(c,tp,g)
+function s.zonecheck(c,tp,g)
 	return Duel.GetLocationCountFromEx(tp,tp,g,c)>0 and c:IsXyzSummonable(g)
 end
-function c62829077.mfilter3(c,mc1,mc2,exg,tp)
-	return c~=mc2 and exg:IsExists(c61314842.zonecheck,1,nil,tp,Group.FromCards(c,mc1,mc2),3,3)
+function s.mfilter3(c,mc1,mc2,exg,tp)
+	return c~=mc2 and exg:IsExists(s.zonecheck,1,nil,tp,Group.FromCards(c,mc1,mc2),3,3)
 end
-function c62829077.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	local mg=Duel.GetMatchingGroup(c62829077.filter,tp,LOCATION_GRAVE,0,nil,e,tp)
-	local exg=Duel.GetMatchingGroup(c62829077.xyzfilter,tp,LOCATION_EXTRA,0,nil,mg)
+	local mg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_GRAVE,0,nil,e,tp)
+	local exg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,mg)
 	if chk==0 then return Duel.IsPlayerCanSpecialSummonCount(tp,2)
-		and not Duel.IsPlayerAffectedByEffect(tp,59822133)
+		and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>2
-		and mg:IsExists(c62829077.mfilter1,1,nil,mg,exg,tp) end
+		and mg:IsExists(s.mfilter1,1,nil,mg,exg,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sg1=mg:FilterSelect(tp,c62829077.mfilter1,1,1,nil,mg,exg,tp)
+	local sg1=mg:FilterSelect(tp,s.mfilter1,1,1,nil,mg,exg,tp)
 	local tc1=sg1:GetFirst()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sg2=mg:FilterSelect(tp,c62829077.mfilter2,1,1,tc1,tc1,mg,exg,tp)
+	local sg2=mg:FilterSelect(tp,s.mfilter2,1,1,tc1,tc1,mg,exg,tp)
 	local tc2=sg2:GetFirst()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sg3=mg:FilterSelect(tp,c62829077.mfilter3,1,1,tc2,tc2,tc1,exg,tp)
+	local sg3=mg:FilterSelect(tp,s.mfilter3,1,1,tc2,tc2,tc1,exg,tp)
 	sg1:Merge(sg2)
 	sg1:Merge(sg3)
 	Duel.SetTargetCard(sg1)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,sg1,3,0,0)
 end
-function c62829077.filter2(c,e,tp)
+function s.filter2(c,e,tp)
 	return c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c62829077.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<3 then return end
-	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(c62829077.filter2,nil,e,tp)
+	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(s.filter2,nil,e,tp)
 	if g:GetCount()<3 then return end
 	local tc=g:GetFirst()
 	while tc do
@@ -88,7 +90,7 @@ function c62829077.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SpecialSummonComplete()
 	Duel.BreakEffect()
-	local xyzg=Duel.GetMatchingGroup(c62829077.xyzfilter,tp,LOCATION_EXTRA,0,nil,g,tp,true)
+	local xyzg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,g,tp,true)
 	if xyzg:GetCount()>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local xyz=xyzg:Select(tp,1,1,nil):GetFirst()
