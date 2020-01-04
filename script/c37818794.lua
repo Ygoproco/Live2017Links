@@ -119,16 +119,13 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-		if Duel.Destroy(eg,REASON_EFFECT)~=0 then
-			local e1=Effect.CreateEffect(e:GetHandler())
-			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-			e1:SetRange(LOCATION_MZONE)
-			e1:SetCode(EFFECT_UPDATE_ATTACK)
-			e1:SetValue(1000)
-			e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
-			e:GetHandler():RegisterEffect(e1)
-		end
+	if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) and Duel.Destroy(eg,REASON_EFFECT)~=0
+		and e:GetHandler():IsRelateToEffect(e) and e:GetHandler():IsFaceup() then
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_UPDATE_ATTACK)
+		e1:SetValue(1000)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
+		e:GetHandler():RegisterEffect(e1)
 	end
 end
