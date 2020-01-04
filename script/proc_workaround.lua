@@ -626,3 +626,29 @@ function Auxiliary.GetRaceStrings(v)
 	end
 	return pairs(res)
 end
+
+--change "always" adding setcode for checks like Gogogo Aristera & Dexia's overlay
+local creg=Card.RegisterEffect
+function Card.RegisterEffect(c,e,...)
+	if Duel.GetTurnCount()~=0 then return creg(c,e,...) end
+	if e:GetCode()==EFFECT_ADD_SETCODE then
+		local s=_G["c"..c:GetOriginalCodeRule()]
+		s.sets=s.sets or {}
+		table.insert(s.sets,e:GetValue())
+	end
+	return creg(c,e,...)
+end
+local issetcard=Card.IsSetCard
+function Card.IsSetCard(c,n,...)
+	if issetcard(c,n,...) then return true end
+	local s=_G["c"..c:GetOriginalCodeRule()]
+	if s.sets then
+		for i=1,#s.sets do
+			local set=s.sets[i]
+			if n&0xfff==set&0xfff then
+				res=res or ((n&0xf000)&(set&0xf000)==(set&0xf000))
+			end
+		end
+	end
+	return res
+end
