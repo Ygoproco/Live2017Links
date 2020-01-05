@@ -645,8 +645,9 @@ function Card.IsSetCard(c,n,...)
 	if s.sets then
 		for i=1,#s.sets do
 			local set=s.sets[i]
+			--do setcode check with previously added values
 			if n&0xfff==set&0xfff then
-				res=res or ((n&0xf000)&(set&0xf000)==(set&0xf000))
+				res=res or ((n&0xf000)&(set&0xf000)==(n&0xf000))
 			end
 		end
 	end
