@@ -16,7 +16,7 @@ function s.filter1(c,e,tp)
 	return c:IsFaceup() and c:IsSetCard(0x1f)
 		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,code,e,tp,c)
 end
-function s.filter2(c,code,e,tp.mc)
+function s.filter2(c,code,e,tp,mc)
 	return c:IsCode(code) and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0 and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
