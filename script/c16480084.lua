@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.evoop)
 	c:RegisterEffect(e1)
 end
-function s.evoop(c)
+function s.evoop(e)
 	local c=e:GetHandler()
 	--defup
 	local e1=Effect.CreateEffect(c)
