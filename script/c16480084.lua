@@ -10,7 +10,7 @@ function s.initial_effect(c)
 	e1:SetCondition(aux.evospcon)
 	e1:SetOperation(s.evoop)
 	c:RegisterEffect(e1)
-	--on battle destroy, check summon
+	--check summon for battle destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
