@@ -5,7 +5,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--search
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,1))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--atk up
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,2))
+	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_REMOVE)
 	e3:SetCountLimit(1,id+100)
@@ -67,7 +67,7 @@ end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(),69832741) 
 		and eg:IsExists(s.filter,1,nil,tp) and e:GetHandler():IsAbleToRemove() end
-	return Duel.SelectYesNo(tp,aux.Stringid(id,3))
+	return Duel.SelectYesNo(tp,aux.Stringid(id,2))
 end
 function s.repval(e,c)
 	return s.filter(c,e:GetHandlerPlayer())
