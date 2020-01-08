@@ -62,7 +62,7 @@ function s.filter(c,e,tp,m,m2,ft)
 		mg=mg:Filter(c.mat_filter,nil)
 	end
 	if ft>0 then
-		res=mg:CheckWithSumEqual(Card.GetOriginalLevel,c:GetOriginalLevel()*2,1,99,c)
+		res=mg:CheckWithSumEqual(Card.GetRitualLevel,c:GetOriginalLevel()*2,1,99,c)
 	else
 		res=mg:IsExists(s.filterf,1,nil,tp,mg,c)
 	end
@@ -71,7 +71,7 @@ end
 function s.filterf(c,tp,mg,rc)
 	if c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:GetSequence()<5 then
 		Duel.SetSelectedCard(c)
-		return mg:CheckWithSumEqual(Card.GetOriginalLevel,rc:GetOriginalLevel()*2,0,99,rc)
+		return mg:CheckWithSumEqual(Card.GetRitualLevel,rc:GetOriginalLevel()*2,0,99,rc)
 	else return false end
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -101,13 +101,13 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			local lv=tc:GetOriginalLevel()*2
 			if ft>0 then
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				mat=mg:SelectWithSumEqual(tp,Card.GetOriginalLevel,lv,1,99,tc)
+				mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,1,99,tc)
 			else
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 				mat=mg:FilterSelect(tp,s.filterf,1,1,nil,tp,mg,tc)
 				Duel.SetSelectedCard(mat)
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-				local mat2=mg:SelectWithSumEqual(tp,Card.GetOriginalLevel,lv,0,99,tc)
+				local mat2=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,lv,0,99,tc)
 				mat:Merge(mat2)
 			end
 			tc:SetMaterial(mat)
