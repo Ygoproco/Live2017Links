@@ -58,7 +58,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		local p
 		if s.spfilter(tc,e,tp,tp,zones[tp]) and s.spfilter(tc,e,tp,1-tp,zones[1-tp]) then
 			p=Duel.SelectYesNo(tp,aux.Stringid(id,2)) and 1-tp or tp
-		elseif s.spfilter(tc,e,tp,tp,zones) then
+		elseif s.spfilter(tc,e,tp,tp,zones[tp]) then
 			p=tp
 		else
 			p=1-tp
