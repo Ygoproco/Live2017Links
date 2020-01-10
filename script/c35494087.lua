@@ -1,4 +1,5 @@
 --SRビードロ・ドクロ
+--Speedroid Skull Marbles
 local s,id=GetID()
 function s.initial_effect(c)
 	--special summon
