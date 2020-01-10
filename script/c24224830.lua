@@ -1,5 +1,5 @@
 --墓穴の指名者
---Designator From the Grave
+--Called by the Grave
 --Script by nekrozar
 local s,id=GetID()
 function s.initial_effect(c)
@@ -56,6 +56,6 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_MONSTER) and (code1==code or code2==code)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_CARD,0,id)
 	Duel.NegateEffect(ev)
 end
-
