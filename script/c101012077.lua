@@ -89,7 +89,6 @@ end
 function s.thtg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and s.thfilter2(chkc,e,tp) end
 	local g=Duel.GetMatchingGroup(s.thfilter2,tp,LOCATION_REMOVED,0,nil)
-	Debug.Message(#g)
 	if chk==0 then return aux.SelectUnselectGroup(g,e,tp,1,99,s.thcheck,0) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=aux.SelectUnselectGroup(g,e,tp,1,99,s.thcheck,1,tp,HINTMSG_SPSUMMON)
