@@ -52,7 +52,7 @@ function s.opttarget(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	local tc=Duel.SelectTarget(tp,s.optfilter,tp,LOCATION_MZONE,0,1,1,nil)
 	local op=0
-	if tc:IsCanChangePosition() then
+	if tc:GetFirst():IsCanChangePosition() then
 		op=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2))
 	else
 		op=Duel.SelectOption(tp,aux.Stringid(id,2))
