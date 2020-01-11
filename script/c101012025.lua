@@ -49,6 +49,7 @@ function s.spfilter(c)
 end
 function s.spcon(e,c)
 	if c==nil then return true end
+	local tp=e:GetHandlerPlayer()
 	return (Duel.GetCustomActivityCount(id,tp,ACTIVITY_CHAIN)~=0 or Duel.GetCustomActivityCount(id,1-tp,ACTIVITY_CHAIN)~=0) 
 		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,c)
 end
