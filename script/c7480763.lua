@@ -47,7 +47,7 @@ end
 function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	return bit.band(loc,LOCATION_ONFIELD)~=0 and re:GetHandler()~=e:GetHandler() and re:GetHandler()~=e:GetHandler()
-cend
+end
 	--Activation legality
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
