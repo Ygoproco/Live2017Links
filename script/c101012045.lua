@@ -104,9 +104,9 @@ end
 	--Activation legality
 function s.sstg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=eg:Filter(s.ssfilter,nil,e,tp)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and g:GetCount()>0 end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and #g>0 end
 	local c=nil
-	if g:GetCount()>1 then
+	if #g>1 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		c=g:Select(tp,1,1,nil):GetFirst()
 	else

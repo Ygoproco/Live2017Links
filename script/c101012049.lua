@@ -25,6 +25,7 @@ function s.initial_effect(c)
 	e2:SetLabelObject(e1)
 	c:RegisterEffect(e2)
 end
+s.listed_names={48068379}
 function s.matfilter(c,lc,sumtype,tp)
 	return c:IsLinkAbove(2) and c:IsType(TYPE_LINK,lc,sumtype,tp)
 end

@@ -33,6 +33,7 @@ function s.initial_effect(c)
 	e4:SetCode(EVENT_TO_HAND)
 	c:RegisterEffect(e4)
 end
+s.listed_series={0x71}
 function s.cfilter(c,tp)
 	return c:IsControler(tp) and c:GetPreviousControler()==tp
 		and (c:IsPreviousLocation(LOCATION_GRAVE) or (c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP)))
