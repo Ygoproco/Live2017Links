@@ -47,7 +47,7 @@ end
 function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	return bit.band(loc,LOCATION_ONFIELD)~=0 and re:GetHandler()~=e:GetHandler() and re:GetHandler()~=e:GetHandler()
-end
+cend
 	--Activation legality
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
@@ -93,7 +93,8 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 	--If this link summoned card is destroyed during opponent's turn
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) and Duel.GetTurnPlayer()~=tp
+	local c=e:GetHandler()
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsSummonType(SUMMON_TYPE_LINK) and Duel.GetTurnPlayer()~=tp
 end
 	--Check for "Artifact" monster
 function s.spfilter(c,e,tp)
@@ -114,4 +115,3 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end
-
