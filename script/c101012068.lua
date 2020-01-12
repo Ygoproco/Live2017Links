@@ -37,7 +37,8 @@ function s.tkop(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+100,0x129,TYPES_TOKEN,400,400,1,RACE_FIEND,ATTRIBUTE_DARK,POS_FACEUP) then
 		local g=Group.FromCards(Duel.CreateToken(tp,id+100))
 		local ct=1
-		if not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and Duel.IsExistingMatchingCard(s.eyefilter,tp,LOCATION_SZONE,0,1,nil) and Duel.GetLocationCount(tp,LOCATION_MZONE)>1 then
+		if not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) and Duel.IsExistingMatchingCard(s.eyefilter,tp,LOCATION_SZONE,0,1,nil)
+			and Duel.GetLocationCount(tp,LOCATION_MZONE)>1 then
 			ct=Duel.AnnounceNumber(tp,1,2)
 		end
 		if ct==2 then

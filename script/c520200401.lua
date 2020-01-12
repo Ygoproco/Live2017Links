@@ -5,5 +5,5 @@ function s.initial_effect(c)
 	aux.EnableExtraRules(c,s,s.op)
 end
 function s.op()
-    aux.MR41=1
+	aux.MR41=1
 end

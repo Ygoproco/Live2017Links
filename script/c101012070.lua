@@ -12,7 +12,8 @@ function s.initial_effect(c)
 end
 s.listed_series={0x138}
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local b1=Duel.GetMatchingGroupCount(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)>0 and Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsType,TYPE_RITUAL),tp,LOCATION_MZONE,LOCATION_MZONE,nil)>0
+	local b1=Duel.GetMatchingGroupCount(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)>0
+		and Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsType,TYPE_RITUAL),tp,LOCATION_MZONE,LOCATION_MZONE,nil)>0
 	local b2=s.sptg(e,tp,eg,ep,ev,re,r,rp,0)
 	if chk==0 then return b1 or b2 end
 	local stable={}

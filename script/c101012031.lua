@@ -78,7 +78,7 @@ function s.spop2(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp,tc:GetAttribute())
 		if #g>0 then
 			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
-		end 
+		end
 	end
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)

@@ -25,17 +25,17 @@ function s.initial_effect(c)
 	e2:SetCondition(s.quickcon)
 	c:RegisterEffect(e2)
 	--topdeck
-    local e3=Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id,1))
-    e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_DESTROYED)
-    e3:SetCountLimit(1,id+100)
-    e3:SetCondition(s.tdcon)
-    e3:SetTarget(s.tdtg)
-    e3:SetOperation(s.tdop)
-    c:RegisterEffect(e3)
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,1))
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
+	e3:SetCode(EVENT_DESTROYED)
+	e3:SetCountLimit(1,id+100)
+	e3:SetCondition(s.tdcon)
+	e3:SetTarget(s.tdtg)
+	e3:SetOperation(s.tdop)
+	c:RegisterEffect(e3)
 end
 function s.cfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_WATER)
@@ -58,21 +58,21 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.tdcfilter(c,tp)
-    return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp
-    	and c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_WATER)
+	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp
+		and c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_WATER)
 end
 function s.tdcon(e,tp,eg,ep,ev,re,r,rp)
-    return eg:IsExists(s.tdcfilter,1,nil,tp)
+	return eg:IsExists(s.tdcfilter,1,nil,tp)
 end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_DECK,0,1,nil,TYPE_SPELL) end
 end
 function s.tdop(e,tp,eg,ep,ev,re,r,rp)
-    Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,2))
-    local tc=Duel.SelectMatchingCard(tp,Card.IsType,tp,LOCATION_DECK,0,1,1,nil,TYPE_SPELL):GetFirst()
-    if tc then
-        Duel.ShuffleDeck(tp)
-        Duel.MoveSequence(tc,0)
-        Duel.ConfirmDecktop(tp,1)
-    end
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,2))
+	local tc=Duel.SelectMatchingCard(tp,Card.IsType,tp,LOCATION_DECK,0,1,1,nil,TYPE_SPELL):GetFirst()
+	if tc then
+		Duel.ShuffleDeck(tp)
+		Duel.MoveSequence(tc,0)
+		Duel.ConfirmDecktop(tp,1)
+	end
 end

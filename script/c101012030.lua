@@ -27,11 +27,11 @@ function s.initial_effect(c)
 	e2:SetOperation(s.desop)
 	c:RegisterEffect(e2)
 	--attack all
-    local e3=Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetCode(EFFECT_ATTACK_ALL)
-    e3:SetValue(1)
-    c:RegisterEffect(e3)
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_ATTACK_ALL)
+	e3:SetValue(1)
+	c:RegisterEffect(e3)
 end
 s.listed_series={0x23c}
 function s.rescon(sg,tp)

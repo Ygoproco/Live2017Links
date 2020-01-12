@@ -85,7 +85,7 @@ function s.thfilter2(c)
 	return c:IsSetCard(0x128) and c:IsType(TYPE_SPELL) and c:IsFaceup() and c:IsAbleToHand()
 end
 function s.thcheck(sg,e,tp)
-    return sg:GetClassCount(Card.GetCode)==#sg
+	return sg:GetClassCount(Card.GetCode)==#sg
 end
 function s.thtg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and s.thfilter2(chkc,e,tp) end
