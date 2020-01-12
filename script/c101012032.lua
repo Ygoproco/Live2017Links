@@ -29,8 +29,8 @@ function s.spcheck(sg,tp)
 	return true
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,s.spcheck,nil,RACE_FAIRY) end
-	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,3,false,s.spcheck,nil,RACE_FAIRY)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,nil,nil,RACE_FAIRY) end
+	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,3,false,nil,nil,RACE_FAIRY)
 	local ct=Duel.Release(g,REASON_COST)
 	e:SetLabel(ct)
 end
@@ -52,12 +52,12 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		if ct==1 then return end
 		Duel.BreakEffect()
 		local g=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD)
-		if #g>0 and ct>=2 then
+		if #g>0 and ct>=2 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 			local sg=g:Select(tp,1,1,nil)
 			Duel.Destroy(sg,REASON_EFFECT)
 		end
-		if ct==3 then
+		if ct==3 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 			Duel.Draw(tp,2,REASON_EFFECT)
 		end
 	end
