@@ -62,7 +62,7 @@ function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
 function s.tgcheck(sg,e,tp)
-	return sg:IsExists(Card.IsRace,RACE_THUNDER)
+	return sg:IsExists(Card.IsRace,1,nil,RACE_THUNDER)
 end
 function s.tgcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToRemoveAsCost,tp,LOCATION_GRAVE,0,nil)
@@ -82,6 +82,8 @@ function s.tgop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=Effect.CreateEffect(e:GetHandler())
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+		e2:SetDescription(aux.Stringid(id,2))
+		e2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		e2:SetValue(aux.tgoval)
 		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e2)
