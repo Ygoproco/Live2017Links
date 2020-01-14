@@ -24,13 +24,15 @@ s.listed_series={0x23e}
 function s.cfilter(c)
 	return c:IsSetCard(0x23e) and c:IsType(TYPE_MONSTER)
 end
-function s.spcheck(sg,tp)
-	return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,#sg,sg)
+function s.spcheck(sg,tp,exg,oc)
+	local ex=sg:Clone()
+	ex:AddCard(oc)
+	return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,#sg+1,ex)
 end
 	--Tribute cost
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,s.spcheck,nil) end
-	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,99,false,s.spcheck,nil)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.cfilter,1,false,s.spcheck,nil,e:GetHandler()) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,99,false,s.spcheck,nil,e:GetHandler())
 	local ct=Duel.Release(g,REASON_COST)
 	e:SetLabel(ct)
 end
