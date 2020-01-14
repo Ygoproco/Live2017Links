@@ -23,14 +23,14 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spcheck(sg,tp)
 	if not (Duel.GetLocationCount(tp,LOCATION_MZONE)>0 or sg:IsExists(Card.IsInMainMZone,1,nil,tp)) then return false end
-	local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)
-	if #sg==3 then return Duel.IsPlayerCanDraw(tp,2) end
-	if #sg==2 then return ct>0 end
+	-- local ct=Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)
+	-- if #sg==3 then return Duel.IsPlayerCanDraw(tp,2) end
+	-- if #sg==2 then return ct>0 end
 	return true
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,nil,nil,RACE_FAIRY) end
-	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,3,false,nil,nil,RACE_FAIRY)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsRace,1,false,s.spcheck,nil,RACE_FAIRY) end
+	local g=Duel.SelectReleaseGroupCost(tp,Card.IsRace,1,3,false,s.spcheck,nil,RACE_FAIRY)
 	local ct=Duel.Release(g,REASON_COST)
 	e:SetLabel(ct)
 end
