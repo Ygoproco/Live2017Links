@@ -43,8 +43,11 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
 		local sg=hg:Select(tp,1,ct,nil)
 		Duel.HintSelection(sg)
-		Duel.DisableShuffleCheck()
 		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		if Duel.SendtoHand(sg,nil,REASON_EFFECT)~=0 then
+			Duel.ShuffleHand(1-tp)
+		end
+		Duel.DisableShuffleCheck()
 	end
 	Duel.SortDecktop(tp,tp,5)
 	for i=1,5 do
