@@ -37,14 +37,14 @@ end
 	--Special summon target in defense position, then if it was an "Adamacia" monster, rig deck
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
-		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+	if tc:IsRelateToEffect(e) and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)>0 then
 		local dc=Duel.GetOperatedGroup():GetFirst()
-		if dc:IsSetCard(0x23e) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-			Duel.BreakEffect()
+		if dc:IsSetCard(0x23e) and Duel.IsExistingMatchingCard(s.tdfilter,tp,LOCATION_DECK,0,1,nil)
+			and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 			local g=Duel.SelectMatchingCard(tp,s.tdfilter,tp,LOCATION_DECK,0,1,1,nil)
 			local tc=g:GetFirst()
 			if tc then
+				Duel.BreakEffect()
 				Duel.ShuffleDeck(tp)
 				Duel.MoveSequence(tc,0)
 				Duel.ConfirmDecktop(tp,1)
