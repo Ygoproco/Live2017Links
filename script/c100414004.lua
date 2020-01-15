@@ -39,7 +39,7 @@ function s.dttg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.dtop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
-	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.filter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.dtfilter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil):GetFirst()
 	if tc then
 		Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)
 		if not tc:IsLocation(LOCATION_EXTRA) then
