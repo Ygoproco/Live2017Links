@@ -40,8 +40,11 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 s.listed_series={0x23f}
+function s.atkfil(c)
+	return c:IsFaceup() and c:IsSetCard(0x23f) and c:GetSequence()<5
+end
 function s.atkval(e,c)
-	return Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsSetCard,0x23f),e:GetHandlerPlayer(),LOCATION_SZONE,0,nil)*500
+	return Duel.GetMatchingGroupCount(s.atkfil,e:GetHandlerPlayer(),LOCATION_SZONE,0,nil)*500
 end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
