@@ -75,7 +75,7 @@ function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lnk=sg:GetFirst():GetLink()
 	Duel.Release(sg,REASON_COST)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local dg=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,lnk,lnk,nil)
+	local dg=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,lnk,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,dg,#dg,tp,0)
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
