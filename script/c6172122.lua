@@ -85,19 +85,15 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		local tg=sg:Select(tp,1,1,nil)
 		local tc=tg:GetFirst()
 		if sg1:IsContains(tc) and (sg2==nil or not sg2:IsContains(tc) or not Duel.SelectYesNo(tp,ce:GetDescription())) then
-			-- local tmg=mg1:Filter(s.ffilter,nil,tc)
-			-- if #tmg>1 then tmg=tmg:Select(tp,1,1,nil) end
 			aux.FCheckAdditional=s.fcheck
-			local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,tmg,tp)
+			local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,nil,tp)
 			aux.FCheckAdditional=nil
 			tc:SetMaterial(mat1)
 			Duel.SendtoGrave(mat1,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 			Duel.BreakEffect()
 			Duel.SpecialSummon(tc,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
 		else
-			local tmg=mg3:Filter(s.ffilter,nil,tc)
-			if #tmg>1 then tmg=tmg:Select(tp,1,1,nil) end
-			local mat2=Duel.SelectFusionMaterial(tp,tc,mg3,tmg,tp)
+			local mat2=Duel.SelectFusionMaterial(tp,tc,mg3,nil,tp)
 			local fop=ce:GetOperation()
 			fop(ce,e,tp,tc,mat2)
 		end
