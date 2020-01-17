@@ -40,7 +40,7 @@ function s.filter1(c,e)
 	return not c:IsImmuneToEffect(e)
 end
 function s.filter2(c,e,tp,m,f)
-	return c:IsType(TYPE_FUSION) and aux.IsMaterialListSetCard(c,0x3b) and (not f or f(c))
+	return c:IsType(TYPE_FUSION) and m:IsExists(s.ffilter,1,nil,c) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -48,7 +48,9 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		local mg1=Duel.GetFusionMaterial(tp)
 		local mg2=Duel.GetMatchingGroup(s.filter0,tp,LOCATION_DECK,0,nil)
 		mg1:Merge(mg2)
+		aux.FCheckAdditional=s.fcheck
 		local res=Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil)
+		aux.FCheckAdditional=nil
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
 			if ce~=nil then
@@ -83,7 +85,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		local tg=sg:Select(tp,1,1,nil)
 		local tc=tg:GetFirst()
 		if sg1:IsContains(tc) and (sg2==nil or not sg2:IsContains(tc) or not Duel.SelectYesNo(tp,ce:GetDescription())) then
+			aux.FCheckAdditional=s.fcheck
 			local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,nil,tp)
+			aux.FCheckAdditional=nil
 			tc:SetMaterial(mat1)
 			Duel.SendtoGrave(mat1,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 			Duel.BreakEffect()
@@ -102,4 +106,22 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 	end
+end
+function s.fcheck(tp,sg,fc)
+	return sg:IsExists(s.ffilter,1,nil,fc)
+end
+function s.ffilter(c,fc)
+	local mat=fc.material
+	local set=fc.material_setcode
+	local res
+	if mat then
+		for _,code in ipairs(mat) do
+			res=res or (c:IsFusionCode(code) and c:IsFusionSetCard(0x3b))
+		end
+	elseif set then
+		res=res or (c:IsFusionSetCard(0x3b) and aux.IsMaterialListSetCard(fc,0x3b))
+	else
+		return false
+	end
+	return res
 end
