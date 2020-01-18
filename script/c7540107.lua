@@ -49,6 +49,7 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,0,nil)
 	local c=e:GetHandler()
+	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
