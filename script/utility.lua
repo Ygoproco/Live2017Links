@@ -1496,22 +1496,14 @@ function Auxiliary.EnableExtraRulesOperation(card,init,...)
 		if c:IsPreviousLocation(LOCATION_HAND) then Duel.Draw(p, 1, REASON_RULE) end
 		if not card.global_active_check then
 			Duel.ConfirmCards(1-p, c)
-			local op1=Duel.SelectYesNo(p,aux.Stringid(4014,6))
-			local op2=Duel.SelectYesNo(1-p,aux.Stringid(4014,6))
-			if op1 and op2 then
+			if Duel.SelectYesNo(p,aux.Stringid(4014,6)) and Duel.SelectYesNo(1-p,aux.Stringid(4014,6)) then
 				Duel.Hint(HINT_CARD,tp,c:GetCode())
-				Duel.Hint(HINT_OPSELECTED,tp,1213)
-				Duel.Hint(HINT_OPSELECTED,1-tp,1213)
+				Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(4014,7))
+				Duel.Hint(HINT_OPSELECTED,1-tp,aux.Stringid(4014,7))
 				init(c,table.unpack(arg))
-			elseif op1 and not op2 then 
-				Duel.Hint(HINT_OPSELECTED,tp,1213)
-				Duel.Hint(HINT_OPSELECTED,1-tp,1214)
-			elseif not op1 and op2 then
-				Duel.Hint(HINT_OPSELECTED,tp,1214)
-				Duel.Hint(HINT_OPSELECTED,1-tp,1213)
 			else
-				Duel.Hint(HINT_OPSELECTED,tp,1214)
-				Duel.Hint(HINT_OPSELECTED,1-tp,1214)
+				Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(4014,8))
+				Duel.Hint(HINT_OPSELECTED,1-tp,aux.Stringid(4014,8))
 			end
 			card.global_active_check = true
 		end
