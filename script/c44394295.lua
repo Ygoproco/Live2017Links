@@ -96,7 +96,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 			if fcheck then 
 				if oldcheck then aux.FCheckAdditional=aux.AND(oldcheck,fcheck) else aux.FCheckAdditional=fcheck end
 			end
-			local mat2=Duel.SelectFusionMaterial(tp,tc,mg2,nil,chkf)
+			local mat2=Duel.SelectFusionMaterial(tp,tc,mg3,nil,chkf)
 			aux.FCheckAdditional=oldcheck
 			local fop=ce:GetOperation()
 			fop(ce,e,tp,tc,mat2)
