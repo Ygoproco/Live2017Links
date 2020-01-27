@@ -1,5 +1,6 @@
 --インヴェルズの門番
 --Steelswarm Gatekeeper
+local s,id=GetID()
 function s.initial_effect(c)
 	--extra summon
 	local e1=Effect.CreateEffect(c)
