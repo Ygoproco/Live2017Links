@@ -18,6 +18,8 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
+	--Part of "Galaxy" archetype
+s.listed_series={0x7b}
 	--Contains "Galaxy-Eyes Photon Dragon" in text
 s.listed_names={CARD_GALAXYEYES_P_DRAGON}
 
@@ -36,7 +38,7 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 	--Opponent's monster with 2000+ ATK and can be tributed
 function s.filter(c,e)
-	return c:IsAttackAbove(2000) and c:IsReleasableByEffect(e)
+	return c:IsFaceup() and c:IsAttackAbove(2000) and c:IsReleasableByEffect(e)
 end
 	--Check for "Galaxy-Eyes Photon Dragon"
 function s.spfilter(c,e,tp)
