@@ -18,14 +18,12 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-	--Part of "Galaxy" archetype
-s.listed_series={0x7b}
 	--Contains "Galaxy-Eyes Photon Dragon" in text
 s.listed_names={CARD_GALAXYEYES_P_DRAGON}
 
 	--Check for a monster with 2000+ ATK, besides "Galaxy-Eyes Photon Dragon"
 function s.costfilter(c,ft,tp)
-	return c:IsAttackAbove(2000) and not c:IsCode(CARD_GALAXYEYES_P_DRAGON) and (ft>0 or c:GetSequence()<5)
+	return (c:IsControler(tp) or c:IsFaceup()) and c:IsAttackAbove(2000) and not c:IsCode(CARD_GALAXYEYES_P_DRAGON) and (ft>0 or c:GetSequence()<5)
 		and Duel.IsExistingTarget(s.filter,tp,0,LOCATION_MZONE,1,c,e)
 end
 	--Tribute cost
