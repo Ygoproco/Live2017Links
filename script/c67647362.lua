@@ -18,15 +18,15 @@ function s.initial_effect(c)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 end
-s.listed_series={0x23f}	
+s.listed_series={0x13f}	
 function s.lcheck(g,lc,sumtype,tp)
-	return g:IsExists(Card.IsLinkSetCard,1,nil,0x23f)
+	return g:IsExists(Card.IsLinkSetCard,1,nil,0x13f)
 end
 function s.tgfilter(c,ft)
 	return c:IsFaceup() and c:IsType(TYPE_EFFECT)
 end
 function s.filter(c,e,tp,att)
-	return c:IsSetCard(0x23f) and c:IsAttribute(att)
+	return c:IsSetCard(0x13f) and c:IsAttribute(att)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0
 end
@@ -76,3 +76,4 @@ end
 function s.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
+

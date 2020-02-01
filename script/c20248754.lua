@@ -35,15 +35,15 @@ function s.initial_effect(c)
 	e3:SetOperation(s.repop)
 	c:RegisterEffect(e3)
 end
-s.listed_seires={0x23f}
+s.listed_seires={0x13f}
 function s.condition1(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x23f)
+	return not e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x13f)
 end
 function s.condition2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x23f)
+	return e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x13f)
 end
 function s.cfilter(c)
-	return c:IsSetCard(0x23f) and c:IsDiscardable()
+	return c:IsSetCard(0x13f) and c:IsDiscardable()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil) end
@@ -60,7 +60,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x23f) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
+	return c:IsSetCard(0x13f) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
@@ -77,7 +77,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.repfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x23f) and c:IsControler(tp)
+	return c:IsFaceup() and c:IsSetCard(0x13f) and c:IsControler(tp)
 		and c:IsReason(REASON_BATTLE+REASON_EFFECT) and not c:IsReason(REASON_REPLACE)
 end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -91,3 +91,4 @@ end
 function s.repop(e,tp,eg,ep,ev,re,r,rp)
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_EFFECT)
 end
+

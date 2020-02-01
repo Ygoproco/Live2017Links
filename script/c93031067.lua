@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
-	e2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x23f))
+	e2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x13f))
 	e2:SetValue(s.atkval)
 	c:RegisterEffect(e2)
 	--search
@@ -34,14 +34,14 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e4:SetRange(LOCATION_GRAVE)
-	e4:SetCountLimit(1,id+100)
+	e4:SetCountLimit(1,id+1)
 	e4:SetTarget(s.settg)
 	e4:SetOperation(s.setop)
 	c:RegisterEffect(e4)
 end
-s.listed_series={0x23f}
+s.listed_series={0x13f}
 function s.atkfil(c)
-	return c:IsFaceup() and c:IsSetCard(0x23f) and c:GetSequence()<5
+	return c:IsFaceup() and c:IsSetCard(0x13f) and c:GetSequence()<5
 end
 function s.atkval(e,c)
 	return Duel.GetMatchingGroupCount(s.atkfil,e:GetHandlerPlayer(),LOCATION_SZONE,0,nil)*500
@@ -51,7 +51,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x23f) and not c:IsCode(id) and c:IsAbleToHand()
+	return c:IsSetCard(0x13f) and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -67,7 +67,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.setfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x23f) and c:IsAbleToHand() and not c:IsLocation(LOCATION_FZONE)
+	return c:IsFaceup() and c:IsSetCard(0x13f) and c:IsAbleToHand() and not c:IsLocation(LOCATION_FZONE)
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsControler(tp) and s.setfilter(chkc) end
@@ -86,3 +86,4 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end
+

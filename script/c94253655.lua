@@ -35,18 +35,18 @@ function s.initial_effect(c)
 	e3:SetCondition(s.condition2)
 	c:RegisterEffect(e3)
 end
-s.listed_seires={0x23f}
+s.listed_seires={0x13f}
 function s.atktg(e,c)
 	return c:IsRace(RACE_FIEND) and c~=e:GetHandler()
 end
 function s.condition1(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x23f)
+	return not e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x13f)
 end
 function s.condition2(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x23f)
+	return e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x13f)
 end
 function s.cfilter(c)
-	return c:IsSetCard(0x23f) and c:IsDiscardable()
+	return c:IsSetCard(0x13f) and c:IsDiscardable()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil) end
@@ -63,7 +63,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,g:GetFirst():GetLocation())
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x23f) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+	return c:IsSetCard(0x13f) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()

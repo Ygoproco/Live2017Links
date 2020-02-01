@@ -32,7 +32,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.gyop)
 	c:RegisterEffect(e3)
 end
-s.listed_series={0x23f}
+s.listed_series={0x13f}
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	if s.cost(e,tp,eg,ep,ev,re,r,rp,0) and s.costg(e,tp,eg,ep,ev,re,r,rp,0) and Duel.SelectYesNo(tp,94) then
@@ -56,7 +56,7 @@ function s.costg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetTargetParam(att)
 end
 function s.filter(c,e,tp,ft)
-	return c:IsSetCard(0x23f) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0x13f) and c:IsType(TYPE_MONSTER)
 		and (c:IsAbleToDeck() or (ft>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)))
 end
 function s.cosop(e,tp,eg,ep,ev,re,r,rp)
@@ -84,7 +84,7 @@ function s.cosop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.gycon(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x23f),tp,LOCATION_MZONE,0,1,nil)
+	return not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x13f),tp,LOCATION_MZONE,0,1,nil)
 end
 function s.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -95,3 +95,4 @@ function s.gyop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(e:GetHandler(),REASON_EFFECT)
 	end
 end
+
