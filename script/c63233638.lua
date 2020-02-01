@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	e3:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e3)
 	--ritual summon
-	local e1=aux.CreateRitualProc(c,RITPROC_GREATER,aux.FilterBoolFunction(Card.IsSetCard,0x138),nil,aux.Stringid(id,0))
+	local e1=aux.CreateRitualProc(c,RITPROC_GREATER,aux.FilterBoolFunction(Card.IsSetCard,0x138),nil,aux.Stringid(id,0),nil,nil,nil,nil,nil,function(e,tp,g,sc)return not g:IsContains(e:GetHandler()), g:IsContains(e:GetHandler())  end)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(1,id)

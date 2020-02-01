@@ -11,8 +11,6 @@ function Auxiliary.CheckMatFilter(matfilter,e,tp,mg,mg2)
 			mg2:Sub(mg2:Filter(f,nil))
 		end
 	end
-	mg:RemoveCard(e:GetHandler())
-	mg2:RemoveCard(e:GetHandler())
 end
 --The current total level to match for the monster being summoned, to be used with monsters that can be used as whole tribute
 Auxiliary.RitualSummoningLevel=nil
