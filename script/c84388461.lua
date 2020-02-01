@@ -5,7 +5,7 @@ function s.initial_effect(c)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--Ritual Summon
-	local e1=aux.CreateRitualProc(c,RITPROC_EQUAL,aux.FilterBoolFunction(Card.IsSetCard,0xb4),nil,aux.Stringid(id,1))
+	local e1=aux.CreateRitualProc(c,RITPROC_EQUAL,aux.FilterBoolFunction(Card.IsSetCard,0xb4),nil,aux.Stringid(id,1),nil,nil,nil,nil,nil,function(e,tp,g,sc)return not g:IsContains(e:GetHandler()), g:IsContains(e:GetHandler())  end)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE+LOCATION_HAND)
 	e1:SetCountLimit(1,id)
