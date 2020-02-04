@@ -29,7 +29,7 @@ function s.initial_effect(c)
 end
 function s.ntcon(e,c,minc)
 	if c==nil then return true end
-	return minc==0 and c:IsLevelAbove(5) and not Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_ONFIELD,0,1,nil)
+	return minc==0 and c:IsLevelAbove(5) and not Duel.IsExistingMatchingCard(Card.IsFaceup,e:GetHandlerPlayer(),LOCATION_ONFIELD,0,1,nil)
 end
 function s.ntop(e,tp,eg,ep,ev,re,r,rp,c)
 	--change base attack
@@ -55,9 +55,8 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local sg=g:Select(tp,3,3,nil)
 		Duel.ConfirmCards(1-tp,sg)
-		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_ATOHAND)
-		local tg=sg:Select(1-tp,1,1,nil)
-		Duel.SendtoHand(tg,nil,REASON_EFFECT)
 		Duel.ShuffleDeck(tp)
+		local tg=sg:RandomSelect(1-tp,1)
+		Duel.SendtoHand(tg,nil,REASON_EFFECT)
 	end
 end
