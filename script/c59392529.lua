@@ -1,5 +1,5 @@
 --E・HERO リキッドマン
---Elemental HERO Liquidman
+--Elemental HERO Liquid Soldier
 --Logical Nonsense
 
 --Substitute ID
@@ -43,7 +43,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and Duel.IsExistingTarget(s.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,s.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,LOCATION_GRAVE)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,tp,LOCATION_GRAVE)
 end
 	--Revive 1 level 4 or lower "HERO" monster
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
@@ -75,4 +75,3 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.DiscardHand(p,nil,1,1,REASON_EFFECT+REASON_DISCARD)
 	end
 end
-
