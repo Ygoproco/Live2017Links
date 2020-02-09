@@ -89,7 +89,7 @@ function Auxiliary.FConditionMix(insf,sub,...)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local matcheck=e:GetValue()
@@ -118,7 +118,7 @@ function Auxiliary.FOperationMix(insf,sub,...)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local matcheck=e:GetValue()
@@ -296,7 +296,7 @@ function Auxiliary.FConditionMixRep(insf,sub,fun1,minc,maxc,...)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local matcheck=e:GetValue()
@@ -325,7 +325,7 @@ function Auxiliary.FOperationMixRep(insf,sub,fun1,minc,maxc,...)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local matcheck=e:GetValue()
@@ -568,7 +568,7 @@ function Auxiliary.FConditionMixRepUnfix(insf,sub,minc,maxc,...)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local matcheck=e:GetValue()
@@ -596,7 +596,7 @@ function Auxiliary.FOperationMixRepUnfix(insf,sub,minc,maxc,...)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local matcheck=e:GetValue()
@@ -1042,7 +1042,7 @@ function Auxiliary.ShaddollFCondition(insf,f1,f2)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local c=e:GetHandler()
@@ -1074,7 +1074,7 @@ function Auxiliary.ShaddollFOperation(insf,f1,f2)
 				local contact=(chkfnf&FUSPROC_CONTACTFUS)~=0
 				local listedmats=(chkfnf&FUSPROC_LISTEDMATS)~=0
 				local sumtype=SUMMON_TYPE_FUSION
-				if notfusion or contact then
+				if notfusion then
 					sumtype=0
 				end
 				local c=e:GetHandler()
