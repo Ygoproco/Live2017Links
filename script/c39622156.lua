@@ -1,5 +1,5 @@
 --No.26 次元孔路オクトバイパス
---Number 26: Octobypass the Dimensional Pathway
+--Number 26: Spaceway Octobypass
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -64,6 +64,7 @@ function s.btop(e,tp,eg,ep,ev,re,r,rp)
     e3:SetCode(EFFECT_DIRECT_ATTACK)
     e3:SetTargetRange(LOCATION_MZONE,0)
     e3:SetTarget(aux.TargetBoolFunction(Card.IsType,TYPE_MONSTER))
+    e3:SetReset(RESET_PHASE+PHASE_END)
     Duel.RegisterEffect(e3,p)
 	--
 	local e4=Effect.CreateEffect(c)
