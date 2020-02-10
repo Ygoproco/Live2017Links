@@ -37,7 +37,7 @@ function s.filter2(c)
 end
 function s.cost(cfil)
 	return	function(e,tp,eg,ep,ev,re,r,rp,chk)
-				if chk==0 then return Duel.IsExistingMatchingCard(cfil,tp,LOCATION_HAND,0,1,nil) end
+				if chk==0 then return Duel.IsExistingMatchingCard(cfil,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 				Duel.DiscardHand(tp,cfil,1,1,REASON_COST+REASON_DISCARD)
 			end
 end
