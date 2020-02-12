@@ -130,6 +130,9 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(s.atkval)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
+		c:RegisterEffect(e2)
 	end
 end
 function s.atkcfilter(c)
