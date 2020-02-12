@@ -1,5 +1,5 @@
 --竜魔道騎士ガイア
---Gaia the Dragonic Magic Knight
+--Gaia the Magical Dragon Champion
 --scripted by CyberCatMan
 local s,id=GetID()
 function s.initial_effect(c)
@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(66889139)
 	c:RegisterEffect(e1)
-	--decrease ATk and destroy
+	--decrease ATK and destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_ATKCHANGE)
@@ -67,7 +67,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(2600)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_BATTLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 		c:RegisterEffect(e1)
 	end
 end
