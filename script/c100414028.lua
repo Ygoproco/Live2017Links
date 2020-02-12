@@ -1,5 +1,5 @@
 --呪われしエルドランド
---Cursed El Dorlando
+--The Cursed Eldland
 --Scripted by ahtelel
 local s,id=GetID()
 function s.initial_effect(c)
@@ -22,7 +22,7 @@ function s.initial_effect(c)
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetCountLimit(1)
+	e3:SetCountLimit(1,id)
 	e3:SetCost(s.thcost)
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
@@ -34,7 +34,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_TO_GRAVE)
 	e4:SetProperty(EFFECT_FLAG_DELAY)
-	e4:SetCountLimit(1,id+1)
+	e4:SetCountLimit(1,id+100)
 	e4:SetCondition(s.tgcon)
 	e4:SetTarget(s.tgtg)
 	e4:SetOperation(s.tgop)
