@@ -48,10 +48,10 @@ function s.cannottgcon(e)
 	return Duel.IsExistingMatchingCard(s.cfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,e:GetHandler())
 end
 function s.cannottgeff(e,c)
-	return c:GetLevel()<=6
+	return c:IsLevelBelow(6)
 end
 function s.cannotatk(e,c)
-	return c:IsFaceup() and c:GetLevel()<=6
+	return c:IsFaceup() and c:IsLevelBelow(6)
 end
 function s.tohandconfilter(c,tp)
 	return c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE) and c:IsReason(REASON_DESTROY)
