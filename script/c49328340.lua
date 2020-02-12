@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.operation)
 	c:RegisterEffect(e3)
 end
-s.listed_names={CARD_GAIA_CHAMPION}
+s.listed_names={6368038,16589042,CARD_GAIA_CHAMPION}
 function s.pietg(e,c)
 	return c:IsCode(6368038,16589042,CARD_GAIA_CHAMPION)
 end
