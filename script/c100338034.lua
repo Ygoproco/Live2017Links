@@ -54,11 +54,9 @@ function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local tc=Duel.GetAttacker()
-	local dc=Duel.GetAttackTarget()
 	local b1=s.atkcost(e,tp,eg,ep,ev,re,r,rp,0) and s.atktg(e,tp,eg,ep,ev,re,r,rp,0)
-		and	Duel.CheckEvent(EVENT_ATTACK_ANNOUNCE)
-		and ((tc:IsCode(6007213) and tc:IsControler(tp))  or (dc and dc:IsCode(6007213) and dc:IsControler(tp)))
+		and Duel.CheckEvent(EVENT_ATTACK_ANNOUNCE)
+		and s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local b2=s.spcost(e,tp,eg,ep,ev,re,r,rp,0) and s.sptg(e,tp,eg,ep,ev,re,r,rp,0)
 	if chk==0 then return b1 or b2 end
 	local stable={}
@@ -132,7 +130,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
-		c:RegisterEffect(e2)
+		tc:RegisterEffect(e2)
 	end
 end
 function s.atkcfilter(c)
