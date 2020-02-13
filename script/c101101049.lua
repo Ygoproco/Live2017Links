@@ -40,6 +40,7 @@ s.listed_names={CARD_GAIA_CHAMPION}
 s.listed_series={0xbd}
 function s.actcon(e)
 	local ph=Duel.GetCurrentPhase()
+	local tp=e:GetHandlerPlayer()
 	return ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE 
 		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,CARD_GAIA_CHAMPION),tp,LOCATION_MZONE,0,1,nil)
 end
