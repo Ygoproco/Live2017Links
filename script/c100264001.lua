@@ -1,5 +1,5 @@
 --電脳堺獣－鷲々
---Netchunk Beast - Juju
+--Cyberspace Beast Jiuiiu
 --Scripted by Eerie Code
 local s,id=GetID()
 function s.initial_effect(c)
@@ -38,7 +38,7 @@ function s.indfilter2(c,tc)
 		and not c:IsCode(tc:GetCode())
 end
 function s.indcon(e)
-	return Duel.IsExistingMatchingCard(s.indfilter1,tp,LOCATION_GRAVE,0,1,nil,e:GetHandlerPlayer())
+	return Duel.IsExistingMatchingCard(s.indfilter1,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil,e:GetHandlerPlayer())
 end
 function s.gycfilter(c,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,false,true)
