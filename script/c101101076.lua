@@ -37,6 +37,10 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		s.sptg(e,tp,eg,ep,ev,re,r,rp,1)
 		if not GhostBelleTable then GhostBelleTable={} end
 		table.insert(GhostBelleTable,e)
+	else
+		e:SetCategory(0)
+		e:SetOperation(nil)
+		if GhostBelleTable then table.remove(GhostBelleTable,e) end
 	end
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
