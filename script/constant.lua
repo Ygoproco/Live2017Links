@@ -862,6 +862,7 @@ COUNTER_BUSHIDO     = 0x3
 COUNTER_A           = 0x100e
 COUNTER_FOG         = 0x1019
 COUNTER_KAIJU       = 0x37
+COUNTER_PREDATOR    = 0x1041
 COUNTER_VENOM       = 0x1009
 --added flags for Card.RegisterEffect
 REGISTER_FLAG_DETACH_XMAT	=1
