@@ -45,7 +45,7 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return g:GetClassCount(Card.GetCode)>=7 end
 	local rg=Group.CreateGroup()
 	for i=1,7 do
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 		local tc=g:Select(tp,1,1,nil):GetFirst()
 		if tc then
 			rg:AddCard(tc)
