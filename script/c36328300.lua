@@ -1,5 +1,5 @@
 --究極宝玉陣
---Ultimate Crystal Formation
+--Ultimate Crystal Magic
 local s,id=GetID()
 function s.initial_effect(c)
 	--activate
@@ -42,9 +42,16 @@ end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	local g=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_ONFIELD+LOCATION_HAND+LOCATION_DECK,0,nil)
-	if chk==0 then return g:GetClassCount(Card.GetCode)>=7
-		and aux.SelectUnselectGroup(g,e,tp,7,7,s.rescon,0) end
-	local rg=aux.SelectUnselectGroup(g,e,tp,7,7,s.rescon,1,tp,HINTMSG_TOGRAVE)
+	if chk==0 then return g:GetClassCount(Card.GetCode)>=7 end
+	local rg=Group.CreateGroup()
+	for i=1,7 do
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+		local tc=g:Select(tp,1,1,nil):GetFirst()
+		if tc then
+			rg:AddCard(tc)
+			g:Remove(Card.IsCode,nil,tc:GetCode())
+		end
+	end
 	Duel.SendtoGrave(rg,REASON_COST)
 end
 function s.filter(c,e,tp,sg)
