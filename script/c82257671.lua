@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
     e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetCountLimit(1,id+100)
+    e3:SetCountLimit(1,id+1)
     e3:SetCondition(s.immcon)
     e3:SetTarget(s.immtg)
     e3:SetOperation(s.immop)
@@ -99,3 +99,4 @@ end
 function s.efilter(e,re)
     return e:GetOwnerPlayer()~=re:GetOwnerPlayer()
 end
+
