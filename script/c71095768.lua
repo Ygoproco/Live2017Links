@@ -100,6 +100,14 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		tc:RegisterEffect(e2)
+		local e3=Effect.CreateEffect(e:GetHandler())
+		e3:SetType(EFFECT_TYPE_FIELD)
+		e3:SetRange(LOCATION_MZONE)
+		e3:SetCode(EFFECT_EXTRA_MATERIAL)
+		e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+		e3:SetTargetRange(1,0)
+		e3:SetValue(s.extram)
+		tc:RegisterEffect(e3,true)
 		tc=sg:GetNext()
 	end
 	Duel.SpecialSummonComplete()
@@ -109,6 +117,17 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local xyz=xyzg:Select(tp,1,1,nil):GetFirst()
 		Duel.XyzSummon(tp,xyz,sg)
+	end
+end
+function s.extram(chk,summon_type,e,...)
+	local c=e:GetHandler()
+	if chk==0 then
+		local tp,sc=...
+		if not summon_type==SUMMON_TYPE_XYZ then
+			return Group.CreateGroup()
+		else
+			return Group.FromCards(c)
+		end
 	end
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
