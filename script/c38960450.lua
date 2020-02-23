@@ -5,6 +5,7 @@ local s,id=GetID()
 function s.initial_effect(c)
     --Activate
     local e1=Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id,0))
     e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
@@ -32,7 +33,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
         local ec=g:GetFirst()
         local eqg=Duel.GetMatchingGroup(s.eqfilter,tp,LOCATION_MZONE,0,nil,ec,tp)
         if #eqg>0 and ec:CheckUniqueOnField(tp) and not ec:IsForbidden() 
-            and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+            and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
             Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
             local tc=eqg:Select(tp,1,1,nil):GetFirst()
             Duel.Equip(tp,ec,tc)
