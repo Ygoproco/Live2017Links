@@ -107,6 +107,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 		e3:SetTargetRange(1,0)
 		e3:SetValue(s.extram)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e3,true)
 		tc=sg:GetNext()
 	end
@@ -123,10 +124,10 @@ function s.extram(chk,summon_type,e,...)
 	local c=e:GetHandler()
 	if chk==0 then
 		local tp,sc=...
-		if not summon_type==SUMMON_TYPE_XYZ then
-			return Group.CreateGroup()
-		else
+		if summon_type==SUMMON_TYPE_XYZ then
 			return Group.FromCards(c)
+		else
+			return Group.CreateGroup()
 		end
 	end
 end
