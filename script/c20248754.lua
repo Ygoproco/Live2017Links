@@ -36,7 +36,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.repop)
 	c:RegisterEffect(e3)
 end
-s.listed_seires={0x13f}
+s.listed_series={0x13f}
 function s.condition1(e,tp,eg,ep,ev,re,r,rp)
 	return not e:GetHandler():GetEquipGroup():IsExists(Card.IsSetCard,1,nil,0x13f)
 end

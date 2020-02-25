@@ -29,7 +29,8 @@ function s.initial_effect(c)
 	e2:SetOperation(s.eqop)
 	c:RegisterEffect(e2)
 end
-s.listed_seires={0x13f}
+s.listed_series={0x13f}
+s.listed_names={id}
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
