@@ -1336,7 +1336,7 @@ function Auxiliary.ReincarnationCheckValue(e,c)
 		rc=g:IsExists(aux.ReincarnationRitualFilter,1,nil,id,c:GetControler())
 	end
 	if rc then
-		c:RegisterFlagEffect(CARD_SALAMANGREAT_SANCTUARY,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE-RESET_TEMP_REMOVE,0,1)
+		c:RegisterFlagEffect(CARD_SALAMANGREAT_SANCTUARY,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE,0,1)
 	end
 end
 
