@@ -1,100 +1,75 @@
---サイバー・エンジェル-伊舎那-
---Cyber Angel Izana
---Scripted by AlphaKretin
+--轟の王ハール
+--Hoárr, Generaider Boss of Rumbling
+--Scripted by ahtelel
 local s,id=GetID()
 function s.initial_effect(c)
-	c:EnableReviveLimit()
-	--to grave
+	c:SetUniqueOnField(1,0,id)
+	--send gy
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOGRAVE)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
-	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e1:SetCondition(s.tgcon)
-	e1:SetTarget(s.tgtg)
-	e1:SetOperation(s.tgop)
+	e1:SetCode(EVENT_TO_HAND)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetCountLimit(1)
+	e1:SetCondition(s.scon0)
+	e1:SetTarget(s.stg0)
+	e1:SetOperation(s.sop0)
 	c:RegisterEffect(e1)
-	--chain attack
+	--negate
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_BATTLE_DESTROYING)
-	e2:SetCondition(s.atcon)
-	e2:SetOperation(s.atop)
+	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
+	e2:SetType(EFFECT_TYPE_QUICK_O)
+	e2:SetCode(EVENT_CHAINING)
+	e2:SetCountLimit(1,id)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCondition(s.discon)
+	e2:SetCost(s.discost)
+	e2:SetTarget(s.distg)
+	e2:SetOperation(s.disop)
 	c:RegisterEffect(e2)
-	--destroy
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,2))
-	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_TODECK)
-	e3:SetType(EFFECT_TYPE_QUICK_O)
-	e3:SetCode(EVENT_CHAINING)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1)
-	e3:SetCondition(s.descon)
-	e3:SetTarget(s.destg)
-	e3:SetOperation(s.desop)
-	c:RegisterEffect(e3)
 end
-function s.tgcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL)
-end
-function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_SZONE)>0 end
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,0,LOCATION_SZONE)
-end
-function s.tgop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(nil,1-tp,LOCATION_SZONE,0,nil)
-	if #g>0 then
-		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TOGRAVE)
-		local sg=g:Select(1-tp,1,1,nil)
-		Duel.HintSelection(sg)
-		Duel.SendtoGrave(sg,REASON_RULE)
-	end
-end
-function s.atcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local bc=c:GetBattleTarget()
-	return c==Duel.GetAttacker() and c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE) and c:IsChainAttackable(2,true) 
-		and bc:IsLocation(LOCATION_GRAVE) and bc:IsType(TYPE_MONSTER)
-end
-function s.atop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsRelateToBattle() then
-		Duel.ChainAttack()
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE+PHASE_DAMAGE_CAL)
-		c:RegisterEffect(e1)
-	end
-end
+s.listed_series={0x134}
 function s.cfilter(c,tp)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsSetCard(0x2093) and c:IsRitualMonster()
+	return c:IsControler(tp) and c:IsPreviousLocation(LOCATION_DECK)
 end
-function s.descon(e,tp,eg,ep,ev,re,r,rp)
-	if not (rp==1-tp and re:IsHasProperty(EFFECT_FLAG_CARD_TARGET)) then return false end
-	local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
-	return g and g:IsExists(s.cfilter,1,nil,tp)
+function s.scon0(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetCurrentPhase()~=PHASE_DRAW and eg:IsExists(s.cfilter,1,nil,1-tp)
+		and Duel.GetFieldGroupCount(1-tp,0,LOCATION_ONFIELD+LOCATION_HAND)>0
 end
-function s.tdfilter(c)
-	return c:IsRitualMonster() and c:IsAbleToDeck()
+function s.stg0(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFieldGroupCount(1-tp,0,LOCATION_ONFIELD+LOCATION_HAND)>0 and
+		Duel.IsExistingMatchingCard(Card.IsType,tp,0,LOCATION_ONFIELD+LOCATION_HAND,1,nil,TYPE_MONSTER) end
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,0,LOCATION_ONFIELD+LOCATION_HAND)
 end
-function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.tdfilter,tp,LOCATION_GRAVE,0,1,nil)
-		and Duel.IsExistingMatchingCard(aux.TRUE,tp,0,LOCATION_ONFIELD,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,nil,1,tp,LOCATION_GRAVE)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,1,0,0)
+function s.sop0(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+	local g=Duel.SelectMatchingCard(1-tp,Card.IsType,1-tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,nil,TYPE_MONSTER)
+	if #g>0 then Duel.SendtoGrave(g,REASON_RULE) end
 end
-function s.desop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.tdfilter),tp,LOCATION_GRAVE,0,1,1,nil)
-	if #g>0 and Duel.SendtoDeck(g,nil,2,REASON_EFFECT)~=0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-		local g2=Duel.SelectMatchingCard(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
-		if #g2>0 then
-			Duel.Destroy(g2,REASON_EFFECT)
-		end
+function s.discon(e,tp,eg,ep,ev,re,r,rp)
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
+end
+function s.disfilter(c,tp)
+	return (c:IsRace(RACE_SPELLCASTER) or (c:IsSetCard(0x134) and c:IsType(TYPE_MONSTER))) and (c:IsControler(tp) or c:IsFaceup())
+end
+function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.disfilter,2,false,nil,nil,tp) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.disfilter,2,2,false,nil,nil,tp)
+	Duel.Release(g,REASON_COST)
+end
+function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
+	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
+		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
 	end
 end
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
+		Duel.Destroy(eg,REASON_EFFECT)
+	end
+end
+
