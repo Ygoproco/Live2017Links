@@ -58,8 +58,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local sg=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.setfilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,nil,e,tp)
 	if #sg==0 then return end
 	local rg=aux.SelectUnselectGroup(sg,e,tp,2,2,s.setcheck,1,tp,HINTMSG_SET,s.setcheck)
-	if #sg>0 then
-		Duel.SSet(sg,rg)
+	if #rg>0 then
+		Duel.SSet(tp,rg)
 		Duel.ConfirmCards(1-tp,rg)
 		local tc=sg:GetFirst()
 		for tc in aux.Next(sg) do
