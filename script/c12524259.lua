@@ -23,8 +23,10 @@ function s.cfilter(c,ec)
 		and c:CheckEquipTarget(ec) and aux.CheckUnionEquip(c,ec)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local ft=0
+	if e:GetHandler():IsLocation(LOCATION_HAND) then ft=1 end
 	if chkc then return chkc:IsOnField() and s.tgfilter(chkc,e,tp,true) end
-	if chk==0 then return Duel.IsExistingTarget(s.tgfilter,tp,LOCATION_MZONE,0,1,e:GetHandler(),e,tp,nil) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>ft and Duel.IsExistingTarget(s.tgfilter,tp,LOCATION_MZONE,0,1,e:GetHandler(),e,tp,nil) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectTarget(tp,s.tgfilter,tp,LOCATION_MZONE,0,1,1,e:GetHandler(),e,tp,nil)
 	Duel.SetTargetCard(g)
