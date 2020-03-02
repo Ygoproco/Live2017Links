@@ -19,6 +19,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_ACTIVATE)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
+	e2:SetCost(s.cost)
 	e2:SetCondition(s.condition)
 	e2:SetTarget(s.target)
 	e2:SetOperation(s.activate)
@@ -27,7 +28,6 @@ function s.initial_effect(c)
 	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e3:SetRange(LOCATION_SZONE)
-	e3:SetCountLimit(1)
 	c:RegisterEffect(e3)
 end
 	--Lists "Mayakashi" archetype
@@ -36,6 +36,11 @@ s.listed_series={0x121}
 function s.cfilter(c)
 	return c:IsRace(RACE_ZOMBIE) and c:IsType(TYPE_SYNCHRO) 
 		and c:GetSummonLocation()~=LOCATION_EXTRA
+end
+	--Not really a cost, make the effect once per chain
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFlagEffect(tp,id+4)==0 end
+	Duel.RegisterFlagEffect(tp,id+4,RESET_CHAIN,0,1)
 end
 	--If it ever happened
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
