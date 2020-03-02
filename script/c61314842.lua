@@ -33,7 +33,7 @@ function c61314842.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsPlayerCanSpecialSummonCount(tp,2)
 		and not Duel.IsPlayerAffectedByEffect(tp,59822133)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and mg:IsExists(c61314842.mfilter1,1,nil,mg,exg) end
+		and mg:IsExists(c61314842.mfilter1,1,nil,mg,exg,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local sg1=mg:FilterSelect(tp,c61314842.mfilter1,1,1,nil,mg,exg,tp)
 	local tc1=sg1:GetFirst()
