@@ -10,25 +10,42 @@ function s.initial_effect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetHintTiming(0,TIMING_END_PHASE)
+	e1:SetHintTiming(0,TIMING_END_PHASE+TIMING_SPSUMMON)
+	e1:SetTarget(s.target1)
 	c:RegisterEffect(e1)
 	--Apply 1 of the 4 different options
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetDescription(aux.Stringid(id,2))
 	e2:SetCategory(CATEGORY_DRAW+CATEGORY_TOGRAVE+CATEGORY_DAMAGE)
-	e2:SetType(EFFECT_TYPE_ACTIVATE)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2:SetRange(LOCATION_SZONE)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e2:SetCost(s.cost)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY+EFFECT_FLAG_CHAIN_UNIQUE)
+	e2:SetCost(s.cost2)
 	e2:SetCondition(s.condition)
-	e2:SetTarget(s.target)
-	e2:SetOperation(s.activate)
+	e2:SetTarget(s.target2)
+	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
-	local e3=e2:Clone()
-	e3:SetDescription(aux.Stringid(id,2))
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetRange(LOCATION_SZONE)
-	c:RegisterEffect(e3)
+end
+function s.target1(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chkc then return s.target2(e,tp,eg,ep,ev,re,r,rp,chk) end
+	if chk==0 then return true end
+	if s.cost2(e,tp,eg,ep,ev,re,r,rp,0) and s.target2(e,tp,eg,ep,ev,re,r,rp,0)
+		and Duel.SelectYesNo(tp,94) then
+		e:SetCategory(CATEGORY_DRAW+CATEGORY_TOGRAVE+CATEGORY_DAMAGE)
+		e:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
+		e:SetCondition(s.condition)
+		e:SetOperation(s.operation)
+		s.cost2(e,tp,eg,ep,ev,re,r,rp,1)
+		s.target2(e,tp,eg,ep,ev,re,r,rp,1)
+	else
+		e:SetProperty(0)
+		e:SetOperation(nil)
+	end
+end
+function s.cost2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFlagEffect(tp,id+4)==0 end
+	Duel.RegisterFlagEffect(tp,id+4,RESET_CHAIN,0,1)
 end
 	--Lists "Mayakashi" archetype
 s.listed_series={0x121}
@@ -36,11 +53,6 @@ s.listed_series={0x121}
 function s.cfilter(c)
 	return c:IsRace(RACE_ZOMBIE) and c:IsType(TYPE_SYNCHRO) 
 		and c:GetSummonLocation()~=LOCATION_EXTRA
-end
-	--Not really a cost, make the effect once per chain
-function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFlagEffect(tp,id+4)==0 end
-	Duel.RegisterFlagEffect(tp,id+4,RESET_CHAIN,0,1)
 end
 	--If it ever happened
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
@@ -51,17 +63,18 @@ function s.setfilter(c)
 	return c:IsSetCard(0x121) and c:IsType(TYPE_TRAP+TYPE_SPELL) and c:IsSSetable() and not c:IsCode(id)
 end
 	--Activation legality
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) and Duel.GetFlagEffect(tp,id)==0
-	or Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil) and Duel.GetFlagEffect(tp,id+1)==0
-	or Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) and Duel.GetFlagEffect(tp,id+2)==0 end
+function s.target2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return (Duel.IsPlayerCanDraw(tp,1) and Duel.GetFlagEffect(tp,id)==0)
+	or (Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil) and Duel.GetFlagEffect(tp,id+1)==0)
+	or (Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) and Duel.GetFlagEffect(tp,id+2)==0)
+	or (Duel.GetFlagEffect(tp,id+3)==0)	end
 	Duel.SetTargetPlayer(1-tp)
 	Duel.SetTargetParam(800)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,800)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,0,LOCATION_MZONE)
 end
 	--Apply 1 of the following effects
-function s.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local off=1
 	local ops={}
 	local opval={}
