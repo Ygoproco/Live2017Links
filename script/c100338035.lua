@@ -146,7 +146,7 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect(ev)
 end
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	return s.sbcount(tp)>2
+	return s.sbcount(e:GetHandlerPlayer())>2
 end
 function s.rmtg(e,c)
 	return c:IsType(TYPE_MONSTER) and c:GetOwner()~=e:GetHandlerPlayer() and Duel.IsPlayerCanRemove(e:GetHandlerPlayer(),c)
