@@ -94,10 +94,20 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 	end
-	local hint=Effect.CreateEffect(e:GetHandler())
-	hint:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
-	hint:SetDescription(aux.Stringid(id,3))
-	hint:SetReset(RESET_PHASE+PHASE_END)
-	hint:SetTargetRange(1,0)
-	Duel.RegisterEffect(hint,tp)
+	local e0=Effect.CreateEffect(e:GetHandler())
+	e0:SetType(EFFECT_TYPE_FIELD)
+	e0:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	e0:SetDescription(aux.Stringid(id,3))
+	e0:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	if Duel.GetTurnPlayer()==tp then
+		e0:SetReset(RESET_PHASE+PHASE_END+RESET_SELF_TURN,2)
+	else
+		e0:SetReset(RESET_PHASE+PHASE_END+RESET_SELF_TURN)
+	end
+	e0:SetTargetRange(1,0)
+	e0:SetTarget(s.splimit)
+	Duel.RegisterEffect(e0,tp)
+end
+function s.splimit(e,c,sump,sumtype,sumpos,targetp)
+	return not c:IsRace(RACE_WARRIOR)
 end
