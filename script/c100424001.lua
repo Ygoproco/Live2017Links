@@ -1,5 +1,5 @@
 --神・スライム
---God Slime
+--Egyptian God Slime
 --Scripted by Larry126
 local s,id=GetID()
 function s.initial_effect(c)
@@ -65,5 +65,5 @@ function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Release(g,g,REASON_COST+REASON_MATERIAL)
 end
 function s.tglimit(e,c)
-	return c~=e:GetHandler()
+	return c:GetCode()~=id
 end
