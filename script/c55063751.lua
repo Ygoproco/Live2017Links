@@ -1,5 +1,6 @@
 --海亀壊獣ガメシエル
 --Gameciel, the Sea Turtle Kaiju
+local s,id=GetID()
 function s.initial_effect(c)
 	c:SetUniqueOnField(1,0,aux.FilterBoolFunction(Card.IsSetCard,0xd3),LOCATION_MZONE)
 	--special summon rule
