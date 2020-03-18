@@ -1,4 +1,5 @@
 --人造人間－サイコ・ロード
+--Jinzo - Lord
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
@@ -68,24 +69,24 @@ function s.initial_effect(c)
 	e8:SetCode(3682106)
 	c:RegisterEffect(e8)
 end
-function s.disop(e,tp,eg,ep,ev,re,r,rp)
-	local tl=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
-	if tl==LOCATION_SZONE and re:IsActiveType(TYPE_TRAP) then
-		Duel.NegateEffect(ev)
-	end
-end
 function s.spfilter(c,ft,tp)
-	return c:IsFaceup() and c:IsCode(77585513) and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp)))
+	return c:IsFaceup() and c:IsCode(77585513) and c:IsAbleToGraveAsCost() and (ft>0 or (c:GetSequence()<5 and c:IsControler(tp)))
 end
 function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return tp>-1 and Duel.CheckReleaseGroup(tp,s.spfilter,1,nil,ft,tp)
+	return tp>-1 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_ONFIELD,0,1,nil,ft,tp)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,s.spfilter,1,1,nil,Duel.GetLocationCount(tp,LOCATION_MZONE),tp)
-	Duel.Release(g,REASON_COST)
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_ONFIELD,0,1,1,nil,Duel.GetLocationCount(tp,LOCATION_MZONE),tp)
+	Duel.SendtoGrave(g,REASON_COST)
+end
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
+	local tl=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
+	if tl==LOCATION_SZONE and re:IsActiveType(TYPE_TRAP) then
+		Duel.NegateEffect(ev)
+	end
 end
 function s.filter(c)
 	return c:IsFaceup() and c:IsType(TYPE_TRAP)
