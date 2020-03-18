@@ -87,7 +87,7 @@ function s.sbfilter(c)
 	return c:IsFaceup() and c:IsCode(69890967,6007213,32491822)
 end
 function s.sbcount(tp)
-	return Duel.GetMatchingGroup(s.sbfilter,tp,LOCATION_MZONE,0,nil):GetClassCount(Card.GetCode)
+	return Duel.GetMatchingGroup(s.sbfilter,tp,LOCATION_ONFIELD,0,nil):GetClassCount(Card.GetCode)
 end
 function s.filter(c,sp)
 	if c:IsLocation(LOCATION_MZONE) then
