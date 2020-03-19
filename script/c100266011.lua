@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	if not GhostBelleTable then GhostBelleTable={} end
 	table.insert(GhostBelleTable,e1)
-	--tohand
+	--to hand
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -36,7 +36,7 @@ function s.filter1(c,e)
 end
 function s.filter2(c,e,tp,m,f)
 	return c:IsType(TYPE_FUSION) and (not f or f(c)) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0 and c:IsSetCard(0x243)
-		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
+		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION+0x20,tp,false,false) and c:CheckFusionMaterial(m,nil,tp)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -59,7 +59,6 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or c:IsImmuneToEffect(e) then return end
 	local mg1=Duel.GetMatchingGroup(s.filter1,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e)
 	local sg1=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil)
 	local mg2=nil
@@ -82,7 +81,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			tc:SetMaterial(mat1)
 			Duel.Remove(mat1,POS_FACEUP,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 			Duel.BreakEffect()
-			Duel.SpecialSummon(tc,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
+			Duel.SpecialSummon(tc,SUMMON_TYPE_FUSION+0x20,tp,tp,false,false,POS_FACEUP)
 		else
 			local mat2=Duel.SelectFusionMaterial(tp,tc,mg2,nil,tp)
 			local fop=ce:GetOperation()
