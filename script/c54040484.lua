@@ -78,3 +78,4 @@ end
 function s.repop(e,tp,eg,ep,ev,re,r,rp)
 	e:GetHandler():RemoveCounter(tp,0x202,1,REASON_EFFECT)
 end
+

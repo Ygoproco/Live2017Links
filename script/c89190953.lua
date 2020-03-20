@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	if not GhostBelleTable then GhostBelleTable={} end
 	table.insert(GhostBelleTable,e1)
 end
-s.listed_series={0x240}
+s.listed_series={0x145}
 s.listed_names={6007213,32491822,69890967}
 function s.filter0(c)
 	return c:IsAbleToRemove()
@@ -23,7 +23,7 @@ function s.filter1(c,e)
 	return c:IsAbleToRemove() and not c:IsImmuneToEffect(e)
 end
 function s.filter2(c,e,tp,m,f,chkf)
-	return c:IsType(TYPE_FUSION) and c:IsSetCard(0x240) and (not f or f(c))
+	return c:IsType(TYPE_FUSION) and c:IsSetCard(0x145) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and c:CheckFusionMaterial(m,nil,chkf)
 end
 function s.filter3(c)
@@ -100,3 +100,4 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1,true)
 	end
 end
+
