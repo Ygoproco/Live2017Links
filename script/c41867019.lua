@@ -117,3 +117,4 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.RegisterFlagEffect(tp,id+3,RESET_PHASE+PHASE_END,0,1)
 	end
 end
+
