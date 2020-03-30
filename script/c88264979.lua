@@ -1,4 +1,5 @@
 --レッドアイズ・ダークネスメタルドラゴン
+--Red-Eyes Darkness Metal Dragon, pre-errata
 local s,id=GetID()
 function s.initial_effect(c)
 	--spsummon proc
@@ -7,7 +8,6 @@ function s.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.hspcon)
 	e1:SetOperation(s.hspop)
 	c:RegisterEffect(e1)
@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCountLimit(1,id+1)
+	e2:SetCountLimit(1)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
