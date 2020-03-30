@@ -1,5 +1,6 @@
 --DDD烈火王テムジン
 --D/D/D Flame King Genghis
+local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
