@@ -13,6 +13,10 @@ SUMMON_TYPE_TRIBUTE=SUMMON_TYPE_ADVANCE
 SUMMON_TYPE_GEMINI=SUMMON_TYPE_DUAL
 EFFECT_LIGHT_OF_INTERVENTION=EFFECT_DEVINE_LIGHT
 
+Debug.Message("This version of Ygopro Percy stopped being supported and will not receive further updates.")
+Debug.Message("Download our latest release from  https://discord.gg/ygopro-percy")
+Debug.Message("These servers will stop working on 05-May-2020.")
+
 function Card.GetMetatable(c)
 	local code=c:GetOriginalCode()
 	local mt=_G["c" .. code]
