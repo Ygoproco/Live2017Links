@@ -263,6 +263,20 @@ function registerpendulum()
 						return false
 					end)
 	Duel.RegisterEffect(e1,0)
+	local e1=Effect.GlobalEffect()
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_PREDRAW)
+	e1:SetCountLimit(1)
+	e1:SetOperation(function(e)
+		Duel.SelectOption(0,1982)
+		Duel.SelectOption(0,1983)
+		Duel.SelectOption(0,1984)
+		Duel.SelectOption(1,1982)
+		Duel.SelectOption(1,1983)
+		Duel.SelectOption(1,1984)
+		e:Reset()
+	end)
+	Duel.RegisterEffect(e1,0)
 end
 
 --Lair of Darkness
